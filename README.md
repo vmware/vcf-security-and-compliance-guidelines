@@ -1,5 +1,4 @@
-## Overview
-VMware software is used worldwide to securely host hundreds of millions of virtual machines. This repository contains technical security guidance, code samples, and other information designed to ease system design, system hardening, and regulatory compliance efforts. This guidance focuses on VMware Cloud Foundation and VMware vSphere Foundation.
+VMware software is used worldwide to securely and reliably host hundreds of millions of virtual machines. This repository contains technical security guidance, code samples, and other information designed to ease system design, system hardening, and regulatory compliance efforts. This guidance focuses on VMware Cloud Foundation and VMware vSphere Foundation.
 
 ## Resources & Links
 The permanent link https://bit.ly/vcf-security is being maintained as VMware documentation is assimilated into Broadcom. We understand that some organizations treat particular redirectors as security risks and block them. Please see [LINKS.md](LINKS.md) for more information and links to additional resources.
