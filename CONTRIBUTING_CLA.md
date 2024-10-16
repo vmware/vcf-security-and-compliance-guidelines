@@ -1,7 +1,5 @@
 # Contributing to cloud-infrastructure-security-and-compliance-guidelines
 
-_NOTE: This is a template document that requires editing before it is ready to use!_
-
 We welcome contributions from the community and first want to thank you for taking the time to contribute!
 
 Please familiarize yourself with the [Code of Conduct](https://github.com/vmware/.github/blob/main/CODE_OF_CONDUCT.md) before contributing.
@@ -54,22 +52,3 @@ Before submitting your pull request, we advise you to use the following:
 ## Reporting Bugs and Creating Issues
 
 For specifics on what to include in your report, please follow the guidelines in the issue and pull request templates when available.
-
-_TO BE EDITED: Add additional information if needed._
-
-
-## Ask for Help
-
-_TO BE EDITED: Provide information about the channels you use to communicate (i.e. Slack, IRC, Discord, etc)_
-
-The best way to reach us with a question when contributing is to ask on:
-
-* The original GitHub issue
-* The developer mailing list
-* Our Slack channel
-
-
-## Additional Resources
-
-_Optional_
-
