@@ -8,12 +8,13 @@ The permanent link https://bit.ly/vcf-security is being maintained as VMware doc
 This repository is structured to accommodate different types of content, and will be listed under the product and version it was developed for or with. Product versions may be up to three digits as needed. Use the most specific guidance available (for example, if you are using vSphere 8.0.2 you would choose 8.0.2 if it's present, or 8.0 if not).
 
 * features-capabilities: information on specific features, functions, and capabilities in the products.
+* ransomware-resources: information on defending against ransomware.
 * regulatory-compliance: guidance on meeting regulatory compliance requirements using VMware products.
 * security-advisories: information pertaining specifically to an individual VMware Security Advisory (VMSA).
 * security-configuration-hardening-guide: security configuration and hardening guides for VMware products.
 
 ## Support
-Support for security hardening changes to products is covered under the same guidance as the DISA STIGs, found in [Broadcom KB 313142]https://knowledge.broadcom.com/external/article?legacyId=94398
+Support for security hardening changes to products is covered under the same guidance as the DISA STIGs, found in [Broadcom KB 313142](https://knowledge.broadcom.com/external/article?legacyId=94398)
 
 Support for scripting and automation tools and examples is community-based and best effort.
 
