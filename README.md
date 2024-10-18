@@ -13,31 +13,13 @@ This repository is structured to accommodate different types of content, and wil
 * security-configuration-hardening-guide: security configuration and hardening guides for VMware products.
 
 ## Support
-Support for security hardening changes to products is covered under the same guidance as the DISA STIGs, found in [Broadcom KB 313142](https://knowledge.broadcom.com/external/article?legacyId=94398)
-
-Support for scripting and automation tools and examples is community-based and best effort.
-
-If an issue is encountered please check the [open](https://github.com/vmware/cloud-infrastructure-security-and-compliance-guidelines/issues) and [closed](https://github.com/vmware/cloud-infrastructure-security-and-compliance-guidelines/issues?q=is%3Aissue+is%3Aclosed) issues in the issue tracker for the details of your issue. If you can't find it, or if you're not sure, open a new issue.
-
-Always use guidance designated for the specific product and version you are running.
-
-Always test changes in a dedicated test environment first.
+Please see [SUPPORT.md](SUPPORT.md).
 
 ## Contact
 The primary maintainer of this repository is Bob Plankers, reachable at bob.plankers@broadcom.com.
 
 ## License
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+Please see [LICENSE.md](LICENSE.md)
 
 ## Disclaimer
 This repository is intended to provide general guidance for organizations that
