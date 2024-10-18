@@ -46,4 +46,4 @@ there may be performance or other considerations, and that these examples may
 make assumptions which may not be valid in your environment or organization.
 
 ## Contact
-The primary maintainer of this repository is Bob Plankers, reachable at bob.plankers@broadcom.com.
+The primary curator of this repository is Bob Plankers, reachable at bob.plankers@broadcom.com. Individual components may have other authors, as noted.
