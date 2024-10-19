@@ -1,4 +1,4 @@
-# VMSA-2024-0012: Questions & Answers | VMware
+# VMSA-2024-0012: Questions & Answers
 Introduction
 ------------
 

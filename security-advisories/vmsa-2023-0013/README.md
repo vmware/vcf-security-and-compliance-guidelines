@@ -1,4 +1,4 @@
-# CVE-2023-20867 & VMSA-2023-0013: Questions & Answers | VMware
+# CVE-2023-20867 & VMSA-2023-0013: Questions & Answers
 Introduction
 ------------
 
@@ -16,24 +16,12 @@ Next Expected Update
 
 There is not a regular update schedule for this document.
 
-Links
------
-
-The following are links relevant to this topic:
-
-*   [VMware Tools Update Addresses Authentication Bypass Vulnerability](https://www.vmware.com/security/advisories/VMSA-2023-0013) (VMSA-2023-0013)
-*   [NIST National Vulnerability Database listing for CVE-2023-20867](https://nvd.nist.gov/vuln/detail/CVE-2023-20867)
-*   [vSphere Security Configuration & Hardening Guides](https://via.vmw.com/scg) (baseline hardening guidance for VMware vSphere, including in-guest Tools configurations to limit host-to-guest interaction)
-*   [vSphere Security: Proactive and Continuous](https://blogs.vmware.com/vsphere/2023/02/vsphere-security-proactive-and-continuous.html) (blogs.vmware.com)
-*   [VMware Security Advisories](https://www.vmware.com/security/advisories.html) (list of all disclosed security vulnerabilities)
-*   [VMware Security Advisory Mailing List](https://www.vmware.com/security/advisories.html) (please subscribe for proactive notifications of security advisories)
-
 Questions & Answers
 -------------------
 
 ### What do I need to do to protect my environment?
 
-All customers should update their VMware Tools and ensure that their vSphere environments are hardened using the [VMware Security Configuration & Hardening Guides](https://via.vmw.com/scg).
+All customers should update their VMware Tools and ensure that their vSphere environments are hardened using the [VMware Security Configuration & Hardening Guides](https://bit.ly/vcf-scg).
 
 ### What CVEs are associated with these disclosures?
 
@@ -78,7 +66,7 @@ Linux distributions use open-vm-tools; please use the patching processes availab
 
 ### Is there a workaround available for this issue?
 
-Organizations concerned specifically with CVE-2023-20867 should update VMware Tools. Given the context of the Mandiant research we suggest customers prioritize auditing and remediating their environments against the [VMware Security Configuration & Hardening Guides](https://via.vmw.com/scg). This guidance contains additional steps to harden environments that are effective against the tactics outlined in the Mandiant report, such as disabling VMware Tools guest operations, disabling shell access for vpxuser, and more.
+Organizations concerned specifically with CVE-2023-20867 should update VMware Tools. Given the context of the Mandiant research we suggest customers prioritize auditing and remediating their environments against the [VMware Security Configuration & Hardening Guides](https://bit.ly/vcf-scg). This guidance contains additional steps to harden environments that are effective against the tactics outlined in the Mandiant report, such as disabling VMware Tools guest operations, disabling shell access for vpxuser, and more.
 
 ### Can we just remove VMware Tools?
 

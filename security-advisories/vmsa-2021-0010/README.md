@@ -1,4 +1,4 @@
-# VMSA-2021-0010: Questions & Answers | VMware
+# VMSA-2021-0010: Questions & Answers
 _If you are arriving here from another site you might really want [VMSA-2021-0020](https://core.vmware.com/vmsa-2021-0020-questions-answers-faq) instead!_
 
 * * *
@@ -185,6 +185,6 @@ What other resources are there on this and other security topics?
 *   [VMware Communities Forum Thread on VMSA-2021-0010](https://via.vmw.com/vmsa-2021-0010-communities) (a great place to ask questions)
 *   [VMSA-2021-0010 Questions & Answers](https://via.vmw.com/vmsa-2021-0010-faq) (this document)
 *   [VMSA-2021-0010: What You Need to Know](https://via.vmw.com/vmsa-2021-0010-blog) (blogs.vmware.com)
-*   [VMware vSphere Security Configuration Guide](https://via.vmw.com/scg) (baseline security best practices for vSphere)
+*   [VMware vSphere Security Configuration Guide](https://bit.ly/vcf-scg) (baseline security best practices for vSphere)
 *   [VMware Ports & Protocols Firewalling Guidance](https://ports.vmware.com/home/vSphere-7) (ports.vmware.com)
 *   [vSphere, vSAN, and Cloud Foundation Security Content & Links](https://core.vmware.com/security) (core.vmware.com)

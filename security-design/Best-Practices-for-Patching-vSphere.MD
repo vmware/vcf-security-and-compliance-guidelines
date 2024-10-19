@@ -1,4 +1,4 @@
-# Best Practices for Patching VMware vSphere | VMware
+# Best Practices for Patching VMware vSphere
 Introduction
 ------------
 
@@ -7,7 +7,7 @@ This document provides actions to take that help ensure successful patching and 
 Disclaimer
 ----------
 
-This document is intended to provide general guidance for organizations that are considering VMware solutions. The information contained in this document is for educational and informational purposes only. This document is not intended to provide advice and is provided “AS IS.”  VMware makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository is not intended to provide advice and is provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
 
 Preparation
 -----------
@@ -120,7 +120,7 @@ If there is unexpected behavior in the vSphere Client during or after the update
 
 ### Reset and Store New Passwords
 
-Change the root passwords on ESXi and VCSA, and the [administrator@vsphere.local](mailto:administrator@vsphere.local) password, storing the new passwords in your password manager or vault.
+Change the root passwords on ESXi and VCSA, and the administrator@vsphere.local password, storing the new passwords in your password manager or vault.
 
 ### Create Fresh Backups
 
@@ -168,7 +168,7 @@ Limit the number of VIBs on ESXi. Prefer 'stock' VMware ESXi over OEM versions t
 
 Enhanced Linked Mode (ELM) offers a consolidated view of an organization’s vSphere environments, but also introduces security and availability considerations, and complicates updates and upgrades. Where possible, simplify your deployments by discontinuing the use of ELM.
 
-PowerCLI is a very straightforward way to do management of virtual environments at scale, with a thriving community and thousands of code examples (including good ones in the [vSphere Security Configuration & Hardening Guide](https://via.vmw.com/scg)).
+PowerCLI is a very straightforward way to do management of virtual environments at scale, with a thriving community and thousands of code examples (including good ones in the [vSphere Security Configuration & Hardening Guide](https://bit.ly/vcf-scg)).
 
 ### Ensure N+1 Cluster Resources
 

@@ -1,4 +1,4 @@
-# VMSA-2024-0001: Questions & Answers | VMware
+# VMSA-2024-0001: Questions & Answers
 Introduction
 ------------
 

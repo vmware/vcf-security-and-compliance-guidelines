@@ -1,4 +1,4 @@
-# VMSA-2021-0028: Questions & Answers about Log4j | VMware
+# VMSA-2021-0028: Questions & Answers about Log4j
 Introduction
 ------------
 
@@ -21,34 +21,6 @@ Next Expected Update
 Regularly scheduled updates have ended. Future updates will be done as there is new information.
 
 Please subscribe to the VMSA mailing list and the relevant workaround Knowledge Base articles for notification of updates.
-
-Resources
----------
-
-Links to the different resources available:
-
-*   [VMware Security Advisory VMSA-2021-0028](https://www.vmware.com/security/advisories/VMSA-2021-0028.html) (descriptions of the issues and workarounds)
-*   [VMSA-2021-0028 Questions & Answers](https://via.vmw.com/vmsa-2021-0028-faq) (common questions & answers)
-*   [Guidance to VMware Horizon customers regarding Log4j](https://blogs.vmware.com/euc/2022/01/guidance-to-vmware-horizon-customers-regarding-log4j.html?utm_source=rss&utm_medium=rss&utm_campaign=guidance-to-vmware-horizon-customers-regarding-log4j) (helpful for folks running VMware Horizon & Workspace ONE environments)
-    
-*   [Virtually Speaking Podcast: What you need to know about Log4J](https://core.vmware.com/blog/virtually-speaking-podcast-what-you-need-know-about-log4j) (a video of the podcast that covers Log4j)
-    
-*   [VMSA-2021-0028 & Log4j: What You Need to Know](https://via.vmw.com/vmsa-2021-0028-blog) (a blog post with similar content)
-*   [Demo: Mitigating Log4Shell (CVE-2021-44228) with NSX](https://blogs.vmware.com/security/2021/12/demo-mitigating-log4shell-cve-2021-44228-with-nsx.html) (using VMware tools to stop these types of attacks)
-*   [Log4Shell - Log4j Remote Code Execution (CVE-2021-44228)](https://community.carbonblack.com/t5/Documentation-Downloads/Log4Shell-Log4j-Remote-Code-Execution-CVE-2021-44228/ta-p/109134) (description of this vulnerability from our TAU)
-*   [Log in the Shell: An Analysis of Log4Shell Exploitation](https://blogs.vmware.com/security/2021/12/log-in-the-shell-an-analysis-of-log4shell-exploitation.html) (continuing the analysis of these attacks)
-*   [VMware Communities Thread On CVE-2021-44228](https://communities.vmware.com/t5/New-Security-Advisory-VMSA-2021/bd-p/2014) (A great place to ask questions)
-*   [Investigating CVE-2021-44228 Log4Shell Vulnerability](https://blogs.vmware.com/security/2021/12/investigating-cve-2021-44228-log4shell-vulnerability.html) (information on detecting this issue with VMware Security tools)
-*   [CISA.gov Apache Log4j Vulnerability Guidance](https://www.cisa.gov/uscert/apache-log4j-vulnerability-guidance) (a growing collection of resources)
-*   [Apache Logging Services Security Vulnerabilities](https://logging.apache.org/log4j/2.x/security.html) (the source for log4j security information)
-*   [Tips for Patching VMware vSphere](https://core.vmware.com/tips-patching-vmware-vsphere) (practical advice for ensuring patching success)
-*   [VMware vSphere Security Configuration Guide](https://core.vmware.com/security-configuration-guide) (baseline security best practices for vSphere)
-*   [VMware Ransomware Resource Center](https://core.vmware.com/ransomware) (discussion around tactics to help prevent, deter, and recover from attacks)
-*   [VMware Ports & Protocols Firewalling Guidance](https://ports.vmware.com/) (ports.vmware.com)
-*   [Detecting & Preventing CVE-2021-44228 (Log4Shell) with the NSX Distributed IDS/IPS](https://kb.vmware.com/s/article/87156) (using VMware tools to stop these types of attacks)
-    
-*   [Protect Your Kubernetes Clusters Against Log4Shell](https://blogs.vmware.com/security/2021/12/protect-your-kubernetes-clusters-against-log4shell.html) (using VMware tools to stop these types of attacks)
-    
 
 Questions & Answers
 -------------------

@@ -1,4 +1,4 @@
-# VMSA-2022-0004: Questions & Answers | VMware
+# VMSA-2022-0004: Questions & Answers
 Introduction
 ------------
 

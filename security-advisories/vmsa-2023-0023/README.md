@@ -1,4 +1,4 @@
-# VMSA-2023-0023: Questions & Answers | VMware
+# VMSA-2023-0023: Questions & Answers
 Introduction
 ------------
 

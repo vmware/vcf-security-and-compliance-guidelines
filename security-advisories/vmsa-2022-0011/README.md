@@ -1,4 +1,4 @@
-# VMSA-2022-0011: Questions & Answers | VMware
+# VMSA-2022-0011: Questions & Answers
 Introduction
 ------------
 
@@ -8,20 +8,6 @@ Next Expected Update
 --------------------
 
 There will not be a regular update schedule for this document.
-
-Resources
----------
-
-Links to the different resources available:
-
-*   [VMware Security Advisory VMSA-2022-0011](https://www.vmware.com/security/advisories/VMSA-2022-0011.html) (descriptions of the issues and workarounds)
-*   [Frequently Asked Questions for VMSA-2022-0011](https://via.vmw.com/vmsa-2022-0011-qna) (this document)
-    
-*   [Tips for Patching VMware vSphere](https://core.vmware.com/tips-patching-vmware-vsphere) (practical advice for ensuring patching success)
-    
-*   [VMware vSphere Security Configuration Guide](https://core.vmware.com/security-configuration-guide) (baseline security best practices for vSphere)
-*   [VMware Ransomware Resource Center](https://core.vmware.com/ransomware) (discussion around tactics to help prevent, deter, and recover from attacks)
-*   [VMware Ports & Protocols Firewalling Guidance](https://ports.vmware.com/) (ports.vmware.com)
 
 Questions & Answers
 -------------------
