@@ -4,7 +4,7 @@ The VMware vSphere Security Configuration & Hardening Guide (SCG) is the baselin
 
 # Download the Latest Version
 
-The Security Configuration & Hardening Guide for VMware vSphere 8 can be downloaded from: 
+This version of the Security Configuration & Hardening Guide can be downloaded from this directory, using the links above. You may need to click the "Download Raw File" button. The link to this location is:
 
 [https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide/vsphere/8.0](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide/vsphere/8.0)
 

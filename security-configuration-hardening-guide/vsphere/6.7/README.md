@@ -1,12 +1,13 @@
-# vSphere 7 Security Configuration & Hardening Guide
+# vSphere 6.7 Security Configuration & Hardening Guide
 
-The VMware vSphere Security Configuration & Hardening Guide (SCG) is the baseline for hardening and auditing guidance for VMware vSphere itself. Started more than fifteen years ago, it has long served as the reference for virtualization administrators looking to protect their infrastructure.
+> [!WARNING]  
+> This product version has reached End of General Support and no longer receives updates or guidance.
+> Upgrade to a supported version as soon as possible. The information here about this product version
+> is no longer maintained. It is provided here solely as an archive.
 
 # Download the Latest Version
 
-This version of the Security Configuration & Hardening Guide can be downloaded from this directory, using the links above. You may need to click the "Download Raw File" button. The link to this location is:
-
-[https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide/vsphere/7.0](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide/vsphere/7.0)
+This version of the Security Configuration & Hardening Guide can be downloaded from this directory, using the links above. You may need to click the "Download Raw File" button.
 
 We maintain a permanent link for use in documents and other resources:
 
@@ -21,5 +22,7 @@ This document is intended to provide general guidance for organizations that are
 Please use the issue tracker in our GitHub repository to submit feedback:
 
 [https://github.com/vmware/vcf-security-and-compliance-guidelines/issues](https://github.com/vmware/vcf-security-and-compliance-guidelines/issues)
+
+Note that no further development will be done on the materials in this directory as this product version has reached End of General Support.
 
 Thank you.
