@@ -66,6 +66,7 @@ Other resources to help with updates and upgrades beyond patching. Every new ver
 
 * [VMware Compatibility Guide](https://www.vmware.com/resources/compatibility/search.php)
 * [Product Interoperability Matrix](https://interopmatrix.vmware.com/Interoperability)
+* [Product Lifecycle Information](https://support.broadcom.com/group/ecx/productlifecycle)
 
 ## Regulatory Compliance Standards
 There are over 700 different regulatory compliance frameworks that VMware customers apply to their environments, not counting ones developed internally by GRC and Infosec groups within customer organizations. As such, we focus on the most common. Some of these are linked below. It is often helpful to read the requirements directly, versus using interpretations by compliance auditors, vulnerability scanner vendors, and so on.
