@@ -14,7 +14,7 @@ Preparation
 
 ### Ensure Access to VCSA Root and SSO Administrator Accounts
 
-**Ensure that the VCSA root and** [**administrator@vsphere.local**](mailto:administrator@vsphere.local) **accounts work**. By default, the VCSA root account locks after 90 days of inactivity, which may pose issues in emergencies. Note that password recovery may need a vCenter Server restart. Update passwords after maintenance.
+**Ensure that the VCSA root and administrator@vsphere.local accounts work**. By default, the VCSA root account locks after 90 days of inactivity, which may pose issues in emergencies. Note that password recovery may need a vCenter Server restart. Update passwords after maintenance.
 
 ### Ensure Access to ESXi
 

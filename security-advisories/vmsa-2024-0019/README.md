@@ -1,8 +1,10 @@
-# VMSA-2024-0019: Questions & Answers - VMware Cloud Foundation (VCF) Blog
+# VMSA-2024-0019: Questions & Answers
 Introduction
 ------------
 
-On September 17, 2024 Broadcom released a critical VMware Security Advisory (VMSA), VMSA-2024-0019, addressing security vulnerabilities found and resolved in VMware vCenter, which is present in VMware vSphere and VMware Cloud Foundation products.
+On September 17, 2024 Broadcom released a critical VMware Security Advisory (VMSA), VMSA-2024-0019, addressing security vulnerabilities found and resolved in VMware vCenter. The advisory was updated on October 21, 2024 with updated software packages to address security and functional issues reported after the original disclosure.
+
+The updated advisory contains patches applicable to vCenter 7.0.3, 8.0.2, and 8.0.3. All customers should apply these refreshed updates.
 
 The VMSA will always be the source of truth for what products & versions are affected and proper patches to keep your organization secure. This document is a corollary to the advisory and includes self-service information to help you and your organization decide how to respond.
 
@@ -13,7 +15,7 @@ You are affected if you are running any version of vSphere or VMware Cloud Found
 Current Update
 --------------
 
-Updated at 0730 PDT (-0700) on September 20, 2024.
+Updated at 0730 PDT (-0700) on October 21, 2024.
 
 Next Expected Update
 --------------------
@@ -79,6 +81,14 @@ VMware Security Advisories link to the FIRST CVSS v3.1 calculator, with the vect
 
 Broadcom is not currently aware of exploitation “in the wild.” If that changes the advisory and this document will be updated. Please subscribe to the VMSA mailing list (link above) for proactive alerts.
 
+### If I updated with the initial patches in VMSA-2024-0019 do I need to update with VMSA-2024-0019.2?
+
+Yes. These new updates resolve issues reported to us after the initial release, including operational issues with the vSphere client.
+
+### Do I have to apply both sets of patches?
+
+Security updates are cumulative within a product branch. If you apply the latest patches for a supported version of vSphere or Cloud Foundation you will have all of the updates.
+
 ### Do I have to update VMware vCenter?
 
 Yes; vCenter is affected by this VMSA.
@@ -99,7 +109,7 @@ No; these components are not affected by this VMSA.
 
 ### Do I have to update VMware NSX?
 
-No; NSX is not affected by this VMSA.
+No; NSX is not affected by this VMSA. However, there is a recent VMSA that does impact NSX, which you should evaluate.
 
 ### Will there be a patch for VMware Cloud Foundation?
 
@@ -149,25 +159,25 @@ No. vCenter is the management interface to a vSphere cluster. You will lose the 
 
 ### Can I use the vCenter VAMI to apply these updates?
 
-Yes, the patch will be available through the standard update mechanisms for VMware vSphere and VMware Cloud Foundation. Consult the product documentation for the version of the product you use.
+Yes, the patch is available through the standard update mechanisms for VMware vSphere and VMware Cloud Foundation. Consult the product documentation for the version of the product you use.
 
-See “[Best Practices for Patching VMware vSphere”](https://core.vmware.com/patch-vsphere-best-practices) for additional guidance on updating vSphere components.
+See “[Best Practices for Patching VMware vSphere”](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD) for additional guidance on updating vSphere components.
 
 ### Are there any known issues with this patch?
 
-Yes. There is an issue that appears as session timeouts when accessing vCenter. More information and a workaround is in [KB 377734.](https://knowledge.broadcom.com/external/article?articleNumber=377734)
+There are no known issues with the updates listed in VMSA-2024-0019.2.
+
+There was an issue with the original VMSA-2024-0019 update regarding session timeouts when accessing vCenter (with a workaround at [KB 377734.](https://knowledge.broadcom.com/external/article?articleNumber=377734). This is resolved with the re-release.
 
 If you enable SSH on vCenter in order to implement the workaround, remember to disable it again afterwards.
 
 ### Does this impact VMware vSphere 6.5 or 6.7?
 
-Products that are past their End of General Support dates are not evaluated as part of security advisories. If your organization has extended support please use those processes to request assistance.
+Yes. Products that are past their End of General Support dates are generally not evaluated as part of security advisories. However, the last update for vSphere 6.7 contains updates to resolve this issue. There will not be an update for vSphere 6.5. If your organization has extended support please use those processes to request assistance.
 
 ### Do I have to update to vCenter 8.0.3 to receive this patch?
 
-Initially, yes. Applying the patches listed in this VMSA will bring you to vCenter 8.0.3.
-
-There is a patch pending for installations with VMware vCenter 8.0.2.
+No. You can update either vCenter 8.0.2 or vCenter 8.0.3.
 
 vSphere 8 Update 3 is considered the best version of vSphere 8 and intended for long-term stability and support. All new security updates are built atop vSphere 8 Update 3.
 
@@ -187,10 +197,13 @@ Additional questions about the service should be answered through the support pr
 
 Change Log
 ----------
+2024-10-21, 0730 PDT (-0700): Updates to reflect the availability of new patches under VMSA-2024-0019.2, with additional relevant Q&A.
 
 2024-09-20, 0730 PDT (-0700): Addition of “Are there any known issues with this patch?”
 
 2024-09-17, 0900 PDT (-0700): Initial publication.
+
+Note that specific changes to this document can be easily tracked with GitHub's "History" function above.
 
 Disclaimer
 ----------
