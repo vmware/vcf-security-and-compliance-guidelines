@@ -9,22 +9,22 @@ which redirect to
 
 * [https://core.vmware.com/security](https://core.vmware.com/security)
 * [https://core.vmware.com/compliance](https://core.vmware.com/compliance)
-* [https://core.vmware.com/security-configuration-guide](https://core.vmware.com/security-configuration-guide)
+* [https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide)
 
 respectively.
 
 ## Broadcom Resources
 We have quite a number of tactical and strategic resources available to users of VMware products, answering many questions folks ask.
 
-* [Glossary of Security Terms](https://github.com/vmware/cloud-infrastructure-security-and-compliance-guidelines/blob/main/security-design/glossary.md)
+* [Glossary of Security Terms](https://github.com/vmware/cloud-infrastructure-security-and-compliance-guidelines/blob/main/security-design/Glossary.md)
 * [Compliance & Vulnerability Scanner FAQ](https://github.com/vmware/cloud-infrastructure-security-and-compliance-guidelines/blob/main/regulatory-compliance/compliance-vulnerability-scanning-faq.md)
+* [Best Practices for Patching vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)
 
 ## Security Configuration & Hardening Guides
 The Security Configuration and Hardening Guide (SCG) provides comprehensive recommendations for securing VMware products. It offers detailed instructions and best practices for configuring various vSphere components to enhance security, reduce vulnerabilities, and ensure compliance with industry standards.
 
-* [VMware vSphere](https://core.vmware.com/security-configuration-guide)
-* [VMware Cloud Foundation](https://core.vmware.com/security-configuration-guide)
-* [VMware vSAN](https://core.vmware.com/security-configuration-guide)
+* Permanent Link: [https://bit.ly/vcf-scg](https://bit.ly/vcf-scg)
+* Redirect Target: [https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide)
 
 ## VMware Product Security
 VMware has a defined Secure Software Development Lifecycle and policies for how issues are assessed and managed.

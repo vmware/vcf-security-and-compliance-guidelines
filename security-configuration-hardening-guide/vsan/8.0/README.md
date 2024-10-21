@@ -1,4 +1,4 @@
-# vSphere 8 Security Configuration & Hardening Guide
+# vSAN 8 Security Configuration & Hardening Guide
 
 > [!NOTE]  
 > The vSAN Security Configuration & Hardening Information is contained in the vSphere guidance.
@@ -9,7 +9,7 @@ The VMware vSphere Security Configuration & Hardening Guide (SCG) is the baselin
 
 This version of the Security Configuration & Hardening Guide can be downloaded from this directory, using the links above. You may need to click the "Download Raw File" button. The link to this location is:
 
-[https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide/vsphere/8.0](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide/vsphere/8.0)
+[https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide/vsan/8.0](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide/vsan/8.0)
 
 We maintain a permanent link for use in documents and other resources:
 

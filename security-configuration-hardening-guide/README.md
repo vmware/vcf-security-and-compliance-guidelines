@@ -1,22 +1,33 @@
-VMware software is used worldwide to securely and reliably host hundreds of millions of virtual machines. This repository contains technical security guidance, code samples, and other information designed to ease system design, system hardening, and regulatory compliance efforts. This guidance focuses on VMware Cloud Foundation and VMware vSphere Foundation.
+# Security Configuration & Hardening
+
+VMware, and now Broadcom, provides specific baseline guidance for hardening and auditing VMware products. Choose the version of the Security Configuration & Hardening Guide that is appropriate for your environment from the folder structure here.
+
+## Permanent Links
+We maintain a permanent link for use in documents and other resources:
+
+https://bit.ly/vcf-scg
+
+The current target of this redirected link, as well as many other resources, can be found in the resources & links section below.
 
 ## Resources & Links
-The permanent link https://bit.ly/vcf-security is being maintained as VMware documentation is assimilated into Broadcom. We understand that some organizations treat particular redirectors as security risks and block them. Please see [LINKS.md](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/LINKS.md) for more information and links to additional resources.
+Additional security information can be found throughout this entire repository:
 
-## Structure
-This repository is structured to accommodate different types of content, and will be listed under the product and version it was developed for or with. Product versions may be up to three digits as needed. Use the most specific guidance available (for example, if you are using vSphere 8.0.2 you would choose 8.0.2 if it's present, or 8.0 if not).
+[https://github.com/vmware/vcf-security-and-compliance-guidelines](https://github.com/vmware/vcf-security-and-compliance-guidelines)
 
-* features-capabilities: information on specific features, functions, and capabilities in the products.
-* ransomware-resources: information on defending against ransomware.
-* regulatory-compliance: guidance on meeting regulatory compliance requirements using VMware products.
-* security-advisories: information pertaining specifically to an individual VMware Security Advisory (VMSA).
-* security-configuration-hardening-guide: security configuration and hardening guides for VMware products.
+Also visit [LINKS.md](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/LINKS.md) for more information and links to additional resources.
 
 ## Support
 Please see [SUPPORT.md](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/SUPPORT.md).
 
 ## License
 Please see [LICENSE.md](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/LICENSE.md).
+
+## Feedback
+Please use the issue tracker in our GitHub repository to submit feedback:
+
+[https://github.com/vmware/vcf-security-and-compliance-guidelines/issues](https://github.com/vmware/vcf-security-and-compliance-guidelines/issues)
+
+Thank you.
 
 ## Disclaimer
 This repository is intended to provide general guidance for organizations that
