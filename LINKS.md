@@ -64,10 +64,15 @@ Broadcom maintains certifications and validations for VMware products that help 
 * [Federal Information Processing Standard (FIPS) 140-2 & 140-3](https://www.vmware.com/solutions/security/certifications/fips)
 * [VMware Cloud Trust Center](https://www.vmware.com/info/trust-center#compliance)
 
-# Firewalling and Perimeter Defenses
+## Firewalling and Perimeter Defenses
 VMware documents the ports, protocols, and requirements for network connectivity so that enterprise firewall admins have an easier time being specific about rule sets.
 
 * [Ports and Protocols](https://ports.esp.vmware.com/)
+
+## Cryptography, TLS, and Data-in-Transit Security
+
+* [Disabling Static Ciphers in VMware vSphere](https://knowledge.broadcom.com/external/article?legacyId=79476)
+* Note that vSphere 8.0.3 and newer have TLS Profiles to help ease this configuration task. See the Security Configuration & Hardening Guide for more information.
 
 ## Product Resources
 Other resources to help with updates and upgrades beyond patching. Every new version of vSphere and Cloud Foundation brings with it deep security and functional improvements.
@@ -97,6 +102,7 @@ CISA is the United States' coordinator for infrastructure security and resilienc
 * [Risk and Vulnerability Assessments](https://www.cisa.gov/resources-tools/resources/risk-and-vulnerability-assessments)
 * [Insider Threat Mitigation](https://www.cisa.gov/topics/physical-security/insider-threat-mitigation)
 * [Tabletop Exercise Packages](https://www.cisa.gov/resources-tools/services/cisa-tabletop-exercise-packages)
+* [Stop Ransomware](https://www.cisa.gov/stopransomware)
 
 ## Australian Cyber Security Centre (ACSC) Resources
 The Australian Signals Directorate's Australian Cyber Security Centre (ASD's ACSC) leads the Australian Government’s efforts to improve cyber security. 
