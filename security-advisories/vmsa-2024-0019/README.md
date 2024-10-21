@@ -15,7 +15,7 @@ You are affected if you are running any version of vSphere or VMware Cloud Found
 Current Update
 --------------
 
-Updated at 0730 PDT (-0700) on October 21, 2024.
+Updated at 1030 PDT (-0700) on October 21, 2024.
 
 Next Expected Update
 --------------------
@@ -83,11 +83,11 @@ Broadcom is not currently aware of exploitation “in the wild.” If that chang
 
 ### If I updated with the initial patches in VMSA-2024-0019 do I need to update with VMSA-2024-0019.2?
 
-Yes. These new updates resolve issues reported to us after the initial release, including operational issues with the vSphere client.
+Yes. These new updates resolve security and operational issues reported to us after the initial release.
 
 ### Do I have to apply both sets of patches?
 
-Security updates are cumulative within a product branch. If you apply the latest patches for a supported version of vSphere or Cloud Foundation you will have all of the updates.
+Security updates are cumulative within a product branch. If you apply the latest patches for a supported version of vSphere or Cloud Foundation you will have all of the available updates.
 
 ### Do I have to update VMware vCenter?
 
@@ -197,15 +197,8 @@ Additional questions about the service should be answered through the support pr
 
 Change Log
 ----------
-2024-10-21, 0730 PDT (-0700): Updates to reflect the availability of new patches under VMSA-2024-0019.2, with additional relevant Q&A.
-
-2024-09-20, 0730 PDT (-0700): Addition of “Are there any known issues with this patch?”
-
-2024-09-17, 0900 PDT (-0700): Initial publication.
-
-Note that specific changes to this document can be easily tracked with GitHub's "History" function above.
+Specific changes to this document can be easily tracked with GitHub's "History" and "Blame" functions (buttons above).
 
 Disclaimer
 ----------
-
 This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This document is not intended to provide advice and is provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
