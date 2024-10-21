@@ -4,27 +4,36 @@ As VMware documentation and resources are assimilated into Broadcom links will c
 * [https://bit.ly/vcf-security](https://bit.ly/vcf-security)
 * [https://bit.ly/vcf-compliance](https://bit.ly/vcf-compliance)
 * [https://bit.ly/vcf-scg](https://bit.ly/vcf-scg)
+* [https://bit.ly/vcf-ransomware](https://bit.ly/vcf-ransomware)
 
 which redirect to
 
-* [https://core.vmware.com/security](https://core.vmware.com/security)
-* [https://core.vmware.com/compliance](https://core.vmware.com/compliance)
+* [https://github.com/vmware/vcf-security-and-compliance-guidelines/](https://github.com/vmware/vcf-security-and-compliance-guidelines/)
+* [https://github.com/vmware/vcf-security-and-compliance-guidelines/](https://github.com/vmware/vcf-security-and-compliance-guidelines/)
 * [https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide)
+* [https://github.com/vmware/vcf-security-and-compliance-guidelines/](https://github.com/vmware/vcf-security-and-compliance-guidelines/)
 
 respectively.
 
 ## Broadcom Resources
 We have quite a number of tactical and strategic resources available to users of VMware products, answering many questions folks ask.
 
+* [vSphere Security & Compliance Playlist on YouTube](https://www.youtube.com/playlist?list=PLymLY4xJSThr22Po9uj6KTcVE6W_Xso4K)
+
 * [Glossary of Security Terms](https://github.com/vmware/cloud-infrastructure-security-and-compliance-guidelines/blob/main/security-design/Glossary.md)
 * [Compliance & Vulnerability Scanner FAQ](https://github.com/vmware/cloud-infrastructure-security-and-compliance-guidelines/blob/main/regulatory-compliance/compliance-vulnerability-scanning-faq.md)
 * [Best Practices for Patching vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)
 
 ## Security Configuration & Hardening Guides
-The Security Configuration and Hardening Guide (SCG) provides comprehensive recommendations for securing VMware products. It offers detailed instructions and best practices for configuring various vSphere components to enhance security, reduce vulnerabilities, and ensure compliance with industry standards.
+The Security Configuration and Hardening Guide (SCG) provides comprehensive recommendations for securing VMware products. It offers detailed instructions and best practices for configuring various vSphere components to enhance security and ensure compliance with industry standards.
 
 * Permanent Link: [https://bit.ly/vcf-scg](https://bit.ly/vcf-scg)
 * Redirect Target: [https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide)
+
+## Product Documentation
+The product documentation is the reference for how a feature or component works. This repository is meant to augment the product documentation. If the docs answer the question "how?" this repository tries to answer the "why?" or "when?" or "so what?" questions you might have.
+
+* [vSphere 8 Security](https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-security/GUID-52188148-C579-4F6A-8335-CFBCE0DD2167.html)
 
 ## VMware Product Security
 VMware has a defined Secure Software Development Lifecycle and policies for how issues are assessed and managed.
