@@ -85,6 +85,14 @@ Broadcom is not currently aware of exploitation “in the wild.” If that chang
 
 Yes. These new updates resolve security and operational issues reported to us after the initial release.
 
+### Is the workaround still necessary for the web client issues?
+
+No, the patches listed in VMSA-2024-0019.2 resolve the web client issues wherever they were present.
+
+### If I did the workaround for the web client issues, do I have to undo it to apply the patches?
+
+No. Just apply the patch.
+
 ### Do I have to apply both sets of patches?
 
 Security updates are cumulative within a product branch. If you apply the latest patches for a supported version of vSphere or Cloud Foundation you will have all of the available updates.
@@ -93,7 +101,7 @@ Security updates are cumulative within a product branch. If you apply the latest
 
 Yes; vCenter is affected by this VMSA.
 
-See [“Best Practices for Patching VMware vSphere](https://core.vmware.com/patch-vsphere-best-practices)” for guidance on updating vSphere components.
+See [“Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD)” for guidance on updating vSphere components.
 
 ### Do I have to update VMware ESXi?
 
