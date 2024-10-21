@@ -16,10 +16,9 @@ which redirect to
 respectively.
 
 ## Broadcom Resources
-We have quite a number of tactical and strategic resources available to users of VMware products, answering many questions folks ask.
+We have quite a number of tactical and strategic resources available to users of VMware products, answering many questions.
 
 * [vSphere Security & Compliance Playlist on YouTube](https://www.youtube.com/playlist?list=PLymLY4xJSThr22Po9uj6KTcVE6W_Xso4K)
-
 * [Glossary of Security Terms](https://github.com/vmware/cloud-infrastructure-security-and-compliance-guidelines/blob/main/security-design/Glossary.md)
 * [Compliance & Vulnerability Scanner FAQ](https://github.com/vmware/cloud-infrastructure-security-and-compliance-guidelines/blob/main/regulatory-compliance/compliance-vulnerability-scanning-faq.md)
 * [Best Practices for Patching vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)

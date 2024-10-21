@@ -1,4 +1,4 @@
-# Network Encryption in VMware vSphere 7
+# Network Encryption in VMware vSphere 8
 Introduction
 ------------
 
@@ -7,7 +7,7 @@ VMware is often asked if all network communications from vSphere, vSAN, Cloud Fo
 Default Configuration
 ---------------------
 
-In its default configuration, VMware vSphere 7 encrypts all internal cluster management network traffic using TLS 1.2. This includes communications between the administrators and the vSphere Client, the vSphere Client and vCenter Server, communications between vCenter Server and ESXi hosts, and default communications between ESXi hosts for vSphere HA, DRS, Content Library, vSphere Replication, vSphere Trust Authority, and Lifecycle Manager. Customers cannot disable these types of secure communications without altering the product in unsupported ways.
+In its default configuration, VMware vSphere 8 encrypts all internal cluster management network traffic using TLS 1.2. This includes communications between the administrators and the vSphere Client, the vSphere Client and vCenter Server, communications between vCenter Server and ESXi hosts, and default communications between ESXi hosts for vSphere HA, DRS, Content Library, vSphere Replication, vSphere Trust Authority, and Lifecycle Manager. Customers cannot disable these types of secure communications without altering the product in unsupported ways.
 
 Unencrypted Protocols
 ---------------------
@@ -25,7 +25,7 @@ and so on. The use of these protocols is a design decision, and secure alternati
 Virtual Machines and Workloads
 ------------------------------
 
-For unencrypted virtual machines, VMware vMotion and VMware vSphere Fault Tolerance are configured by default on a per-VM basis for “opportunistic” encryption. This means that on computing hardware that supports AES-NI it will be encrypted, and on hardware that does not support AES-NI it will fall back to unencrypted. Practically speaking, all computing hardware supported by vSphere 7 includes AES-NI CPU instructions, but to guarantee encrypted communications customers should configure those settings to “required.”
+For unencrypted virtual machines, VMware vMotion and VMware vSphere Fault Tolerance are configured by default on a per-VM basis for “opportunistic” encryption. This means that on computing hardware that supports AES-NI it will be encrypted, and on hardware that does not support AES-NI it will fall back to unencrypted. Practically speaking, all computing hardware supported by vSphere 8 includes AES-NI CPU instructions, but to guarantee encrypted communications customers should configure those settings to “required.”
 
 Virtual machines configured with VM Encryption and/or vTPM virtual devices will always require vMotion encryption.
 
@@ -39,4 +39,4 @@ Use of secure protocols and product security features may change the performance
 Disclaimer
 ----------
 
-This document is intended to provide general guidance for organizations that are considering VMware solutions. The information contained in this document is for educational and informational purposes only. This document is not intended to provide advice and is provided “AS IS.”  VMware makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This  repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
