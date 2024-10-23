@@ -12,7 +12,7 @@ environment. There are two types of key providers:
   Providers have been available since vSphere 6.5.
 
 - Native Key Provider, which is part of vSphere/VCF and handles encryption
-  keys internally within the system. Anyone running vSphere 7.0.2 or VCF 4.2
+  keys internally within the system. Anyone running vSphere 7.0.2 or VCF 4.3
   or newer can use the Native Key Provider.
 
 You can define up to 32 key providers per vCenter. Key providers are
