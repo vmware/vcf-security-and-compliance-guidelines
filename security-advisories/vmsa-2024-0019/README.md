@@ -15,7 +15,7 @@ You are affected if you are running any version of vSphere or VMware Cloud Found
 Current Update
 --------------
 
-Updated at 1030 PDT (-0700) on October 21, 2024.
+Updated at 1230 PDT (-0700) on October 23, 2024.
 
 Next Expected Update
 --------------------
@@ -181,7 +181,7 @@ If you enable SSH on vCenter in order to implement the workaround, remember to d
 
 ### Does this impact VMware vSphere 6.5 or 6.7?
 
-Yes. Products that are past their End of General Support dates are generally not evaluated as part of security advisories. However, the last update for vSphere 6.7 contains updates to resolve this issue. There will not be an update for vSphere 6.5. If your organization has extended support please use those processes to request assistance.
+Yes. Products that are past their End of General Support dates are not evaluated as part of security advisories. If your organization has extended support please use those processes to request assistance.
 
 ### Do I have to update to vCenter 8.0.3 to receive this patch?
 
