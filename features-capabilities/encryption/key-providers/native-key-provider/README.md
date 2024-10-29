@@ -10,8 +10,6 @@ vSphere Native Key Provider enables data-at-rest protections such as vSAN Encryp
 
 ## Documentation
 
-* 
-
 ## Questions & Answers
 
 ### Is Native Key Provider suitable for production environments?
