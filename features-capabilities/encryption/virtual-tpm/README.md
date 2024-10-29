@@ -1,5 +1,5 @@
 # Virtual TPM (vTPM)
-vSphere Native Key Provider enables data-at-rest protections such as vSAN Encryption, VM Encryption, and vTPM easily, entirely from within vSphere and Cloud Foundation.
+Virtual Trusted Platform Module (vTPM) is a virtual version of a physical TPM 2.0 chip, implemented using VM Encryption. It offers the same functionality as a hardware TPM 2.0 but is used within virtual machines (VMs). With vTPM, each VM can have its own unique and isolated TPM to help secure sensitive information and ensure system integrity. It enables VMs to use security enhancements like BitLocker disk encryption and to authenticate virtual hardware devices, creating a more secure virtual environment.
 
 ## How to Get Started
 
