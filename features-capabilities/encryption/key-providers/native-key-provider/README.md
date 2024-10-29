@@ -6,7 +6,7 @@ vSphere Native Key Provider enables data-at-rest protections such as vSAN Encryp
 1. Watch [Native Key Provider (NKP) and Virtual TPM (vTPM) in 10 Minutes](https://youtu.be/RzOx8FxLHf8) -- if you are new to the idea of key providers, start here. It'll take 12 minutes (Bob lied about the length).
 2. Try it in your test environment. Set up a Native Key Provider, then add a vTPM to a VM. Did it work? Probably. If not, you probably checked the "Require TPM" box and your hosts don't have TPMs. Delete the key provider, and restore it from the backup .P12 file again. Don't check that box this time, though.
 3. You and others in your organization have questions now. Read through the Q&A below. 
-4. Watch [Native Key Provider (NKP) Deep Dive](https://youtu.be/AyLTmfwiA8g) for more information. It's about an hour.
+4. Watch [Native Key Provider (NKP) Deep Dive](https://youtu.be/AyLTmfwiA8g) for more information. It's about 35 minutes.
 
 ## Documentation
 
