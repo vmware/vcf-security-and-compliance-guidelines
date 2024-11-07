@@ -37,7 +37,7 @@ Relevant Links
 
 [Best Practices for Patching VMware vSphere](https://core.vmware.com/patch-vsphere-best-practices) (advice for ensuring patching success)
 
-[VMware Ports & Protocols](https://ports.vmware.com/) & [VMware vSphere Firewalling Helper](https://core.vmware.com/vsphere-firewalling-helper) (assistance in determining ingress & egress firewall rule sets)
+[VMware Ports & Protocols](https://ports.broadcom.com/) & [VMware vSphere Firewalling Helper](https://core.vmware.com/vsphere-firewalling-helper) (assistance in determining ingress & egress firewall rule sets)
 
 [VMware vSphere Critical Patch Downloads](https://support.broadcom.com/group/ecx/productdownloads?subfamily=VMware+vSphere&tab=Solutions) (support.broadcom.com)
 

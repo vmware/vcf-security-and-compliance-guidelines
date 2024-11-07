@@ -23,6 +23,12 @@ We have quite a number of tactical and strategic resources available to users of
 * [Compliance & Vulnerability Scanner FAQ](https://github.com/vmware/cloud-infrastructure-security-and-compliance-guidelines/blob/main/regulatory-compliance/compliance-vulnerability-scanning-faq.md)
 * [Best Practices for Patching vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)
 
+## Broadcom Support Policies Applicable to Security Hardening
+Put simply, Broadcom does not support modifications to appliances or the products outside of the documented upgrade and patching processes. Security Configuration Guides, STIGs,  Compliance Kit, and other official guidance found in the Knowledge Base are all supported where the guidance used matches the version being deployed.
+
+* [VMware Virtual Appliances and Customizations to Operating System and Included Packages](https://knowledge.broadcom.com/external/article?articleNumber=367354)
+* [Support for Security Technical Implementation Guides (STIGs)](https://knowledge.broadcom.com/external/article?legacyId=94398)
+
 ## Security Configuration & Hardening Guides
 The Security Configuration and Hardening Guide (SCG) provides comprehensive recommendations for securing VMware products. It offers detailed instructions and best practices for configuring various vSphere components to enhance security and ensure compliance with industry standards.
 
@@ -33,6 +39,7 @@ The Security Configuration and Hardening Guide (SCG) provides comprehensive reco
 The product documentation is the reference for how a feature or component works. This repository is meant to augment the product documentation. If the docs answer the question "how?" this repository tries to answer the "why?" or "when?" or "so what?" questions you might have.
 
 * [vSphere 8 Security](https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-security/GUID-52188148-C579-4F6A-8335-CFBCE0DD2167.html)
+* [vSphere 7 Security](https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.security.doc/GUID-52188148-C579-4F6A-8335-CFBCE0DD2167.html)
 
 ## VMware Product Security
 VMware has a defined Secure Software Development Lifecycle and policies for how issues are assessed and managed.
@@ -67,7 +74,7 @@ Broadcom maintains certifications and validations for VMware products that help 
 ## Firewalling and Perimeter Defenses
 VMware documents the ports, protocols, and requirements for network connectivity so that enterprise firewall admins have an easier time being specific about rule sets.
 
-* [Ports and Protocols](https://ports.esp.vmware.com/)
+* [Ports and Protocols](https://ports.broadcom.com/)
 
 ## Cryptography, TLS, and Data-in-Transit Security
 

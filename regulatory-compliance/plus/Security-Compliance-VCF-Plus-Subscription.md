@@ -155,7 +155,7 @@ Connections to VMware Cloud services are through the vCenter Cloud Gateway, whic
 *   docker.vmc.vmware.com (container registry supporting service deployment & updates on the Cloud Gateway)
 *   vcgw-updates.vmware.com (updates for the Cloud Gateway appliance)
 
-A more complete inventory of firewall ports can be found at [https://ports.vmware.com/](https://ports.vmware.com/)
+A more complete inventory of firewall ports can be found at [https://ports.broadcom.com/](https://ports.broadcom.com/)
 
 ### What operating system(s) does the vCenter Cloud Gateway run on?
 

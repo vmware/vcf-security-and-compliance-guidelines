@@ -255,7 +255,7 @@ Additional resources you might be interested in:
     
 *   [VMware vSphere Security Configuration Guide](https://core.vmware.com/security-configuration-guide) (baseline security best practices for vSphere)
 *   [VMware Ransomware Resource Center](https://core.vmware.com/ransomware) (discussion around tactics to help prevent, deter, and recover from attacks)
-*   [VMware Ports & Protocols Firewalling Guidance](https://ports.vmware.com/) (ports.vmware.com)
+*   [VMware Ports & Protocols Firewalling Guidance](https://ports.broadcom.com/) (ports.broadcom.com)
 
 ### Changelog
 
