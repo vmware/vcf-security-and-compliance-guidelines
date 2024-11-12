@@ -202,7 +202,7 @@ x1301   TLS_AES_128_GCM_SHA256            ECDH 256   AESGCM      128      TLS_AE
 TLS 1.2
 
 xc030   ECDHE-RSA-AES256-GCM-SHA384       ECDH 256   AESGCM      256      TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-xc02f   ECDHE-RSA-AES128-GCM-SHA256       ECDH 256   AESGCM      128      TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256                           
+xc02f   ECDHE-RSA-AES128-GCM-SHA256       ECDH 256   AESGCM      128      TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 
 TLS 1.3  
 
@@ -310,7 +310,3 @@ TLS 1.3
 x1302   TLS_AES_256_GCM_SHA384            ECDH 256   AESGCM      256      TLS_AES_256_GCM_SHA384
 x1301   TLS_AES_128_GCM_SHA256            ECDH 256   AESGCM      128      TLS_AES_128_GCM_SHA256
 ```
-
-## HSTS
-----
-See the [HSTS information found in our Scanning FAQ](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/regulatory-compliance/compliance-vulnerability-scanning-faq.md#my-scanner-says-it-found-web-servers-that-dont-use-hsts-am-i-vulnerable). Port 9080/tcp does not send HTTP Strict Transport Security (HSTS) headers because it is not a web server, does not support browser connections, and does not support unencrypted communications. Consequently, HSTS checks are irrelevant for this port.
