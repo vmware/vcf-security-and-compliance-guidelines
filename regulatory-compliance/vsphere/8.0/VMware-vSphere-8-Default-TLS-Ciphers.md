@@ -25,7 +25,7 @@ If you encounter issues you can always turn these profiles off and use the COMPA
 
 If you are here because your compliance scanner is flagging HSTS, you may be interested in the [HSTS information found in our Scanning FAQ](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/regulatory-compliance/compliance-vulnerability-scanning-faq.md#my-scanner-says-it-found-web-servers-that-dont-use-hsts-am-i-vulnerable). In short, HSTS is a browser trust mechanism that is inapplicable to most vSphere ports.
 
-There are other entries in the Scanning FAQ that may be of interest to you, including ["My scanner says it found insecure TLS ciphers. Am I vulnerable?"](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/regulatory-compliance/compliance-vulnerability-scanning-faq.md#my-scanner-says-it-found-insecure-tls-ciphers-am-i-vulnerable).
+There are other entries in the Scanning FAQ that may be of interest to you, including ["My scanner says it found insecure TLS ciphers. Am I vulnerable?"](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/regulatory-compliance/compliance-vulnerability-scanning-faq.md#my-scanner-says-it-found-insecure-tls-ciphers-am-i-vulnerable)
 
 As you see below, vSphere TLS 1.2 implementations do not contain ciphers known to be insecure (DES, RC4, etc.), or ciphers less than 128 bits, and meet all current regulatory & compliance framework requirements. We routinely suggest to organizations that the relative risk of the default cipher settings be assessed in context with the overall security of the environment when organizations decide how to spend their limited staff time in pursuit of better security.
 
