@@ -77,9 +77,10 @@ VMware documents the ports, protocols, and requirements for network connectivity
 * [Ports and Protocols](https://ports.broadcom.com/)
 
 ## Cryptography, TLS, and Data-in-Transit Security
+We have a fair amount of information at the following links:
 
-* [Disabling Static Ciphers in VMware vSphere](https://knowledge.broadcom.com/external/article?legacyId=79476)
-* Note that vSphere 8.0.3 and newer have TLS Profiles to help ease this configuration task. See the Security Configuration & Hardening Guide for more information.
+* [VMware vSphere 8 Default SSL/TLS Cipher Suites](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/regulatory-compliance/vsphere/8.0/VMware-vSphere-8-Default-TLS-Ciphers.md)
+* [VMware vSphere 7 Default SSL/TLS Cipher Suites](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/regulatory-compliance/vsphere/7.0/VMware-vSphere-7-Default-TLS-Ciphers.md)
 
 ## Product Resources
 Other resources to help with updates and upgrades beyond patching. Every new version of vSphere and Cloud Foundation brings with it deep security and functional improvements.
