@@ -9,6 +9,18 @@ Beginning with vSphere 8.0.3, the cipher suites can be configured with TLS profi
 
 While we strive for accuracy this is not a comprehensive list of ports and protocols, nor a comprehensive list of ports that are TLS-enabled. It is also limited to ingress/incoming connections to vSphere. Configurations and feature enablement differ between implementations and enabling certain features will enable additional listening network ports. For descriptions of ports & protocols please use ports.broadcom.com or the [vSphere Firewalling Helper](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide/vsphere/8.0) found as part of our security baseline. The sample commands above were given so that interested people may be able to replicate these tests in their own environment. We encourage customers to take an active role in their security and compliance needs.
 
+## How do I get better TLS ciphers on vSphere 8?
+
+If you're looking to improve the cipher selections for vSphere, and your environment is compatible with the modern ciphers, you can use the NIST_2024 profile.
+
+1.  [Enable FIPS mode on your vCenter](https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-security/GUID-1DA131BC-CAAD-4B6C-BF66-CDFFFF63588B.html). This will cause your vCenter  to restart.
+2.  [Enable the NIST_2024 profile on vCenter](https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-security/GUID-A5FBEA1A-3680-4562-970C-58F419BDCDC8.html#GUID-A5FBEA1A-3680-4562-970C-58F419BDCDC8). This will cause your vCenter to restart again.
+3.  [Enable the NIST_2024 profile on ESXi](https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-security/GUID-A5FBEA1A-3680-4562-970C-58F419BDCDC8.html#GUID-A5FBEA1A-3680-4562-970C-58F419BDCDC8). This will require a reboot of your ESXi hosts.
+
+It is not recommended to use the MANUAL profiles; your scanner should be fine with the NIST_2024 cipher suites.
+
+If you encounter issues you can always turn these profiles off and use the COMPATIBLE profile, which will use the legacy cipher suites. Issues would come in the form of network connection failures between systems, especially connections from older clients.
+
 ## What about HSTS and port 9080/tcp?
 
 If you are here because your compliance scanner is flagging HSTS, you may be interested in the [HSTS information found in our Scanning FAQ](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/regulatory-compliance/compliance-vulnerability-scanning-faq.md#my-scanner-says-it-found-web-servers-that-dont-use-hsts-am-i-vulnerable). In short, HSTS is a browser trust mechanism that is inapplicable to most vSphere ports.
