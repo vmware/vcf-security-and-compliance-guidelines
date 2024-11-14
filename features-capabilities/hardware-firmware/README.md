@@ -1,4 +1,4 @@
-# Hardware Security Vulnerabilities and VMware CLoud Foundation
+# Hardware Security Vulnerabilities and VMware Cloud Foundation
 
 Broadcom ships CPU microcode as part of our VMware ESX hypervisor releases to help ensure a predictable and consistent execution environment for workloads. A particular ESX release will contain microcode from our CPU partners that was available during development and testing of that release, and will update CPU microcode if it is downlevel.
 
