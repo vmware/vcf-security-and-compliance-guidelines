@@ -1,0 +1,13 @@
+# Hardware Security Vulnerabilities and VMware vSphere/Cloud Foundation
+
+Broadcom ships CPU microcode as part of our VMware ESX hypervisor releases to help ensure a predictable and consistent execution environment for workloads. A particular ESX release will contain microcode from our CPU partners that was available during development and testing of that release, and will update CPU microcode if it is downlevel.
+
+Our hardware partners also supply CPU microcode as part of their hardware firmware updates. In contrast to what ESX contains, hardware firmware updates are more comprehensive and address issues with UEFI firmware, management controllers and engines, chipsets, memory controllers, and other components that are out of scope for ESX. If there has been a recent vulnerability disclosure from a CPU vendor the hardware firmware may also contain newer CPU microcode than is available at that moment with ESX. As such, customers who wish to mitigate recently disclosed CPU vulnerabilities should use system firmware updates to do so.
+
+Hardware firmware is not supplied by Broadcom. Please work with your hardware vendor to acquire and apply it. Hardware vulnerability questions about performance and functionality changes should also be addressed to your hardware vendor.
+
+Security is defined by three pillars: confidentiality, integrity, and availability. Hardware firmware updates routinely address all three to create a stable and secure environment. Broadcom strongly recommends that customers maintain current hardware firmware on their systems. vSphere Lifecycle Manager can work in concert with system management tools from our hardware partners to update and manage both the ESX system image configuration and the hardware firmware revisions simultaneously. For more information see the vSphere product documentation.
+
+## Disclaimer
+
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This  repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
