@@ -15,7 +15,7 @@ You are affected if you are running any version of vSphere or VMware Cloud Found
 Current Update
 --------------
 
-Updated at 1230 PDT (-0700) on October 23, 2024.
+Updated at 0930 PDT (-0700) on November 18, 2024.
 
 Next Expected Update
 --------------------
@@ -79,7 +79,7 @@ VMware Security Advisories link to the FIRST CVSS v3.1 calculator, with the vect
 
 ### Are the vulnerabilities being exploited “in the wild?”
 
-Broadcom is not currently aware of exploitation “in the wild.” If that changes the advisory and this document will be updated. Please subscribe to the VMSA mailing list (link above) for proactive alerts.
+Broadcom has confirmed that exploitation has occurred "in the wild" for CVE-2024-38812 and CVE-2024-38813.
 
 ### If I updated with the initial patches in VMSA-2024-0019 do I need to update with VMSA-2024-0019.2?
 
