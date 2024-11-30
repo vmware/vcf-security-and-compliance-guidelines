@@ -8,9 +8,14 @@ This directory has resources that help organizations remain resilient to ransomw
 * [Designing Infrastructure to Defeat Ransomware](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/ransomware-resources/Designing%20Infrastructure%20to%20Defeat%20Ransomware%20-%2020221024.pdf)
 * [Ransomware Defense and Recovery Strategies](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/ransomware-resources/Ransomware%20Defense%20and%20Recovery%20Strategies%20-%2020230425.pdf)
 
-## Tactical Resources
+## Information on Specific Ransomware Types
 
 * [ESXiArgs: Questions & Answers](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/ransomware-resources/ESXiArgs-Questions-Answers.md)
+
+## Incident Response
+If you are experiencing a ransomware incident and do not have a dedicated incident response team, Symantec has security incident response services available to help you. Contact them using the infomration in the link below BEFORE you act on any ransomware incident.
+
+* [Symantec Cyber Security Services: Incident Response](https://docs.broadcom.com/doc/cyber-security-services-incident-response-en)
 
 ## Resources and Links
 
