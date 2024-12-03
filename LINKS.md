@@ -81,8 +81,8 @@ This section is growing as we update whitepapers and other resources as part of 
 
 On the surface this doesn't look like secure system design, per se, but less is more when it comes to security. Using VCF means less first-order objects to secure (servers, software, etc.) which, in turn, means less second- and third-order objects to secure (network switches, etc.). That means less staff time used, less money spent, and less risk taken.
 
-* [Run More VMs and Get Better Performance with VMware vSphere 8](https://www.principledtechnologies.com/Broadcom/vSphere-8-U3-VM-density-comparison-1024.pdf)
-* [Run More VMs and Get Better Performance with VMware vSphere 8: The Science](https://www.principledtechnologies.com/Broadcom/vSphere-8-U3-VM-density-comparison-science-1024-v2.pdf)
+* [Run More VMs and Get Better Performance with VMware vSphere 8](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Density/vSphere-8-U3-VM-density-comparison-1024.pdf)
+* [Run More VMs and Get Better Performance with VMware vSphere 8: The Science](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Density/vSphere-8-U3-VM-density-comparison-science-1024-v2.pdf)
 
 ## Firewalling and Perimeter Defenses
 VMware documents the ports, protocols, and requirements for network connectivity so that enterprise firewall admins have an easier time being specific about rule sets.
