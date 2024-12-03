@@ -71,10 +71,24 @@ Broadcom maintains certifications and validations for VMware products that help 
 * [Federal Information Processing Standard (FIPS) 140-2 & 140-3](https://www.vmware.com/solutions/security/certifications/fips)
 * [VMware Cloud Trust Center](https://www.vmware.com/info/trust-center#compliance)
 
+## Secure System Design and Architecture
+This section is growing as we update whitepapers and other resources as part of the merger with Broadcom.
+
+* [Best Practices for Patching vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)
+* [Practical Ideas for Ransomware Resilience](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/ransomware-resources/Practical-Ideas-for-Ransomware-Resilience.md)
+* [Designing Infrastructure to Defend Against Ransomware](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/ransomware-resources/Designing%20Infrastructure%20to%20Defeat%20Ransomware%20-%2020221024.pdf)
+* [Ransomware Defense and Recovery Strategies](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/ransomware-resources/Ransomware%20Defense%20and%20Recovery%20Strategies%20-%2020230425.pdf)
+
+On the surface this doesn't look like secure system design, per se, but less is more when it comes to security. Using VCF means less first-order objects to secure (servers, software, etc.) which, in turn, means less second- and third-order objects to secure (network switches, etc.). That means less staff time used, less money spent, and less risk taken.
+
+* [Run More VMs and Get Better Performance with VMware vSphere 8](https://www.principledtechnologies.com/Broadcom/vSphere-8-U3-VM-density-comparison-1024.pdf)
+* [Run More VMs and Get Better Performance with VMware vSphere 8: The Science](https://www.principledtechnologies.com/Broadcom/vSphere-8-U3-VM-density-comparison-science-1024-v2.pdf)
+
 ## Firewalling and Perimeter Defenses
 VMware documents the ports, protocols, and requirements for network connectivity so that enterprise firewall admins have an easier time being specific about rule sets.
 
 * [Ports and Protocols](https://ports.broadcom.com/)
+* [vSphere Firewalling Helper](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide/vsphere/8.0): An Excel spreadsheet that has additional information about network communications and firewalling.
 
 ## Cryptography, TLS, and Data-in-Transit Security
 We have a fair amount of information at the following links:
@@ -104,7 +118,7 @@ There are over 700 different regulatory compliance frameworks that VMware custom
 * [EU Digital Operational Resilience Act (DORA)](https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32022R2554)
 
 ## US Cybersecurity and Infrastructure Security (CISA) Resources
-CISA is the United States' coordinator for infrastructure security and resilience. They have a lot of interesting material for anyone in the world, and some highlights are linked below.
+CISA is the United States' coordinator for infrastructure security and resilience. They have a lot of interesting material for anyone in the world, and some highlights are linked below. Bob Plankers' presentations often quote the Risk and Vulnerability Assessments, which are free and available on the CISA website.
 
 * [https://www.cisa.gov/](https://www.cisa.gov/)
 * [Risk and Vulnerability Assessments](https://www.cisa.gov/resources-tools/resources/risk-and-vulnerability-assessments)
