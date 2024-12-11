@@ -1,19 +1,15 @@
 ## Current Security & Compliance Landing Pages
 As VMware documentation and resources are assimilated into Broadcom links will change. The current best landing page for these resources is:
 
-* [https://bit.ly/vcf-security](https://bit.ly/vcf-security)
-* [https://bit.ly/vcf-compliance](https://bit.ly/vcf-compliance)
-* [https://bit.ly/vcf-scg](https://bit.ly/vcf-scg)
-* [https://bit.ly/vcf-ransomware](https://bit.ly/vcf-ransomware)
+* [https://brcm.tech/vcf-security](https://brcm.tech/vcf-security)
+* [https://brcm.tech/vcf-scg](https://brcm.tech/vcf-scg)
 
 which redirect to
 
 * [https://github.com/vmware/vcf-security-and-compliance-guidelines/](https://github.com/vmware/vcf-security-and-compliance-guidelines/)
-* [https://github.com/vmware/vcf-security-and-compliance-guidelines/](https://github.com/vmware/vcf-security-and-compliance-guidelines/)
 * [https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide)
-* [https://github.com/vmware/vcf-security-and-compliance-guidelines/](https://github.com/vmware/vcf-security-and-compliance-guidelines/)
 
-respectively.
+respectively. There are older bit.ly links that are being phased out in favor of the brcm.tech links. Organizations which block bit.ly links often do not comprehensively block HTTP 301/302 redirects and may be able to use brcm.tech instead.
 
 ## Broadcom Resources
 We have quite a number of tactical and strategic resources available to users of VMware products, answering many questions.
@@ -30,16 +26,20 @@ Put simply, Broadcom does not support modifications to appliances or the product
 * [Support for Security Technical Implementation Guides (STIGs)](https://knowledge.broadcom.com/external/article?legacyId=94398)
 
 ## Security Configuration & Hardening Guides
-The Security Configuration and Hardening Guide (SCG) provides comprehensive recommendations for securing VMware products. It offers detailed instructions and best practices for configuring various vSphere components to enhance security and ensure compliance with industry standards.
+The Security Configuration and Hardening Guide (SCG) provides a baseline security hardening recommendation. It offers detailed instructions and best practices for configuring various vSphere components to enhance security and ensure compliance with industry standards. That said, it is a guideline, and your organization may have good reason to deviate from it. Good reasons often include specific workload requirements (especially clustered applications which may need specific network port group security settings), and controls being superseded by regulatory requirements.
 
-* Permanent Link: [https://bit.ly/vcf-scg](https://bit.ly/vcf-scg)
+* Permanent Link: [https://brcm.tech/vcf-scg](https://brcm.tech/vcf-scg)
 * Redirect Target: [https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide)
+
+There is a CIS Benchmark for ESX 8.0, but does not include components or features enabled with vCenter or vSAN. When in doubt, or if there is a conflict, use the guidance published by Broadcom.
 
 ## Product Documentation
 The product documentation is the reference for how a feature or component works. This repository is meant to augment the product documentation. If the docs answer the question "how?" this repository tries to answer the "why?" or "when?" or "so what?" questions you might have.
 
 * [vSphere 8 Security](https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-security/GUID-52188148-C579-4F6A-8335-CFBCE0DD2167.html)
 * [vSphere 7 Security](https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.security.doc/GUID-52188148-C579-4F6A-8335-CFBCE0DD2167.html)
+
+Documentation is not always flawless. If you encounter an issue with documentation, please use the feedback mechanism for the documenation, which opens a ticket with the documentation team.
 
 ## VMware Product Security
 VMware has a defined Secure Software Development Lifecycle and policies for how issues are assessed and managed.
@@ -63,6 +63,8 @@ STIGs are comprehensive hardening guides for US Department of Defense (DOD) syst
 
 * [Security Technical Implementation Guides (STIGs)](https://www.vmware.com/solutions/security/certifications/stigs)
 * [Support Policy for Security Technical Implementation Guides (STIGs)](https://knowledge.broadcom.com/external/article?legacyId=94398)
+
+There is considerable overlap between the STIGs and the SCG, intentionally. The STIG goes much further in certain areas in order to comply with DOD requirements. If you are not directly subject to the DOD requirements you might consider either using the SCG, or using the STIGs but without editing configurations inside the appliances.
 
 ## VMware Certifications
 Broadcom maintains certifications and validations for VMware products that help demonstrate our claims of security are true, and to help ease procurement processes.

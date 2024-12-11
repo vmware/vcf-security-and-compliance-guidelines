@@ -13,7 +13,7 @@ This version of the Security Configuration & Hardening Guide can be downloaded f
 
 We maintain a permanent link for use in documents and other resources:
 
-https://bit.ly/vcf-scg
+https://brcm.tech/vcf-scg
 
 # Disclaimer
 

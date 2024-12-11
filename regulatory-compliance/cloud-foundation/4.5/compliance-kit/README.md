@@ -20,6 +20,6 @@ The [VMware Cloud Foundation documentation](https://docs.vmware.com/en/VMware-Cl
 
 If you want to link to this content we maintain a permanent redirect:
 
-https://bit.ly/vcf-compliance
+https://brcm.tech/vcf-security
 
 The current target of this redirected link, as well as many other resources, can be found in [LINKS.md](https://github.com/vmware/cloud-infrastructure-security-and-compliance-guidelines/blob/main/LINKS.md)

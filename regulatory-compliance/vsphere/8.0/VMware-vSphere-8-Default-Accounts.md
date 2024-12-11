@@ -25,7 +25,7 @@ This document is based on hyperconverged on-premises deployments of VMware vSphe
 
 Numerous engineered data center and hybrid cloud infrastructure products incorporate VMware vSphere in their solutions. If you use vSphere in this manner, consult the product's support if discrepancies arise.
 
-For the latest version of this document, visit: [https://bit.ly/vcf-security](https://bit.ly/vcf-security)
+For the latest version of this document, visit: [https://brcm.tech/vcf-security](https://brcm.tech/vcf-security)
 
 Feedback
 --------
@@ -46,7 +46,7 @@ Beginning in ESXi 8.0.0, local accounts can have their shell access disabled. Th
 
 While the broader VMware ecosystem is familiar with most security controls in vSphere, newer controls can have unintended consequences. For instance, one might inadvertently lock out all administrative shell access and find traditional recovery methods ineffective due to Configuration Encryption and other security measures introduced since ESXi 7.0.2. Exercise caution when using these controls.
 
-For more information consult the [vSphere 8 Security Configuration & Hardening Guide](https://bit.ly/vcf-scg) before enabling.
+For more information consult the [vSphere 8 Security Configuration & Hardening Guide](https://brcm.tech/vcf-scg) before enabling.
 
 ESXi Default Local Accounts
 ---------------------------
@@ -61,7 +61,7 @@ The password can be changed both manually and programmatically through product U
 
 The password is not a “default” as it is specified by the administrator at installation.
 
-The password is subject to the ESXi password complexity and history parameters, such as Security.PasswordQualityControl. More information can be found in the [vSphere Security Configuration & Hardening Guide](https://bit.ly/vcf-scg).
+The password is subject to the ESXi password complexity and history parameters, such as Security.PasswordQualityControl. More information can be found in the [vSphere Security Configuration & Hardening Guide](https://brcm.tech/vcf-scg).
 
 The password is stored as a salted SHA512 hash, consistent with UNIX and UNIX-like operating systems.
 
@@ -75,11 +75,11 @@ The password can be changed both manually and programmatically through product U
 
 There is no default password. The account is locked through the UNIX standard method of replacing the password in /etc/shadow with a value incompatible with a SHA512 hash (such as ‘x’ or ‘!’ or ‘\*’).
 
-The account should not have a password configured, but if one was, it would be subject to the ESXi password complexity and history parameters, such as Security.PasswordQualityControl. More information can be found in the [vSphere Security Configuration & Hardening Guide](https://bit.ly/vcf-scg).
+The account should not have a password configured, but if one was, it would be subject to the ESXi password complexity and history parameters, such as Security.PasswordQualityControl. More information can be found in the [vSphere Security Configuration & Hardening Guide](https://brcm.tech/vcf-scg).
 
 The password, if set, would be stored as a salted SHA512 hash, consistent with UNIX and UNIX-like operating systems.
 
-There are no reasons for vSphere administrators to log into ESXi in this manner. As such, this account may have its shell access removed in ESXi 8.0.0 and newer. More information can be found in the [vSphere Security Configuration & Hardening Guide](https://bit.ly/vcf-scg). Additionally, log monitoring alerts (Log Insight et al) can be set to alarm if this account is accessed.
+There are no reasons for vSphere administrators to log into ESXi in this manner. As such, this account may have its shell access removed in ESXi 8.0.0 and newer. More information can be found in the [vSphere Security Configuration & Hardening Guide](https://brcm.tech/vcf-scg). Additionally, log monitoring alerts (Log Insight et al) can be set to alarm if this account is accessed.
 
 ### vpxuser
 
@@ -89,11 +89,11 @@ The password can, but should not, be changed manually via API, CLI, or UI, as vC
 
 The randomly generated password is 32 characters using four character classes (numbers, special characters, upper, and lower case). This password is randomly generated for each ESXi host.
 
-The password is subject to the ESXi password complexity and history parameters, such as Security.PasswordQualityControl. More information can be found in the [vSphere Security Configuration & Hardening Guide](https://bit.ly/vcf-scg).
+The password is subject to the ESXi password complexity and history parameters, such as Security.PasswordQualityControl. More information can be found in the [vSphere Security Configuration & Hardening Guide](https://brcm.tech/vcf-scg).
 
 The password is stored as a salted SHA512 hash on ESXi, consistent with UNIX and UNIX-like operating systems. To enable management, vCenter Server stores the vpxuser password in an encrypted format inside the vCenter Server database on the vCenter Server Appliance.
 
-This account is not removable and an alternate cannot be substituted. Shell access may be removed on ESXi 8.0.0 and newer but will impact management capabilities from vCenter Server. More discussion of this can be found above and in the [vSphere Security Configuration & Hardening Guides](https://bit.ly/vcf-scg). There are no reasons for vSphere administrators to log into ESXi with this account, so log monitoring alerts (Log Insight et al) can be set to alarm if this account is accessed from anywhere but vCenter Server.
+This account is not removable and an alternate cannot be substituted. Shell access may be removed on ESXi 8.0.0 and newer but will impact management capabilities from vCenter Server. More discussion of this can be found above and in the [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg). There are no reasons for vSphere administrators to log into ESXi with this account, so log monitoring alerts (Log Insight et al) can be set to alarm if this account is accessed from anywhere but vCenter Server.
 
 vCenter Server Appliance Default Local Accounts
 -----------------------------------------------
@@ -260,7 +260,7 @@ The password can be changed both manually and programmatically through product U
 
 The password is not a “default” as it is specified by the administrator at installation.
 
-The password is subject to the vSphere SSO password complexity and history settings, except for lockout, as the administrator account cannot be locked out. More information can be found in the [vSphere Security Configuration & Hardening Guides](https://bit.ly/vcf-scg).
+The password is subject to the vSphere SSO password complexity and history settings, except for lockout, as the administrator account cannot be locked out. More information can be found in the [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg).
 
 The password is stored as a SHA512 hash in the SSO LDAP subsystem.
 
@@ -272,7 +272,7 @@ The password can be changed both manually and programmatically through product U
 
 The password is not a “default” but is a randomly generated 20 character password set at installation.
 
-The password, when changed, is subject to the vSphere SSO password complexity and history settings. More information can be found in the [vSphere Security Configuration & Hardening Guides](https://bit.ly/vcf-scg).
+The password, when changed, is subject to the vSphere SSO password complexity and history settings. More information can be found in the [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg).
 
 The password is stored as a SHA512 hash in the SSO LDAP subsystem.
 
@@ -284,7 +284,7 @@ The password can be changed both manually and programmatically through product U
 
 The password is not a “default” but is a randomly generated 20 character password set at installation.
 
-The password, when changed, is subject to the vSphere SSO password complexity and history settings. More information can be found in the [vSphere Security Configuration & Hardening Guides](https://bit.ly/vcf-scg).
+The password, when changed, is subject to the vSphere SSO password complexity and history settings. More information can be found in the [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg).
 
 The password is stored as a SHA512 hash in the SSO LDAP subsystem.
 
@@ -296,6 +296,6 @@ The password can be changed both manually and programmatically through product U
 
 The password is not a “default” but is a randomly generated 20 character password set at installation.
 
-The password, when changed, is subject to the vSphere SSO password complexity and history settings. More information can be found in the [vSphere Security Configuration & Hardening Guides](https://bit.ly/vcf-scg).
+The password, when changed, is subject to the vSphere SSO password complexity and history settings. More information can be found in the [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg).
 
 The password is stored as a SHA512 hash in the SSO LDAP subsystem.

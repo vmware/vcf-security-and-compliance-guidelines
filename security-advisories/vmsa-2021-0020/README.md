@@ -164,7 +164,7 @@ Please help us help you – many features and improvements have happened because
 
 Our product teams always look at the situation surrounding a vulnerability to see why the issue wasn’t caught as part of our secure development processes. We make improvements to our own processes that help future releases.
 
-VMware has typically been focused on product security capabilities, and generally avoided prescriptive or opinionated statements on how folks should run their businesses. Security is a very process-driven field, though, and by not explicitly showing best practices we have left a gap for many customers who are not as security-knowledgeable as they might need to be nowadays. We are working to fix that with more prescriptive guidance, which is already apparent in the updates to the [vSphere Security Configuration Guide](https://bit.ly/vcf-scg).
+VMware has typically been focused on product security capabilities, and generally avoided prescriptive or opinionated statements on how folks should run their businesses. Security is a very process-driven field, though, and by not explicitly showing best practices we have left a gap for many customers who are not as security-knowledgeable as they might need to be nowadays. We are working to fix that with more prescriptive guidance, which is already apparent in the updates to the [vSphere Security Configuration Guide](https://brcm.tech/vcf-scg).
 
 ### Will there be changes to vSphere because of these issues?
 

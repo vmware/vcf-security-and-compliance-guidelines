@@ -31,7 +31,7 @@ This information was compiled based on VMware ESXi 8.0 build 20842819 and VMware
 
 The audience for this document is customers & partners using VMware vSphere 8. Security guidance changes between product versions, and this guidance is not appropriate for versions of VMware vSphere prior to vSphere 8. Workloads that move between other products (Workstation, Fusion, etc.) may have different security requirements and should be assessed separately.
 
-The most up-to-date version of this document can be found at: [https://bit.ly/vcf-scg](https://bit.ly/vcf-scg)
+The most up-to-date version of this document can be found at: [https://brcm.tech/vcf-scg](https://brcm.tech/vcf-scg)
 
 Feedback
 --------

@@ -21,7 +21,7 @@ Questions & Answers
 
 ### What do I need to do to protect my environment?
 
-All customers should update their VMware Tools and ensure that their vSphere environments are hardened using the [VMware Security Configuration & Hardening Guides](https://bit.ly/vcf-scg).
+All customers should update their VMware Tools and ensure that their vSphere environments are hardened using the [VMware Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg).
 
 ### What CVEs are associated with these disclosures?
 
@@ -66,7 +66,7 @@ Linux distributions use open-vm-tools; please use the patching processes availab
 
 ### Is there a workaround available for this issue?
 
-Organizations concerned specifically with CVE-2023-20867 should update VMware Tools. Given the context of the Mandiant research we suggest customers prioritize auditing and remediating their environments against the [VMware Security Configuration & Hardening Guides](https://bit.ly/vcf-scg). This guidance contains additional steps to harden environments that are effective against the tactics outlined in the Mandiant report, such as disabling VMware Tools guest operations, disabling shell access for vpxuser, and more.
+Organizations concerned specifically with CVE-2023-20867 should update VMware Tools. Given the context of the Mandiant research we suggest customers prioritize auditing and remediating their environments against the [VMware Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg). This guidance contains additional steps to harden environments that are effective against the tactics outlined in the Mandiant report, such as disabling VMware Tools guest operations, disabling shell access for vpxuser, and more.
 
 ### Can we just remove VMware Tools?
 

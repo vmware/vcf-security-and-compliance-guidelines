@@ -168,7 +168,7 @@ Limit the number of VIBs on ESXi. Prefer 'stock' VMware ESXi over OEM versions t
 
 Enhanced Linked Mode (ELM) offers a consolidated view of an organization’s vSphere environments, but also introduces security and availability considerations, and complicates updates and upgrades. Where possible, simplify your deployments by discontinuing the use of ELM.
 
-PowerCLI is a very straightforward way to do management of virtual environments at scale, with a thriving community and thousands of code examples (including good ones in the [vSphere Security Configuration & Hardening Guide](https://bit.ly/vcf-scg)).
+PowerCLI is a very straightforward way to do management of virtual environments at scale, with a thriving community and thousands of code examples (including good ones in the [vSphere Security Configuration & Hardening Guide](https://brcm.tech/vcf-scg)).
 
 ### Ensure N+1 Cluster Resources
 

@@ -29,7 +29,7 @@ Relevant Links
 
 [VMSA-2024-0019 Questions & Answers](https://bit.ly/vcf-vmsa-2024-0019-qna) (this document’s link)
 
-[vSphere Security Configuration & Hardening Guides](https://bit.ly/vcf-scg) (the reference for hardening VMware vSphere, virtual machines, and in-guest settings like VMware Tools)
+[vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg) (the reference for hardening VMware vSphere, virtual machines, and in-guest settings like VMware Tools)
 
 [VMware Cloud Foundation Security Advisories](https://support.broadcom.com/web/ecx/security-advisory?segment=VC) (list of all disclosed security vulnerabilities)
 

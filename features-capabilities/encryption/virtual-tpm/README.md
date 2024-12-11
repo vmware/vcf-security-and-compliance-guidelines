@@ -302,4 +302,4 @@ Yes, it is correct. The process of adding a vTPM handles the VM home file encryp
 
 Correct. VMs using VM Encryption (which is what powers vTPM “under the hood”) are always required to be protected when vMotioned.
 
-VMware recommends configuring these settings to “Required” on all virtual machines and workloads. For more information about recommended security settings, please see the [vSphere Security Configuration Guide](https://bit.ly/vcf-scg).
+VMware recommends configuring these settings to “Required” on all virtual machines and workloads. For more information about recommended security settings, please see the [vSphere Security Configuration Guide](https://brcm.tech/vcf-scg).

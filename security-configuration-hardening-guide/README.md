@@ -5,7 +5,7 @@ VMware, and now Broadcom, provides specific baseline guidance for hardening and 
 ## Permanent Links
 We maintain a permanent link for use in documents and other resources:
 
-https://bit.ly/vcf-scg
+https://brcm.tech/vcf-scg
 
 The current target of this redirected link, as well as many other resources, can be found in the resources & links section below.
 
