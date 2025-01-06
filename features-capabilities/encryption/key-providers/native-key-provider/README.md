@@ -67,7 +67,7 @@ No; vSphere Trust Authority requires a Standard Key Provider (KMS).
 
 ### How many hosts can use Native Key Provider? Are there scalability limits?
 
-Native Key Provider has the same virtual machine scalability maximums as vSphere. See the [VMware Configuration Maximum tool](https://configmax.vmware.com/).
+Native Key Provider has the same virtual machine scalability maximums as vSphere. See the [VMware Configuration Maximum tool](https://configmax.broadcom.com/).
 
 ### Do I need a Trusted Platform Module 2.0 (TPM) for my ESXi hosts?
 

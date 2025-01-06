@@ -1,5 +1,5 @@
 # Virtual TPM (vTPM)
-Virtual Trusted Platform Module (vTPM) is a virtual version of a physical TPM 2.0 chip, implemented using VM Encryption. It offers the same functionality as a hardware TPM 2.0 but is used within virtual machines (VMs). With vTPM, each VM can have its own unique and isolated TPM to help secure sensitive information and ensure system integrity. It enables VMs to use security enhancements like BitLocker disk encryption and to authenticate virtual hardware devices, creating a more secure virtual environment.
+Virtual Trusted Platform Module (vTPM) is a virtual version of a physical TPM 2.0 chip, implemented using VM Encryption. It offers the same functionality as a hardware TPM 2.0 but is used within virtual machines (VMs). With vTPM, each VM can have its own unique and isolated TPM to help secure sensitive information and ensure system integrity. It enables VMs to use security enhancements like BitLocker disk encryption and to authenticate virtual hardware devices, creating a more secure environment.
 
 ## How to Get Started
 
@@ -9,6 +9,10 @@ Virtual Trusted Platform Module (vTPM) is a virtual version of a physical TPM 2.
 4. Watch [Virtual TPM (vTPM) Deep Dive](https://youtu.be/ddN4OftmddM) for more information. It's about 20 minutes.
 
 ## Documentation
+
+- [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0.html) -- you will want the sections on:
+- [Securing Virtual Machines with Virtual Trusted Platform Module](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/securing-virtual-machines-with-virtual-trusted-platform-module.html) and
+- [Configuring and Managing vSphere Native Key Provider](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-vsphere-native-key-provider.html), or the section on [Standard Key Providers](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-a-standard-key-provider.html) if that's how you would like to proceed (a Standard Key Provider is a connection to an external key management system, such as a Hardware Security Module (HSM) or a cloud-based key management service).
 
 ## Questions & Answers
 
@@ -26,19 +30,27 @@ You need VMware vSphere 6.7 or newer and a key provider, such as Native Key Prov
 
 Use of VM Encryption beyond vTPM may require additional licensing.
 
+### Do I need vSphere Trust Authority to use a vTPM?
+
+No. You only need a key provider, such as Native Key Provider, to use a vTPM.
+
 ### Can I use vTPM on a VM on a standalone ESXi host?
 
 No. vTPM relies on VM Encryption which is enabled when ESXi is managed by vCenter Server, as part of VMware vSphere.
 
 ### What is an endorsement key?
 
-The TPM 2.0 Endorsement Key (EK) is a unique and permanent RSA or ECC asymmetric key pair that is generated and stored in the vTPM during instantiation. The EK is designed to be non-migratable, which means it cannot be moved to another TPM.
+The TPM 2.0 Endorsement Key (EK) is a permanent asymmetric key pair that is generated and stored in a TPM, including the vTPM, during instantiation or manufacture. The EK is designed to be non-migratable, which means it cannot be moved to another TPM, nor can it be changed.
+
+Organizations that are required to rotate keys will sometimes ask about rotating the EK, which is how this topic arises. Practically speaking, the EK cannot be rotated in either the physical or virtual worlds, except by replacing the TPM completely, which is impractical and unnecessary. Compliance auditors and GRC staff should not ask about rotating the EK.
 
 The EK serves two primary purposes: it helps to uniquely identify a TPM (or the device to which it is attached), and it serves as a root of trust for other keys that the TPM generates for use in encryption and digital signing. The EK is typically used indirectly through other keys tied to it, helping ensure that these operations are secure and specific to the TPM and device.
 
 The EK can be used in a privacy-sensitive way by creating an "endorsement key certificate" where the EK is used to sign a statement, which is then signed by a privacy-ca Certificate Authority, thus proving that the statement comes from a legitimate TPM without revealing the EK directly.
 
 ### What is a storage root key?
+
+Note: Organizations using VMware infrastructure products do not need to manage this key, as ESXi will handle it upon installation and first boot. Guest operating systems will also handle this automatically as part of the OS installation process when using a vTPM.
 
 The Storage Root Key (SRK) in a TPM 2.0 is a key hierarchy that is created when the TPM is first initialized, or when it's reset. It is derived from a primary seed unique to the TPM and is embedded within the device. This key hierarchy, or tree, is anchored by the SRK.
 
@@ -48,7 +60,7 @@ The SRK essentially enables the TPM to securely generate, store, and handle cryp
 
 ### My hosts do not have physical TPM 2.0 devices. Can I still use virtual TPM (vTPM)?
 
-Absolutely! vTPMs have nothing to do with a physical TPM, aside from sharing the name “TPM.” The physical TPM is used exclusively by ESXi and is not accessible by VMs. To enable vTPMs, you simply need to configure a key provider in vSphere. Or, on VMware Cloud on AWS, just add a vTPM.
+Yes. vTPMs have nothing to do with a physical TPM, aside from sharing the name “TPM.” The physical TPM is used exclusively by ESXi and is not accessible by VMs. To enable vTPMs, you simply need to configure a key provider in vSphere, and then add a vTPM to a VM.
 
 ### Is vTPM host hardware-dependent, or can it be implemented on any VMware virtualization platform?
 
@@ -56,7 +68,7 @@ A vTPM is not dependent on physical hardware.
 
 ### Does the vTPM store data in a physical TPM?
 
-No. vTPMs on VMware products do not require or use hardware TPMs.
+No. vTPMs on VMware products do not use hardware TPMs for storage of guest operating system secrets. The hardware TPM, if it is present, is used solely by ESX for it's own secrets.
 
 ### Is a virtual TPM connected/mapped to a hardware TPM?
 
@@ -92,11 +104,11 @@ To troubleshoot the absence of a Trusted Platform Module option in your VM setti
 
 ### What is the maximum number of virtual machines that can have vTPMs?
 
-vTPMs are supported on the maximum number of virtual machines possible on vSphere. Please check [https://configmax.vmware.com](https://configmax.vmware.com/) for those configuration limits.
+vTPMs are supported on the maximum number of virtual machines possible on vSphere. Please check [https://configmax.broadcom.com](https://configmax.broadcom.com/) for those configuration limits.
 
 ### Can I add a vTPM to a virtual machine that is powered on?
 
-No. TPMs are not hot-pluggable hardware components in the physical world, so you cannot do that in the virtual world, either.
+No. TPMs are not hot-pluggable hardware components in the physical world, so you cannot do that in the virtual world, either. The guest OS doesn't know how to do this, and it makes sense because you cannot (well, should not) physically plug in a TPM while the server is powered on.
 
 ### If I remove a vTPM does the VM become unencrypted?
 
@@ -120,29 +132,21 @@ Some versions of vSphere had an order-of-operations issue with the encryption an
 
 ### Can I perform vMotion on a VM with a vTPM?
 
-Yes. VMware vMotion and Storage vMotion work seamlessly.
+Yes. VMware vMotion, VMware Cross-vCenter vMotion, and VMware Storage vMotion work seamlessly.
 
 Because the VM is encrypted, cross-vCenter vMotion will only work if the destination has access to the same key provider as the source. The Native Key Provider can help with that, either as the solution or as a “bridge” between the source and destination if they do not share a Key Management System (KMS). To perform cross-vCenter vMotion with VMware Cloud on AWS, please contact support, as the Native Key Provider instance is not directly configurable.
 
 ### Where is the vTPM data stored?
 
-vTPM data is stored in the VM configuration, also known as the "home" files, specifically the NVRAM file. The vTPM data is encrypted by VM Encryption.
-
-### What are Virtual Machine (VM) home files?
-
-Configuration files associated with the virtual machine that contain VM data and metadata, but are not the VMDK (Virtual Machine Disk) virtual disk files.
-
-For instance, vTPM data is stored in the NVRAM file, which is present in the virtual machine's home directory. The NVRAM file is one of the "home" files.
+vTPM data is stored in the VM configuration files, also known as the "home" files, specifically the NVRAM file. The vTPM data is encrypted by VM Encryption.
 
 ### Do I need a key provider to use vTPM?
 
 Yes. vTPMs use VM Encryption “under the hood” to protect workload secrets. On-premises software like VMware vSphere and VMware Cloud Foundation need the key provider configured before a vTPM can be added.
 
-VMware Cloud on Amazon Web Services (AWS) version 1.19 and newer automatically provision, configure, and protect vSphere Native Key Provider, so you do not have to do anything except add vTPMs to your workloads.
-
 ### Can I rekey a vTPM?
 
-No, a TPM or vTPM cannot be rekeyed. The Endorsement Key is permanent and the whole TPM would need to be replaced to change it.
+Yes, you can rekey a VM that is using a vTPM.
 
 ### What are the vSphere license levels that support vTPMs?
 
@@ -151,14 +155,6 @@ All editions of vSphere 7 and newer are licensed to use vTPM and the Native Key 
 ### Do other encryption functions, such as vSAN data-at-rest encryption and full VM Encryption, have specific license level requirements?
 
 Yes, other encryption functions, such as vSAN data-at-rest encryption and full VM Encryption, are available at specific license levels.
-
-### Does VMware Cloud on AWS support vTPM?
-
-Yes. On VMware Cloud on AWS version 1.20 and newer, you can simply add vTPM devices to your workloads.
-
-### Does the Google Cloud VMware Engine support vTPM?
-
-Yes. More information can be found on the [VMware Cloud Tech Zone](https://vmc.techzone.vmware.com/virtual-trusted-platform-module-vtpm-20-google-cloud-vmware-engine).
 
 ### Is a vTPM equivalent to a "TPM 2.0?"
 
@@ -196,13 +192,13 @@ When you encrypt a VM the swap files will also be encrypted, too. As such, there
 
 ### How fast is a vTPM?
 
-Hardware-based TPMs are accessed over a slow serial bus, similar to a modem. A virtual TPM (vTPM), because it is emulated, is much faster than that.
+Hardware-based TPMs are accessed over a slow serial bus, similar to a modem. A virtual TPM (vTPM), because it is emulated, is actually much faster than that.
 
 Guest operating systems (OSes) don’t store very much data in a TPM (only kilobytes in total), and don’t read from it very much, so speed is not likely to be a concern.
 
 ### Can I clone a VM with a vTPM?
 
-On VMware vSphere 6.7 and 7, cloning a virtual machines makes an exact replica of the virtual machine and vTPM. VMware vSphere 8 introduces choices about what to do with the vTPM, so that different use cases can be handled well. It offers to either copy or replace the TPM. If you remove or replace the vTPM device on a Windows 11 VM using features like Windows BitLocker or Windows Hello, these features will cease functioning, and you may lose access to the Windows operating system or data if you are without the appropriate recovery options.
+Yes. On VMware vSphere 6.7 and 7, cloning a virtual machines makes an exact replica of the virtual machine and vTPM. VMware vSphere 8 introduces choices about what to do with the vTPM, so that different use cases can be handled well. It offers to either copy or replace the TPM. If you remove or replace the vTPM device on a Windows 11 VM using features like Windows BitLocker or Windows Hello, these features will cease functioning, and you may lose access to the Windows operating system or data if you are without the appropriate recovery options.
 
 ### Isn’t cloning a vTPM a bad idea?
 
@@ -212,19 +208,19 @@ There are many use cases for an exact copy of the original VM, including recover
 
 The vCenter Server parameter vpxd.clone.tpmProvisionPolicy can be set to "copy" or "replace" to control the default behavior when cloning virtual machines with vTPMs.
 
-### Do VMware Workspace ONE and VMware Horizon products support vTPM?
+### Do VMware Workspace ONE, VMware Horizon, and Citrix virtual desktop products support vTPM?
 
-Yes. Please check the product documentation for information on how to configure VM templates to deploy unique vTPMs.
+Yes. Please check the product documentation from Omnissa or Citrixfor information on how to configure VM templates to deploy unique vTPMs.
 
 ### Is the vTPM supported by provisioning tools like the Microsoft Deployment Toolkit?
 
-Yes. A vTPM is functionally identical to a hardware TPM. Tools that interact with TPMs will work correctly on virtual machines.
+Yes. A vTPM is functionally identical to a hardware TPM. Tools that interact with physical TPMs will work correctly on virtual machines.
 
 ### Can I replace the vTPM on a VM during a cloning operation?
 
-VMware vSphere 8 introduces the TPM Provisioning Policy, where vTPM devices can be automatically replaced during clone or deployment operations.
+Yes. VMware vSphere 8 introduces the TPM Provisioning Policy, where vTPM devices can be automatically replaced during clone or deployment operations.
 
-In VMware vSphere 7, you can customize the virtual machine hardware and remove and re-add the vTPM device manually during the clone wizard.
+In VMware vSphere 7, you can customize the virtual machine hardware and remove and re-add the vTPM device manually during the clone wizard. This can be done manually or programmatically using APIs or PowerCLI.
 
 ### Can I store a VM with a vTPM as a template?
 
@@ -232,11 +228,11 @@ Virtual machines with a vTPM device can be stored in the VM Template (VMTX) form
 
 ### Can I export an OVF/OVA of a VM with a vTPM?
 
-Virtual machines with a vTPM device do not support the OVF/OVA template format directly. It is not supported to export a virtual machine with a vTPM device to an OVF/OVA file using the vSphere Client. The vTPM device must be first removed before you can export the VM as an OVF/OVA template. The OVF Tool can automate the process by adding a vTPM placeholder attribute. See the section “TPM as a Virtual Device in OVF” in the OVF Tool User Guide for more details on using OVF Tool.
+Virtual machines with a vTPM device do not support the OVF/OVA template format directly. It is not supported to export a virtual machine with a vTPM device to an OVF/OVA file using the vSphere Client. The vTPM device must be first removed before you can export the VM as an OVF/OVA template. The OVF Tool can automate the process by adding a vTPM placeholder attribute. See the section “TPM as a Virtual Device in OVF” in the [OVF Tool User Guide](https://developer.broadcom.com/tools/open-virtualization-format-ovf-tool/latest/) for more details on using OVF Tool.
 
 ### Can I import an OVF/OVA with a vTPM?
 
-When importing an OVF/OVA into vSphere using the vSphere Client, a vTPM device must be manually added to the VM after import. The OVF Tool can automate the process by parsing a vTPM placeholder attribute. See the section “TPM as a Virtual Device in OVF” in the [OVF Tool User Guide](https://developer.vmware.com/web/tool/4.5.0/ovf-tool) for more details on using OVF Tool.
+When importing an OVF/OVA into vSphere using the vSphere Client, a vTPM device must be manually added to the VM after import. The OVF Tool can automate the process by parsing a vTPM placeholder attribute. See the section “TPM as a Virtual Device in OVF” in the [OVF Tool User Guide](https://developer.broadcom.com/tools/open-virtualization-format-ovf-tool/latest/) for more details on using OVF Tool.
 
 ### Do I need to do anything to configure the vTPM for use by a guest operating system?
 
@@ -250,6 +246,14 @@ The certificates and keypairs that are populated into the vTPM by default are pr
 
 Yes. You can replace the certificates in the vTPM using the vSphere APIs or the vSphere Client UI. Most use cases do not require any configuration or alteration of these default certificates, as guest OSes have been tested to work well with them.
 
+### We replaced the VMware Certificate Authority certificates with our own. How do I replace the old vTPM certificates with the new certificates?
+
+This is unnecessary. The guest OS installer overwrote the vTPM with the new certificates. Changes to the vTPM certificates after guest OS installation will endanger the availability of the guest operating system, just the same as if you cleared the TPM on a physical server.
+
+### Can I clear the vTPM?
+
+Yes, by deleting the vTPM device and re-adding it.
+
 ### How do I configure the vTPM on the virtual machine?
 
 The vTPM can be configured using the virtual BIOS interfaces inside the VM, just as you might do with physical hardware. It is rare that you would need to configure anything to use the vTPM, though.
@@ -260,11 +264,11 @@ Yes.
 
 ### Doesn’t the vTPM on an encrypted vSAN datastore double-encrypt the VM?
 
-Yes, but just a little bit. The vTPM causes the VM configuration files to be encrypted, as well as the swap files. If your virtual machine is paging memory to disk (swapping), this may be an additional concern.
+Yes, but just a little bit. The vTPM causes the VM configuration files to be encrypted, as well as the swap files. If your virtual machine is paging memory to disk (swapping), this may be an additional concern, but for most environments that are correctly sized, this is not a concern.
 
 ### Does the vTPM support Microsoft Bitlocker?
 
-Yes. Environments that use VMware vSAN data-at-rest encryption, like VMware Cloud on AWS SDDC, should be mindful of performance impacts from the additional in-guest encryption, and operational impacts like the ability to store recovery keys for volumes protected by BitLocker.
+Yes. Environments that use VMware vSAN data-at-rest encryption should be mindful of performance impacts from the additional in-guest encryption, and operational impacts like the ability to store recovery keys for volumes protected by BitLocker.
 
 ### Does the vTPM support Microsoft Device Guard?
 
@@ -284,7 +288,7 @@ Not necessarily. Many compliance frameworks require a TPM when these features ar
 
 ### Does vTPM work with vGPUs?
 
-Yes. However, vGPUs and DirectPath I/O do not work with Virtualization-Based Security, due to the multiple layers of hypervisors in use when Microsoft Credential Guard is enabled in the guest. This is a limitation in CPU hardware, not a limitation in vSphere or VMware Cloud on AWS.
+Yes. However, vGPUs and DirectPath I/O do not work with Virtualization-Based Security, due to the multiple layers of hypervisors in use when Microsoft Credential Guard is enabled in the guest. This is a limitation in CPU hardware (there are currently not enough levels of indirection in the CPU hardware nested page tables to do this in a way that performs well), not a limitation in vSphere.
 
 ### Does the vTPM work with wolfTPM?
 
@@ -300,6 +304,6 @@ Yes, it is correct. The process of adding a vTPM handles the VM home file encryp
 
 ### When I added a vTPM I noticed the VM now requires vMotion and Fault Tolerance encryption. Is that normal?
 
-Correct. VMs using VM Encryption (which is what powers vTPM “under the hood”) are always required to be protected when vMotioned.
+Yes. VMs using VM Encryption (which is what powers vTPM “under the hood”) are always required to be protected when vMotioned.
 
 VMware recommends configuring these settings to “Required” on all virtual machines and workloads. For more information about recommended security settings, please see the [vSphere Security Configuration Guide](https://brcm.tech/vcf-scg).
