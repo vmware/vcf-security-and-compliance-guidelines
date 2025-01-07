@@ -12,8 +12,8 @@ Virtual Trusted Platform Module (vTPM) is a virtual version of a physical TPM 2.
 ## Documentation
 
 - [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0.html) -- you will want the sections on:
--- [Securing Virtual Machines with Virtual Trusted Platform Module](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/securing-virtual-machines-with-virtual-trusted-platform-module.html) and
--- [Configuring and Managing vSphere Native Key Provider](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-vsphere-native-key-provider.html), or the section on [Standard Key Providers](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-a-standard-key-provider.html) if that's how you would like to proceed (a Standard Key Provider is a connection to an external key management system, such as a Hardware Security Module (HSM) or a cloud-based key management service).
+- [Securing Virtual Machines with Virtual Trusted Platform Module](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/securing-virtual-machines-with-virtual-trusted-platform-module.html) and
+- [Configuring and Managing vSphere Native Key Provider](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-vsphere-native-key-provider.html), or the section on [Standard Key Providers](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-a-standard-key-provider.html) if that's how you would like to proceed (a Standard Key Provider is a connection to an external key management system, such as a Hardware Security Module (HSM) or a cloud-based key management service).
 
 ## Questions & Answers
 
