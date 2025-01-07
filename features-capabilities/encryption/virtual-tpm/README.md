@@ -5,14 +5,15 @@ Virtual Trusted Platform Module (vTPM) is a virtual version of a physical TPM 2.
 
 1. Watch [Native Key Provider (NKP) and Virtual TPM (vTPM) in 10 Minutes](https://youtu.be/RzOx8FxLHf8) -- if you are new to the idea of vTPM and key providers, start here. It'll take 12 minutes (Bob lied about the length).
 2. Try it in your test environment. Set up a Native Key Provider, then add a vTPM to a VM. Did it work? Probably. If not, you probably checked the "Require TPM" box and your hosts don't have TPMs. Delete the key provider, and restore it from the backup .P12 file again. Don't check that box this time, though.
-3. You and others in your organization have questions now. Read through the Q&A below. 
-4. Watch [Virtual TPM (vTPM) Deep Dive](https://youtu.be/ddN4OftmddM) for more information. It's about 20 minutes.
+3. Install a guest OS like Windows 11. vMotion that guest between two ESX hosts. Should be 100% uneventful.
+4. Read through the Q&A below to answer all the rest of the questions.
+5. Watch [Virtual TPM (vTPM) Deep Dive](https://youtu.be/ddN4OftmddM) for more information. It's about 20 minutes.
 
 ## Documentation
 
 - [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0.html) -- you will want the sections on:
-- [Securing Virtual Machines with Virtual Trusted Platform Module](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/securing-virtual-machines-with-virtual-trusted-platform-module.html) and
-- [Configuring and Managing vSphere Native Key Provider](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-vsphere-native-key-provider.html), or the section on [Standard Key Providers](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-a-standard-key-provider.html) if that's how you would like to proceed (a Standard Key Provider is a connection to an external key management system, such as a Hardware Security Module (HSM) or a cloud-based key management service).
+-- [Securing Virtual Machines with Virtual Trusted Platform Module](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/securing-virtual-machines-with-virtual-trusted-platform-module.html) and
+-- [Configuring and Managing vSphere Native Key Provider](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-vsphere-native-key-provider.html), or the section on [Standard Key Providers](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-a-standard-key-provider.html) if that's how you would like to proceed (a Standard Key Provider is a connection to an external key management system, such as a Hardware Security Module (HSM) or a cloud-based key management service).
 
 ## Questions & Answers
 
@@ -34,9 +35,9 @@ Use of VM Encryption beyond vTPM may require additional licensing.
 
 No. You only need a key provider, such as Native Key Provider, to use a vTPM.
 
-### Can I use vTPM on a VM on a standalone ESXi host?
+### Can I use vTPM on a VM on a standalone ESX host?
 
-No. vTPM relies on VM Encryption which is enabled when ESXi is managed by vCenter Server, as part of VMware vSphere.
+Yes. Organizations must use vCenter to manage ESX and Native Key Provider, and hosts must be inside a vSphere cluster object. However, you can put a single host inside a vCenter cluster object.
 
 ### What is an endorsement key?
 
@@ -50,7 +51,7 @@ The EK can be used in a privacy-sensitive way by creating an "endorsement key ce
 
 ### What is a storage root key?
 
-Note: Organizations using VMware infrastructure products do not need to manage this key, as ESXi will handle it upon installation and first boot. Guest operating systems will also handle this automatically as part of the OS installation process when using a vTPM.
+Note: Organizations using VMware infrastructure products do not need to manage this key, as ESX will handle it upon installation and first boot. Guest operating systems will also handle this automatically as part of the OS installation process when using a vTPM.
 
 The Storage Root Key (SRK) in a TPM 2.0 is a key hierarchy that is created when the TPM is first initialized, or when it's reset. It is derived from a primary seed unique to the TPM and is embedded within the device. This key hierarchy, or tree, is anchored by the SRK.
 
@@ -60,7 +61,7 @@ The SRK essentially enables the TPM to securely generate, store, and handle cryp
 
 ### My hosts do not have physical TPM 2.0 devices. Can I still use virtual TPM (vTPM)?
 
-Yes. vTPMs have nothing to do with a physical TPM, aside from sharing the name “TPM.” The physical TPM is used exclusively by ESXi and is not accessible by VMs. To enable vTPMs, you simply need to configure a key provider in vSphere, and then add a vTPM to a VM.
+Yes. vTPMs have nothing to do with a physical TPM, aside from sharing the name “TPM.” The physical TPM is used exclusively by ESX and is not accessible by VMs. To enable vTPMs, you simply need to configure a key provider in vSphere, and then add a vTPM to a VM.
 
 ### Is vTPM host hardware-dependent, or can it be implemented on any VMware virtualization platform?
 
@@ -80,7 +81,15 @@ No. While other hypervisors use “passthrough” TPMs where they store VM secre
 
 ### Do I need hardware TPMs to use vTPM?
 
-No, you do not need hardware TPMs to use vTPM. Although hardware TPMs are inexpensive and significantly improve the security of ESXi, they are strongly recommended but not required for vTPM usage.
+No, you do not need hardware TPMs to use vTPM. Although hardware TPMs are inexpensive and significantly improve the security of ESX, they are strongly recommended but not required for vTPM usage.
+
+### Why are there six questions about requiring hardware TPMs?
+
+Because it's the number one thing people ask, in a variety of ways.
+
+VMware vSphere abstracts physical hardware from workloads so that workloads can be portable and run on any physical server. This applies to vTPM as well.
+
+Should you order your next set of servers with hardware TPMs? Yes. Is it required for vTPM? No.
 
 ### Does the functionality of vTPM depend on the version of vSphere?
 
@@ -97,10 +106,10 @@ A variety of things might need to be checked:
 *   Have you configured a key provider?
 *   Have you set a default key provider?
 *   If you are using Native Key Provider, have you backed up the key provider?
-*   If you are using Native Key Provider, have you chosen the “Use key provider only with TPM protected ESXi hosts” option? If you did this Native Key Provider will only push support to the hosts with a hardware TPM. If your hosts do not have a hardware TPM then they cannot participate, and you will have issues. Ensure you have the backup file for the Native Key Provider instance, delete the instance, and restore it from the backup but do not check that box this time (yes, it says recommended, but that is only if you have the required hardware). You’ll see “TPM2 Device is Required” in the system logs when this happens.
+*   If you are using Native Key Provider, have you chosen the “Use key provider only with TPM protected ESX hosts” option? If you did this Native Key Provider will only push support to the hosts with a hardware TPM. If your hosts do not have a hardware TPM then they cannot participate, and you will have issues. Ensure you have the backup file for the Native Key Provider instance, delete the instance, and restore it from the backup but do not check that box this time (yes, it says recommended, but that is only if you have the required hardware). You’ll see “TPM2 Device is Required” in the system logs when this happens.
 *   Is the guest OS set to an option that supports vTPM? When in doubt, try setting the VM to be Windows Server 2019 to see if Trusted Platform Module appears as an option.
 
-To troubleshoot the absence of a Trusted Platform Module option in your VM settings, ensure proper key provider configuration, compatibility with guest OS, and avoid restricting Native Key Provider to TPM-protected ESXi hosts if lacking required hardware.
+To troubleshoot the absence of a Trusted Platform Module option in your VM settings, ensure proper key provider configuration, compatibility with guest OS, and avoid restricting Native Key Provider to TPM-protected ESX hosts if lacking required hardware.
 
 ### What is the maximum number of virtual machines that can have vTPMs?
 
@@ -164,9 +173,9 @@ Yes, the Virtual Trusted Platform Module (vTPM) implements the TPM 2.0 specifica
 
 No, vTPMs are not backed by hardware, but they function identically to a “real” hardware TPM 2.0 device. Everything a workload can do with physical TPM hardware is possible with the vTPM as well.
 
-### How many VMs with vTPMs can I have on one physical ESXi host?
+### How many VMs with vTPMs can I have on one physical ESX host?
 
-You can have as many VMs with virtual Trusted Platform Modules (vTPMs) as you like on one physical ESXi host. The vTPM has no direct limitations related to the physical host.
+You can have as many VMs with virtual Trusted Platform Modules (vTPMs) as you like on one physical ESX host. The vTPM has no direct limitations related to the physical host.
 
 ### Is a vTPM required for Windows 11?
 
@@ -182,13 +191,13 @@ Yes, you are not required to encrypt the VM disks in order to add a vTPM.
 
 ### What is the impact of adding a vTPM on a VM's performance?
 
-A vTPM is a low I/O device, so it has minimal impact on performance. However, there may be a slight increase in boot times due to the additional security measures being implemented. If a VM is encrypted, its swap files will also be encrypted. This may cause additional CPU overhead if the VM's memory is being paged to disk by ESXi due to resource overcommitment.
+A vTPM is a low I/O device, so it has minimal impact on performance. However, there may be a slight increase in boot times due to the additional security measures being implemented. If a VM is encrypted, its swap files will also be encrypted. This may cause additional CPU overhead if the VM's memory is being paged to disk by ESX due to resource overcommitment.
 
 ### Does a vTPM slow my workload down?
 
 A vTPM is such a low I/O device that, practically speaking, you won’t notice any performance difference. Guest OSes rarely access the TPM. Boot times may increase very slightly.
 
-When you encrypt a VM the swap files will also be encrypted, too. As such, there may be additional CPU overhead if your VM’s memory is being paged to disk by ESXi due to resource overcommitment.
+When you encrypt a VM the swap files will also be encrypted, too. As such, there may be additional CPU overhead if your VM’s memory is being paged to disk by ESX due to resource overcommitment.
 
 ### How fast is a vTPM?
 
@@ -206,7 +215,7 @@ There are many use cases for an exact copy of the original VM, including recover
 
 ### What is the configuration parameter to control the default behavior of vTPM cloning?
 
-The vCenter Server parameter vpxd.clone.tpmProvisionPolicy can be set to "copy" or "replace" to control the default behavior when cloning virtual machines with vTPMs.
+The vCenter parameter vpxd.clone.tpmProvisionPolicy can be set to "copy" or "replace" to control the default behavior when cloning virtual machines with vTPMs.
 
 ### Do VMware Workspace ONE, VMware Horizon, and Citrix virtual desktop products support vTPM?
 
@@ -240,7 +249,7 @@ No. The default vTPM will contain certificates that are compatible with supporte
 
 ### What are the default vTPM certificates and how do they get installed?
 
-The certificates and keypairs that are populated into the vTPM by default are provided by the VMware Certificate Authority, a component of vCenter Server that manages the certificates for a vSphere cluster. This is a one-time event, done at vTPM instantiation, and includes the endorsement key which serves as the root of the unique identity for the TPM. The VMware Certificate Authority does not store or persist the certificates or keys in any way.
+The certificates and keypairs that are populated into the vTPM by default are provided by the VMware Certificate Authority, a component of vCenter that manages the certificates for a vSphere cluster. This is a one-time event, done at vTPM instantiation, and includes the endorsement key which serves as the root of the unique identity for the TPM. The VMware Certificate Authority does not store or persist the certificates or keys in any way.
 
 ### Can I replace the certificates in the vTPM?
 
