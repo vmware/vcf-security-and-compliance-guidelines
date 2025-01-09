@@ -6,7 +6,7 @@ Documents here intend to help organizations who are implementing DORA compliance
 
 ## Broadcom Resources
 
-- [EU Digital Operational Resilience Act - VCF 5.2 Product Applicability Guide](<https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/regulatory-compliance/cloud-foundation/5.2/dora/VCF%20Product%20Applicability%20Guide%20-%20EU%20Digital%20Operational%20Resilience%20Act%20(DORA)%20-%2020241212.pdf?raw=true>) - Direct PDF Download
+- [EU Digital Operational Resilience Act - VCF 5.2 Product Applicability Guide](<https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/regulatory-compliance/cloud-foundation/5.2/dora/VCF Product Applicability Guide - EU Digital Operational Resilience Act (DORA) - 20241212.pdf?raw=true>) - Direct PDF Download
 
 ## External Resources
 
