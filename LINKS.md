@@ -3,11 +3,13 @@ As VMware documentation and resources are assimilated into Broadcom links will c
 
 * [https://brcm.tech/vcf-security](https://brcm.tech/vcf-security)
 * [https://brcm.tech/vcf-scg](https://brcm.tech/vcf-scg)
+* [https://brcm.tech/vcf-compliance](https://brcm.tech/vcf-compliance)
 
 which redirect to
 
 * [https://github.com/vmware/vcf-security-and-compliance-guidelines/](https://github.com/vmware/vcf-security-and-compliance-guidelines/)
 * [https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide)
+* [https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/regulatory-compliance](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/regulatory-compliance)
 
 respectively. There are older bit.ly links that are being phased out in favor of the brcm.tech links. Organizations which block bit.ly links often do not comprehensively block HTTP 301/302 redirects and may be able to use brcm.tech instead.
 
