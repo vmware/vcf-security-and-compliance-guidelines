@@ -1,50 +1,89 @@
-# Encrypted vMotion Frequently Asked Questions | VMware
+# Encrypted vMotion
 
-VMware vSphere Encrypted vMotion protects VMs as they live-migrate between ESXi hosts using vMotion. This is a collection of common questions asked of VMware.
+VMware vSphere Encrypted vMotion protects VMs as they live-migrate between ESX hosts using vMotion.
 
-Questions
----------
+## How to Get Started
+
+Each virtual machine has a setting for vMotion, controlling the encryption. By default it is set to 'Opportunistic' which means that it will encrypt the VM if the CPU on the host supports AES-NI (which all currently supported x64 CPUs do). You can configure it to 'Required' which will guarantee the use of encryption, or also 'Disabled' which will disable encryption.
+
+You can also configure vMotion encryption settings in bulk using PowerCLI:
+
+foreach ($VM in Get-VM) {
+    $VMview = Get-View -VIObject $VM
+    $ConfigSpec = New-Object VMware.Vim.VirtualMachineConfigSpec
+    $ConfigSpec.MigrateEncryption = New-Object VMware.Vim.VirtualMachineConfigSpecEncryptedVMotionModes
+    $ConfigSpec.MigrateEncryption = "required"
+    $VMview.ReconfigVM_Task($ConfigSpec)
+}
+
+## Documentation
+
+- [What Is Encrypted vSphere vMotion](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vcenter-and-host-management-8-0/migrating-virtual-machines-host-management/encrypted-vsphere-vmotion-host-management.html)
+
+## Questions & Answers
 
 ### Do I need a KMS for Encrypted vMotion?
 
-No. Encrypted vMotion does not use a KMS, as the encryption keys used are ephemeral and not stored anywhere except temporarily in memory of vCenter Server and the two ESXi hosts involved.
+No. Encrypted vMotion does not use a KMS, as the encryption keys used are ephemeral and not stored anywhere except temporarily in memory of vCenter and the two ESX hosts involved.
 
 ### How does this impact VM performance?
 
-There is [a great paper from the VMware Performance team](https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/techpaper/performance/encrypted-vmotion-vsphere65-perf.pdf) on the effects of Encrypted vMotion on system performance. It was written for vSphere 6.5 but the findings still hold today, and newer CPUs help mitigate the effect even more. In short, there is CPU overhead, but it’s only while the vMotion is occurring, and it is minimal.
+There is [a paper from the VMware Performance team](https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/techpaper/performance/encrypted-vmotion-vsphere65-perf.pdf) on the effects of Encrypted vMotion on system performance. It was written for vSphere 6.5 but the findings still hold today, and newer CPUs help mitigate the effect even more. In short, there is CPU overhead, but it’s only while the vMotion is occurring, and it is minimal.
 
 ### What additional components do I need to enable Encrypted vMotion?
 
-Nothing – Encrypted vMotion is a native part of vSphere and can be enabled directly on VMs.
+Nothing. Encrypted vMotion is a native part of Cloud Foundation and vSphere and can be enabled directly on VMs.
+
+### If I use encrypted vMotion, do I still need to have an isolated vMotion network?
+
+There are several reasons why having a separate network segment for vMotion can be a good idea:
+
+1. It can help prevent vMotion traffic from being routed through the management network, which can be a security risk. In fact, you can make the VLAN you use a "non-routable" VLAN, which will prevent traffic from being able to exit or enter. This may have implications for cross-vCenter vMotion, though.
+2. It can help administrators manage the vMotion traffic, which might aid in troubleshooting network performance issues. However, Network I/O Control can also be used to apply QoS policies to vMotion traffic.
+3. A separate network segment could have DHCP enabled, which would allow the vMotion interfaces to automatically obtain IP addresses and reduce some system administration overhead.
+
+Because vMotion is configurable, and can be configured to not use encryption, it is still recommended to isolate the vMotion traffic.
 
 ### Does Encrypted vMotion work with Storage vMotion?
 
-Yes – Storage vMotion continues to work in the same way.
+Yes. Storage vMotion continues to work in the same way.
 
 ### Does an encrypted VM use Encrypted vMotion?
 
-Yes – a VM that is protected with VM Encryption will require encrypted vMotion.
+Yes. A VM that is protected with VM Encryption will require encrypted vMotion.
 
 ### Can I require Encrypted vMotion for all vMotions in my cluster?
 
-Encrypted vMotion is a setting on each VM, but not at the cluster level. You can use PowerCLI to set it on all your VMs.
+Encrypted vMotion is a setting on each VM, but not at the cluster level. You can use PowerCLI to set it on all your VMs, such as the example cited above in "How to Get Started."
 
 ### How do I use vSAN Encryption with Encrypted vMotion?
 
-In exactly the same way as you would with normal vMotion – it works perfectly.
+In exactly the same way as you would with normal vMotion. It works perfectly.
 
 ### Does Encrypted vMotion cause a VM to be slower?
 
 Encrypted vMotion only happens when a VM is being migrated between hosts and does not affect VM performance at other times.
 
+### Does Encrypted vMotion cause a VM to migrate more slowly?
+
+Any use of encryption will "cost" some performance, but as vMotion is a background process, and CPU cycles are usually the most "fungible" (or "consumable") resource in a cluster, it is not a significant overhead, even for large environments, workloads, and hosts. This is especially true for vSphere 7 and later where vMotion was significantly enhanced.
+
 ### Where are the encryption keys stored?
 
-Encrypted vMotion uses a temporary, one-time 256-bit cryptographic key generated by vCenter Server and shared with the source and destination ESXi hosts for use by that single vMotion operation. After that vMotion is complete the key is discarded and never reused, and it is never stored anywhere but memory.
+Encrypted vMotion uses a temporary, one-time 256-bit cryptographic key generated by vCenter and shared with the source and destination ESX hosts for use by that single vMotion operation. After the vMotion is complete the key is discarded and never reused, and it is never stored anywhere but memory.
 
 ### How can I ensure that the encryption keys are purged from memory?
 
-Reboot the affected ESXi hosts and vCenter Server.
+Given the reality of hardware vulnerabilities and other factors in computer hardware design that may cause data in memory to be retained even when the memory is freed by ESX or vCenter, and possibly even through a reboot of the host, the only way to ensure that memory is cleared is to power cycle the environment.
+
+### How do I allow the encrypted vMotion traffic to be inspected by a network security tool?
+
+This is not supported nor recommended. Allowing a network security tool to inspect vMotion traffic means workload secrets, such as authentication tokens, private keys, and more, will be copied and stored on that system as well, which is a net decrease in security and runs afoul of a number of regulatory requirements as well as common security best practices. vMotion traffic is also quite "bursty" and can easily overwhelm a security tool's ability to analyze it.
+
+### How can I get the keys used by encrypted vMotion to allow decryption of the vMotion traffic?
+
+There is no mechanism to retrieve the keys used by encrypted vMotion.
 
 ### Does Encrypted vMotion use TLS?
 
-For performance & workload isolation reasons the transfer between ESXi hosts does not use TLS. Instead, it uses AES-GCM algorithms which are FIPS-validated. If a vMotion is between hosts managed by different vCenter Servers in Enhanced Linked Mode the vCenter Servers will protect their communications using TLS. The key distribution communications between vCenter Server and the ESXi hosts is done over a connection protected by TLS.
+No. For performance & workload isolation reasons the transfer between ESX hosts does not use TLS. Instead, it uses 256-bit AES-GCM algorithms which are FIPS-validated. If a vMotion is between hosts managed by different vCenters in Enhanced Linked Mode the vCenters will protect their communications using TLS. The key distribution communications between vCenter and the ESX hosts is done over a connection protected by TLS.
