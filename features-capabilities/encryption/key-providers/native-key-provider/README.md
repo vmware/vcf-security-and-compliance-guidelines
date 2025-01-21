@@ -1,5 +1,7 @@
 # Native Key Provider
-vSphere Native Key Provider enables data-at-rest protections such as vSAN Encryption, VM Encryption, and vTPM easily, entirely from within vSphere and Cloud Foundation.
+vSphere Native Key Provider enables data-at-rest protections such as vSAN Encryption, VM Encryption, and vTPM easily, entirely from within vSphere and Cloud Foundation. It is a key provider that is built into vSphere and Cloud Foundation, and is not a separate product. You can also use the "Standard Key Provider" to connect to an external KMS, if you prefer.
+
+The other key provider option is the Standard Key Provider. Please visit [Key Providers in VMware vSphere and VMware Cloud Foundation](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/key-providers) for more information.
 
 ## How to Get Started
 
@@ -10,6 +12,13 @@ vSphere Native Key Provider enables data-at-rest protections such as vSAN Encryp
 
 ## Documentation
 
+- [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0.html) -- you will want the section on:
+- [Configuring and Managing vSphere Native Key Provider](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-vsphere-native-key-provider.html), 
+
+## Code Samples
+
+You can find sample scripts pertaining to Native Key Provider in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory.
+
 ## Questions & Answers
 
 ### Is Native Key Provider suitable for production environments?
@@ -18,7 +27,7 @@ Yes, Native Key Provider is fully supported and ready to be used in all types of
 
 ### Is Native Key Provider a KMS?
 
-Native Key Provider is designed specifically for encryption in vSphere and is not a Key Management System (KMS), therefore it doesn't support KMIP or other protocols for key interchange.
+No. Native Key Provider is designed specifically for encryption in vSphere and is not a Key Management System (KMS), therefore it doesn't support KMIP or other protocols for key interchange.
 
 ### Can I use Native Key Provider with my external devices, like my tape library or storage array?
 
@@ -30,15 +39,15 @@ No. Native Key Provider is available as part of all versions of vSphere and Clou
 
 ### What version of vSphere do I need to use Native Key Provider?
 
-Both vCenter Server and ESXi need to be at vSphere 7 Update 2 or newer.
+Both vCenter and ESX need to be at vSphere 7 Update 2 or newer.
 
-### Can I use Native Key Provider with vSphere 6.7 if I update vCenter Server to version 7 or 8?
+### Can I use Native Key Provider with vSphere 6.7 if I update vCenter to version 7 or 8?
 
-No. Both vCenter Server and ESXi need to be at vCenter Server 7 Update 2 or later. We strongly recommend running the latest versions of supported products.
+No. Both vCenter and ESX need to be at vCenter 7 Update 2 or later. We strongly recommend running the latest versions of supported products.
 
 ### Are there more requirements to use Native Key Provider?
 
-You must log into the vSphere Client using the FQDN of the vCenter Server, you must back the Native Key Provider instance up before it will let you use it, and you must set a default key provider. Please review [the documentation](https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-security/GUID-54B9FBA2-FDB1-400B-A6AE-81BF3AC9DF97.html) for more information about requirements.
+You must log into the vSphere Client using the FQDN of the vCenter, you must back the Native Key Provider instance up before it will let you use it, and you must set a default key provider. Please review [the documentation](https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-security/GUID-54B9FBA2-FDB1-400B-A6AE-81BF3AC9DF97.html) for more information about requirements.
 
 ### I’m having trouble enabling Native Key Provider. What should I look at?
 
@@ -49,15 +58,17 @@ Native Key Provider is easy to use, but there are some things to check if you ar
 *   Is the host in a cluster? Standalone hosts cannot participate in Native Key Provider unless they are inside a cluster. However, you can create a cluster with just one host in it.
 *   Are you accessing the vSphere Client via a FQDN? You will not be able to export the Native Key Provider backup if you are accessing the vSphere Client via IP address.
 *   Did you indicate that only hosts with a TPM should participate in Native Key Provider, but you have hosts without a TPM?
-*   Do you have multiple vCenter Servers configured with independent Native Key Provider instances, but they are all named identically?
+*   Do you have multiple vCenters configured with independent Native Key Provider instances, but they are all named identically?
 
 ### Can I move from Native Key Provider to another key provider, or vice-versa?
 
 Yes. Define a new key provider, set it as the new default provider for the cluster, and then use the UI or PowerCLI to shallow rekey/re-encrypt to the new provider (instructions for rekeying are below). This will cause vSphere to re-encrypt the DEKs with a new KEK from the new key provider. A similar process is available for vSAN, too (also below).
 
+There is a sample script available in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory that can be used to change key providers.
+
 ### Can I use Native Key Provider with a standalone host?
 
-Organizations must use vCenter Server to manage Native Key Provider, and hosts must be inside a vSphere cluster object. However, you can put a single host inside a vCenter Server cluster object.
+Organizations must use vCenter to manage Native Key Provider, and hosts must be inside a vSphere cluster object. However, you can put a single host inside a vCenter cluster object.
 
 ### Can I use Native Key Provider with vSAN?
 
@@ -69,17 +80,17 @@ No; vSphere Trust Authority requires a Standard Key Provider (KMS).
 
 Native Key Provider has the same virtual machine scalability maximums as vSphere. See the [VMware Configuration Maximum tool](https://configmax.broadcom.com/).
 
-### Do I need a Trusted Platform Module 2.0 (TPM) for my ESXi hosts?
+### Do I need a Trusted Platform Module 2.0 (TPM) for my ESX hosts?
 
-While we recommend a TPM, one is not required to use Native Key Provider. If a TPM 2.0 is available and configured on the host it will be used to store the Native Key Provider keys. If one is not configured, the Native Key Provider keys will be stored as part of the encrypted ESXi configuration data.
+While we recommend a TPM, one is not required to use Native Key Provider. If a TPM 2.0 is available and configured on the host it will be used to help protect the Native Key Provider keys as part of the ESX host encrypted configuration data.
 
 ### Can I use TPM 1.2 for Native Key Provider?
 
 No. Support for TPM 1.2 is deprecated in vSphere 7 and removed in vSphere 8.
 
-### What happens if check “Use key provider only with TPM protected ESXi hosts” and I do not have a TPM on my host?
+### What happens if check “Use key provider only with TPM protected ESX hosts” and I do not have a TPM on my host?
 
-If you leave the default “Use key provider only with TPM protected ESXi hosts” option selected, hosts without TPMs will not participate in Native Key Provider. When you attempt cryptographic operations on a virtual machine on those hosts they will fail.
+If you leave the default “Use key provider only with TPM protected ESX hosts” option selected, hosts without TPMs will not participate in Native Key Provider. When you attempt cryptographic operations on a virtual machine on those hosts they will fail.
 
 ### If I have a cluster where some hosts have TPMs and some don’t, what happens if I only deploy to the TPM-enabled hosts?
 
@@ -87,11 +98,11 @@ If you only deploy to TPM-enabled hosts in a non-homogenous cluster there may be
 
 ### If I have a cluster where some hosts have TPMs and some don’t, will the TPM-enabled hosts use the TPM by default?
 
-Yes, if a host has a TPM installed and configured it will be used to store ESXi secrets such as the Native Key Provider KDK.
+Yes, if a host has a TPM installed and configured it will be used to store ESX secrets such as the Native Key Provider KDK.
 
 ### Are there situations where Native Key Provider might not be suitable for use?
 
-Threats and risks are something that organizations must assess for themselves when designing systems and organizational processes. However, one area of consideration is often around physical security of hosts. Since Native Key Provider stores decryption keys locally on ESXi hosts, an attacker that steals a host may still be able to unlock encrypted VMs and vSAN datastores. If physical security is a concern then Standard Key Providers configured to access a remote KMS may be a better solution, depending on your threat models, risks, and such.
+Threats and risks are something that organizations must assess for themselves when designing systems and organizational processes. However, one area of consideration is often around physical security of hosts. Since Native Key Provider stores decryption keys locally on ESX hosts, an attacker that steals a host may still be able to unlock encrypted VMs and vSAN datastores. If physical security is a concern then Standard Key Providers configured to access a remote KMS may be a better solution, depending on your threat models, risks, and such.
 
 ### What vSphere license do I need for Native Key Provider?
 
@@ -107,11 +118,11 @@ VM Encryption, vTPM, and vSAN Encryption work with Native Key Provider.
 
 vSphere Trust Authority, the feature that lets you create a trusted computing base with a separate vSphere cluster, currently requires the standard key provider.
 
-### Does ESXi Configuration Encryption require Native Key Provider?
+### Does ESX Configuration Encryption require Native Key Provider?
 
-ESXi Configuration Encryption does not use Native Key Provider. It uses the same encryption libraries present in vSphere but handles encryption operations itself, in order to manage and avoid dependencies at cluster startup.
+ESX Configuration Encryption does not use Native Key Provider. It uses the same encryption libraries present in vSphere but handles encryption operations itself, in order to manage and avoid dependencies at cluster startup.
 
-### Is the ESXi configuration encryption key stored in Native Key Provider?
+### Is the ESX configuration encryption key stored in Native Key Provider?
 
 No. It’s the opposite – the Native Key Provider KDK is stored in the encrypted configuration. If a TPM is present and configured it will be used to help protect the encrypted configurations.
 
@@ -121,7 +132,7 @@ No, the VMCA and its certificate operations do not use Native Key Provider, thou
 
 ### Does Encrypted vSphere vMotion require Native Key Provider?
 
-No. It uses the same underlying encryption libraries in vSphere, but it handles encryption operations itself. The keys used for vMotion Encryption are one-time use keys known as “nonces.” The vMotion encryption keys are ephemeral and not stored anywhere except temporarily in memory of vCenter Server and the two ESXi hosts involved.
+No. It uses the same underlying encryption libraries in vSphere, but it handles encryption operations itself. The keys used for vMotion Encryption are one-time use keys known as “nonces.” The vMotion encryption keys are ephemeral and not stored anywhere except temporarily in memory of vCenter and the two ESX hosts involved.
 
 ### Does vMotion work for virtual machines that are encrypted?
 
@@ -153,7 +164,9 @@ KDK stands for Key Derivation Key. Native Key Provider uses a key derivation fun
 
 ### Where do hosts keep the KDK?
 
-The Native Key Provider KDK is stored in a TPM, if the host has one, or as part of the ESXi encrypted configuration if the host does not have a TPM. When you configure the Native Key Provider, you can choose if you want to permit hosts without TPMs to participate.
+The Native Key Provider KDK is stored in the ESX encrypted configuration. If the host has a TPM, the encrypted configuration will be encrypted with a key stored in the TPM. If a host does not have a TPM, the encrypted configuration's key will be stored in a file on the host.
+
+When you configure the Native Key Provider, you can choose if you want to permit hosts without TPMs to participate.
 
 ### Do I need to back up the Native Key Provider instance?
 
@@ -161,15 +174,15 @@ Yes, a backup of the Native Key Provider instance must be made before the key pr
 
 ### Can the backups of key providers be automated?
 
-Yes, you can use the vSphere APIs to trigger the backup, or use the vCenter Server File-Based Backup & Restore function, which also backs up key provider data as part of the overall vCenter Server backup.
+Yes, you can use the vSphere APIs to trigger the backup, or use the vCenter File-Based Backup & Restore function, which also backs up key provider data as part of the overall vCenter backup.
 
 ### Are key provider backups secure?
 
-Native Key Provider backups allow for a password to be set on the exported file. Beyond that, security and availability of the backup files and/or the vCenter Server File-Based Backups are a design exercise for customers.
+Native Key Provider backups allow for a password to be set on the exported file. Beyond that, security and availability of the backup files and/or the vCenter File-Based Backups are a design exercise for customers.
 
-### What keys are contained in the vCenter Server backups?
+### What keys are contained in the vCenter backups?
 
-The Native Key Provider KDK is in the vCenter Server backup, as is authentication information for standard key providers, and all sorts of other authentication information for vSphere SSO and such. It has always been important that you write this backup to a secure location.
+The Native Key Provider KDK is in the vCenter backup, as is authentication information for standard key providers, and all sorts of other authentication information for vSphere SSO and such. It has always been important that you write this backup to a secure location.
 
 ### Can I have more than one Native Key Provider?
 
@@ -177,13 +190,13 @@ Yes, you can have more than one Native Key Provider instance. However, only one 
 
 ### How does Native Key Provider work with Enhanced Linked Mode (ELM)?
 
-Key providers only serve hosts that are directly attached to a vCenter Server, and are not automatically replicated between the vCenter Servers that participate in Enhanced Linked Mode. Configure the individual vCenter Server key providers separately.
+Key providers only serve hosts that are directly attached to a vCenter, and are not automatically replicated between the vCenters that participate in Enhanced Linked Mode. Configure the individual vCenter key providers separately.
 
-### I have many vCenter Servers. Should I configure them all with different Native Key Provider instances, or should I export one and import it everywhere else?
+### I have many vCenters. Should I configure them all with different Native Key Provider instances, or should I export one and import it everywhere else?
 
 This is a design decision on your part, but both options are supported. If you want to use Cross-vCenter vMotion to migrate encrypted workloads between clusters you will need the same key provider configured on both the source and the destination. If you choose to configure separate Native Key Provider instances ensure that their names are unique, so that future name collisions do not occur if you restore a backup of an Native Key Provider instance.
 
-### Are there problems with using the same Native Key Provider instance on all vCenter Servers?
+### Are there problems with using the same Native Key Provider instance on all vCenters?
 
 This is supported. All environments are different, and any potential risks involved in using the same cryptographic keys in all locations should be modeled with the help of your own information security experts. It is worth noting that, if a Native Key Provider KDK is compromised, it is straightforward to create a new Native Key Provider instance, import it elsewhere, set as the default, and have all the virtual machines rekeyed to the new instance using PowerCLI, while the workloads are running.
 
@@ -216,10 +229,11 @@ foreach ($vm in Get-VM) {
 
 ```
 
-
 You can use the vSphere API directly from a variety of languages. For more information visit [https://developer.vmware.com](https://developer.vmware.com/).
 
 Shallow rekeys can be done while the VM is powered on. The guest OS will never know!
+
+You can find relevant scripts in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory.
 
 ### How do I do a “deep rekey” of a VM?
 
@@ -235,6 +249,8 @@ Set-VM -VM $vm -KeyProvider $keyprovider -SkipHardDisks
 You can use the vSphere API directly from a variety of languages. For more information visit [https://developer.vmware.com](https://developer.vmware.com/).
 
 Deep rekeys must be done with the VM powered off.
+
+You can find relevant scripts in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory.
 
 ### How can I rekey vSAN datastores?
 
@@ -255,6 +271,7 @@ foreach ($cluster in Get-Cluster) {
 
 ```
 
+You can find relevant scripts in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory.
 
 ### How can I tell if a VM is using Native Key Provider?
 
@@ -269,10 +286,11 @@ foreach ($VM in Get-VM) {
 
 ```
 
+You can find relevant scripts in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory.
 
-### If I move a host with encrypted virtual machines on it to another vCenter Server, what will happen?
+### If I move a host with encrypted virtual machines on it to another vCenter, what will happen?
 
-vCenter Server synchronizes and remediates key provider configurations every five minutes by default, controlled by the vpxd.KMS.remediationInterval vCenter Server advanced option. This means there is a short time where everything may appear to continue to work, but that may be deceptive.
+vCenter synchronizes and remediates key provider configurations every five minutes by default, controlled by the vpxd.KMS.remediationInterval vCenter advanced option. This means there is a short time where everything may appear to continue to work, but that may be deceptive.
 
 If the same Native Key Provider instance is configured in both locations everything will continue to work. If not, and the virtual machines are running, they will continue running, but once those virtual machines are powered off, they will be unable to power on again until the correct key provider is imported.
 
@@ -282,11 +300,11 @@ After this move, we suggest re-encrypting/re-keying virtual machines to your pre
 
 ### I use Site Recovery Manager. What considerations are there to ensure encrypted virtual machines can run on the DR site?
 
-When using Site Recovery Manager, you must configure both vCenter instances with the same vSphere Native Key Provider key encryption key (KEK). This requires you to export the vSphere Native Key Provider from one vCenter instance and import it into the DR vCenter instance. For more see [Site Recovery Manager and Virtual Machine Encryption](https://docs.vmware.com/en/Site-Recovery-Manager/8.6/com.vmware.srm.admin.doc/GUID-6B3A7686-E0AD-47F5-8C3A-501F479E27C8.html).
+When using Site Recovery Manager, you must configure both vCenter instances with the same vSphere Native Key Provider. This requires you to export the vSphere Native Key Provider from one vCenter instance and import it into the DR vCenter instance. For more see [Site Recovery Manager and Virtual Machine Encryption](https://docs.vmware.com/en/Site-Recovery-Manager/8.6/com.vmware.srm.admin.doc/GUID-6B3A7686-E0AD-47F5-8C3A-501F479E27C8.html).
 
-### Does VMware vCenter Server HA support Native Key Provider?
+### Does VMware vCenter HA support Native Key Provider?
 
-Yes. vCenter Server HA is not considered a backup strategy, so please back up the Key Derivation Key as instructed when you created the Native Key Provider instance.
+Yes. vCenter HA is not considered a backup strategy, so please back up the Key Derivation Key as instructed when you created the Native Key Provider instance.
 
 ### Can I have both a Native Key Provider and a Standard Key Provider?
 
@@ -322,19 +340,21 @@ Whether you should delete them or not is up to you. The backup key files (.p12 f
 
 ### How do I tell which virtual machines are using a key provider?
 
-There is currently no method to tell which virtual machines are using a key provider except by examining the .vmx file for each virtual machine. To work around this we suggest setting the default key provider as you desire, then doing a re-encrypt on the virtual machines to ensure they’re using the key provider you want.
+This information is visible in the virutal machine summary tab in vCenter. You can also use PowerCLI to retrieve this information. An example of this process is provided in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory.
 
-### What FIPS 140-2 levels does Native Key Provider support?
+### What FIPS 140-3 levels does Native Key Provider support?
 
-FIPS 140-2 defines different “levels” of requirements. Levels 2 through 4 require tamper-evident physical devices. As shipped by VMware, Native Key Provider is a completely software-based solution and does not involve devices. Therefore, it meets Level 1 requirements, as vSphere does.
+FIPS 140-3 defines different “levels” of requirements. Levels 2 through 4 require tamper-evident physical devices. As shipped by VMware, Native Key Provider is a completely software-based solution and does not involve devices. Therefore, it meets Level 1 requirements, as vSphere does.
 
 ### Is Native Key Provider certified for use with PCI DSS, HIPAA, NIST 800-53, ISO 27001, etc.?
 
-Native Key Provider is often used to meet data-at-rest requirements found in a variety of regulatory compliance frameworks. Compliance certification happens against implementations of software, not the software itself, and will depend on the design and implementation decisions you make when building your environment. Please consult your compliance auditors for more information about how system design choices may affect your compliance goals.
+Native Key Provider is often used to meet data-at-rest requirements found in a variety of regulatory compliance frameworks. Compliance certification happens against implementations of software, not the software itself, and will depend on the design and implementation decisions you make when building your environment. That said, numerous environments that are subject to regulatory compliance have been built using Native Key Provider.
+
+Please consult your compliance auditors for more information about how system design choices may affect your compliance goals.
 
 ### I replicate to a DR site; how will I decrypt my replicated virtual machines?
 
-You can import the Native Key Provider backup into the DR site vCenter Server. That will allow that cluster to decrypt and run the encrypted virtual machines. We recommend testing it prior to an incident, of course. Ensure that a copy of the key provider backup is also available to the DR site.
+You can import the Native Key Provider backup into the DR site vCenter. That will allow that cluster to decrypt and run the encrypted virtual machines. We recommend testing it prior to an incident, of course. Ensure that a copy of the key provider backup is also available to the DR site.
 
 ### Is Native Key Provider available in VMware Cloud on AWS SDDCs?
 
@@ -352,13 +372,13 @@ Key provider configurations in an SDDC are not currently available for customer 
 
 If you delete the key provider that was the default, you will not have a new default until you assign one (we do not have enough information to safely assign a new default so we leave it to an administrator to do). There should always be a default key provider configured.
 
-### Are encryption keys persisted across ESXi reboots?
+### Are encryption keys persisted across ESX reboots?
 
-Functionally yes. Because the ESXi host has the Key Derivation Key stored as part of its configuration it can operate independently.
+Functionally yes. Because the ESX host has the Key Derivation Key stored as part of its configuration it can operate independently.
 
-### Do I need to enable ESXi Key Persistence to use Native Key Provider?
+### Do I need to enable ESX Key Persistence to use Native Key Provider?
 
-No – ESXi Key Persistence is a separate feature that, in effect, caches encryption keys from a standard key provider (not a Native Key Provider) on a host using the host’s Trusted Platform Module. While Native Key Provider does something similar, it does not use the Key Persistence feature, and does not require the feature to be enabled.
+No – ESX Key Persistence is a separate feature that, in effect, caches encryption keys from a standard key provider (not a Native Key Provider) on a host using the host’s Trusted Platform Module. While Native Key Provider does something similar, it does not use the Key Persistence feature, and does not require the feature to be enabled.
 
 Key Persistence is disabled by default, and the use cases for the feature are limited. Most organizations should not enable Key Persistence without thoroughly examining their threat models and risks.
 
@@ -378,22 +398,42 @@ No.
 
 No, they are a fixed length and cannot be altered.
 
-### What impact is there to encrypted virtual machines if vCenter Server is offline?
+### What impact is there to encrypted virtual machines if vCenter is offline?
 
-There is no immediate impact to encrypted virtual machines while vCenter Server is offline. When using a properly configured Native Key Provider, each ESXi host in a cluster has a copy of the KDK stored and can operate independently.
+There is no immediate impact to encrypted virtual machines while vCenter is offline. When using a properly configured Native Key Provider, each ESX host in a cluster has a copy of the KDK stored and can operate independently.
 
 ### How are Native Key Provider keys protected in transit?
 
-All management communications between vCenter Server and ESXi are protected with TLS.
+All management communications between vCenter and ESX are protected with TLS.
 
 ### How are Native Key Provider keys protected at rest?
 
-The Native Key Provider KDK is stored in the ESXi encrypted configuration. If a TPM is present and configured it will be used to help protect the encrypted configuration.
+The Native Key Provider KDK is stored in the ESX encrypted configuration. If a TPM is present and configured it will be used to help protect the encrypted configuration.
 
 ### In theory, could an attacker get the Key Derivation Key from the VCSA VMDK, then be able to decrypt all the VMs that are on the same cluster?
 
-The Native Key Provider key derivation key is stored in the VCSA. It is also stored on the hosts, in a TPM If available, or on the boot disk there, too. For someone to retrieve it from the VCSA VMDK on disk they will need administrative access to the vSphere cluster it resides in, which would also mean they could just log into vCenter to do whatever nefarious acts they were planning.
+The Native Key Provider key derivation key is stored in the VCSA. It is also stored on the hosts, protected by a TPM and encrypted host configuration If available, or on the boot disk there, too. For someone to retrieve it from the VCSA VMDK on disk they will need administrative access to the vSphere cluster it resides in, which would also mean they could just log into vCenter to do whatever nefarious acts they were planning.
 
 They could also retrieve it from image or file-based backups of the VCSA, too.
 
 Eventually something needs to know that key so that decryption can happen, but because of dependencies NKP has to put the key in places that also make it susceptible to theft. Standard Key Providers (using an external KMS) use a different model and don't cache the keys locally like that, though someone who has access to the VCSA VMDK could retrieve the KMS login credentials, too. Tough problem to solve because someone eventually needs to know how to get the keys. This is why VMware recommends isolation of the infrastructure management interfaces, such that access is controlled, and unauthorized access can be detected quickly.
+
+### Is there a way to recover encrypted virtual machines if the Native Key Provider is deleted?
+
+Restore the Native Key Provider from the backup .P12 file. It may also be possible to restore the key provider from a backup of the VCSA (either by restoring the backup to a temporary location and exporting the key, or directly from the vCenter database. Contact Support for assistance with this process).
+
+### What happens if vCenter is unavailable?
+
+Native Key Providers are an integral part of ESX, so encryption & decryption operations are always available to the hosts. vCenter is just the management interface, so while vCenter is unavailable changes to the key provider configuration (not a common operation) will not be possible.
+
+### Does Native Key Provider block deletion of the key provider if VMs are using it?
+
+No. You can delete a key provider that is in use. Ensure you have a backup of the key provider before you delete it, so it can be restored if needed.
+
+If virtual machines which use that key provider are running, they will continue running, but once those virtual machines are powered off, they will be unable to power on again until the correct key provider is restored.
+
+There is a sample script available in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory that can be used to audit the use of a key provider.
+
+## Disclaimer
+
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This  repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.

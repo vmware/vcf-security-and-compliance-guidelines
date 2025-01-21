@@ -15,6 +15,10 @@ Virtual Trusted Platform Module (vTPM) is a virtual version of a physical TPM 2.
 - [Securing Virtual Machines with Virtual Trusted Platform Module](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/securing-virtual-machines-with-virtual-trusted-platform-module.html) and
 - [Configuring and Managing vSphere Native Key Provider](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-vsphere-native-key-provider.html), or the section on [Standard Key Providers](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-a-standard-key-provider.html) if that's how you would like to proceed (a Standard Key Provider is a connection to an external key management system, such as a Hardware Security Module (HSM) or a cloud-based key management service).
 
+## Code Samples
+
+You can find sample scripts pertaining to vTPM in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory.
+
 ## Questions & Answers
 
 ### What is a TPM?
@@ -334,3 +338,7 @@ You cannot. The physical ESX host TPM is not accessible to VMs under any circums
 ### I need to be able to read the EK from the host TPM, to license an application.
 
 The physical ESX host TPM is not accessible to VMs under any circumstances. As ESX abstracts the physical host in nearly every way, applications which depend on physical hardware properties for licensing will not work in a virtualized environment (whether VMware, public cloud, or otherwise).
+
+## Disclaimer
+
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This  repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
