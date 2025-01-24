@@ -14,6 +14,10 @@ More questions & answers can be found below.
 
 ## Questions & Answers
 
+### Why isn't this Q&A grouped with the TLS or other encryption topics?
+
+While public key cryptography is used for establishing secure network communications, certificates are about trust, which is a distinctly different topic.
+
 ### How and when is the VMware Certificate Authority (VMCA) root certificate generated?
 
 There is not a default certificate or key pair for any component of vSphere. The necessary certificates and keys are generated when products are installed, using default parameters set by VMware Engineering.
