@@ -79,7 +79,7 @@ If one node of a KMS cluster is unavailable, vCenter will try the next node in t
 
 If all nodes in a KMS cluster are unavailable, vCenter and vSAN will not be able to complete cryptographic operations. If this is a situation where hosts are rebooting, the host will boot but have encryption mode errors, will not be able to mount vSAN datastores, and will not be able to run encrypted VMs.
 
-However, if the cluster is otherwise operational, the ESX hosts will have the keys for the VMs cached, so there will not be an immediate interruption in service.
+However, if the cluster is otherwise operational, the ESX hosts will have the keys for the VMs cached, so there will not be an immediate interruption in service. See the next answer for more detail.
 
 ### What happens if vCenter is unavailable?
 
