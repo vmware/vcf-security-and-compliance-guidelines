@@ -87,7 +87,9 @@ vSAN communicates directly with the KMS to eliminate a dependency on vCenter. If
 
 For other encryption operations, Standard Key Providers proxy connections to the external KMS through vCenter. If vCenter is unavailable new cryptographic operations will fail (adding a vTPM, encrypting vSAN, encrypting a VM, and so on). However, all ESX hosts cache the encryption keys for all encrypted objects in their memory, so workloads can continue to run, as well as power off and on, even if vCenter or the KMS is unavailable. In practice this tends to not be a problem, because if vCenter is unavailable there aren't new management operations going on anyway.
 
-The ESX encryption key cache is memory only, and by default is never written to disk or into memory dumps. If you desire, you can enable the ESX Key Persistence feature, which will store the encryption keys in the TPM-protected encrypted host configuration data. However, by doing this you make the Standard Key Provider susceptible to physical theft, just like the Native Key Provider. Someone who steals or otherwises gains access to a host with Key Persistence enabled will be able to decrypt the encrypted VMs and vSAN datastores on that host.
+When vCenter or the KMS are not available, and the cluster is otherwise operational (not rebooting due to a power outage, patching, etc.), all registered VMs will continue to operate, and can be powered on, powered off, and rebooted at will. You cannot rekey the VM, as that requires interaction with the KMS, nor can you create new encrypted VMs.
+
+The ESX encryption key cache is memory only, and by default is never written to disk or into memory dumps. If you desire, you can enable the ESX Key Persistence feature, which will store the encryption keys in the TPM-protected encrypted host configuration data. However, by doing this you make the Standard Key Provider susceptible to physical theft, just like the Native Key Provider. Someone who steals or otherwises gains access to a host with Key Persistence enabled will be able to decrypt the encrypted VMs and vSAN datastores on that host because the keys are already stored there.
 
 ### If ESX caches encryption keys, how do I clear the cache?
 
@@ -97,9 +99,42 @@ Reboot the ESX host.
 
 Yes.
 
+### How large is the communication with the KMS?
+
+The communications between the KMS and your virtual environment will depend on how many encrypted objects (VMs, etc.) you have, with more objects meaning larger communications. However, these keys are not large, so the overall amount of traffic will be relatively small by modern standards.
+
+### How frequent is the communication with the KMS?
+
+As noted in several other answers, the KMS is only communicated with when vSphere/VCF requires a new key (new encrypted VM, rekeying, enablement of vSAN data-at-rest encryption, etc.), or when a host restarts and needs to retrieve keys for the encrypted objects in its cluster. Outside of that, the only communication is health checks.
+
+### What is the maximum latency supported between a KMS and vSphere/VCF?
+
+Follow the "Maximum latency supported between vSphere client and vCenter Server" guidance found at [configmax.broadcom.com](https://configmax.broadcom.com/guest?vmwareproduct=vSphere&release=vSphere%208.0&categories=4-0). As of this update it is 100 ms.
+
+### What happens if the latency to my KMS is greater than the supported amount?
+
+Support guidance is a combination of what Broadcom has tested and reasonable guidance on what will work. It does not mean it won't work, but we will not be able to support you well if you are outside the limits and encounter problems. That said, try it, as many organizations use centralized KMS to protect remote sites. Specifically test:
+
+- Are there persistent, or intermittent, KMS health check alarms?
+- What happens when a VM is first encrypted?
+- What happens when vSAN data-at-rest encryption is enabled?
+- What happens when a VM is rekeyed?
+- What happens when vSAN is rekeyed?
+- What happens when an ESX host is restarted, and is in a cluster with a number of encrypted VMs?
+
+You might also consider placing a KMS node closer to the affected systems.
+
+There is a temptation to enable Key Persistence in these situations, but remember that Key Persistence stores decryption information on the host, which often defeats the reason you're using a remote KMS (to mitigate the situation where an attacker gains physical access to the host). If physical access control isn't an issue for you, Native Key Provider might also be an adequate solution for enabling encryption.
+
+### What firewall rules do I need between my KMS and vSphere/VCF?
+
+You need to open the KMIP port (usually 5696/tcp, but can be different) on all the configured KMS nodes to client access from vCenter. If you use vSAN data-at-rest encryption, you need to open the KMIP port to client access from all ESX hosts participating in vSAN.
+
 ### I am getting alarms that my KMS is unavailable. What should I do?
 
-Check the KMS connection information to ensure it is valid. Ensure the KMS is operational and that the correct ports are open and not blocked by firewalls. You can create a second key provider with a different name and the same connection information to help troubleshoot.
+Check the KMS connection information to ensure it is valid. Ensure the KMS is operational and that the correct ports are open and not blocked by firewalls. Check the latency of vCenter to the KMS.
+
+You can create a second key provider with a different name and the same connection information to help troubleshoot.
 
 ### My KMS is unreliable. Should I turn on Key Persistence?
 
@@ -348,6 +383,8 @@ However, if Key Persistence is enabled, the keys will be stored on the hosts usi
 ### In theory, could an attacker get the Key Encryption Keys by monitoring network traffic on the VCSA, then be able to decrypt all the VMs that are on the same cluster?
 
 In theory, yes, but if an attacker has this level of access they can already do whatever they want with the cluster, and would simply be wasting their time.
+
+
 
 ## Disclaimer
 
