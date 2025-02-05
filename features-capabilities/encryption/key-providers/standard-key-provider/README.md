@@ -35,10 +35,6 @@ KMIP 1.1.
 
 Yes. You need to do this if you intend to use Cross-vCenter vMotion to move encrypted VMs between clusters. Ensure that each key provider is named identically.
 
-### What happens if the KMS is unavailable?
-
-ESX will boot but encrypted vSAN datastores will not be accessible, and encrypted VMs will not be able to be unlocked. There will be prominent warnings in the vCenter UI.
-
 ### How many keys will my environment store in the KMS?
 
 This is a common question for environments with KMSes licensed per key. There will be one Key Encryption Key (KEK) stored in the KMS for each object that is encrypted, so:
