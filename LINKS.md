@@ -38,8 +38,8 @@ There is a CIS Benchmark for ESX 8.0, but does not include components or feature
 ## Product Documentation
 The product documentation is the reference for how a feature or component works. This repository is meant to augment the product documentation. If the docs answer the question "how?" this repository tries to answer the "why?" or "when?" or "so what?" questions you might have.
 
-* [vSphere 8 Security](https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-security/GUID-52188148-C579-4F6A-8335-CFBCE0DD2167.html)
-* [vSphere 7 Security](https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.security.doc/GUID-52188148-C579-4F6A-8335-CFBCE0DD2167.html)
+* [vSphere 8 Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0.html)
+* [vSphere 7 Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-security-7-0.html)
 
 Documentation is not always flawless. If you encounter an issue with documentation, please use the feedback mechanism for the documenation, which opens a ticket with the documentation team.
 

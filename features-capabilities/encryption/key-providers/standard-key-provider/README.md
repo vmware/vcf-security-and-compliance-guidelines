@@ -279,9 +279,9 @@ If encrypted virtual machines are not running, they will become locked, and alar
 
 After this move, we suggest re-encrypting/re-keying virtual machines to your preferred key provider to ensure consistency.
 
-### I use Site Recovery Manager. What considerations are there to ensure encrypted virtual machines can run on the DR site?
+### I use VMware Live Site Recovery. What considerations are there to ensure encrypted virtual machines can run on the DR site?
 
-When using Site Recovery Manager, you must configure both vCenter instances with the same vSphere Native Key Provider. This requires you to export the vSphere Native Key Provider from one vCenter instance and import it into the DR vCenter instance. For more see [Site Recovery Manager and Virtual Machine Encryption](https://docs.vmware.com/en/Site-Recovery-Manager/8.6/com.vmware.srm.admin.doc/GUID-6B3A7686-E0AD-47F5-8C3A-501F479E27C8.html).
+When using Site Recovery Manager, you must configure both vCenter instances with the same Key Provider. For more information see [VMware Live Site Recovery and Virtual Machine Encryption](https://techdocs.broadcom.com/us/en/vmware-cis/live-recovery/live-site-recovery/9-0/how-do-i-protect-my-environment/interoperability-of-srm-with-other-software/site-recovery-manager-and-virtual-machine-encryption.html).
 
 ### Does VMware vCenter HA support the Standard Key Provider?
 

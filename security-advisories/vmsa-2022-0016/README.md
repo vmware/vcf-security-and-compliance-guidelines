@@ -45,7 +45,7 @@ Context is important when assessing potential security threats. These issues imp
 
 Giving a guest workload direct access to system hardware entails some risk, as that guest workload forgoes the security of the hypervisor and can directly interact with peripherals. In turn, those peripherals can interact directly with system hardware.
 
-The risks of the use of PCI Passthrough have been outlined in the VMware vSphere Security Configuration Guide since the vSphere 5.1 release. Organizations that use the feature accept the risk. For more information visit [PCI and PCIe Devices and ESXi](https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.security.doc/GUID-E5CFB1FB-9216-4C1D-B49A-81AAAC414025.html).
+The risks of the use of PCI Passthrough have been outlined in the VMware vSphere Security Configuration Guide since the vSphere 5.1 release. Organizations that use the feature accept the risk. For more information visit [PCI and PCIe Devices and ESXi](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/securing-esxi-hosts/general-security-recommendations/pci-pcie-devices-and-esxi.html).
 
 In general, VMware recommends customers use virtualized methods of accessing hardware.
 

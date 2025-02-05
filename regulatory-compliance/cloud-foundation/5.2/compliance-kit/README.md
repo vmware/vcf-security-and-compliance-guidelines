@@ -14,7 +14,7 @@ The audience for the VCF 5.2 Compliance Kit is VMware Cloud Foundation customers
 There are many engineered data center & hybrid cloud infrastructure products that also work with and host VCF deployments, like Dell EMC VxRail. If this is how you consume VCF you should check with those products’ support for guidance on security first, before implementing these ideas. Some of the Compliance Kit’s recommendations are likely to be safe to implement, but others may interfere with operations of those solutions. The vendors of those solutions will be able to provide guidance.
 
 ## Download
-The [VMware Cloud Foundation documentation](https://docs.vmware.com/en/VMware-Cloud-Foundation/index.html) hosts the primary copy of the compliance guidance. The audit guides and workbook artifacts are available as a download from this repository.
+The [VMware Cloud Foundation documentation](https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/introducing-security-and-compliance-for-vmware-cloud-foundation-5-2.html) hosts the primary copy of the compliance guidance. The audit guides and workbook artifacts are available as a download from this repository.
 
 If you want to link to this content we maintain a permanent redirect:
 
