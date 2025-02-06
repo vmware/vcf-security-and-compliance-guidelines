@@ -135,8 +135,10 @@ The KMS health check is a periodic process that connects to each KMS cluster nod
 
 1. Check the KMS connection information to ensure it is valid (correct IP addresses, login information, and certificates).
 2. Ensure the KMS is operational and that the correct ports are open and not blocked by firewalls. You should see connection attempts in the firewall log. On the VCSA you can use "curl -v telnet://hostname:port" or "nc -zv hostname port" to initiate a connection from a UNIX shell.
-3. Check the latency of the VCSA to the KMS, using ping if it is enabled. Use of ping will also help expose network issues such as MTU mismatches and fragmentation. If ping (ICMP echo) is not available ask to have a rule added to allow vCenter to ping the KMS nodes.
+3. Check the latency of the VCSA to the KMS, using ping if it is enabled. Use of ping will also help expose network issues such as MTU mismatches and fragmentation that can affect performance. If ping (ICMP echo) is not available ask to have a rule added to allow vCenter to ping the KMS nodes.
 4. Check to see if the latency is a result of firewall rule processing. What happens if you change the position of the rule that allows the connection (put it at the top)? What happens if you make a simple rule that bypasses all IDS/IPS and other processing? Is the firewall identifying the connection as a different application type than the rule is configured for?
+
+The KMS health check does not care about latency, but by checking the latency you often expose other issues that prevent successful connections.
 
 You can create a second key provider with a different name and the same connection information to help troubleshoot. The setup process will verify that a connection can be made, so if the KMS is reachable this can help determine if the account credentials changed or aged out.
 
