@@ -324,11 +324,15 @@ When using Site Recovery Manager, you must configure both vCenter instances with
 
 ### Does VMware vCenter HA support the Standard Key Provider?
 
-Yes..
+Yes.
 
 ### Can I have both a Native Key Provider and a Standard Key Provider?
 
-Yes. This is also a technique to set cross-vCenter vMotion up between sites if there isn’t a common key provider between them. Create a “migration” Native Key Provider instance on the source, import it on the destination, rekey the virtual machine to the “migration” Native Key Provider instance, and vMotion it. At the destination you can rekey the virtual machine using the desired key provider.
+Yes. This is helpful in several common scenarios:
+
+1. Allowing cross-vCenter vMotion up between sites if there isn’t a common key provider between them. Create a “migration” Native Key Provider instance on the source, import it on the destination, rekey the virtual machine to the “migration” Native Key Provider instance, and vMotion it. At the destination you can rekey the virtual machine using the desired key provider.
+
+2. Managing KMS management and costs. In some environments it can be beneficial to configure vSAN to use a KMS, gaining protections if hosts are improperly sanitized during decommissioning, but using a Native Key Provider to enable vTPM at scale for virtual machines. Note that vSAN requires a specific key provider to be specified, and does not follow the "default" key provider, so this setup is easy to accomplish.
 
 ### Can I rename the Standard Key Provider?
 
@@ -358,7 +362,7 @@ Please consult your compliance auditors for more information about how system de
 
 ### I replicate to a DR site; how will I decrypt my replicated virtual machines?
 
-Configure the Standard Key Provider identically on the target site.
+Configure the Standard Key Provider identically on the target site. Make sure the KMS will be available in the event of a disaster! Do not replicate the KMS to an encrypted vSAN volume at the remote site that depends on that KMS.
 
 ### Do I need to set the Standard Key Provider to be the default before I remove the old provider?
 
@@ -374,7 +378,7 @@ No, they are a fixed length and cannot be altered.
 
 ### How are Standard Key Provider keys protected in transit?
 
-All management communications between vCenter and a KMS are protected with TLS.
+All management communications between vCenter and a KMS are protected with TLS, as are all communications between vCenter and ESX.
 
 ### How are Standard Key Provider keys protected at rest?
 
@@ -384,7 +388,7 @@ However, if Key Persistence is enabled, the keys will be stored on the hosts usi
 
 ### In theory, could an attacker get the Key Encryption Keys by monitoring network traffic on the VCSA, then be able to decrypt all the VMs that are on the same cluster?
 
-In theory, yes, but if an attacker has this level of access they can already do whatever they want with the cluster, and would simply be wasting their time.
+In theory, yes, but if an attacker has this level of access they can already do whatever they want with the cluster.
 
 ## Disclaimer
 
