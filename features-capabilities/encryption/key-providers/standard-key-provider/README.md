@@ -109,32 +109,38 @@ As noted in several other answers, the KMS is only communicated with when vSpher
 
 ### What is the maximum latency supported between a KMS and vSphere/VCF?
 
-Follow the "Maximum latency supported between vSphere client and vCenter Server" guidance found at [configmax.broadcom.com](https://configmax.broadcom.com/guest?vmwareproduct=vSphere&release=vSphere%208.0&categories=4-0). As of this update it is 100 ms.
+There is no defined maximum latency between a KMS and vCenter/vSAN. A good starting point is the "Maximum latency supported between linked vCenter Servers" guidance found at [configmax.broadcom.com](https://configmax.broadcom.com/guest?vmwareproduct=vSphere&release=vSphere%208.0&categories=4-0). As of this update it is 150 ms.
 
-### What happens if the latency to my KMS is greater than the supported amount?
+### What happens if the latency to my KMS is greater than that?
 
-Support guidance is a combination of what Broadcom has tested and reasonable guidance on what will work. It does not mean it won't work, but we will not be able to support you well if you are outside the limits and encounter problems. That said, try it, as many organizations do successfully use centralized KMS to protect remote sites. Specifically test:
+Support guidance is a combination of what Broadcom has tested and reasonable guidance on what will work. It does not mean it won't work, but there are limits to how well we can support you if you encounter problems. We encourage organizations to step methodically into enabling encryption, testing along the way to build confidence in the solution:
 
 - Are there persistent, or intermittent, KMS health check alarms?
-- What happens when a VM is first encrypted?
-- What happens when vSAN data-at-rest encryption is enabled?
-- What happens when a VM is rekeyed?
-- What happens when vSAN is rekeyed?
-- What happens when an ESX host is restarted, and is in a cluster with a number of encrypted VMs?
-
-You might also consider placing a KMS node closer to the affected systems, if possible.
+- Can you successfully encrypt a VM by adding a vTPM?
+- Can you successfully encrypt vSAN?
+- Can you successfully rekey a VM?
+- Can you successfully rekey vSAN?
+- Can you successfully restart an ESX host that is in a cluster with a number of encrypted VMs?
+- If you scale the number of VMs, does ESX continue to reboot without encryption alarms?
 
 There is a temptation to enable Key Persistence in these situations, but remember that Key Persistence stores decryption information on the host, which often defeats the reason you're using a remote KMS (to mitigate the situation where an attacker gains physical access to the host). If physical access control isn't an issue for you, Native Key Provider might also be an adequate solution for enabling encryption.
 
 ### What firewall rules do I need between my KMS and vSphere/VCF?
 
-You need to open the KMIP port (usually 5696/tcp, but can be different) on all the configured KMS nodes to client access from vCenter. If you use vSAN data-at-rest encryption, you need to open the KMIP port to client access from all ESX hosts participating in vSAN.
+You need to open the KMIP port (usually 5696/tcp, but can be different) on all the configured KMS nodes to client access from vCenter. If you use vSAN data-at-rest encryption, you need to open the KMIP port to access from all ESX hosts participating in vSAN.
 
 ### I am getting alarms that my KMS is unavailable. What should I do?
 
-Check the KMS connection information to ensure it is valid. Ensure the KMS is operational and that the correct ports are open and not blocked by firewalls. Check the latency of vCenter to the KMS.
+The KMS health check is a periodic process that connects to each KMS cluster node and issues a KMIP command. If the check succeeds within the TCP timeouts it will pass. If you are having issues with the health check, try:
 
-You can create a second key provider with a different name and the same connection information to help troubleshoot.
+1. Check the KMS connection information to ensure it is valid (correct IP addresses, login information, and certificates).
+2. Ensure the KMS is operational and that the correct ports are open and not blocked by firewalls. You should see connection attempts in the firewall log. On the VCSA you can use "curl -v telnet://hostname:port" or "nc -zv hostname port" to initiate a connection from a UNIX shell.
+3. Check the latency of the VCSA to the KMS, using ping if it is enabled. Use of ping will also help expose network issues such as MTU mismatches and fragmentation. If ping (ICMP echo) is not available ask to have a rule added to allow vCenter to ping the KMS nodes.
+4. Check to see if the latency is a result of firewall rule processing. What happens if you change the position of the rule that allows the connection (put it at the top)? What happens if you make a simple rule that bypasses all IDS/IPS and other processing? Is the firewall identifying the connection as a different application type than the rule is configured for?
+
+You can create a second key provider with a different name and the same connection information to help troubleshoot. The setup process will verify that a connection can be made, so if the KMS is reachable this can help determine if the account credentials changed or aged out.
+
+Whatever the resolution is, make sure that you fix it for vCenter and all ESX hosts, too, especially if you are using vSAN.
 
 ### My KMS is unreliable. Should I turn on Key Persistence?
 
