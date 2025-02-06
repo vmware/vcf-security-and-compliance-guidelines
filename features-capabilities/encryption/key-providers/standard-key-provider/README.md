@@ -166,7 +166,7 @@ Threats and risks are something that organizations must assess for themselves wh
 
 ### What encryption technologies work with the Standard Key Provider?
 
-VM Encryption, vTPM, and vSAN Encryption work with Native Key Provider.
+VM Encryption, vTPM, and vSAN Encryption work with the Standard Key Provider.
 
 ### Does ESX Configuration Encryption require a Standard Key Provider?
 
@@ -174,7 +174,7 @@ No.
 
 ### Do the VMware Certificate Authority (VMCA) functions use the Standard Key Provider?
 
-No, the VMCA and its certificate operations do not use Native Key Provider, though they all use the same shared encryption libraries present in vSphere.
+No, the VMCA and its certificate operations do not use a Key Provider, though they all use the same shared encryption libraries present in vSphere.
 
 ### Does Encrypted vSphere vMotion require the Standard Key Provider?
 
@@ -341,10 +341,6 @@ An example of how to automate this process with PowerCLI is provided in the [cod
 Standard Key Provider does not rotate its keys automatically, as that could endanger other environments where that key is used.
 
 An example of how to automate this process with PowerCLI is provided in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory.
-
-### If I delete a Native Key Provider should I delete the .p12 files I’ve stored?
-
-Whether you should delete them or not is up to you. The backup key files (.p12 files) might be necessary to decrypt replica or backed-up copies of virtual machines.
 
 ### How do I tell which virtual machines are using a key provider?
 
