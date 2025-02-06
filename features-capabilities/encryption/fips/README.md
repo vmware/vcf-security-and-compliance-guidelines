@@ -41,7 +41,7 @@ vSAN File Services does not support FIPS at this time. The rest of vSAN does, an
 
 ### Are there any caveats to enabling FIPS 140-2/140-3?
 
-VMware Cloud Foundation documentation lists considerations when using FIPS. In general, because FIPS compatibility changes the ciphers available there may be some external compatibility issues with other systems and plugins. We encourage you to test connectivity prior to enabling it in production environments. Most notably, RSA SecureID and some US Federal Command Access Cards have ciphers which are incompatible. Consider switching to a federated identity source.
+VMware Cloud Foundation documentation lists considerations when using FIPS. In general, because FIPS compatibility changes the ciphers available there may be some external compatibility issues with other systems and plugins. We encourage you to test connectivity prior to enabling it in production environments. Most notably, RSA SecureID and some US Federal Common Access Cards (CAC) have ciphers which are incompatible. Consider switching to a federated identity source.
 
 Enabling FIPS compatibility in vCenter requires a reboot of the VCSA, which will happen immediately upon changing the setting!
 
