@@ -99,11 +99,11 @@ Reboot the ESX host.
 
 Yes.
 
-### How large is the communication with the KMS?
+### How large are the communications with the KMS?
 
 The communications between the KMS and your virtual environment will depend on how many encrypted objects (VMs, etc.) you have, with more objects meaning larger communications. However, these keys are not large, so the overall amount of traffic will be relatively small by modern standards.
 
-### How frequent is the communication with the KMS?
+### How frequent are the communications with the KMS?
 
 As noted in several other answers, the KMS is only communicated with when vSphere/VCF requires a new key (new encrypted VM, rekeying, enablement of vSAN data-at-rest encryption, etc.), or when a host restarts and needs to retrieve keys for the encrypted objects in its cluster. Outside of that, the only communication is health checks.
 
@@ -113,7 +113,7 @@ Follow the "Maximum latency supported between vSphere client and vCenter Server"
 
 ### What happens if the latency to my KMS is greater than the supported amount?
 
-Support guidance is a combination of what Broadcom has tested and reasonable guidance on what will work. It does not mean it won't work, but we will not be able to support you well if you are outside the limits and encounter problems. That said, try it, as many organizations use centralized KMS to protect remote sites. Specifically test:
+Support guidance is a combination of what Broadcom has tested and reasonable guidance on what will work. It does not mean it won't work, but we will not be able to support you well if you are outside the limits and encounter problems. That said, try it, as many organizations do successfully use centralized KMS to protect remote sites. Specifically test:
 
 - Are there persistent, or intermittent, KMS health check alarms?
 - What happens when a VM is first encrypted?
@@ -122,7 +122,7 @@ Support guidance is a combination of what Broadcom has tested and reasonable gui
 - What happens when vSAN is rekeyed?
 - What happens when an ESX host is restarted, and is in a cluster with a number of encrypted VMs?
 
-You might also consider placing a KMS node closer to the affected systems.
+You might also consider placing a KMS node closer to the affected systems, if possible.
 
 There is a temptation to enable Key Persistence in these situations, but remember that Key Persistence stores decryption information on the host, which often defeats the reason you're using a remote KMS (to mitigate the situation where an attacker gains physical access to the host). If physical access control isn't an issue for you, Native Key Provider might also be an adequate solution for enabling encryption.
 
@@ -383,8 +383,6 @@ However, if Key Persistence is enabled, the keys will be stored on the hosts usi
 ### In theory, could an attacker get the Key Encryption Keys by monitoring network traffic on the VCSA, then be able to decrypt all the VMs that are on the same cluster?
 
 In theory, yes, but if an attacker has this level of access they can already do whatever they want with the cluster, and would simply be wasting their time.
-
-
 
 ## Disclaimer
 
