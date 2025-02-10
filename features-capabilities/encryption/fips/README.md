@@ -39,6 +39,14 @@ As an example, for VMware Cloud Foundation 5.2.1:
 
 vSAN File Services does not support FIPS at this time. The rest of vSAN does, and is covered by the ESXi and vCenter validations.
 
+### How do I enable FIPS?
+
+A fresh installation of VMware Cloud Foundation can enable FIPS for you, by specifying that in the deployment tools.
+
+A deployed system will need to have each component changed individually. Follow the product documentation for that.
+
+ESX has FIPS permanenently enabled by default.
+
 ### Will enabling FIPS make the TLS ciphers pass audits?
 
 FIPS support does have an effect on TLS ciphers, but what you probably want is to set your TLS Profile (in vSphere 8.0.2 and newer) to NIST_2024, which will restrict the ciphers to the best choices, per NIST 2024 guidance.
@@ -49,7 +57,7 @@ VMware Cloud Foundation documentation lists considerations when using FIPS. In g
 
 Enabling FIPS compatibility in vCenter requires a reboot of the VCSA, which will happen immediately upon changing the setting!
 
-TLS 1.3 is disabled by default on port 443/tcp on ESX since the reverse proxy is not FIPS validated for TLS 1.3 usage. If you wish to enable TLS 1.3 see [Enabling non-FIPS TLS 1.3 on port 443 in ESX](https://knowledge.broadcom.com/external/article/312033/enabling-nonfips-tls-13-on-port-443-in-e.html).
+TLS 1.3 is disabled by default on port 443/tcp on ESX since the reverse proxy is not FIPS validated for TLS 1.3 usage (and ESX has FIPS permanently enabled). If you wish to enable TLS 1.3 see [Enabling non-FIPS TLS 1.3 on port 443 in ESX](https://knowledge.broadcom.com/external/article/312033/enabling-nonfips-tls-13-on-port-443-in-e.html).
 
 ### Some of the certifications list FIPS 140-2, where is FIPS 140-3?
 
