@@ -76,6 +76,10 @@ Yes! Configure Native Key Provider as the default before you enable data-at-rest
 
 No; vSphere Trust Authority requires a Standard Key Provider (KMS).
 
+### If I use vSAN with Native Key Provider, can I host vCenter on the vSAN datastore?
+
+Yes, you can use vCenter on the vSAN datastore. Because the Native Key Provider decryption data is stored in the ESX encrypted configuration on all the hosts, the hosts can open the vSAN datastore without vCenter being operational. There is no dependency loop.
+
 ### How many hosts can use Native Key Provider? Are there scalability limits?
 
 Native Key Provider has the same virtual machine scalability maximums as vSphere. See the [VMware Configuration Maximum tool](https://configmax.broadcom.com/).
@@ -83,6 +87,8 @@ Native Key Provider has the same virtual machine scalability maximums as vSphere
 ### Do I need a Trusted Platform Module 2.0 (TPM) for my ESX hosts?
 
 While we recommend a TPM, one is not required to use Native Key Provider. If a TPM 2.0 is available and configured on the host it will be used to help protect the Native Key Provider keys as part of the ESX host encrypted configuration data.
+
+If you do not have a hardware TPM in all your ESX hosts do not check the “Use key provider only with TPM protected ESX hosts” option when creating a Native Key Provider. Note that, regardless of what you specify, hosts with TPMs will use the TPM to protect the ESX host encrypted configuration data.
 
 ### Can I use TPM 1.2 for Native Key Provider?
 
