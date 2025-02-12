@@ -78,7 +78,7 @@ No; vSphere Trust Authority requires a Standard Key Provider (KMS).
 
 ### If I use vSAN with Native Key Provider, can I host vCenter on the vSAN datastore?
 
-Yes, you can use vCenter on the vSAN datastore. Because the Native Key Provider decryption data is stored in the ESX encrypted configuration on all the hosts, the hosts can open the vSAN datastore without vCenter being operational. There is no dependency loop.
+Yes, you can use vCenter on the vSAN datastore. Because the Native Key Provider decryption data is stored in the ESX encrypted configuration on all the hosts, the hosts can open the vSAN datastore without vCenter being operational. There is no dependency loop, for either vCenter or any encrypted virtual machines.
 
 ### How many hosts can use Native Key Provider? Are there scalability limits?
 
