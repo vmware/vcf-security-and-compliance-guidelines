@@ -19,7 +19,7 @@ Download the Latest Version
 
 This document will evolve. The most up-to-date version can be found at:
 
-https://core.vmware.com/security-compliance-vmware-cloud-foundation-plus
+https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/regulatory-compliance/plus
 
 Goals
 -----
@@ -181,7 +181,7 @@ No. VMware Cloud Foundation+ administrators will only need to enter usernames an
 
 VMware has a robust process for handling security issues, following the industry-standard “responsible disclosure” model. When security vulnerabilities are disclosed to users it will be as a VMware Security Advisory (VMSA) and will be posted at:
 
-[https://www.vmware.com/security/advisories.html](https://www.vmware.com/security/advisories.html)
+[https://www.broadcom.com/support/vmware-security-advisories](https://www.broadcom.com/support/vmware-security-advisories)
 
 We strongly urge all VMware customers to subscribe to the VMSA mailing list, found on the link above.
 
@@ -209,7 +209,7 @@ Data is kept only if needed for specific, defined uses, and no longer than neces
 
 VMware publishes the vSphere Security Configuration Guide which serves as the baseline for security hardening. The recommendations apply to VMware Cloud Foundation+ as well. You can find the latest copy at:
 
-[https://via.vmw.com/scg](https://via.vmw.com/scg)
+[https://brcm.tech/vcf-scg](https://brcm.tech/vcf-scg)
 
 In all cases, whether traditional Cloud Foundation or modern VMware Cloud Foundation+ deployments, we strongly recommend applying the latest product patches, employing strong access control technologies like multifactor authentication (MFA), and practicing least-privilege and zero trust by restricting access to hardware, appliance, and Cloud Foundation management interfaces.
 

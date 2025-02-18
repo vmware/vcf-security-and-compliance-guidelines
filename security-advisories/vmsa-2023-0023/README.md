@@ -1,4 +1,8 @@
 # VMSA-2023-0023: Questions & Answers
+
+> [!WARNING]
+> This information is about an older security vulnerability and is not current. It is kept online for reference. Please review the [VMware Security Advisories web page](https://www.broadcom.com/support/vmware-security-advisories) for the latest information to protect yourself and your organizations. Thank you.
+
 Introduction
 ------------
 
@@ -67,7 +71,7 @@ As of January 18, 2024 VMware is aware of exploitation “in the wild.” Please
 
 Yes; vCenter Server is affected by this VMSA.
 
-See "[Best Practices for Patching VMware vSphere](https://core.vmware.com/patch-vsphere-best-practices)" for guidance on patching vSphere components.
+See "[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD)" for guidance on patching vSphere components.
 
 ### Do I have to patch ESXi hosts?
 
@@ -349,7 +353,7 @@ No.
 
 Yes, the patch will be available through the standard update mechanisms on all vCenter Server versions listed in the VMSA.
 
-See "[Best Practices for Patching VMware vSphere](https://core.vmware.com/patch-vsphere-best-practices)" for guidance on patching vSphere components.
+See "[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD)" for guidance on patching vSphere components.
 
 ### Does this impact versions of vSphere older than 6.5?
 

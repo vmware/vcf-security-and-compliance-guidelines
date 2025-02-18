@@ -1,4 +1,8 @@
 # VMSA-2022-0004: Questions & Answers
+
+> [!WARNING]
+> This information is about an older security vulnerability and is not current. It is kept online for reference. Please review the [VMware Security Advisories web page](https://www.broadcom.com/support/vmware-security-advisories) for the latest information to protect yourself and your organizations. Thank you.
+
 Introduction
 ------------
 
@@ -6,7 +10,7 @@ VMware has published [VMSA-2022-0004](https://www.vmware.com/security/advisories
 
 In short, patching VMware ESXi, Workstation, and Fusion are the fastest methods to resolve these issues. There is also a workaround: removing the USB controllers from virtual machines, though that may be infeasible at scale (see the Q&A below for PowerCLI examples, though) and does not eliminate the potential threat like patching does. With this VMSA there are additional versions of patches available for customers who are at VMware vSphere 7 Update 1 and Update 2, in an effort to help customers who cannot upgrade to vSphere 7 Update 3c at this time. Please read the questions & answers below for more information.
 
-As always, please subscribe to [our Security Advisories mailing list](http://lists.vmware.com/mailman/listinfo/security-announce) for immediate notification when there are new VMware Security Advisories released.
+As always, please subscribe to [our Security Advisories mailing list](https://go-vmware.broadcom.com/vmsa_email_alert) for immediate notification when there are new VMware Security Advisories released.
 
 New questions are answered at the end, so please read through or scan the index on the left of the page.
 
@@ -160,11 +164,11 @@ Please follow the extended support process to request patches and other informat
 
 ### Is vSphere 5.5 affected?
 
-vSphere 5.5 is past the end of general and extended support and is not evaluated as part of this advisory. Please upgrade to vSphere 7 as soon as possible. There is a terrific upgrade starting point at [https://core.vmware.com/guide-vsphere-70-upgrade](https://core.vmware.com/guide-vsphere-70-upgrade)!
+vSphere 5.5 is past the end of general and extended support and is not evaluated as part of this advisory. Please upgrade to vSphere 7 as soon as possible.
 
 ### Is vSphere 6.0 affected?
 
-vSphere 6.0 is past the end of general support and is not evaluated as part of this advisory. If your organization has extended support please use those processes to request assistance. Please upgrade to vSphere 7 as soon as possible. There is a terrific upgrade starting point at [https://core.vmware.com/guide-vsphere-70-upgrade](https://core.vmware.com/guide-vsphere-70-upgrade)!
+vSphere 6.0 is past the end of general support and is not evaluated as part of this advisory. If your organization has extended support please use those processes to request assistance. Please upgrade to vSphere 7 as soon as possible.
 
 ### Is VMware vSAN impacted?
 
@@ -182,7 +186,7 @@ The VMSA only lists supported versions of affected products.
 
 The workarounds listed involve removing the USB controllers from virtual machines. This may not be feasible at scale, and some supported operating systems require USB for keyboard & mouse access via the virtual console (through vCenter Server or ESXi, but does not affect Remote Desktop). You may also lose some functionality such as USB passthrough.
 
-That said, most Windows and Linux versions support use of the virtual PS/2 mouse and keyboard, and removing unnecessary devices such as USB controllers is recommended as part of the [security hardening guidance VMware publishes for cloud infrastructure products like vSphere, Cloud Foundation, and VMware Cloud on AWS](https://core.vmware.com/security-configuration-guide).
+That said, most Windows and Linux versions support use of the virtual PS/2 mouse and keyboard, and removing unnecessary devices such as USB controllers is recommended as part of the [security hardening guidance VMware publishes for cloud infrastructure products like vSphere, Cloud Foundation, and VMware Cloud on AWS](http://brcm.tech/vcf-scg).
 
 ### How can I determine if my virtual machines have a USB controller attached?
 
@@ -249,13 +253,7 @@ More Information
 
 Additional resources you might be interested in:
 
-*   [VMware Security Advisory VMSA-2022-0004](https://www.vmware.com/security/advisories/VMSA-2022-0004.html) (descriptions of the issues and workarounds)
-*   [VMSA-2022-0004 Questions & Answers](https://via.vmw.com/vmsa-2022-0004-qna) (this document, common questions & answers)
-*   [Tips for Patching VMware vSphere](https://core.vmware.com/tips-patching-vmware-vsphere) (practical advice for ensuring patching success)
-    
-*   [VMware vSphere Security Configuration Guide](https://core.vmware.com/security-configuration-guide) (baseline security best practices for vSphere)
-*   [VMware Ransomware Resource Center](https://core.vmware.com/ransomware) (discussion around tactics to help prevent, deter, and recover from attacks)
-*   [VMware Ports & Protocols Firewalling Guidance](https://ports.broadcom.com/) (ports.broadcom.com)
+
 
 ### Changelog
 

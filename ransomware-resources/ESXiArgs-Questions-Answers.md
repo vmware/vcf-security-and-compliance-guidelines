@@ -147,19 +147,19 @@ Firewalling and other forms of network isolation can be a compensating control, 
 
 ### Is vSphere 5.5 affected?
 
-Most likely. vSphere 5.5 is past the end of general and extended support and is not evaluated as part of security advisory and response work. Please upgrade to vSphere 7 or newer as soon as possible. There is a terrific upgrade starting point at [https://core.vmware.com/guide-vsphere-70-upgrade](https://core.vmware.com/guide-vsphere-70-upgrade)!
+Most likely. vSphere 5.5 is past the end of general and extended support and is not evaluated as part of security advisory and response work. Please upgrade to vSphere 7 or newer as soon as possible.
 
 ### Is vSphere 6.0 affected?
 
-Yes. vSphere 6.0 is past the end of general and extended support and is not evaluated as part of security advisory and response work. Please upgrade to vSphere 7 or newer as soon as possible. There is a terrific upgrade starting point at [https://core.vmware.com/guide-vsphere-70-upgrade](https://core.vmware.com/guide-vsphere-70-upgrade)!
+Yes. vSphere 6.0 is past the end of general and extended support and is not evaluated as part of security advisory and response work. Please upgrade to vSphere 7 or newer as soon as possible. 
 
 ### Is vSphere 6.5 affected?
 
-Some versions of vSphere 6.5 contained the vulnerabilities that are currently associated with these attacks. Please update to the latest versions of 6.5 and make plans to upgrade to vSphere 7 or newer as soon as possible. There is a terrific upgrade starting point at [https://core.vmware.com/guide-vsphere-70-upgrade](https://core.vmware.com/guide-vsphere-70-upgrade)!
+Some versions of vSphere 6.5 contained the vulnerabilities that are currently associated with these attacks. Please update to the latest versions of 6.5 and make plans to upgrade to vSphere 7 or newer as soon as possible.
 
 ### Is vSphere 6.7 affected?
 
-Some versions of vSphere 6.7 contained the vulnerabilities that are currently associated with these attacks. Please update to the latest versions of 6.7 and make plans to upgrade to vSphere 7 or newer as soon as possible. There is a terrific upgrade starting point at [https://core.vmware.com/guide-vsphere-70-upgrade](https://core.vmware.com/guide-vsphere-70-upgrade)!
+Some versions of vSphere 6.7 contained the vulnerabilities that are currently associated with these attacks. Please update to the latest versions of 6.7 and make plans to upgrade to vSphere 7 or newer as soon as possible.
 
 ### Is vSphere 7.0 affected?
 

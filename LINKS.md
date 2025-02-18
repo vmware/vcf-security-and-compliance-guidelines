@@ -52,8 +52,8 @@ VMware has a defined Secure Software Development Lifecycle and policies for how 
 ## VMware Security Advisories
 VMware Security Advisories, or VMSAs, are formal notifications of a vulnerability that has been reported and resolved in VMware products. They contain information about what the problem is and where it is located, the fixed versions, and sometimes include workarounds and other possible defensive posture.
 
-* [Sign Up for Security Alerts via Email](https://www.broadcom.com/support/vmware-security-advisories)
-* [Index of VMware Security Advisories](https://www.broadcom.com/support/vmware-security-advisories/index)
+* [Sign Up for Security Alerts via Email](https://go-vmware.broadcom.com/vmsa_email_alert)
+* [Index of VMware Security Advisories](https://www.broadcom.com/support/vmware-security-advisories)
 
 There are no automated vulnerability feeds (RSS or otherwise) available at this time.
 

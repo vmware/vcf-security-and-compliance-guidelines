@@ -1,9 +1,7 @@
 # VMSA-2021-0010: Questions & Answers
-_If you are arriving here from another site you might really want [VMSA-2021-0020](https://core.vmware.com/vmsa-2021-0020-questions-answers-faq) instead!_
 
-* * *
-
-_This is information about an older security vulnerability and is not current. It is kept online for reference. Please review the [VMware Security Advisories web page](https://www.vmware.com/security/advisories.html) for the latest information to protect yourself and your organizations. Thank you._
+> [!WARNING]
+> This information is about an older security vulnerability and is not current. It is kept online for reference. Please review the [VMware Security Advisories web page](https://www.broadcom.com/support/vmware-security-advisories) for the latest information to protect yourself and your organizations. Thank you.
 
 * * *
 
@@ -177,14 +175,3 @@ vCenter Server Appliance 6.7 Update 3n, vSphere Client build number will say 180
 vCenter Server Windows 6.7 Update 3n, vSphere Client build number will say 18010560.
 
 vCenter Server 6.5 Update 3p, build number 17994927
-
-What other resources are there on this and other security topics?
------------------------------------------------------------------
-
-*   [VMware Security Advisory VMSA-2021-0010](https://www.vmware.com/security/advisories/VMSA-2021-0010.html) (includes descriptions of the issues and links to the workarounds)
-*   [VMware Communities Forum Thread on VMSA-2021-0010](https://via.vmw.com/vmsa-2021-0010-communities) (a great place to ask questions)
-*   [VMSA-2021-0010 Questions & Answers](https://via.vmw.com/vmsa-2021-0010-faq) (this document)
-*   [VMSA-2021-0010: What You Need to Know](https://via.vmw.com/vmsa-2021-0010-blog) (blogs.vmware.com)
-*   [VMware vSphere Security Configuration Guide](https://brcm.tech/vcf-scg) (baseline security best practices for vSphere)
-*   [VMware Ports & Protocols Firewalling Guidance](https://ports.broadcom.com/home/vSphere-7) (ports.broadcom.com)
-*   [vSphere, vSAN, and Cloud Foundation Security Content & Links](https://core.vmware.com/security) (core.vmware.com)

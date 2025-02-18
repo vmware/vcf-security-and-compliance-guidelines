@@ -109,7 +109,7 @@ Hardware management controllers should be isolated as well, with comprehensive a
 
 ### Manage vSphere via vCenter Server
 
-vSphere management activities should be through vCenter Server where they are subject to the Role-Based Access Control (RBAC) permission model. ESXi should be configured according to [best practices](https://core.vmware.com/security-configuration-guide) where SSH is disabled and normal Lockdown Mode is enabled. If SSH access is needed for support and troubleshooting it should be enabled for the troubleshooting operation and then returned to its stopped and off state.
+vSphere management activities should be through vCenter Server where they are subject to the Role-Based Access Control (RBAC) permission model. ESXi should be configured according to [best practices](http://brcm.tech/vcf-scg) where SSH is disabled and normal Lockdown Mode is enabled. If SSH access is needed for support and troubleshooting it should be enabled for the troubleshooting operation and then returned to its stopped and off state.
 
 ### Multifactor Authentication
 

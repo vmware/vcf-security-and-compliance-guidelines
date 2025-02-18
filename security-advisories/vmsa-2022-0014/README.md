@@ -1,4 +1,8 @@
 # VMSA-2022-0014: Questions & Answers
+
+> [!WARNING]
+> This information is about an older security vulnerability and is not current. It is kept online for reference. Please review the [VMware Security Advisories web page](https://www.broadcom.com/support/vmware-security-advisories) for the latest information to protect yourself and your organizations. Thank you.
+
 Introduction
 ------------
 

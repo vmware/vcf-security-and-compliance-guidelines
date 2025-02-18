@@ -4,7 +4,7 @@ Overview
 
 VMware vSphere+ Subscription brings the functionality of VMware Cloud to on-premises infrastructure deployments, reducing infrastructure maintenance costs, optimizing operations, and speeding up security response. To enable VMware vSphere+ Subscription there are communications and permissions changes necessary to support these operations. This document is intended to clarify and document security & compliance differences between traditional vSphere deployments and Cloud-enabled environments, document product goals, and answer questions.
 
-If you would like to know more about VMware Cloud Foundation Security & Compliance, please refer to: [https://core.vmware.com/security-compliance-vmware-cloud-foundation-plus#overview](http:// https://core.vmware.com/security-compliance-vmware-cloud-foundation-plus#overview)
+If you would like to know more about VMware Cloud Foundation Security & Compliance, please refer to the documents at: https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/regulatory-compliance/plus
 
 Disclaimer
 ----------
@@ -21,7 +21,7 @@ Download the Latest Version
 
 This document will evolve. The most up-to-date version can be found at:
 
-https://core.vmware.com/security-compliance-vmware-vsphere-plus
+https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/regulatory-compliance/plus
 
 Goals
 -----
@@ -177,11 +177,12 @@ This delivery model is akin to that of a network switch, firmware to be updated 
 
 Yes, the gateway is what connects vSphere to VMware Cloud.  
 
-For more information on the different appliances needed to connect the different offerings within VMware Cloud Services, please refer to: [https://core.vmware.com/blog/understanding-vmware-cloud-services-gateway-appliances](https://core.vmware.com/blog/understanding-vmware-cloud-services-gateway-appliances)
+For more information on the different appliances needed to connect the different offerings within VMware Cloud Services, please refer to the documents at:
+
+https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/regulatory-compliance/plus
 
 *   ### **Does the VMware vCenter Cloud Gateway need to be on the Internet?**
     
-
 No. It should be placed behind your perimeter firewalls.
 
 *   ### **Are passwords & sensitive information transmitted to VMware Cloud?**
@@ -194,7 +195,7 @@ No. VMware vSphere+ administrators will only need to enter usernames and passwor
 
 VMware has a robust process for handling security issues, following the industry-standard “responsible disclosure” model. When security vulnerabilities are disclosed to users it will be as a VMware Security Advisory (VMSA) and will be posted at:
 
-[https://www.vmware.com/security/advisories.html](https://www.vmware.com/security/advisories.html)
+[https://www.broadcom.com/support/vmware-security-advisories](https://www.broadcom.com/support/vmware-security-advisories)
 
 We strongly urge all VMware customers to subscribe to the VMSA mailing list, found on the link above.
 
@@ -228,14 +229,9 @@ Data is kept only if needed for specific, defined uses, and no longer than neces
 
 VMware publishes the vSphere Security Configuration Guide which serves as the baseline for security hardening. The recommendations apply to VMware vSphere+ as well. You can find the latest copy at:
 
-[https://via.vmw.com/scg](https://via.vmw.com/scg)
+[https://brcm.tech/vcf-scg](https://brcm.tech/vcf-scg)
 
 In all cases, whether traditional vSphere or modern VMware vSphere+ deployments, we strongly recommend applying the latest product patches, employing strong access control technologies like multi-factor authentication (MFA), and practicing least-privilege and zero trust by restricting access to hardware, appliance, and vSphere management interfaces.
-
-*   ### **Do you have further questions not covered in this section?**
-    
-
-This QA was intended to cover most common security questions related to vSphere+ implementation. We have a dedicated technical QA blog entry covering other topics such as vSphere+ Architecture. [Here](https://core.vmware.com/resource/vsphereplus-FAQS). If you would like us to follow up in any area please share feedback or contact your account team. 
 
 Data Transmitted to VMware Cloud
 --------------------------------

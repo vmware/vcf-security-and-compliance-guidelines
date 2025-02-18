@@ -72,7 +72,7 @@ Organizations must use vCenter to manage Native Key Provider, and hosts must be 
 
 ### Can I use Native Key Provider with vSAN?
 
-Yes! Configure Native Key Provider as the default before you enable data-at-rest encryption on the vSAN datastore & cluster or use the rekeying process to change between a standard key provider and Native Key Provider. For more information visit the [vSAN Frequently Asked Questions](https://core.vmware.com/resource/vsan-frequently-asked-questions-faq) page.
+Yes! Configure Native Key Provider as the default before you enable data-at-rest encryption on the vSAN datastore & cluster or use the rekeying process to change between a standard key provider and Native Key Provider. For more information visit the [vSAN Frequently Asked Questions](https://www.vmware.com/docs/vmw-vsan-faqs) page.
 
 No; vSphere Trust Authority requires a Standard Key Provider (KMS).
 

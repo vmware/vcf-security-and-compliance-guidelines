@@ -1,4 +1,8 @@
 # VMSA-2021-0020: Questions & Answers
+
+> [!WARNING]
+> This information is about an older security vulnerability and is not current. It is kept online for reference. Please review the [VMware Security Advisories web page](https://www.broadcom.com/support/vmware-security-advisories) for the latest information to protect yourself and your organizations. Thank you.
+
 Questions & Answers
 -------------------
 
@@ -81,8 +85,6 @@ Yes, the Platform Services Controllers (PSCs) are considered part of vCenter Ser
 ### Does vSphere 7 Update 3 contain these security fixes?
 
 Yes, all update and patch releases to vSphere are cumulative when it comes to security. When you apply a newer patch you get all the older security updates, too.
-
-Note that vSphere 7 Update 3 has been announced, but is not yet generally available. You can read more about what is in it at: [https://core.vmware.com/blog/vsphere-7-update-3-whats-new](https://core.vmware.com/blog/vsphere-7-update-3-whats-new)
 
 ### Does the patch and/or the workaround apply to Windows-based vCenter Server installs?
 

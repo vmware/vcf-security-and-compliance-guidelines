@@ -1,10 +1,14 @@
 # VMSA-2021-0028: Questions & Answers about Log4j
+
+> [!WARNING]
+> This information is about an older security vulnerability and is not current. It is kept online for reference. Please review the [VMware Security Advisories web page](https://www.broadcom.com/support/vmware-security-advisories) for the latest information to protect yourself and your organizations. Thank you.
+
 Introduction
 ------------
 
 VMware has published & updated a security advisory, [VMSA-2021-0028](https://www.vmware.com/security/advisories/VMSA-2021-0028.html), in response to the open-source Java component Log4j vulnerabilities known as CVE-2021-44228, CVE-2021-45046, and CVE-2021-45105. The VMSA will always be the source of truth for what products & versions are affected, the workarounds, and appropriate patches. This document is a corollary to that advisory and contains regular updates, resources, and numerous questions that have been asked regarding this issue in an effort to communicate new information, reduce the need for support calls, and help keep organizations secure.
 
-Because of the ubiquity of the log4j component, the suddenness of these disclosures, and the trend to find more issues once one is discovered, the situation is still developing. Please subscribe to our Security Advisories mailing list (found on the right side of [the VMSA page](https://www.vmware.com/security/advisories/VMSA-2021-0028.html)), subscribe to workaround Knowledge Base articles, and revisit this site for more information. New updates will be made on regular intervals as denoted below.
+Because of the ubiquity of the log4j component, the suddenness of these disclosures, and the trend to find more issues once one is discovered, the situation is still developing. Please subscribe to our Security Advisories mailing list ([[the VMSA page](https://go-vmware.broadcom.com/vmsa_email_alert)](https://go-vmware.broadcom.com/vmsa_email_alert)), subscribe to workaround Knowledge Base articles, and revisit this site for more information. New updates will be made on regular intervals as denoted below.
 
 We also strongly recommend that organizations review the guidance in the context of all workloads and other systems. This issue affects billions of systems, software packages, and devices globally, and attackers are weaponizing these vulnerabilities to spread ransomware, cryptominers, and all manner of malware.
 
@@ -265,7 +269,7 @@ There were overnight changes to the Apache Log4j security advisories. In short, 
 
 The good thing here is that the Apache Software Foundation got ahead of it on Tuesday, December 14 when they revised their workaround guidance. VMware is abiding the December 14 guidance, both with workarounds and in patches being developed and released.
 
-Among other updated workarounds, the [vCenter Server workaround Knowledge Base article has been updated](https://kb.vmware.com/s/article/87081), and there are new Python scripts that automate the workarounds. Please read the instructions. Right now you'll need to have run both scripts on all your vCenter Server instances. Work is going on to unify them, but don't wait. Run the first one, then the second one. Make sure you take a snapshot of vCenter Server, use DRS "should" rules to pin it to a particular ESXi host so you know where to find it to revert the snapshot, and ensure you can log into that ESXi host (root password isn't expired, etc.). We have some [tips on patching vSphere that include these ideas and more](https://core.vmware.com/tips-patching-vmware-vsphere).
+Among other updated workarounds, the [vCenter Server workaround Knowledge Base article has been updated](https://kb.vmware.com/s/article/87081), and there are new Python scripts that automate the workarounds. Please read the instructions. Right now you'll need to have run both scripts on all your vCenter Server instances. Work is going on to unify them, but don't wait. Run the first one, then the second one. Make sure you take a snapshot of vCenter Server, use DRS "should" rules to pin it to a particular ESXi host so you know where to find it to revert the snapshot, and ensure you can log into that ESXi host (root password isn't expired, etc.). We have some [tips on patching vSphere that include these ideas and more](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD).
 
 This has, and continues to be, a chaotic and evolving situation, for a couple of reasons. In most cases software vendors follow a process called "coordinated disclosure" (sometimes also known as "responsible disclosure") wherein they learn of a vulnerability, work with the security researcher or reporter to understand it, fix it, and release patches and a vulnerability disclosure at the same time the security researcher announces their work. This process can be fast, or it can take a few months, depending on a lot of things. It's nice because, in most cases, it is win/win for everyone. The vulnerability and the resolution appear simultaneously, organizations patch, and the researcher gets credit for their work.
 
@@ -273,13 +277,13 @@ That isn't the case here. Log4j has so successfully scratched an itch in Java so
 
 It's good that their December 14 guidance got ahead of the current situation so that most organizations and vendors do not have to change their workaround strategies. However, the short timeframes do speak to some of the chaos that we have been getting feedback about. We understand completely and are working to standardize our guidance, and we appreciate your patience with it. Our priority was to get something out to help customers protect themselves, and with that done our product teams are working to build, test, and ship new updates that close these holes.
 
-Second, when an issue like this arises suddenly there are a lot of eyes on that piece of software. It's normal, and a good thing overall. There's a saying in open source that "many eyes make all bugs shallow." It's true and appears to be happening with Log4j right now. VMware doesn't have any insight into Log4j development, but it's reasonable to think there might be more developments in the future. VMware is working around the clock to watch these things, so we'll react whenever new information or versions appear. You should keep an eye on things over the weekend, too, because this isn't just a VMware situation, it's an "everything everywhere" situation. Please [subscribe to the VMSA mailing list](https://www.vmware.com/security/advisories/VMSA-2021-0028.html) (security-announce@lists.vmware.com) for updates, and set an alarm on your mobile devices to alert you when it sees email from that mailing list.
+Second, when an issue like this arises suddenly there are a lot of eyes on that piece of software. It's normal, and a good thing overall. There's a saying in open source that "many eyes make all bugs shallow." It's true and appears to be happening with Log4j right now. VMware doesn't have any insight into Log4j development, but it's reasonable to think there might be more developments in the future. VMware is working around the clock to watch these things, so we'll react whenever new information or versions appear. You should keep an eye on things over the weekend, too, because this isn't just a VMware situation, it's an "everything everywhere" situation. Please [subscribe to the VMSA mailing list](https://go-vmware.broadcom.com/vmsa_email_alert) for updates, and set an alarm on your mobile devices to alert you when it sees email from that mailing list.
 
 Last, there are increasing concerns in the information security space about ransomware attacks now and in the coming weeks. A vulnerability like this supplies “cover” for the attackers, as victims will blame Log4j and not dig deeper to find the real source of the breach. Ransomware is the end state of a breach that usually also steals data and secrets. These breaches tend to be hundreds of days long because the attackers need time to exfiltrate data, and to ensure that you’ll pay the ransom by corrupting backups and disabling disaster recovery failover sites. As such, ransomware attacks happening now are the most likely the result of breaches months ago, and your incident response team or consultants need to be thorough in their work to find the entry point. Use of log4j in a ransomware attack now is likely just opportunistic, preying on unpatched & unmitigated systems in an environment to move laterally. This is why every organization needs to apply workarounds to all log4j instances immediately, both in vSphere and in workloads and other systems.
 
 The upcoming holiday weeks will provide an opportunity for attackers to operate without being detected. The most common method of attack against infrastructure systems is through compromised credentials. The most common method of compromising infrastructure admin credentials is by compromising a centralized directory, like Active Directory, which is used by systems for both authentication AND authorization. Using groups to authorize people to log into infrastructure means that a rogue Domain Admin can simply add themselves to that group and log in, at which point they have dangerous levels of access to core infrastructure systems. What is especially tricky is that attackers who are using compromised credentials do not generate failed login messages, so to detect them you need to audit login successes, too.
 
-Your organization should be thinking about this and taking action to make the holiday season a secure one. Do this by auditing access to your systems, seriously restricting access to management interfaces, ensuring that systems like Active Directory are fully patched, and making sure backups are fully isolated and protected. You should also be preparing people and processes for the upcoming time off, so that if something bad happens you know who to call, what your business continuity processes are, and who your incident response team or provider is. We discuss many of these topics and offer practical steps you can take right now our “[Practical Ideas for Ransomware Resilience](https://core.vmware.com/practical-ideas-ransomware-resilience)” paper which is freely available on this site.
+Your organization should be thinking about this and taking action to make the holiday season a secure one. Do this by auditing access to your systems, seriously restricting access to management interfaces, ensuring that systems like Active Directory are fully patched, and making sure backups are fully isolated and protected. You should also be preparing people and processes for the upcoming time off, so that if something bad happens you know who to call, what your business continuity processes are, and who your incident response team or provider is. We discuss many of these topics and offer practical steps you can take right now our “[Practical Ideas for Ransomware Resilience](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/ransomware-resources/Practical-Ideas-for-Ransomware-Resilience.md)” paper which is freely available on this site.
 
 That is all for now. Key takeaways here: the change in CVSS score doesn’t change the mitigation strategies, we continue to work on workarounds to ensure they are clear and helpful, we continue to work on releasing product updates, and we urge you to be thinking about preparations for the holiday season.
 
@@ -365,7 +369,7 @@ VMware Smart Assurance M&R
 VMware Harbor Container Registry for TKGI  
 VMware vRealize Operations Tenant App for VMware Cloud Director
 
-The email to the VMSA mailing list, security-announce@lists.vmware.com, contains this information. Please subscribe from the VMSA page itself (link is below in the links).
+The email to the VMSA mailing list contains this information. Please subscribe from the VMSA page itself (link is below in the links).
 
 The URL does not change for point updates to the VMSA. The URL for VMSA-2021-0028.7 is the same as the original.
 
@@ -385,7 +389,7 @@ Thank you!
 
 ### December 23, 2021 - 1330 PST
 
-No major updates between the last update and this one, to the VMSA, blog posts, or the Q&A. Over the holidays please subscribe to the VMSA mailing list, security-announce@lists.vmware.com, from the VMSA page itself (link is below in the links), and to the KB articles for products you run.
+No major updates between the last update and this one, to the VMSA, blog posts, or the Q&A. Over the holidays please subscribe to the VMSA mailing list from the VMSA page itself (link is below in the links), and to the KB articles for products you run.
 
 Barring any breaking news the next update here will be Monday, December 27th. If the VMSA is updated during that time we will update this document as well.
 
@@ -398,7 +402,7 @@ VMSA-2021-0028.8 was published on December 24th, indicating updates to:
 VMware NSX-T Data Center  
 VMware Tanzu Greenplum Platform Extension Framework Greenplum Text VMware Tanzu Kubernetes Grid Integrated Edition
 
-No updates to the blog posts or the Q&A. Please subscribe to the VMSA mailing list, security-announce@lists.vmware.com, from the VMSA page itself (link is below in the Links section), and to the KB articles for products you run.
+No updates to the blog posts or the Q&A. Please subscribe to the VMSA mailing list from the VMSA page itself (link is below in the Links section), and to the KB articles for products you run.
 
 The next update here will be Wednesday, December 29th.
 
@@ -410,19 +414,19 @@ Unscheduled update: we are receiving questions about the new Apache Software Fou
 
 Similar to other CVEs disclosed recently by the Apache Software Foundation, this one requires a specific non-default configuration, so it is not generally applicable to all uses of Log4j. Unlike other recent CVEs, this one requires that the attacker modify the Log4j configuration file in order to configure it in a way that allows a remote code execution. Keep in mind that an attacker that has privileged access to a web application's configuration files is already a serious threat.
 
-More to come. Every environment is different so evaluate these disclosures in the context of your own workloads and infrastructure. In general, please continue to focus on the remediations & mitigations for CVE-2021-44228. And, as always, please subscribe to the VMSA mailing list, security-announce@lists.vmware.com, from the VMSA page itself (link is below in the Links section), and to the KB articles for products you run so you receive email when those documents are updated with new information.
+More to come. Every environment is different so evaluate these disclosures in the context of your own workloads and infrastructure. In general, please continue to focus on the remediations & mitigations for CVE-2021-44228. And, as always, please subscribe to the VMSA mailing list from the VMSA page itself (link is below in the Links section), and to the KB articles for products you run so you receive email when those documents are updated with new information.
 
 ### December 29, 2021 - 1230 PST
 
 At this time the newest Log4j vulnerability disclosure from the Apache Software Foundation, CVE-2021-44832, does not appear to impact VMware products directly. Keep in mind that this vulnerability requires a specific non-default configuration which limits its applicability. It also requires that the attacker modify the Log4j configuration file in order to configure it in a way that allows a remote code execution. An attacker that has privileged access to a web application's configuration files is already a serious threat.
 
-Due to the upcoming holidays and rate of change this week the next update will be January 3, 2022. If there are new developments we will update this page. The VMSA itself is always the definitive guide to what is and isn't affected, and the patches & workarounds. Please subscribe to the VMSA mailing list, security-announce@lists.vmware.com, from the VMSA page itself (link is below in the Links section), and to the KB articles for products you run so you receive email when those documents are updated.
+Due to the upcoming holidays and rate of change this week the next update will be January 3, 2022. If there are new developments we will update this page. The VMSA itself is always the definitive guide to what is and isn't affected, and the patches & workarounds. Please subscribe to the VMSA mailing list from the VMSA page itself (link is below in the Links section), and to the KB articles for products you run so you receive email when those documents are updated.
 
 ### December 31, 2021 - 1230 PST
 
 An unscheduled update, to remind everyone to ensure that the workarounds you've implemented are the current ones. A few days after CVE-2021-44228 was first disclosed the Apache Software Foundation changed their mitigation guidance for CVE-2021-44228 when they disclosed CVE-2021-45046. VMware followed by updating the workarounds with additional guidance that addresses CVE-2021-45046 in addition to CVE-2021-44228. Products which have not been patched or had the **_complete_** current workaround applied may continue to be at risk of compromise by malicious actors. Please double-check to ensure that the procedures you used for mitigation are the current ones. Attackers are actively exploiting CVE-2021-44228 so it is important.
 
-The VMSA itself is always the definitive guide to what is and isn't affected, and the patches & workarounds. Please subscribe to the VMSA mailing list, security-announce@lists.vmware.com, from the VMSA page itself (link is below in the Links section), and to the KB articles for products you run so you receive email when those documents are updated.
+The VMSA itself is always the definitive guide to what is and isn't affected, and the patches & workarounds. Please subscribe to the VMSA mailing list from the VMSA page itself (link is below in the Links section), and to the KB articles for products you run so you receive email when those documents are updated.
 
 For those of you already in 2022, we hope it is going well, and for those still in 2021 please have a great holiday.
 
@@ -430,7 +434,7 @@ For those of you already in 2022, we hope it is going well, and for those still 
 
 No updates at this time. Two reminders:
 
-First, please subscribe to the VMSA mailing list, security-announce@lists.vmware.com, from the VMSA page itself (link is below in the Links section), and to the KB articles for products you run so you receive email when those documents are updated. As patches for products are released that will become the preferred way to resolve these issues.
+First, please subscribe to the VMSA mailing list from the VMSA page itself (link is below in the Links section), and to the KB articles for products you run so you receive email when those documents are updated. As patches for products are released that will become the preferred way to resolve these issues.
 
 Second,  please ensure that the workarounds you've implemented are the current ones. A few days after CVE-2021-44228 was first disclosed the Apache Software Foundation changed their mitigation guidance for CVE-2021-44228 when they disclosed CVE-2021-45046. VMware followed by updating the workarounds with additional guidance that addresses CVE-2021-45046 in addition to CVE-2021-44228. Products which have not been patched or had the **_complete_** current workaround applied may continue to be at risk of compromise by malicious actors. Please double-check to ensure that the procedures you used for mitigation are the current ones. Attackers are actively exploiting CVE-2021-44228 so it is important.
 

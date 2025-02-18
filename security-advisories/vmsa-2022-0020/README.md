@@ -1,4 +1,8 @@
 # VMSA-2022-0020: Questions & Answers
+
+> [!WARNING]
+> This information is about an older security vulnerability and is not current. It is kept online for reference. Please review the [VMware Security Advisories web page](https://www.broadcom.com/support/vmware-security-advisories) for the latest information to protect yourself and your organizations. Thank you.
+
 Introduction
 ------------
 
@@ -80,7 +84,7 @@ No, this is a vulnerability in computing hardware.
 
 This advisory is for ESXi hosts and will involve patching and restarting them. VMware always recommends applying the latest updates to installed products and system firmware as an essential part of defense-in-depth.
 
-VMSA-2022-0018, also released on July 12, 2022, is an advisory for vCenter Server. It is always recommended that vCenter Server be brought to current patch levels prior to applying current ESXi updates. See “[Tips for Patching VMware vSphere](https://core.vmware.com/tips-patching-vmware-vsphere)” for more information about techniques for ensuring patching success.
+VMSA-2022-0018, also released on July 12, 2022, is an advisory for vCenter Server. It is always recommended that vCenter Server be brought to current patch levels prior to applying current ESXi updates. See “[Tips for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD)” for more information about techniques for ensuring patching success.
 
 ### If I apply these ESXi updates, do I also need to update my system firmware?
 

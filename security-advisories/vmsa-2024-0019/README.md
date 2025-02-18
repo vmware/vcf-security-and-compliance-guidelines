@@ -33,11 +33,11 @@ Relevant Links
 
 [VMware Cloud Foundation Security Advisories](https://support.broadcom.com/web/ecx/security-advisory?segment=VC) (list of all disclosed security vulnerabilities)
 
-[VMware Security Advisory Mailing List](https://docs.google.com/forms/d/1l5T1Gndw_0olrZa29B0bbRBy7l701YFrW53P-RF9bKo/viewform?edit_requested=true) (please subscribe for proactive notifications of security advisories)
+[VMware Security Advisory Mailing List](https://go-vmware.broadcom.com/vmsa_email_alert) (please subscribe for proactive notifications of security advisories)
 
-[Best Practices for Patching VMware vSphere](https://core.vmware.com/patch-vsphere-best-practices) (advice for ensuring patching success)
+[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD) (advice for ensuring patching success)
 
-[VMware Ports & Protocols](https://ports.broadcom.com/) & [VMware vSphere Firewalling Helper](https://core.vmware.com/vsphere-firewalling-helper) (assistance in determining ingress & egress firewall rule sets)
+[VMware Ports & Protocols](https://ports.broadcom.com/) & [VMware vSphere Firewalling Helper](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-configuration-hardening-guide/vsphere/8.0/VMware%20vSphere%20Security%20Configuration%20Guide%208%20-%20Firewalling%20Helper.xlsx) (assistance in determining ingress & egress firewall rule sets)
 
 [VMware vSphere Critical Patch Downloads](https://support.broadcom.com/group/ecx/productdownloads?subfamily=VMware+vSphere&tab=Solutions) (support.broadcom.com)
 

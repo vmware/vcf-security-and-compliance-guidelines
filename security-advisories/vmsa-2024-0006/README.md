@@ -1,4 +1,8 @@
 # VMSA-2024-0006: Questions & Answers
+
+> [!WARNING]
+> This information is about an older security vulnerability and is not current. It is kept online for reference. Please review the [VMware Security Advisories web page](https://www.broadcom.com/support/vmware-security-advisories) for the latest information to protect yourself and your organizations. Thank you.
+
 Introduction
 ------------
 
@@ -83,7 +87,7 @@ You may be able to remove the USB controller from the VM, which may affect virtu
 
 The workarounds listed involve removing the USB controllers from virtual machines. This may not be feasible at scale, and some supported operating systems require USB for keyboard & mouse access via the virtual console (through vCenter Server or ESXi but does not affect Remote Desktop). You may also lose some functionality such as USB passthrough.
 
-That said, most Windows and Linux versions support use of the virtual PS/2 mouse and keyboard, and removing unnecessary devices such as USB controllers is recommended as part of the [security hardening guidance VMware publishes](https://core.vmware.com/security-configuration-guide).
+That said, most Windows and Linux versions support use of the virtual PS/2 mouse and keyboard, and removing unnecessary devices such as USB controllers is recommended as part of the [security hardening guidance VMware publishes](http://brcm.tech/vcf-scg).
 
 ### How can I determine if my virtual machines have a USB controller attached?
 
