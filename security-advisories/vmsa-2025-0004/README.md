@@ -5,7 +5,7 @@ Introduction
 
 On March 4, 2025 Broadcom released a critical VMware Security Advisory (VMSA), VMSA-2025-0004, addressing security vulnerabilities found and resolved in VMware ESX regarding a mechanism where threat actors could access the hypervisor through a running virtual machine.
 
-The updated advisory references patches applicable to all supported versions of VMware ESX. All customers should apply these updates.
+The advisory references patches applicable to all supported versions of VMware ESX. All customers should apply these updates.
 
 The VMSA will always be the source of truth for what products & versions are affected and proper patches to keep your organization secure. This document is a corollary to the advisory and includes self-service information to help you and your organization decide how to respond.
 
@@ -21,8 +21,8 @@ There is not a regular update schedule for this document; it will be updated as 
 
 ## Relevant Links
 
-[VMware Security Advisory VMSA-2025-0004](https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/24968) (the security advisory itself)  
-[VMSA-2025-0004 Questions & Answers](https://brcm.tech/vmsa-2025-0004) (this document’s link)  
+[VMware Security Advisory VMSA-2025-0004](https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/25390) (the security advisory itself)  
+[VMSA-2025-0004 Questions & Answers](https://brcm.tech/vmsa-2025-0004) (this document’s lshortened ink)  
 [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg) (the reference for hardening VMware vSphere, virtual machines, and in-guest settings like VMware Tools)  
 [VMware Cloud Foundation Security Advisories](https://support.broadcom.com/web/ecx/security-advisory?segment=VC) (list of all disclosed security vulnerabilities)  
 [VMware Security Advisory Mailing List](https://go-vmware.broadcom.com/vmsa_email_alert) (please subscribe for proactive notifications of security advisories)  
