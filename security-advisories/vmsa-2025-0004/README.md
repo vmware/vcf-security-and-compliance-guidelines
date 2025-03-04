@@ -22,7 +22,7 @@ There is not a regular update schedule for this document; it will be updated as 
 ## Relevant Links
 
 [VMware Security Advisory VMSA-2025-0004](https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/25390) (the security advisory itself)  
-[VMSA-2025-0004 Questions & Answers](https://brcm.tech/vmsa-2025-0004) (this document’s lshortened ink)  
+[VMSA-2025-0004 Questions & Answers](https://brcm.tech/vmsa-2025-0004) (this document’s shortened ink)  
 [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg) (the reference for hardening VMware vSphere, virtual machines, and in-guest settings like VMware Tools)  
 [VMware Cloud Foundation Security Advisories](https://support.broadcom.com/web/ecx/security-advisory?segment=VC) (list of all disclosed security vulnerabilities)  
 [VMware Security Advisory Mailing List](https://go-vmware.broadcom.com/vmsa_email_alert) (please subscribe for proactive notifications of security advisories)  
