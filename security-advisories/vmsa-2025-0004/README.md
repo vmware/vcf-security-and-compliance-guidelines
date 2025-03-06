@@ -15,7 +15,7 @@ You are affected if you are running any version of VMware ESX, VMware vSphere, V
 
 ## Current Update
 
-Updated on March 4, 2025 at 1015 PST (-0800)
+Updated on March 6, 2025 at 0815 PST (-0800)
 
 ## Next Expected Update
 
