@@ -11,7 +11,7 @@ The VMSA will always be the source of truth for what products & versions are aff
 
 You are affected if you are running any version of VMware ESX, VMware vSphere, VMware Cloud Foundation, or VMware Telco Cloud Platform prior to the versions listed as “fixed” in the VMSA. Please consult the VMSA itself for the definitive list of affected versions. If you have a question about whether you are affected it is probable that you are, and should take action immediately.
 
-**If you are experiencing issues with the Broadcom Support Portal** please see the section below entitled "I am having trouble downloading the patches from the Broadcom Support Portal" for more information.
+**If you are experiencing issues with the Broadcom Support Portal** please see the section below entitled "I currently have an active entitlement however I cannot see all the fixed versions relating to the VMSA" for more information.
 
 ## Current Update
 
@@ -84,9 +84,9 @@ Yes; ESX is affected by this VMSA.
 
 No; Although Live Patch was [announced](https://blogs.vmware.com/cloud-foundation/2024/06/25/vmware-vsphere-8-u3-initial-availability-announcement/) following the release of vSphere 8.0 Update 3, the nature of this particular issue prevents the use of live patching.
 
-### I am having trouble downloading the patches from the Broadcom Support Portal.
+### I currently have an active entitlement however I cannot see all the fixed versions relating to the VMSA.
 
-There is currently an issue with the Broadcom Support Portal relating to customers that have downgraded licenses. This issue is a high priority and will be fixed shortly. In the meantime, it is recommended to leverage in-product downloads to obtain the patch. If this is not possible, please open a non-technical support ticket for support. See [https://knowledge.broadcom.com/external/article/145364/create-a-non-technical-case-for-support.html](https://knowledge.broadcom.com/external/article/145364/create-a-non-technical-case-for-support.html) for more details.
+To access a patch from any version, for example: 7 patch you must have a License Key of the same version to view and download.  If the licenses on your site ID contain one version you will have to upgrade/downgrade licenses to access another version.  For more information relating to upgrading/downgrading licenses see [Upgrade and Downgrade VMware License Keys](https://knowledge.broadcom.com/external/article/281797/upgrade-and-downgrade-vmware-license-key.html)
 
 ### Do I have to update SDDC Manager?
 
