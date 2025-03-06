@@ -11,7 +11,7 @@ The VMSA will always be the source of truth for what products & versions are aff
 
 You are affected if you are running any version of VMware ESX, VMware vSphere, VMware Cloud Foundation, or VMware Telco Cloud Platform prior to the versions listed as “fixed” in the VMSA. Please consult the VMSA itself for the definitive list of affected versions. If you have a question about whether you are affected it is probable that you are, and should take action immediately.
 
-**If you are experiencing issues with the Broadcom Support Portal** please see the section below entitled "I currently have an active entitlement however I cannot see all the fixed versions relating to the VMSA" for more information.
+**If you are experiencing issues with the Broadcom Support Portal** please see the section below entitled ["I currently have an active entitlement however I cannot see all the fixed versions relating to the VMSA"](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-advisories/vmsa-2025-0004#i-currently-have-an-active-entitlement-however-i-cannot-see-all-the-fixed-versions-relating-to-the-vmsa) for more information.
 
 ## Current Update
 
