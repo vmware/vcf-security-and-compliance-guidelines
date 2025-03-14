@@ -104,7 +104,7 @@ If you only deploy to TPM-enabled hosts in a non-homogenous cluster there may be
 
 ### If I have a cluster where some hosts have TPMs and some don’t, will the TPM-enabled hosts use the TPM by default?
 
-Yes, if a host has a TPM installed and configured it will be used to store ESX secrets such as the Native Key Provider KDK.
+Yes, if a host has a TPM installed and configured it will be used to protect ESX secrets such as the Native Key Provider KDK. The TPM stores a key protecting the ESX Encrypted Configuration, and the Encrypted Configuration stores all the other secrets that ESX has, like the NKP KDK.
 
 ### Are there situations where Native Key Provider might not be suitable for use?
 
@@ -114,15 +114,13 @@ Threats and risks are something that organizations must assess for themselves wh
 
 All vSphere editions include VMware vSphere Native Key Provider (NKP), which enables the use of vTPMs for workloads.
 
-VM Encryption and vSAN Data-at-Rest Encryption can also use Native Key Provider, but require additional licensing (vSphere Enterprise Plus, for example).
-
-Please consult with your account team for specifics.
+VM Encryption and vSAN Data-at-Rest Encryption can also use Native Key Provider, but require additional licensing (vSphere Enterprise Plus or VCF, for example).
 
 ### What encryption technologies work with Native Key Provider?
 
-VM Encryption, vTPM, and vSAN Encryption work with Native Key Provider.
+All data-at-rest encryption features for workloads and workload data, like VM Encryption, vTPM, and vSAN Encryption, work with and can use Native Key Provider.
 
-vSphere Trust Authority, the feature that lets you create a trusted computing base with a separate vSphere cluster, currently requires the standard key provider.
+Data-in-transit (TLS, Encrypted vMotion, vSAN Data-in-Transit Encryption) and data-in-use (AMD SEV-ES, AMD SEV-SNP, Intel SGX, Intel TDX) encryption technologies are independent and do not use key providers, but work fine with NKP. Same for ESX Encrypted Configuration.
 
 ### Does ESX Configuration Encryption require Native Key Provider?
 
@@ -130,13 +128,13 @@ ESX Configuration Encryption does not use Native Key Provider. It uses the same 
 
 ### Is the ESX configuration encryption key stored in Native Key Provider?
 
-No. It’s the opposite – the Native Key Provider KDK is stored in the encrypted configuration. If a TPM is present and configured it will be used to help protect the encrypted configurations.
+No. It’s the opposite: the Native Key Provider KDK is stored in the encrypted configuration. If a TPM is present and configured on the host it will be used to help protect the encrypted configurations.
 
 ### Do the VMware Certificate Authority (VMCA) functions use Native Key Provider?
 
 No, the VMCA and its certificate operations do not use Native Key Provider, though they all use the same shared encryption libraries present in vSphere.
 
-### Does Encrypted vSphere vMotion require Native Key Provider?
+### Does Encrypted vMotion require Native Key Provider?
 
 No. It uses the same underlying encryption libraries in vSphere, but it handles encryption operations itself. The keys used for vMotion Encryption are one-time use keys known as “nonces.” The vMotion encryption keys are ephemeral and not stored anywhere except temporarily in memory of vCenter and the two ESX hosts involved.
 
@@ -322,7 +320,7 @@ Not directly. Choose the name wisely if you plan to import it elsewhere, so that
 
 ### How often does Native Key Provider rotate its keys?
 
-Native Key Provider does not rotate its keys automatically, as that could endanger other environments where that key is used. To change the Native Key Provider key you can create another Native Key Provider instance, set it as the default key provider, and do a shallow rekey/re-encrypt to move virtual machines to the new provider. See instructions in this FAQ for more information on rekeying VMs.
+Native Key Provider does not rotate its keys automatically, as that could endanger other environments where that key is used. To change the Native Key Provider instance key you can create another Native Key Provider instance, set it as the default key provider, and do a shallow rekey/re-encrypt to move virtual machines to the new provider. See instructions in this FAQ for more information on rekeying VMs.
 
 ### What is in the backup .p12 file?
 
