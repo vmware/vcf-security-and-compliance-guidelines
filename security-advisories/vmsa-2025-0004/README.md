@@ -11,9 +11,11 @@ The VMSA will always be the source of truth for what products & versions are aff
 
 You are affected if you are running any version of VMware ESX, VMware vSphere, VMware Cloud Foundation, or VMware Telco Cloud Platform prior to the versions listed as “fixed” in the VMSA. Please consult the VMSA itself for the definitive list of affected versions. If you have a question about whether you are affected it is probable that you are, and should take action immediately.
 
+**If you are experiencing issues with the Broadcom Support Portal** please see the section below entitled ["I currently have an active entitlement however I cannot see all the fixed versions relating to the VMSA"](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-advisories/vmsa-2025-0004#i-currently-have-an-active-entitlement-however-i-cannot-see-all-the-fixed-versions-relating-to-the-vmsa) for more information.
+
 ## Current Update
 
-Updated on March 4, 2025 at 0200 PST (-0800)
+Updated on March 6, 2025 at 0815 PST (-0800)
 
 ## Next Expected Update
 
@@ -82,6 +84,10 @@ Yes; ESX is affected by this VMSA.
 
 No; Although Live Patch was [announced](https://blogs.vmware.com/cloud-foundation/2024/06/25/vmware-vsphere-8-u3-initial-availability-announcement/) following the release of vSphere 8.0 Update 3, the nature of this particular issue prevents the use of live patching.
 
+### I currently have an active entitlement however I cannot see all the fixed versions relating to the VMSA.
+
+To access a patch from any version, for example: 7 patch you must have a License Key of the same version to view and download.  If the licenses on your site ID contain one version you will have to upgrade/downgrade licenses to access another version.  For more information relating to upgrading/downgrading licenses see [Upgrade and Downgrade VMware License Keys](https://knowledge.broadcom.com/external/article/281797/upgrade-and-downgrade-vmware-license-key.html)
+
 ### Do I have to update SDDC Manager?
 
 No; SDDC Manager is not affected by this VMSA.
@@ -101,19 +107,6 @@ Yes, there is an asynchronous patch for supported versions of the VMware Cloud F
 ### Will there be a patch for VMware Telco Cloud Platform?
 
 VMware Telco Cloud Platform customers will need to update to a version of ESXi that contains the fixes, which may necessitate moving to a newer version of VMware Telco Cloud Platform (TCP). For more details please consult the instructions in the VMSA itself.
-
-### There was a commitment made to provide critical patches for perpetual-license vSphere customers. How do I download those patches?
-
-On April 15, 2024, Broadcom announced via blog post that all customers, including those with expired support contracts, will have access to all patches for Critical Severity Security Alerts for supported versions of VMware vSphere. This policy can be found in [KB 314603\.](https://knowledge.broadcom.com/external/article?articleNumber=314603)  
-These patches are located on support.broadcom.com. You will need to create an account, which can be done in a few minutes and at no cost.
-
-1. Log in and choose “VMware Cloud Foundation” from the drop down menu near the top right.  
-2. Choose “My Downloads” from the menu on the left.  
-3. Choose “VMware vSphere” as the product (page two of the list).  
-4. Choose the “Solutions” tab.  
-5. Choose the edition and version of vSphere.
-
-A direct link to this location is in the links above. You may need to log in first and then visit the link.
 
 ### Are there workarounds for these vulnerabilities?
 
