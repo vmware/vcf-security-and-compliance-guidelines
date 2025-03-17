@@ -64,9 +64,6 @@ However you arrive at them, you will need a file with the certificate chain in i
 
 It is sometimes easier to SSH to the vCenter Server Appliance, enter the shell, then initiate the scp outbound using the vCenter Server shell itself. Otherwise for incoming scp you will need to change the root shell on the VCSA using the “chsh -s /bin/bash root” command from the shell itself:
 
-![A picture containing text, screenshot, font</p>
-<p>Description automatically generated](https://images.core.vmware.com/sites/default/files/imported-images/node_4070_0515-012359/42804-0515-012356/42804-0515-012356-1.png)
-
 vCenter Server Preparation
 --------------------------
 
@@ -124,11 +121,7 @@ From here you will execute /usr/lib/vmware-vmca/bin/certificate-manager on one v
     *   “Please provide valid custom certificate for Root.” – (Specify the certificate chain you created, /root/chain.pem)
     *   “Please provide valid custom key for Root.” – (Specify the key file, /root/vsphere-key-nopw.pem)
 8.  You will be asked “You are going to replace Root Certificate with custom certificate and regenerate all other certificates” – (If you feel comfortable with your answers enter “Y”)
-9.  Certificate Manager will now replace all the certificates for vCenter Server services. Wait patiently until it is done. This may take some time as it will restart all vCenter Server services (same as if you’d rebooted the VCSA). An example of what it looks like while it works is:
-
-![A screenshot of a computer screen</p>
-<p>Description automatically generated with medium confidence](https://images.core.vmware.com/sites/default/files/imported-images/node_4070_0515-012359/42804-0515-012356/42804-0515-012356-2.png)
-
+9.  Certificate Manager will now replace all the certificates for vCenter Server services. Wait patiently until it is done. This may take some time as it will restart all vCenter Server services (same as if you’d rebooted the VCSA). An example of what it looks like while it works is.
 10.  If there are errors it will revert the certificates to the original, self-signed ones. You can look in /var/log/vmware/vmcad for the relevant log files (use the UNIX command “less” to view a file, like “less /var/log/vmware/vmcad/certificate-manager.log”).
 11.  When it completes you will be logged out of the web-based vSphere Client. Log back in and verify that the certificate is what you expect and no new alarms are present. If you did not disable vSphere HA you may want to wait for cluster elections to finish before proceeding with ESXi certificate replacements.
     *   As previously mentioned, you may encounter HSTS or caching issues with your browser, or issues with the trusted CA root if it wasn’t properly installed. Try restarting your browser, using a different one, and/or “forgetting” the site.
