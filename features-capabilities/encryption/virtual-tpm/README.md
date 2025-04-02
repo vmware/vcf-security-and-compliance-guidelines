@@ -117,6 +117,10 @@ A variety of things might need to be checked:
 
 To troubleshoot the absence of a Trusted Platform Module option in your VM settings, ensure proper key provider configuration, compatibility with guest OS, and avoid restricting Native Key Provider to TPM-protected ESX hosts if lacking required hardware.
 
+### I am seeing "TPM2 device is required" in the logs when I attempt to use a vTPM.
+
+If you are using Native Key Provider, have you chosen the “Use key provider only with TPM protected ESX hosts” option? If you did this Native Key Provider will only push support to the hosts with a hardware TPM. If your hosts do not have a hardware TPM then they cannot participate, and you will have issues. Ensure you have the backup file for the Native Key Provider instance, delete the instance, and restore it from the backup but do not check that box this time (yes, it says recommended, but that is only if you have the required hardware).
+
 ### What is the maximum number of virtual machines that can have vTPMs?
 
 vTPMs are supported on the maximum number of virtual machines possible on vSphere. Please check [https://configmax.broadcom.com](https://configmax.broadcom.com/) for those configuration limits.
