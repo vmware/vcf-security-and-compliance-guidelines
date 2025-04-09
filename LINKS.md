@@ -48,6 +48,7 @@ VMware has a defined Secure Software Development Lifecycle and policies for how 
 
 * [VMware Product Security: An Overview of VMware's Security Programs and Practices](https://www.vmware.com/docs/vmware-product-security-white-paper)
 * [VMware External Vulnerability Response and Remediation Policy](https://www.broadcom.com/support/vmware-services/security-response)
+* [Data collected when gathering diagnostic information from vSphere products](https://knowledge.broadcom.com/external/article?legacyId=2147388) also covers what happens with encrypted VMs, and how to encrypt memory and support dumps.
 
 ## VMware Security Advisories
 VMware Security Advisories, or VMSAs, are formal notifications of a vulnerability that has been reported and resolved in VMware products. They contain information about what the problem is and where it is located, the fixed versions, and sometimes include workarounds and other possible defensive posture.
