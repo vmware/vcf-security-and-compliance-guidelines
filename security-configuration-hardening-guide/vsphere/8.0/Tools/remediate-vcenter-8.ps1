@@ -696,18 +696,22 @@ if ($RemediateDistributedSwitches) {
     }
 
 #####################
+# This test commented out as it does not retroactively set the expiration for existing localos accounts, nor for
+# root. Please use the VCSA VAMI (5480/tcp) to set and check this value.
+#
+#####################
 # Test VCSA Settings for password policies
-$value = (Get-CisService -Name "com.vmware.appliance.local_accounts.policy").get() | Select-Object -ExpandProperty max_days
-if ($value -ne 9999) {
-    try {
-        (Get-CisService -Name "com.vmware.appliance.local_accounts.policy").set(@{max_days=9999}) | Out-Null
-        Log-Message "vCenter Server Appliance local accounts max_days has been updated ($value -> 9999)" -Level "UPDATE"
-    } catch {
-        Log-Message "vCenter Server Appliance local accounts max_days could not be updated ($value)" -Level "ERROR"
-    }
-} else {
-    Log-Message "vCenter Server Appliance local accounts max_days configured correctly ($value)" -Level "PASS"
-}
+#$value = (Get-CisService -Name "com.vmware.appliance.local_accounts.policy").get() | Select-Object -ExpandProperty max_days
+#if ($value -ne 9999) {
+#    try {
+#        (Get-CisService -Name "com.vmware.appliance.local_accounts.policy").set(@{max_days=9999}) | Out-Null
+#        Log-Message "vCenter Server Appliance local accounts max_days has been updated ($value -> 9999)" -Level "UPDATE"
+#    } catch {
+#        Log-Message "vCenter Server Appliance local accounts max_days could not be updated ($value)" -Level "ERROR"
+#    }
+#} else {
+#    Log-Message "vCenter Server Appliance local accounts max_days configured correctly ($value)" -Level "PASS"
+#}
 
 Log-Message "Remediation of $name completed at $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")" -Level "INFO"
 Log-Message "Re-run the corresponding audit script to verify the remediation." -Level "INFO"
