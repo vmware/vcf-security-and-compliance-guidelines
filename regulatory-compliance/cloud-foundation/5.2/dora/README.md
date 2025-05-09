@@ -4,6 +4,10 @@ The European Union's Digital Operational Resilience Act (DORA) is a comprehensiv
 
 Documents here intend to help organizations who are implementing DORA compliance understand how their VMware Cloud Foundation (VCF) environment is well-suited to operational resilience, by listing features and capabilities present in VCF and how they apply to this regulation.
 
+## Permanent Link
+
+This page is accessible directly using the [https://brcm.tech/vcf-dora]https://brcm.tech/vcf-dora permanent link.
+
 ## Broadcom Resources
 
 - [EU Digital Operational Resilience Act - VCF 5.2 Product Applicability Guide](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/5.2/dora/VCF-52-Product-Applicability-Guide-EU-DORA-20241212.pdf) - direct PDF download of the document in this directory
