@@ -6,7 +6,7 @@ Documents here intend to help organizations who are implementing DORA compliance
 
 ## Permanent Link
 
-This page is accessible directly using the [https://brcm.tech/vcf-dora]https://brcm.tech/vcf-dora permanent link.
+This page is accessible directly using the [https://brcm.tech/vcf-dora](https://brcm.tech/vcf-dora) permanent link.
 
 ## Broadcom Resources
 
