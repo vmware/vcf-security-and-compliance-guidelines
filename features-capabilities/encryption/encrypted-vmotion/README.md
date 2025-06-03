@@ -87,3 +87,7 @@ There is no mechanism to retrieve the keys used by encrypted vMotion.
 ### Does Encrypted vMotion use TLS?
 
 No. For performance & workload isolation reasons the transfer between ESX hosts does not use TLS. Instead, it uses 256-bit AES-GCM algorithms which are FIPS-validated. If a vMotion is between hosts managed by different vCenters in Enhanced Linked Mode the vCenters will protect their communications using TLS. The key distribution communications between vCenter and the ESX hosts is done over a connection protected by TLS.
+
+### Is vMotion supported between two hosts where one has a physical TPM and the other does not?
+
+Yes. The presence or lack of a physical TPM does not impact vMotion.
