@@ -20,7 +20,7 @@ On ESX, two parameters govern the local account lockout:
 - Security.AccountLockFailures: governs how many failed logins cause an account lockout.
 - Security.AccountUnlockTime: governs how long the account stays locked out. This is the main control for slowing an attacker down.
 
-Security.AccountUnlockTime cannot be set to zero or -1 to disable it, but it can be set to a large value like it's maximum of 999999999 seconds (almost 32 years). If you are concerned about inadvertent lockouts you might set it to something like 900, which is what many compliance frameworks require, as a compromise between annoying legitimate administrators versus deterring attackers.
+Security.AccountUnlockTime cannot be set to zero or -1 to disable it, but it can be set to a large value like its maximum of 999999999 seconds (almost 32 years). If you are concerned about inadvertent lockouts you might set it to something like 900, which is what many compliance frameworks require, as a compromise between annoying legitimate administrators versus deterring attackers.
 
 If ESX is connected to vCenter, SDDC Manager, or VCF Operations there may be paths to resetting the root password or creating alternate administrator accounts, too.
 
