@@ -10,7 +10,10 @@
 
 ## Questions & Answers
 
-###  
+### How can I control the TLS ciphers used by vSphere?
+
+### Several KB articles say that the default ciphers in vSphere are not considered insecure, but my infosec group says otherwise. Who is right?
+Both groups are. The default ciphers in vSphere are selected for backwards-compatibility. The concern about some of those ciphers, specifically static ciphers, is that there are a number of largely-theoretical attacks against them, and while they are not insecure, per se, with better options available we should all use those. VMware infrastructure products support this through the use of TLS Profiles, and you can choose the "NIST_2024" (in 8.0 and 9.0) and "NIST_2024_TLS_13_ONLY" (in 9.0) to satisfy these requirements.
 
 ## Disclaimer
 
