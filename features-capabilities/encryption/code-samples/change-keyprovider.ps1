@@ -87,7 +87,6 @@ Function Accept-EULA() {
 }
 
 Function Do-Pause() {
-    Start-Sleep -Seconds 10
     Write-Output "[WAIT]  Check the vSphere Client to make sure all tasks have completed, then press a key." 
     $null = $host.UI.RawUI.FlushInputBuffer()
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
@@ -96,16 +95,11 @@ Function Do-Pause() {
 #####################
 # Check to see if we have the required version of VMware.PowerCLI
 Function Check-PowerCLI() {
-    $installedVersion = (Get-InstalledModule -Name 'VMware.PowerCLI' -AllVersions -ErrorAction SilentlyContinue).Version | Sort-Object -Desc | Select-Object -First 1
-    if ('13.1.0' -gt $installedVersion) {
-        Write-Output "[ERROR] This script requires PowerCLI 13.1 or newer. Current version is $installedVersion" 
-        Write-Output "[ERROR] Instructions for installation & upgrade can be found at https://developer.vmware.com/powercli" 
-        Exit
-    }
+    # Because of the change between VMware.PowerCLI and VCF.PowerCLI, omitting this check.
 }
 
 #####################
-# Check to see if we are attached to a single supported vCenter Server
+# Check to see if we are attached to a supported vCenter Server
 Function Check-vCenter() {
     if ($global:DefaultVIServers.Count -lt 1) {
         Write-Output "[ERROR] Please connect to a vCenter Server (use Connect-VIServer) prior to running this script. Thank you." 
@@ -119,7 +113,7 @@ Function Check-vCenter() {
     }
 
     $vcVersion = $global:DefaultVIServers.Version
-    if (($vcVersion -lt '7.0.0') -or ($vcVersion -gt '8.0.3')) {
+    if ($vcVersion -lt '7.0.0') {
         Write-Output "[ERROR] vCenter Server is not the correct version for this script." 
         Exit
     }
@@ -131,7 +125,7 @@ Function Check-Hosts()
 {
     $ESXi = Get-VMHost
     foreach ($hostVersion in $ESXi.Version) {
-        if (($hostVersion -lt '7.0.0') -or ($hostVersion -gt '8.0.3')) {
+        if (($hostVersion -lt '7.0.0')) {
             Write-Output "[ERROR] This script requires vSphere 7 or 8 throughout the environment." 
             Write-Output "[ERROR] There is at least one host attached that is downlevel ($hostVersion). Exiting." 
             Exit
@@ -140,7 +134,7 @@ Function Check-Hosts()
 }
 
 #######################################################################################################
-Write-Output "[INFO]  VMware Key Provider Change Tool v8.0.3`n"
+Write-Output "[INFO]  VMware Key Provider Change Tool v9.0.0`n"
 
 Accept-EULA
 Check-PowerCLI

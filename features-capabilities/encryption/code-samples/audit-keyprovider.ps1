@@ -59,12 +59,7 @@ Function Do-Pause() {
 #####################
 # Check to see if we have the required version of VMware.PowerCLI
 Function Check-PowerCLI() {
-    $installedVersion = (Get-InstalledModule -Name 'VMware.PowerCLI' -AllVersions -ErrorAction SilentlyContinue).Version | Sort-Object -Desc | Select-Object -First 1
-    if ('13.1.0' -gt $installedVersion) {
-        Write-Output "[ERROR] This script requires PowerCLI 13.1 or newer. Current version is $installedVersion" 
-        Write-Output "[ERROR] Instructions for installation & upgrade can be found at https://developer.vmware.com/powercli" 
-        Exit
-    }
+    # Because of the change between VMware.PowerCLI and VCF.PowerCLI, omitting this check.
 }
 
 #####################
@@ -82,7 +77,7 @@ Function Check-vCenter() {
     }
 
     $vcVersion = $global:DefaultVIServers.Version
-    if (($vcVersion -lt '7.0.0') -or ($vcVersion -gt '8.0.3')) {
+    if ($vcVersion -lt '7.0.0') {
         Write-Output "[ERROR] vCenter Server is not the correct version for this script." 
         Exit
     }
@@ -94,7 +89,7 @@ Function Check-Hosts()
 {
     $ESXi = Get-VMHost
     foreach ($hostVersion in $ESXi.Version) {
-        if (($hostVersion -lt '7.0.0') -or ($hostVersion -gt '8.0.3')) {
+        if (($hostVersion -lt '7.0.0')) {
             Write-Output "[ERROR] This script requires vSphere 7 or 8 throughout the environment." 
             Write-Output "[ERROR] There is at least one host attached that is downlevel ($hostVersion). Exiting." 
             Exit
@@ -103,7 +98,7 @@ Function Check-Hosts()
 }
 
 #######################################################################################################
-Write-Output "[INFO]  VMware Key Provider Audit Tool v8.0.3`n"
+Write-Output "[INFO]  VMware Key Provider Audit Tool v9.0.0`n"
 
 Check-PowerCLI
 Check-vCenter

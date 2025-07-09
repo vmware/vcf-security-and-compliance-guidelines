@@ -155,13 +155,7 @@ Function Do-Pause() {
 #####################
 # Check to see if we have the required version of VMware.PowerCLI
 Function Check-PowerCLI() {
-    $installedVersion = (Get-InstalledModule -Name 'VMware.PowerCLI' -AllVersions -ErrorAction SilentlyContinue).Version | Sort-Object -Desc | Select-Object -First 1
-    if ('13.3.0' -gt $installedVersion) {
-        Log-Message "This script requires PowerCLI 13.3 or newer. Current version is $installedVersion" -Level "ERROR"
-        Log-Message "Instructions for installation & upgrade can be found at https://developer.vmware.com/powercli" -Level "ERROR"
-        Log-Message "Some installations of PowerCLI cannot be detected. Use -NoSafetyChecks if you are sure." -Level "ERROR"
-        Exit
-    }
+    # Because of the change between VMware.PowerCLI and VCF.PowerCLI, omitting this check.
 }
 
 #####################
