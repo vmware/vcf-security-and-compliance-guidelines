@@ -1,13 +1,10 @@
-# Default Accounts in VMware vSphere
-
-Introduction
-------------
+# Default Accounts in VMware vSphere 8
 
 Efforts in security and regulatory compliance frequently aim to compare the default settings of VMware vSphere components with the active configurations in a given environment. This document outlines the standard accounts present in a fresh installation of VMware ESXi and VMware vCenter Server.
 
 Isolating services on the same operating system using distinct user accounts is a longstanding security practice. VMware employs this approach for its appliance services where feasible.
 
-Although we strive to update this document for major and update versions, other product updates might alter the findings. The product available from VMware Customer Connect is the definitive source. If discrepancies arise between this document and your environment, compare with the version from VMware Customer Connect. We also appreciate feedback on discrepancies via the feedback mechanism at the top of this page.
+Although we strive to update this document for major and update versions, other product updates might alter the findings. If discrepancies arise between this document and your environment, compare with the version from the Broadcom Support Portal. We also appreciate feedback on discrepancies via the feedback mechanism at the top of this page.
 
 Engineered solutions, including but not limited to HPE GreenLake and Dell VxRail, might introduce or modify local accounts in supported and acceptable ways. Details about these solutions are beyond the scope of this document and should be sought directly from the respective partners.
 
@@ -21,7 +18,7 @@ This document is intended to provide general guidance for organizations that are
 Intended Audience
 -----------------
 
-This document is based on hyperconverged on-premises deployments of VMware vSphere 7.0.3 and 8.0.2, commonly referred herein to as vSphere 7 and vSphere 8, respectively. We urge readers to consistently apply patches and updates, as they are integral to maintaining a robust security stance.
+This document is based on hyperconverged on-premises deployments of VMware vSphere 8.0.3, commonly referred herein to as vSphere 8. We urge readers to consistently apply patches and updates, as they are integral to maintaining a robust security stance.
 
 Numerous engineered data center and hybrid cloud infrastructure products incorporate VMware vSphere in their solutions. If you use vSphere in this manner, consult the product's support if discrepancies arise.
 
@@ -108,144 +105,84 @@ Accounts that are locked are locked through the UNIX standard method of replacin
 
 The passwords set on accounts are subject to the VCSA password quality settings which are visible in the VCSA Virtual Appliance Management Interface (VAMI). They are stored as salted SHA512 hashes, consistent with UNIX and UNIX-like operating systems.
 
-### vCenter Server 7
-
-Accounts present on a “stock” installation of VMware vCenter Server 7 are as follows. Descriptions of the accounts and their purposes can be found in the GECOS field (field 5) in /etc/passwd.
-
-analytics  
-apache  
-bin  
-certauth  
-certmgr  
-cis-license  
-content-library  
-daemon  
-deploy  
-dnsmasq  
-eam  
-envoy  
-imagebuilder  
-infraprofile  
-lookupsvc  
-messagebus  
-named  
-netdumper  
-nobody  
-ntp  
-observability  
-perfcharts  
-pod  
-pschealth  
-root  
-rpc  
-smmsp  
-sps  
-sshd  
-sso-user  
-systemd-bus-proxy  
-systemd-journal-gateway  
-systemd-journal-remote  
-systemd-journal-upload  
-systemd-network  
-systemd-resolve  
-systemd-timesync  
-tftp  
-topologysvc  
-trustmanagement  
-updatemgr  
-vapiEndpoint  
-vdtc  
-vlcm  
-vmafdd-user  
-vmcad-user  
-vmcam  
-vmdird  
-vmonapi  
-vpgmonusr  
-vpostgres  
-vpxd  
-vpxd-svcs  
-vsan-health  
-vsm  
-vsphere-ui  
-vstatsuser  
-vtsdbmonusr  
-vtsdbuser  
-wcp
-
 ### vCenter Server 8
 
-Accounts present on a “stock” installation of VMware vCenter Server 7 are as follows. Descriptions of the accounts and their purposes can be found in the GECOS field (field 5) in /etc/passwd.
+Accounts present on a “stock” installation of VMware vCenter Server 8 are as follows. Descriptions of the accounts and their purposes can be found in the GECOS field (field 5) in /etc/passwd.
 
-analytics  
-apache  
-bin  
-certauth  
-certmgr  
-cis-license  
-content-library  
-daemon  
-deploy  
-dnsmasq  
-eam  
-envoy  
-envoy-hgw  
-envoy-sidecar  
-hvc  
-idmservice  
-imagebuilder  
-infraprofile  
-lighttpd  
-lookupsvc  
-messagebus  
-named  
-netdumper  
-nobody  
-ntp  
-observability  
-perfcharts  
-pod  
-postgres  
-pschealth  
-rhttpproxy  
-root  
-rpc  
-sca  
-smmsp  
-sps  
-sshd  
-sso-user  
-sts  
-systemd-bus-proxy  
-systemd-journal-gateway  
-systemd-journal-remote  
-systemd-journal-upload  
-systemd-network  
-systemd-resolve  
-systemd-timesync  
-tftp  
-topologysvc  
-trustmanagement  
-updatemgr  
-vapiEndpoint  
-vdtc  
-vlcm  
-vmafdd-user  
-vmcad-user  
-vmcam  
-vmdird  
-vmonapi  
-vpgmonusr  
-vpostgres  
-vpxd  
-vpxd-svcs  
-vsan-health  
-vsm  
-vsphere-ui  
-vstatsuser  
-vtsdbmonusr  
-vtsdbuser  
-wcp
+Isolating services on the same operating system using distinct user accounts is a longstanding security practice on Linux- and UNIX-based systems. Broadcom employs this approach for its appliance services where feasible. As per Broadcom support policies on [VMware Virtual Appliances and Customizations](https://knowledge.broadcom.com/external/article?articleNumber=367354), changes to internal accounts on the appliances are not supported.
+
+alarms_script (isolation of vSphere alarm script execution) (locked via /sbin/nologin)
+analytics (isolation of vSphere Analytics service) (locked via /sbin/nologin)
+apache (stock Linux apache service account) (locked via /bin/false)
+bin (stock Linux account) (locked via /bin/false)
+certauth (isolation of vCenter Certificate Authority service) (locked via /sbin/nologin)
+certmgr (isolation of certificate lifecycle support processes) (locked via /sbin/nologin)
+cis-license (isolation of Cloud Infrastructure Services license management) (locked via /sbin/nologin)
+content-library (isolation of vSphere Content Library service) (locked via /sbin/nologin)
+daemon (stock Linux account) (locked via /bin/false)
+deploy (isolation of vSphere Deployment services) (locked via /sbin/nologin)
+dnsmasq (stock Linux dnsmasq service account) (locked via /sbin/nologin)
+eam (isolation of vSphere ESX Agent Manager services) (locked via /sbin/nologin)
+envoy (reverse proxy & TLS endpoint) (locked via /sbin/nologin)
+envoy-hgw (isolation of Envoy API gateway) (locked via /sbin/nologin)
+envoy-sidecar (isolation of Envoy sidecar proxy) (locked via /sbin/nologin)
+hvc (isolation of Hybrid vCenter services) (locked via /sbin/nologin)
+idmservice (isolation of Identity Management services) (locked via /sbin/nologin)
+imagebuilder (isolation of vSphere Image Builder service) (locked via /sbin/nologin)
+infraprofile (isolation of vSphere Infrastructure Profile service) (locked via /sbin/nologin)
+lighttpd (stock Linux lighttpd web server account) (locked via /sbin/nologin)
+lookupsvc (isolation of vSphere Lookup Service, part of SSO) (locked via /sbin/nologin)
+messagebus (stock Linux D-Bus service account) (locked via /bin/false)
+named (stock Linux DNS service account) (locked via /bin/false)
+netdumper (isolation of vSphere Network Dumper service) (locked via /sbin/nologin)
+nobody (stock Linux account) (locked via /bin/false)
+ntp (stock Linux NTP service account) (locked via /bin/false)
+observability (isolation of vSphere Observability services) (locked via /sbin/nologin)
+perfcharts (isolation of vSphere Performance Charts service) (locked via /sbin/nologin)
+pod (isolation of vSphere Pod services, part of VMware Kubernetes Service) (locked via /sbin/nologin)
+postgres (stock Linux PostgreSQL database service account) (locked via unset password)
+pschealth (isolation of vSphere Platform Services Controller services) (locked via /sbin/nologin)
+rhttpproxy (isolation of reverse HTTP proxy) (locked via /sbin/nologin)
+root (stock Linux account) (unlocked - shell: /bin/appliancesh)
+rpc (stock Linux RPC service account) (locked via /bin/false)
+sca (isolation of Service Control Agent) (locked via /sbin/nologin)
+smmsp (stock Linux sendmail service account) (locked via /bin/false)
+sps (isolation of the vSphere Storage Policy Service) (locked via /sbin/nologin)
+sshd (stock Linux SSH service account) (locked via /bin/false)
+sso-user (isolation of vSphere SSO services) (locked via unset password)
+sts (isolation of Security Token Service) (locked via /sbin/nologin)
+systemd-bus-proxy (stock Linux systemd service account) (locked via /bin/false)
+systemd-journal-gateway (stock Linux systemd service account) (locked via /bin/false)
+systemd-journal-remote (stock Linux systemd service account) (locked via /bin/false)
+systemd-journal-upload (stock Linux systemd service account) (locked via /bin/false)
+systemd-network (stock Linux systemd service account) (locked via /bin/false)
+systemd-resolve (stock Linux systemd service account) (locked via /bin/false)
+systemd-timesync (stock Linux systemd service account) (locked via /bin/false)
+tftp (stock Linux TFTP service account) (locked via /bin/false)
+topologysvc (isolation of vSphere Topology Service) (locked via /sbin/nologin)
+trustmanagement (isolation of vSphere Trust Authority services) (locked via /sbin/nologin)
+updatemgr (isolation of vSphere Update Manager & Lifecycle Manager services) (locked via /sbin/nologin)
+vapiEndpoint (isolation of API endpoint services) (locked via /sbin/nologin)
+vdtc (isolation of vSphere Distributed Trace Collection service) (locked via /sbin/nologin)
+vlcm (isolation of vSphere Lifecycle Manager services) (locked via /sbin/nologin)
+vmafdd-user (isolation of VMware Authentication Framework services) (locked via /sbin/nologin)
+vmcad-user (isolation of VMware Certificate Authority services) (locked via /sbin/nologin)
+vmcam (isolation of VMware Authentication Proxy services) (locked via /sbin/nologin)
+vmdird (isolation of VMware Directory services) (locked via /sbin/nologin)
+vmonapi (isolation of VMware Monitoring service API endpoint) (locked via /sbin/nologin)
+vpgmonusr (isolation of PostgreSQL services monitoring) (locked via /sbin/nologin)
+vpostgres (isolation of PostgreSQL services) (locked via /sbin/nologin)
+vpxd (isolation of VMware vCenter Server services) (locked via /sbin/nologin)
+vpxd-svcs (isolation of VMware vCenter Server services) (locked via /sbin/nologin)
+vsan-health (isolation of vSphere vSAN Health services) (locked via /bin/nologin)
+vsm (isolation of VMware Storage Manager services) (locked via /sbin/nologin)
+vsphere-ui (isolation of VMware vSphere Client services) (locked via /sbin/nologin)
+vstatsuser (isolation of vSphere Statistics services) (locked via /sbin/nologin)
+vtsdbmonusr (isolation of the vSphere Time Series Database monitoring services) (locked via /sbin/nologin)
+vtsdbuser (isolation of the vSphere Time Series Database services) (locked via /sbin/nologin)
+wcp (isolation of VMware Workload Control Plane/VKS services) (locked via /sbin/nologin)
+
+By default only the root account is able to be accessed, as all other accounts are locked, either through /sbin/nologin, /bin/false, or "!" in /etc/shadow, all of which prevent login.
 
 vSphere Single Sign-On Default Accounts
 ---------------------------------------

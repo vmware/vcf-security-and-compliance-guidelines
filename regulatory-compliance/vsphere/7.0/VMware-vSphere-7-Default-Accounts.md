@@ -1,4 +1,4 @@
-# Default Accounts in VMware vSphere
+# Default Accounts in VMware vSphere 7
 
 Introduction
 ------------
@@ -7,7 +7,7 @@ Efforts in security and regulatory compliance frequently aim to compare the defa
 
 Isolating services on the same operating system using distinct user accounts is a longstanding security practice. VMware employs this approach for its appliance services where feasible.
 
-Although we strive to update this document for major and update versions, other product updates might alter the findings. The product available from VMware Customer Connect is the definitive source. If discrepancies arise between this document and your environment, compare with the version from VMware Customer Connect. We also appreciate feedback on discrepancies via the feedback mechanism at the top of this page.
+Although we strive to update this document for major and update versions, other product updates might alter the findings. If discrepancies arise between this document and your environment, compare with the version from the Broadcom Support Portal. We also appreciate feedback on discrepancies via the feedback mechanism at the top of this page.
 
 Engineered solutions, including but not limited to HPE GreenLake and Dell VxRail, might introduce or modify local accounts in supported and acceptable ways. Details about these solutions are beyond the scope of this document and should be sought directly from the respective partners.
 
@@ -21,7 +21,7 @@ This document is intended to provide general guidance for organizations that are
 Intended Audience
 -----------------
 
-This document is based on hyperconverged on-premises deployments of VMware vSphere 7.0.3 and 8.0.2, commonly referred herein to as vSphere 7 and vSphere 8, respectively. We urge readers to consistently apply patches and updates, as they are integral to maintaining a robust security stance.
+This document is based on hyperconverged on-premises deployments of VMware vSphere 7.0.3, commonly referred herein to as vSphere 7. We urge readers to consistently apply patches and updates, as they are integral to maintaining a robust security stance.
 
 Numerous engineered data center and hybrid cloud infrastructure products incorporate VMware vSphere in their solutions. If you use vSphere in this manner, consult the product's support if discrepancies arise.
 
@@ -35,18 +35,6 @@ Please use the issue tracker in our GitHub repository to submit feedback:
 [https://github.com/vmware/vcf-security-and-compliance-guidelines/issues](https://github.com/vmware/vcf-security-and-compliance-guidelines/issues)
 
 Thank you.
-
-ESXi Shell Access
------------------
-
-Beginning in ESXi 8.0.0, local accounts can have their shell access disabled. This has two primary effects:
-
-*   That account cannot log in via SSH or the ESXi console.
-*   That account, no matter what privilege level it has, cannot alter the shell access parameters of other local accounts. 
-
-While the broader VMware ecosystem is familiar with most security controls in vSphere, newer controls can have unintended consequences. For instance, one might inadvertently lock out all administrative shell access and find traditional recovery methods ineffective due to Configuration Encryption and other security measures introduced since ESXi 7.0.2. Exercise caution when using these controls.
-
-For more information consult the [vSphere 8 Security Configuration & Hardening Guide](https://brcm.tech/vcf-scg) before enabling.
 
 ESXi Default Local Accounts
 ---------------------------
@@ -112,140 +100,68 @@ The passwords set on accounts are subject to the VCSA password quality settings 
 
 Accounts present on a “stock” installation of VMware vCenter Server 7 are as follows. Descriptions of the accounts and their purposes can be found in the GECOS field (field 5) in /etc/passwd.
 
-analytics  
-apache  
-bin  
-certauth  
-certmgr  
-cis-license  
-content-library  
-daemon  
-deploy  
-dnsmasq  
-eam  
-envoy  
-imagebuilder  
-infraprofile  
-lookupsvc  
-messagebus  
-named  
-netdumper  
-nobody  
-ntp  
-observability  
-perfcharts  
-pod  
-pschealth  
-root  
-rpc  
-smmsp  
-sps  
-sshd  
-sso-user  
-systemd-bus-proxy  
-systemd-journal-gateway  
-systemd-journal-remote  
-systemd-journal-upload  
-systemd-network  
-systemd-resolve  
-systemd-timesync  
-tftp  
-topologysvc  
-trustmanagement  
-updatemgr  
-vapiEndpoint  
-vdtc  
-vlcm  
-vmafdd-user  
-vmcad-user  
-vmcam  
-vmdird  
-vmonapi  
-vpgmonusr  
-vpostgres  
-vpxd  
-vpxd-svcs  
-vsan-health  
-vsm  
-vsphere-ui  
-vstatsuser  
-vtsdbmonusr  
-vtsdbuser  
-wcp
+Isolating services on the same operating system using distinct user accounts is a longstanding security practice on Linux- and UNIX-based systems. Broadcom employs this approach for its appliance services where feasible. As per Broadcom support policies on [VMware Virtual Appliances and Customizations](https://knowledge.broadcom.com/external/article?articleNumber=367354), changes to internal accounts on the appliances are not supported.
 
-### vCenter Server 8
-
-Accounts present on a “stock” installation of VMware vCenter Server 7 are as follows. Descriptions of the accounts and their purposes can be found in the GECOS field (field 5) in /etc/passwd.
-
-analytics  
-apache  
-bin  
-certauth  
-certmgr  
-cis-license  
-content-library  
-daemon  
-deploy  
-dnsmasq  
-eam  
-envoy  
-envoy-hgw  
-envoy-sidecar  
-hvc  
-idmservice  
-imagebuilder  
-infraprofile  
-lighttpd  
-lookupsvc  
-messagebus  
-named  
-netdumper  
-nobody  
-ntp  
-observability  
-perfcharts  
-pod  
-postgres  
-pschealth  
-rhttpproxy  
-root  
-rpc  
-sca  
-smmsp  
-sps  
-sshd  
-sso-user  
-sts  
-systemd-bus-proxy  
-systemd-journal-gateway  
-systemd-journal-remote  
-systemd-journal-upload  
-systemd-network  
-systemd-resolve  
-systemd-timesync  
-tftp  
-topologysvc  
-trustmanagement  
-updatemgr  
-vapiEndpoint  
-vdtc  
-vlcm  
-vmafdd-user  
-vmcad-user  
-vmcam  
-vmdird  
-vmonapi  
-vpgmonusr  
-vpostgres  
-vpxd  
-vpxd-svcs  
-vsan-health  
-vsm  
-vsphere-ui  
-vstatsuser  
-vtsdbmonusr  
-vtsdbuser  
-wcp
+analytics (isolation of vSphere Analytics service)
+apache (stock Linux apache service account)
+bin (stock Linux account)
+certauth (isolation of vCenter Certificate Authority service)
+certmgr (isolation of certificate lifecycle support processes)
+cis-license (isolation of Cloud Infrastructure Services license management)
+content-library (isolation of vSphere Content Library service)
+daemon (stock Linux account)
+deploy (isolation of vSphere Deployment services)
+dnsmasq (stock Linux dnsmasq service account)
+eam (isolation of vSphere ESX Agent Manager services)
+envoy (reverse proxy & TLS endpoint)
+imagebuilder (isolation of vSphere Image Builder service)
+infraprofile (isolation of vSphere Infrastructure Profile service)
+lookupsvc (isolation of vSphere Lookup Service, part of SSO)
+messagebus (stock Linux D-Bus service account)
+named (stock Linux DNS service account)
+netdumper (isolation of vSphere Network Dumper service)
+nobody (stock Linux account)
+ntp (stock Linux NTP service account)
+observability (isolation of vSphere Observability services)
+perfcharts (isolation of vSphere Performance Charts service)
+pod (isolation of vSphere Pod services, part of VMware Kubernetes Service)
+pschealth (isolation of vSphere Platform Services Controller services)
+root (stock Linux account)
+rpc (stock Linux RPC service account)
+smmsp (stock Linux sendmail service account)
+sps (isolation of the vSphere Storage Policy Service)
+sshd (stock Linux SSH service account)
+sso-user (isolation of vSphere SSO services)
+systemd-bus-proxy (stock Linux systemd service account)
+systemd-journal-gateway (stock Linux systemd service account)
+systemd-journal-remote (stock Linux systemd service account)
+systemd-journal-upload (stock Linux systemd service account)  
+systemd-network (stock Linux systemd service account)  
+systemd-resolve (stock Linux systemd service account)  
+systemd-timesync (stock Linux systemd service account)  
+tftp (stock Linux TFTP service account)
+topologysvc (isolation of vSphere Topology Service)
+trustmanagement (isolation of vSphere Trust Authority services)
+updatemgr (isolation of vSphere Update Manager & Lifecycle Manager services)
+vapiEndpoint (isolation of API endpoint services)
+vdtc (isolation of vSphere Distributed Trace Collection service)
+vlcm (isolation of vSphere Lifecycle Manager services)
+vmafdd-user (isolation of VMware Authentication Framework services)
+vmcad-user (isolation of VMware Certificate Authority services)
+vmcam (isolation of VMware Authentication Proxy services)
+vmdird (isolation of VMware Directory services)
+vmonapi (isolation of VMware Monitoring service API endpoint)
+vpgmonusr (isolation of PostgreSQL services monitoring)
+vpostgres (isolation of PostgreSQL services)
+vpxd (isolation of VMware vCenter Server services)
+vpxd-svcs (isolation of VMware vCenter Server services)
+vsan-health (isolation of vSphere vSAN Health services)
+vsm (isolation of VMware Storage Manager services)
+vsphere-ui (isolation of VMware vSphere Client services)
+vstatsuser (isolation of vSphere Statistics services)
+vtsdbmonusr (isolation of the vSphere Time Series Database monitoring services)
+vtsdbuser (isolation of the vSphere Time Series Database services)
+wcp (isolation of VMware Workload Control Plane/VKS services)
 
 vSphere Single Sign-On Default Accounts
 ---------------------------------------
