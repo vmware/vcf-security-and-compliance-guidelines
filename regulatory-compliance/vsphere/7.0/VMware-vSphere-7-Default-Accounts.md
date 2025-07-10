@@ -102,6 +102,7 @@ Accounts present on a “stock” installation of VMware vCenter Server 7 are as
 
 Isolating services on the same operating system using distinct user accounts is a longstanding security practice on Linux- and UNIX-based systems. Broadcom employs this approach for its appliance services where feasible. As per Broadcom support policies on [VMware Virtual Appliances and Customizations](https://knowledge.broadcom.com/external/article?articleNumber=367354), changes to internal accounts on the appliances are not supported.
 
+```
 analytics (isolation of vSphere Analytics service)
 apache (stock Linux apache service account)
 bin (stock Linux account)
@@ -162,6 +163,7 @@ vstatsuser (isolation of vSphere Statistics services)
 vtsdbmonusr (isolation of the vSphere Time Series Database monitoring services)
 vtsdbuser (isolation of the vSphere Time Series Database services)
 wcp (isolation of VMware Workload Control Plane/VKS services)
+```
 
 vSphere Single Sign-On Default Accounts
 ---------------------------------------
