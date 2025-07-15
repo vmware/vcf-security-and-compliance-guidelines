@@ -86,17 +86,17 @@ Yes. ESX is affected by this VMSA.
 
 ### 14. Do I need to update VMware Tools?
 
-Yes. VMware Tools on Microsoft Windows guest OSes is affected by this advisory, and it is strongly recommended that Windows guests have their Tools updated so that the vSockets driver is updated. However, VMXNET3, VMCI, and PVSCSI issues, CVE-2025-41236, CVE-2025-41237, and CVE-2025-41238, are resolved by updating ESX itself.
+Yes. VMware Tools on Microsoft Windows guest OSes is affected by this advisory, and it is strongly recommended that Windows guests have their Tools updated so that the vSockets driver is updated.
 
 Linux distributions typically use the open-vm-tools package, which is part of the distribution itself and not supplied directly by Broadcom. In this case, because Linux guest OSes are not affected, we do not suggest any additional work beyond patching the guest as usual.
 
 ### 15. Are the updated VMware Tools drivers available in Windows Update?
 
-No. The VMXNET3, VMCI, and PVSCSI issues, CVE-2025-41236, CVE-2025-41237, and CVE-2025-41238, are resolved by updating ESX. The vSockets driver that is part of this advisory is only part of the VMware Tools distribution, and are not present in Windows Update or on Microsoft Windows installation media. You will need to update VMware Tools if they are installed on Microsoft Windows guest OSes.
+No. The vSockets driver that is part of this advisory is not present in Windows Update or on Microsoft Windows installation media. You will need to update VMware Tools if they are installed on Microsoft Windows guest OSes.
 
 ### 16. If I update ESX, do I have to update VMware Tools?
 
-This advisory addresses several distinct issues across different components. The VMXNET3, VMCI, and PVSCSI issues, CVE-2025-41236, CVE-2025-41237, and CVE-2025-41238, are resolved by updating ESX itself. Other listed issues are resolved by updating VMware Tools. Broadcom strongly recommends that you update all affected components.
+This advisory addresses several distinct issues across different components. Broadcom strongly recommends that you update all affected components.
 
 ### 17. Are the fixed VMware Tools bundled with ESX?
 
