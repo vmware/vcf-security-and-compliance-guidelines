@@ -82,7 +82,7 @@ No. While it is recommended that vCenter be maintained at the latest patch level
 
 ### 13. Do I have to update VMware ESX?
 
-Yes. ESX is affected by this VMSA.
+Yes. ESX is affected by this VMSA. 
 
 ### 14. Do I need to update VMware Tools?
 
