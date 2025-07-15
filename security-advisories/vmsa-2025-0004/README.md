@@ -28,7 +28,6 @@ There is not a regular update schedule for this document; it will be updated as 
 [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg) (the reference for hardening VMware vSphere, virtual machines, and in-guest settings like VMware Tools)  
 [VMware Cloud Foundation Security Advisories](https://support.broadcom.com/web/ecx/security-advisory?segment=VC) (list of all disclosed security vulnerabilities)  
 [VMware Security Advisory Mailing List](https://go-vmware.broadcom.com/vmsa_email_alert) (please subscribe for proactive notifications of security advisories)  
-[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD) (advice for ensuring patching success)  
 [VMware Ports & Protocols](https://ports.broadcom.com/) & [VMware vSphere Firewalling Helper](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-configuration-hardening-guide/vsphere/8.0/VMware%20vSphere%20Security%20Configuration%20Guide%208%20-%20Firewalling%20Helper.xlsx) (assistance in determining ingress & egress firewall rule sets)  
 [VMware vSphere Critical Patch Downloads](https://support.broadcom.com/group/ecx/productdownloads?subfamily=VMware+vSphere&tab=Solutions) (support.broadcom.com)
 
@@ -166,7 +165,7 @@ Yes. vSphere 7 Update 3 was released in January 2022 and is considered the best 
 
 Third-party engineered systems control their patch levels and conﬁgurations as part of their qualiﬁcation and testing processes. Using security guidance that is not explicitly for that product and product version is never advised. If you use engineered and integrated solutions please contact those vendors directly for guidance. Broadcom is not involved in, and cannot speak to, third-party product release schedules.
 
-### Are VMware Cloud and hosted products updated?
+### 35. Are VMware Cloud and hosted products updated?
 
 VMSA information is delivered as a message inside hosted, cloud, and software-as-a-service products where applicable. Please check the administrative consoles of those services for further relevant messages and details about this VMSA. Additional questions about the service should be answered through the support processes for that service. Thank you.
 
