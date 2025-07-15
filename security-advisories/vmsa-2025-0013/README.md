@@ -96,7 +96,7 @@ No. The VMXNET3, VMCI, and PVSCSI issues, CVE-2025-41236, CVE-2025-41237, and CV
 
 ### 16. If I update ESX, do I have to update VMware Tools?
 
-This advisory addresses several distinct issues across different components. The VMXNET3 and PVSCSI issues, CVE-2025-41236 and CVE-2025-41238, are resolved by updating ESX itself. Other listed issues are resolved by updating VMware Tools. Broadcom strongly recommends that you update all affected components.
+This advisory addresses several distinct issues across different components. The VMXNET3, VMCI, and PVSCSI issues, CVE-2025-41236, CVE-2025-41237, and CVE-2025-41238, are resolved by updating ESX itself. Other listed issues are resolved by updating VMware Tools. Broadcom strongly recommends that you update all affected components.
 
 ### 17. Are the fixed VMware Tools bundled with ESX?
 
