@@ -22,7 +22,8 @@ There is not a regular update schedule for this document; it will be updated as 
 [VMSA-2025-0013 Questions & Answers](https://brcm.tech/vmsa-2025-0013-qna) (this document’s shortened ink)  
 [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg) (the reference for hardening VMware vSphere, virtual machines, and in-guest settings like VMware Tools)  
 [VMware Cloud Foundation Security Advisories](https://support.broadcom.com/web/ecx/security-advisory?segment=VC) (list of all disclosed security vulnerabilities)  
-[VMware Security Advisory Mailing List](https://go-vmware.broadcom.com/vmsa_email_alert) (please subscribe for proactive notifications of security advisories)  
+[VMware Security Advisory Mailing List](https://go-vmware.broadcom.com/vmsa_email_alert) (please subscribe for proactive notifications of security advisories)
+[VMware Product Interoperability Matrix](https://interopmatrix.broadcom.com/Interoperability)
 
 ## Note on Product Naming
 
@@ -79,6 +80,8 @@ Yes.
 ### 12. Do I have to update VMware vCenter?
 
 No. While it is recommended that vCenter be maintained at the latest patch levels, this advisory does not affect vCenter directly.
+
+When in doubt, check the interoperability of vCenter versions with ESX versions using the [Product Interoperability Matrix](https://interopmatrix.broadcom.com/Interoperability?isHidePatch=false&isHideLegacyReleases=true&col=2,19023&row=1).
 
 ### 13. Do I have to update VMware ESX?
 
