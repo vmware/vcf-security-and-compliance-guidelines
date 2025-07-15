@@ -96,7 +96,7 @@ No. The vSockets driver that is part of this advisory is not present in Windows 
 
 ### 16. If I update ESX, do I have to update VMware Tools?
 
-This advisory addresses several distinct issues across different components. Broadcom strongly recommends that you update all affected components.
+This advisory addresses several distinct issues across different components. To completely resolve the issues identified in this advisory, Broadcom strongly recommends that you update all affected components.
 
 ### 17. Are the fixed VMware Tools bundled with ESX?
 
