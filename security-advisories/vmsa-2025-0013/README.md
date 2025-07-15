@@ -66,7 +66,7 @@ Broadcom has no information to suggest that exploitation of these issues has occ
 
 ### 9. Is this a “VM Escape?”
 
-Yes. This is a situation where an attacker who has already compromised a virtual machine's guest OS and gained privileged access (administrator or root) could escape into the hypervisor itself.
+Yes. This is a situation where an attacker who has already compromised a virtual machine's guest OS and gained privileged access (administrator or root) could escape into the hypervisor itself. These issues are resolved by updating ESX.
 
 ### 10. Is this a “0-Day?”
 
