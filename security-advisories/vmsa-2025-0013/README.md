@@ -187,7 +187,7 @@ Yes. Customers should use the extended support process for access to patches. Br
 
 ### 35. Do I have to update to vSphere 8 Update 3 to receive this patch on vSphere 8?
 
-Not necessarily. While vSphere 8 Update 3 was released in July 2024 and is considered the best version of vSphere 8, intended for long-term stability and support, there are updates for both 8.0.2 and 8.0.3. Consult the VMSA itself for the links.
+Not necessarily. While vSphere 8 Update 3 was released in July 2024 and is considered the best version of vSphere 8, intended for long-term stability and support, there are updates for both 8.0.2 and 8.0.3. Security fixes are not the only things present in new versions of vSphere, and we strongly recommend that you update to 8.0.3 to gain new features, bug fixes, and other improvements.
 
 ### 36. Do I have to update to vSphere 7 Update 3 to receive this patch on vSphere 7?
 
