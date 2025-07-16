@@ -10,7 +10,7 @@ You are affected if you are running any version of VMware ESX, VMware vSphere, V
 
 ## Current Update
 
-Updated on July 15, 2025 at 0430 PST (-0800)
+The last update timestamp can be seen as part of the GitHub file history above.
 
 ## Next Expected Update
 
@@ -23,7 +23,7 @@ There is not a regular update schedule for this document; it will be updated as 
 - [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg) (the reference for hardening VMware vSphere, virtual machines, and in-guest settings like VMware Tools)  
 - [VMware Cloud Foundation Security Advisories](https://support.broadcom.com/web/ecx/security-advisory?segment=VC) (list of all disclosed security vulnerabilities)  
 - [VMware Security Advisory Mailing List](https://go-vmware.broadcom.com/vmsa_email_alert) (please subscribe for proactive notifications of security advisories)
-- [VMware Product Interoperability Matrix](https://interopmatrix.broadcom.com/Interoperability)
+- [VMware Product Interoperability Matrix](https://interopmatrix.broadcom.com/Interoperability) (use to determine if vCenter versions are compatible with ESX versions)
 
 ## Note on Product Naming
 
@@ -187,7 +187,7 @@ Yes. Customers should use the extended support process for access to patches. Br
 
 ### 35. Do I have to update to vSphere 8 Update 3 to receive this patch on vSphere 8?
 
-Yes. vSphere 8 Update 3 was released in July 2024 and is considered the best version of vSphere 8, intended for long-term stability and support.
+Not necessarily. While vSphere 8 Update 3 was released in July 2024 and is considered the best version of vSphere 8, intended for long-term stability and support, there are updates for both 8.0.2 and 8.0.3. Consult the VMSA itself for the links.
 
 ### 36. Do I have to update to vSphere 7 Update 3 to receive this patch on vSphere 7?
 
