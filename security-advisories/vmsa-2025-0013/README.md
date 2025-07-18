@@ -179,7 +179,11 @@ There are no known issues with the updates listed in VMSA-2025-0013 beyond the �
 
 ### 33. I am amidst an upgrade, will this cause issues?
 
-This update will trigger “back in time” warnings. Please consult the upgrade matrix for more information.
+This update will trigger “back in time” issues in the upgrade process between vSphere 7 and 8. "Back in time" is a term used when there are changes in patch levels that are not yet synchronized between the different product versions, and the target version in the upgrade is functionally "older" than the version of the source version. While we work to avoid this situation where possible, it happens at times because of the way the security vulnerability disclosure process works. The resulting effect is that the upgrade of hosts is temporarily blocked if they are remediated for this vulnerability.
+
+Given the End of General Support date for vSphere 7 this year we understand the pressure to upgrade, and a forthcoming update to vSphere 8.0 will resolve this issue. In the interim, customers should work with their TAMs, account teams, Professional Services, and their own information security staff to assess risk and develop options for proceeding. 
+
+Because VMware vCenter is not affected by this advisory, and newer versions of vCenter can manage downlevel hosts, there may be options available as a temporary "holding position." Additionally, depending on how the upgrade is planned, there may also be options with the use of Cross-vCenter vMotion to migrate workloads between environments, or perhaps even installing ESX as a fresh install. Fresh installs of ESX 8.0 or 9.0 also afford an opportunity to enable Secure Boot and other hardware-based security tools.
 
 ### 34. Does this impact VMware vSphere 6.5 or 6.7?
 
