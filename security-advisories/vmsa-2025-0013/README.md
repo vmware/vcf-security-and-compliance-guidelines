@@ -79,7 +79,9 @@ Yes.
 
 ### 12. Do I have to update VMware vCenter?
 
-No. While it is recommended that vCenter be maintained at the latest patch levels, this advisory does not affect vCenter directly.
+Not for VMSA-2025-0013. However, VMSA-2025-0014 has been released and is an update to vCenter, along with a corresponding update to ESX (which also resolves the "back in time" issues noted here). We recommend updating to that version of vCenter first, then updating ESX.
+
+Note that the latest update to VMware products will always contain the cumulative total of security updates for that product (or, put differently, if you are running the latest version you will have the latest security fixes).
 
 When in doubt, check the interoperability of vCenter versions with ESX versions using the [Product Interoperability Matrix](https://interopmatrix.broadcom.com/Interoperability?isHidePatch=false&isHideLegacyReleases=true&col=2,19023&row=1).
 
@@ -179,11 +181,9 @@ There are no known issues with the updates listed in VMSA-2025-0013 beyond the �
 
 ### 33. I am amidst an upgrade, will this cause issues?
 
-This update will trigger “back in time” issues in the upgrade process between vSphere 7 and 8. "Back in time" is a term used when there are changes in patch levels that are not yet synchronized between the different product versions, and the target version in the upgrade is functionally "older" than the version of the source version. While we work to avoid this situation where possible, it happens at times because of the way the security vulnerability disclosure process works. The resulting effect is that the upgrade of hosts is temporarily blocked if they are remediated for this vulnerability.
+Update: VMSA-2025-0014 has been released and is an update to vCenter, along with a corresponding update to ESX, which also resolves the "back in time" issues noted here. People upgrading to vSphere 8 should use the VMSA-2025-0014 updates to vCenter and ESX.
 
-Given the End of General Support date for vSphere 7 this year we understand the pressure to upgrade, and a forthcoming update to vSphere 8.0 will resolve this issue. In the interim, customers should work with their TAMs, account teams, Professional Services, and their own information security staff to assess risk and develop options for proceeding. 
-
-Because VMware vCenter is not affected by this advisory, and newer versions of vCenter can manage downlevel hosts, there may be options available as a temporary "holding position." Additionally, depending on how the upgrade is planned, there may also be options with the use of Cross-vCenter vMotion to migrate workloads between environments, or perhaps even installing ESX as a fresh install. Fresh installs of ESX 8.0 or 9.0 also afford an opportunity to enable Secure Boot and other hardware-based security tools.
+For context, the original VMSA-2025-0013 release triggered "back in time" issues in the upgrade process between vSphere 7 and 8. "Back in time" is a term used when there are changes in patch levels that are not yet synchronized between the different product versions, and the target version in the upgrade is functionally "older" than the version of the source version. While we work to avoid this situation where possible, it happens at times because of the way the security vulnerability disclosure process works. The resulting effect is that the upgrade of hosts is temporarily blocked if they are remediated for this vulnerability.
 
 ### 34. Does this impact VMware vSphere 6.5 or 6.7?
 
@@ -206,6 +206,10 @@ Third-party engineered systems control their patch levels and configurations as 
 ### 38. Are VMware Cloud and hosted products updated?
 
 VMSA information is delivered as a message inside hosted, cloud, and software-as-a-service products where applicable. Please check the administrative consoles of those services for further relevant messages and details about this VMSA. Additional questions about the service should be answered through the support processes for that service.
+
+### 39. If I update to vSphere 8U3g (as part of VMSA-2025-0014), will the issues in VMSA-2025-0013 still exist?
+
+No. Patches are cumulative, and by running the latest version of a supported product version you will have the latest security fixes, too.
 
 ## Change Log
 
