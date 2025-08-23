@@ -1,7 +1,7 @@
 ﻿SCG ID,"Secure Controls
-Framework ID",DISA STIG ID,"Component
+Framework ID",DISA STIG ID,PCI DSS 4.0.1 ID,"Component
 Name",Component Version,Feature/Function,Description/Title,Discussion,Potential Functional Impact if Default Value is Changed,"Implementation
-Priority",Configuration Parameter,Installation Default Value,Baseline Suggested Value,Is the Default?,Action Needed,Setting Location,PowerCLI Command Assessment,PowerCLI Command Remediation,Column1
+Priority",Configuration Parameter,Installation Default Value,Baseline Suggested Value,Is the Default?,Action Needed,Setting Location,PowerCLI Command Assessment,PowerCLI Command Remediation
 esx-9.account-lockout-duration,"IAC-22
 IAC-10
 IAC-10.1",VCFE-9X-000108,8.3.4,ESX,9.0.0,Base,The ESX host must enforce an unlock timeout of 15 minutes.,"By enforcing a reasonable unlock timeout after multiple failed logon attempts, the risk of unauthorized access via user password guessing, otherwise known as brute forcing, is reduced. Users must wait for the timeout period to elapse before subsequent logon attempts are allowed.",None.,P2,Security.AccountUnlockTime,900,900,YES,Audit,"ESX Advanced
