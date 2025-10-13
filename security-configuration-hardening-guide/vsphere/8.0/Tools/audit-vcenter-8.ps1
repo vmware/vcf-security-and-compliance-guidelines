@@ -110,8 +110,7 @@ Function Accept-EULA() {
     Log-Message "Press any key to accept all terms and risk. Use CTRL+C to exit." -Level "EULA"
 
     $null = $host.UI.RawUI.FlushInputBuffer()
-    while ($true) {
-        $key = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+    while ($Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")) {
             break
     }
 }
@@ -119,8 +118,7 @@ Function Accept-EULA() {
 Function Do-Pause() {
     Log-Message "Check the vSphere Client to make sure all tasks have completed, then press a key." -Level "INFO"
     $null = $host.UI.RawUI.FlushInputBuffer()
-    while ($true) {
-        $key = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+    while ($Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")) {
             break
     }
 }
