@@ -118,9 +118,7 @@ Function Accept-EULA() {
     $null = $host.UI.RawUI.FlushInputBuffer()
     while ($true) {
         $key = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-        if ($key.Character -match '[a-zA-Z0-9 ]') {
             break
-        }
     }
 }
 
@@ -129,21 +127,7 @@ Function Do-Pause() {
     $null = $host.UI.RawUI.FlushInputBuffer()
     while ($true) {
         $key = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-        if ($key.Character -match '[a-zA-Z0-9 ]') {
             break
-        }
-    }
-}
-
-#####################
-# Check to see if we have the required version of VMware.PowerCLI
-Function Check-PowerCLI() {
-    $installedVersion = (Get-InstalledModule -Name 'VMware.PowerCLI' -AllVersions -ErrorAction SilentlyContinue).Version | Sort-Object -Desc | Select-Object -First 1
-    if ('13.3.0' -gt $installedVersion) {
-        Log-Message "This script requires PowerCLI 13.3 or newer. Current version is $installedVersion" -Level "ERROR"
-        Log-Message "Instructions for installation & upgrade can be found at https://developer.vmware.com/powercli" -Level "ERROR"
-        Log-Message "Some installations of PowerCLI cannot be detected. Use -NoSafetyChecks if you are sure." -Level "ERROR"
-        Exit
     }
 }
 
@@ -196,7 +180,6 @@ if ($false -eq $AcceptEULA) {
 
 # Safety checks
 if ($false -eq $NoSafetyChecks) {
-    Check-PowerCLI
     Check-vCenter
     Check-Hosts
 } else {
