@@ -29,7 +29,7 @@ Broadcom used to track key management systems (KMS) in the VMware Compatibility 
 
 ### What version of KMIP does Standard Key Provider support?
 
-KMIP 1.1.
+KMIP 1.1 and newer.
 
 ### Can I connect multiple vSphere or Cloud Foundation instances to the same KMS?
 
@@ -37,13 +37,21 @@ Yes. You need to do this if you intend to use Cross-vCenter vMotion to move encr
 
 ### How many keys will my environment store in the KMS?
 
-This is a common question for environments with KMSes licensed per key. There will be one Key Encryption Key (KEK) stored in the KMS for each object that is encrypted, so:
+This changed in VCF/vSphere 9.0 and newer, with the introduction of wrapping keys.
+
+Prior to VCF 9.0, and when the "Use a single KMS wrapping key" is unchecked, there will be one Key Encryption Key (KEK) stored in the KMS for each object that is encrypted, so:
 
 - A KEK for each encrypted VM (vTPM or full VM encryption)
 - A KEK for each vSAN disk group
 - A KEK for each ESX host
 
 So if you have 1000 VMs on 32 hosts, and each host has two vSAN disk groups, you will have 1096 keys stored in the KMS.
+
+After VCF 9.0, if "Use a single KMS wrapping key" is checked, there will be one wrapping key stored in the KMS. If you have configured the rotation interval then additional old wrapping keys will be stored.
+
+### If the wrapping key is the only thing in the KMS, where did the KEK go?
+
+The Key Encryption Key (KEK) is now stored with the VM, and wrapped with the wrapping key.
 
 ### Does the Standard Key Provider delete keys when they are no longer needed?
 
@@ -59,7 +67,9 @@ There is a sample script available in the [code-samples](https://github.com/vmwa
 
 ### I need to reduce the number of keys in my KMS. How do I do that?
 
-Create a new KMS partition. Configure a new Standard Key Provider instance to use that KMS partition. Set the new key provider as the default key provider. Do a shallow rekey of all VMs and vSAN datastores, which will only migrate the active VMs to the new provider.
+In VCF 9.0 and newer you can use wrapping key feature to significantly reduce the number of keys stored in your KMS. However, you cannot turn that feature on for an existing key provider. You will need to create a new key provider and rekey into that. This process is also the same if you want to reduce your KMS usage to keys that are active in VCF.
+
+The process is to create a new KMS or KMS partition. Configure a new Standard Key Provider instance to use that KMS partition. Set this new key provider as the default key provider. Do a shallow rekey of all VMs and vSAN datastores, which will only migrate the active VMs to the new provider.
 
 There is a sample script available in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory that can be used to change key providers.
 
@@ -67,11 +77,23 @@ There is a sample script available in the [code-samples](https://github.com/vmwa
 
 Yes. We suggest using a separate KMS partition and credentials for the different devices, in keeping with good security practices.
 
+### I have a storage array that needs access to the encryption keys in the KMS. Does the wrapping key work with my array?
+
+Probably not, as the storage array will need access to the key encryption key (KEK) itself, which is now stored with the VM and not in the KMS. Check with your storage array vendor to be sure.
+
 ### Can I control which KMS in the KMS cluster is used?
 
 Yes and no. When you configure a Standard Key Provider you enter connection information for all the nodes in the KMS cluster. vCenter will use those connections in a round-robin fashion. You cannot specify weights or priorities for the connections.
 
 You do not have to add all KMS nodes to the key provider, so that might be a way to control which KMS node is used, but it is a bit unwieldy.
+
+### Can I control which key provider is used when encrypting data?
+
+The default key provider is usually what is used when initiating cryptographic operations from the vSphere Client. However, the default key provider can be set on a per-cluster basis.
+
+vSAN allows you to specify which provider to use, which can be different from the default one (which also allows flexibility in what key provider you use versus the risks you face, as you might choose to use the Native Key Provider for things like vTPM, but a KMS-backed provider for vSAN to guard against theft or improper decommissioning of systems).
+
+Additionally, operations using PowerCLI or via API can specify the key provider to use.
 
 ### What happens if the KMS is unavailable?
 
@@ -110,6 +132,10 @@ As noted in several other answers, the KMS is only communicated with when vSpher
 ### What is the maximum latency supported between a KMS and vSphere/VCF?
 
 There is no defined maximum latency between a KMS and vCenter/vSAN. A good starting point is the "Maximum latency supported between linked vCenter Servers" guidance found at [configmax.broadcom.com](https://configmax.broadcom.com/guest?vmwareproduct=vSphere&release=vSphere%208.0&categories=4-0). As of this update it is 150 ms.
+
+### Can I use a key provider across a satellite network connection?
+
+Perhaps. As there is no defined latency limit for key providers it is subject to TCP connection timeouts and such. We recommend thorough testing of your design (see the next question).
 
 ### What happens if the latency to my KMS is greater than that?
 
@@ -206,17 +232,25 @@ KEK stands for Key Encryption Key and is a key used to encrypt other encryption 
 
 DEK stands for Data Encryption Key and is the key that is used to encrypt individual virtual machine objects, like the NVRAM file where vTPM data is stored, VMDKs, etc. In vSphere, the DEK is encrypted with a KEK and written into the virtual machine configuration file for portability (replication, backups, etc.).
 
+### What is a wrapping key?
+
+A wrapping key is what is stored in the KMS, and encrypts the KEK in the same manner that the KEK encrypts the DEK.
+
 ### Can the backups of key providers be automated?
 
 Yes, you can use the vCenter File-Based Backup & Restore function which also backs up key provider data as part of the overall vCenter backup.
 
 ### Can I have more than one Standard Key Provider?
 
-Yes, you can have up to 32 key providers, of any combination. However, only one key provider can be set as default.
+Yes, you can have up to 32 key providers, of any combination. However, only one key provider can be set as default per vCenter, and one per cluster (vCenter defaults and cluster defaults can be different). Additionally, vSAN can be set independently, on a per-cluster basis.
 
 ### How does the Standard Key Provider work with Enhanced Linked Mode (ELM)?
 
 Key providers only serve hosts that are directly attached to a vCenter, and are not automatically replicated between the vCenters that participate in Enhanced Linked Mode. Configure the individual vCenter key providers separately.
+
+### How does the Standard Key Provider work with vCenter Groups?
+
+Yes. vCenter Groups are a federated version of Enhanced Linked Mode (ELM) and follow the same rules. Key providers only serve hosts that are directly attached to a vCenter, and are not automatically replicated between the vCenters that participate. Configure the individual vCenter key providers separately.
 
 ### I have many vCenters. Should I configure them all with different Standard Key Provider instances, or should I use the same one everywhere?
 
@@ -273,6 +307,10 @@ You can use the vSphere API directly from a variety of languages. For more infor
 Deep rekeys must be done with the VM powered off.
 
 You can find relevant scripts in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory.
+
+### How do I rotate the wrapping key?
+
+Configure the wrapping key rotation interval in the key provider configuration. Rotation will happen automatically in the environment without manual involvement.
 
 ### How can I rekey vSAN datastores?
 
@@ -344,7 +382,7 @@ An example of how to automate this process with PowerCLI is provided in the [cod
 
 ### How often does the Standard Key Provider rotate keys?
 
-Standard Key Provider does not rotate its keys automatically, as that could endanger other environments where that key is used.
+Standard Key Provider only rotates keys if you are using the wrapping key feature and have the key rotation interval configured. Beyond that, a standard key provider does not rotate anything automatically, as that could endanger other environments where the key is in use.
 
 An example of how to automate this process with PowerCLI is provided in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory.
 
@@ -354,17 +392,27 @@ This information is visible in the virutal machine summary tab in vCenter. You c
 
 ### What FIPS 140-3 levels does the Standard Key Provider support?
 
-The Standard Key Provider does not generate keys itself, so FIPS 140-3 levels are not applicable.
+The Standard Key Provider does not generate keys itself, so FIPS 140-3 levels are not applicable. Check with your KMS vendor.
 
 ### Is the Standard Key Provider certified for use with PCI DSS, HIPAA, NIST 800-53, ISO 27001, etc.?
 
-The Standard Key Provider is often used to meet data-at-rest requirements found in a variety of regulatory compliance frameworks. Compliance certification happens against implementations of software, not the software itself, and will depend on the design and implementation decisions you make when building your environment. That said, numerous environments that are subject to regulatory compliance have been built using the Standard Key Provider.
+The easy answer is "yes" but the more correct answer is "it can be part of a compliant system design, which VCF supports."
+
+The Standard Key Provider is often used to meet data-at-rest requirements found in a variety of regulatory compliance frameworks. Compliance certification happens against implementations of software, not the software itself, and will depend on the design and implementation decisions you make when building your environment. That said, numerous environments that are subject to regulatory compliance have been built using the Standard Key Provider, to great and continuing success.
 
 Please consult your compliance auditors for more information about how system design choices may affect your compliance goals.
 
 ### I replicate to a DR site; how will I decrypt my replicated virtual machines?
 
 Configure the Standard Key Provider identically on the target site. Make sure the KMS will be available in the event of a disaster! Do not replicate the KMS to an encrypted vSAN volume at the remote site that depends on that KMS.
+
+### Can I place the KMS inside the environment that uses it?
+
+Do not do this.
+
+Can you place a KMS inside an environment that will use it? It is possible. Should you? No.
+
+You run the risk of a dependency loops that will lock you out of your environment permanently. Even if you negotiate these perils well, it still makes it easy for an uninformed but well-intentioned human to re-introduce the dependency loop later, such as with a storage vMotion of a virtual KMS back to the datastore that is attached to it, or enabling vSAN data-at-rest encryption. There is no way for VCF to automatically detect these situations; we strongly recommend clear boundaries around services which are dependencies.
 
 ### Do I need to set the Standard Key Provider to be the default before I remove the old provider?
 
@@ -390,7 +438,25 @@ However, if Key Persistence is enabled, the keys will be stored on the hosts usi
 
 ### In theory, could an attacker get the Key Encryption Keys by monitoring network traffic on the VCSA, then be able to decrypt all the VMs that are on the same cluster?
 
-In theory, yes, but if an attacker has this level of access they can already do whatever they want with the cluster.
+In theory, yes, but keep in mind that if an attacker has this level of access they can already do whatever they want with the cluster.
+
+### I am upgrading to the latest version of VMware Cloud Foundation. Will this impact my encrypted vSAN or VMs?
+
+Upgrading environments when data-at-rest encryption is in use is fully supported, and should go smoothly. In the event it does not, we suggest having the connection information for your KMS available so that troubleshooting can occur. If you do rebuilt/recreate your key provider, give the new one the exact same name.
+
+Keep in mind that encryption keys are held in ESX memory so that a temporary loss of connectivity to vCenter or to the KMS is tolerated. During the time when you are upgrading vCenter any operation that requires a new encryption key (new VM, encrypting a VM, re-keying a VM) will fail, but running workloads will operate normally (including HA restarts). In most environments this is not a big issue as management activities are typically driven through vCenter, which will be offline.
+
+### What should I be testing when it comes to key providers?
+
+Testing is a specialized task that you need to consider for yourself, but we'd suggest a minimum of:
+
+1. Can you create a VM and add a vTPM to it?
+2. Can you migrate (vMotion) that VM to every host in the cluster?
+3. Can you re-encrypt/rekey the VM?
+4. Can you power the VM on after the host(s) have rebooted?
+5. Does the VM continue to run when vCenter is down?
+6. Does the VM continue to run when the KMS is down?
+7. What happens when the KMS is down/unreachable and you attempt to add a vTPM to a VM? (should fail)
 
 ## Disclaimer
 
