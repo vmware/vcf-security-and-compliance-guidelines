@@ -1,0 +1,20 @@
+# Logging in VMware vSphere and VMware Cloud Foundation
+
+Logging and auditing provide visibility into infrastructure operations, user activities, and security incidents across vSphere and Cloud Foundation environments. Comprehensive logging enables organizations to detect unauthorized access, track configuration changes, investigate security events, and maintain regulatory compliance. VMware platforms generate logs at multiple layers, including ESXi hosts, vCenter Server, NSX, vSAN, and SDDC Manager. VMware provides VCF Operations for Logs (formerly vRealize Log Insight) for centralized log management, offering real-time log aggregation, analytics, and pre-built content packs. This guide covers native logging capabilities, log forwarding, SIEM integration, and best practices for log retention and analysis.
+
+## Resources
+
+- [VMware ESX Audit Log Event Reference for VMware ESX 8.0 (Markdown)](vmware-esx-audit-log-event-reference-803.md)
+- [VMware ESX Audit Log Event Reference for VMware ESX 8.0 (PDF)](vmware-esx-audit-log-event-reference-803.pdf)
+- [VMware ESX Audit Log Event Reference for VMware ESX 9.0 (Markdown)](vmware-esx-audit-log-event-reference-900.md)
+- [VMware ESX Audit Log Event Reference for VMware ESX 9.0 (PDF)](vmware-esx-audit-log-event-reference-900.pdf)
+
+## Documentation
+
+- [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0.html)
+
+- [ESXi Syslog Options](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/esxi-installation-and-setup-8-0/installing-and-setting-up-esxi-install/setting-up-esxi-install/configuring-system-logging-install/esxi-syslog-options-install.html)
+
+## Disclaimer
+
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This  repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
