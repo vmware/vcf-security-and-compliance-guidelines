@@ -4,16 +4,14 @@ Logging and auditing provide visibility into infrastructure operations, user act
 
 ## Resources
 
-- [VMware ESX Audit Log Event Reference for VMware ESX 8.0 (Markdown)](vmware-esx-audit-log-event-reference-803.md)
-- [VMware ESX Audit Log Event Reference for VMware ESX 8.0 (PDF)](vmware-esx-audit-log-event-reference-803.pdf)
-- [VMware ESX Audit Log Event Reference for VMware ESX 9.0 (Markdown)](vmware-esx-audit-log-event-reference-900.md)
-- [VMware ESX Audit Log Event Reference for VMware ESX 9.0 (PDF)](vmware-esx-audit-log-event-reference-900.pdf)
+- VMware ESX Audit Log Event Reference for VMware ESX 8.0: [(Markdown)](vmware-esx-audit-log-event-reference-803.md) [(Direct PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/features-capabilities/logging/vmware-esx-audit-log-event-reference-803.pdf)
+
+- VMware ESX Audit Log Event Reference for VMware ESX 9.0: [(Markdown)](vmware-esx-audit-log-event-reference-900.md) [(Direct PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/features-capabilities/logging/vmware-esx-audit-log-event-reference-900.pdf)
 
 ## Documentation
 
-- [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0.html)
-
-- [ESXi Syslog Options](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/esxi-installation-and-setup-8-0/installing-and-setting-up-esxi-install/setting-up-esxi-install/configuring-system-logging-install/esxi-syslog-options-install.html)
+- [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security.html)
+- [ESX Log Files, Syslog Options, and Log File Locations](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/esx-installation-and-setup/setting-up-esxi/configuring-system-logging/Chunk1261896571.html#GUID-F35D7005-58EB-48AC-99D5-B9942EB2A8EF-en)
 
 ## Disclaimer
 
