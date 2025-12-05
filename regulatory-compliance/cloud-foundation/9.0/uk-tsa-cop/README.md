@@ -9,7 +9,9 @@ This page is accessible directly using the [https://brcm.tech/vcf-uk-tsa-cop](ht
 ## Broadcom Resources
 
 - [UK TSA CoP - Companion Guide for Telco Cloud Platform 5.1 and Cloud Foundation 9.0 XLSX](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/9.0/uk-tsa-cop/vcf-companion-uk-tsa-code-of-practice.xlsx) - direct XLSX download of the document in this directory
-- [UK TSA CoP - Companion Guide for Telco CLoud Platform 5.1 and Cloud Foundation 9.0 CSV](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/9.0/uk-tsa-cop/vcf-companion-uk-tsa-code-of-practice.csv) - direct XLSX download of the document in this directory
+- [UK TSA CoP - Companion Guide for Telco CLoud Platform 5.1 and Cloud Foundation 9.0 CSV](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/9.0/uk-tsa-cop/vcf-companion-uk-tsa-code-of-practice.csv) - direct CSV download of the document in this directory
+
+You can also use the CSV version to view changes over time, as the guidance evolves, via the GitHub history functions.
 
 ## External Resources
 
