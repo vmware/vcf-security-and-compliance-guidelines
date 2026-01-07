@@ -1,18 +1,6 @@
 <#
     Script Name: VMware vSphere Virtual Machine Security Settings Remediation Utility
-    Copyright (C) 2024 Broadcom, Inc. All rights reserved.
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+    Copyright (C) 2026 Broadcom, Inc. All rights reserved.
 #>
 
 <#
@@ -67,111 +55,27 @@ Param (
     [switch]$TakeSnapshot = $false
 )
 
-#####################
-# Log to both screen and file
+# Import common functions
+Import-Module "$PSScriptRoot\scg-common.psm1" -Force
+
+# Wrapper functions for backward compatibility
 function Log-Message {
     param (
-        [Parameter(Mandatory=$false)]
-        [AllowEmptyString()]
-        [AllowNull()]
-        [string]$Message = "",
-
-        [Parameter(Mandatory=$false)]
-        [ValidateSet("INFO", "WARNING", "ERROR", "EULA", "PASS", "FAIL", "UPDATE")]
-        [string]$Level = "INFO"
+        [Parameter(Mandatory=$false)][AllowEmptyString()][AllowNull()][string]$Message = "",
+        [Parameter(Mandatory=$false)][ValidateSet("INFO", "WARNING", "ERROR", "EULA", "PASS", "FAIL", "UPDATE")][string]$Level = "INFO"
     )
-    
-    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    $logEntry = "[$timestamp] [$Level] $Message"
-    
-    # Output to screen
-    switch ($Level) {
-        "INFO"    { Write-Host $logEntry -ForegroundColor White }
-        "WARNING" { Write-Host $logEntry -ForegroundColor Yellow }
-        "ERROR"   { Write-Host $logEntry -ForegroundColor Red }
-        "EULA"    { Write-Host $logEntry -ForegroundColor Cyan }
-        "PASS"    { Write-Host $logEntry -ForegroundColor Gray }
-        "FAIL"    { Write-Host $logEntry -ForegroundColor Yellow }
-        "UPDATE"  { Write-Host $logEntry -ForegroundColor Green }
-    }
-    
-    # Append to file
-    if ($OutputFileName) {
-        $logEntry | Out-File -FilePath $OutputFileName -Append
-    }
+    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName
 }
 
-#####################
-# Accept EULA and terms to continue
-Function Accept-EULA() {
-    Log-Message "This software is provided as is and any express or implied warranties, including," -Level "EULA"
-    Log-Message "but not limited to, the implied warranties of merchantability and fitness for a particular" -Level "EULA"
-    Log-Message "purpose are disclaimed. In no event shall the copyright holder or contributors be liable" -Level "EULA"
-    Log-Message "for any direct, indirect, incidental, special, exemplary, or consequential damages (including," -Level "EULA"
-    Log-Message "but not limited to, procurement of substitute goods or services; loss of use, data, or" -Level "EULA"
-    Log-Message "profits; or business interruption) however caused and on any theory of liability, whether" -Level "EULA"
-    Log-Message "in contract, strict liability, or tort (including negligence or otherwise) arising in any" -Level "EULA"
-    Log-Message "way out of the use of this software, even if advised of the possibility of such damage." -Level "EULA"
-    Log-Message "The provider makes no claims, promises, or guarantees about the accuracy, completeness, or" -Level "EULA"
-    Log-Message "adequacy of this sample. Organizations should engage appropriate legal, business, technical," -Level "EULA"
-    Log-Message "and audit expertise within their specific organization for review of requirements and" -Level "EULA"
-    Log-Message "effectiveness of implementations. You acknowledge that there may be performance or other" -Level "EULA"
-    Log-Message "considerations, and that this example may make assumptions which may not be valid in your" -Level "EULA"
-    Log-Message "environment or organization." -Level "EULA"
-    Log-Message "" -Level "EULA"
-    Log-Message "Press any key to accept all terms and risk. Use CTRL+C to exit." -Level "EULA"
-
-    $null = $host.UI.RawUI.FlushInputBuffer()
-    while ($Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")) {
-            break
-    }
-}
-
-Function Do-Pause() {
-    Log-Message "Check the vSphere Client to make sure all tasks have completed, then press a key." -Level "INFO"
-    $null = $host.UI.RawUI.FlushInputBuffer()
-    while ($Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")) {
-            break
-    }
-}
-
-#####################
-# Check to see if we are attached to a supported vCenter Server
-Function Check-vCenter() {
-    if ($global:DefaultVIServers.Count -lt 1) {
-        Log-Message "Please connect to a vCenter Server (use Connect-VIServer) prior to running this script. Thank you." -Level "ERROR"
-        Exit
-    }
-
-    if (($global:DefaultVIServers.Count -lt 1) -or ($global:DefaultVIServers.Count -gt 1)) {
-        Log-Message "Connect to a single vCenter Server (use Connect-VIServer) prior to running this script." -Level "ERROR"
-        Exit
-    }
-
-    $vcVersion = $global:DefaultVIServers.Version
-    if (($vcVersion -lt '8.0.3') -or ($vcVersion -gt '8.0.3')) {
-        Log-Message "vCenter Server is not the correct version for this script." -Level "ERROR"
-        Exit
-    }
-}
-
-#####################
-# Check to see if we are attached to supported hosts. Older hosts might work but things change.
-Function Check-Hosts() {
-    $ESXi = Get-VMHost
-    foreach ($hostVersion in $ESXi.Version) {
-        if (($hostVersion -lt '8.0.3') -or ($hostVersion -gt '8.0.3')) {
-            Log-Message "This script requires vSphere 8.0.3 throughout the environment." -Level "ERROR"
-            Log-Message "There is at least one host attached that is downlevel ($hostVersion). Exiting." -Level "ERROR"
-            Exit
-        }
-    }    
-}
+Function Accept-EULA() { Show-EULA -OutputFileName $OutputFileName }
+Function Do-Pause() { Wait-UserInput -OutputFileName $OutputFileName }
+Function Check-vCenter() { if (-not (Test-vCenterConnection -OutputFileName $OutputFileName)) { Exit } }
+Function Check-Hosts() { if (-not (Test-HostsExist -OutputFileName $OutputFileName)) { Exit } }
 
 #######################################################################################################
 
 $currentDateTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-Log-Message "VMware Virtual Machine Security Settings Remediation Utility 803-20241115-01" -Level "INFO"
+Log-Message "VMware Virtual Machine Security Settings Remediation Utility 8.0.3" -Level "INFO"
 Log-Message "Remediation of $name started at $currentDateTime from $env:COMPUTERNAME by $env:USERNAME" -Level "INFO"
 
 # Accept EULA and terms to continue
@@ -210,7 +114,7 @@ if ($false -eq $NoSafetyChecks) {
 Log-Message "This script should not be used in a production environment." -Level "ERROR"
 Log-Message "It will change things that can cause operational issues." -Level "ERROR"
 Log-Message "If you accept the risk, please remove or comment this section of the" -Level "ERROR"
-Log-Message "script (lines 212-234). By doing so, you accept any and all risk this" -Level "ERROR"
+Log-Message "script (lines 97-119). By doing so, you accept any and all risk this" -Level "ERROR"
 Log-Message "script and these commands may pose to your environment." -Level "ERROR"
 Exit
 
@@ -218,7 +122,6 @@ Exit
 # Read the VM into objects and views once to save time & resources
 $obj = Get-VM $name -ErrorAction Stop
 $view = Get-View -VIObject $obj
-$hosts = Get-VMHost
 
 # Broadcom/VMware support policy does not permit changes to VMware virtual appliances
 if (($NoSafetyChecks -eq $false) -or ($NoSafetyChecksExceptAppliances -eq $true)) {
@@ -279,18 +182,11 @@ $scg_bool = @{
     
 }    
 
-$scg_num_nondefault = @{
-    
-    'RemoteDisplay.maxConnections' = 1
-
-}
-
-$scg_num_default = @{
-    
-    'tools.setInfo.sizeLimit' = 1048576
-    'log.keepOld' = 10
-    'log.rotateSize' = 2048000
-
+$scg_num = @{
+    'RemoteDisplay.maxConnections' = @{ Expected = 1; Comparator = 'eq'; Default = $false }
+    'tools.setInfo.sizeLimit' = @{ Expected = 1048576; Comparator = 'le'; Default = $true }
+    'log.keepOld' = @{ Expected = 10; Comparator = 'eq'; Default = $true }
+    'log.rotateSize' = @{ Expected = 2048000; Comparator = 'eq'; Default = $true }
 }
 
 foreach ($param in $scg_bool.GetEnumerator()) {
@@ -349,31 +245,36 @@ foreach ($param in $scg_bool.GetEnumerator()) {
     }
 }
 
-foreach ($param in $scg_num_nondefault.GetEnumerator()) {
+foreach ($param in $scg_num.GetEnumerator()) {
     try {
         $vmval = (Get-AdvancedSetting -Entity $obj "$($param.Name)").Value
-        if ($vmval -eq $($param.Value)) {
-            Log-Message "$name`: $($param.Name) configured correctly ($vmval)" -Level "PASS"
-        } elseif ([string]::IsNullOrEmpty($vmval)) { 
-            New-AdvancedSetting -Entity $obj -Name $param.Name -Value $param.Value -Confirm:$false | Out-Null
-            Log-Message "$name`: $($param.Name) updated ($vmval -> $($param.Value))" -Level "UPDATE"
-        } else{
-            Get-AdvancedSetting -Entity $obj -Name $param.Name | Set-AdvancedSetting -Value $param.Value -Confirm:$false | Out-Null
-            Log-Message "$name`: $($param.Name) updated ($vmval -> $($param.Value))" -Level "UPDATE"
-        }
-    } catch {
-        Log-Message "$name`: An error occurred while checking or setting $($param.Name) ($vmval)" -Level "ERROR"
-    }
-}
+        $expected = $param.Value.Expected
+        $comparator = $param.Value.Comparator
+        $isDefault = $param.Value.Default
 
-foreach ($param in $scg_num_default.GetEnumerator()) {
-    try {
-        $vmval = (Get-AdvancedSetting -Entity $obj "$($param.Name)").Value
         if ([string]::IsNullOrEmpty($vmval)) {
-            Log-Message "$name`: $($param.Name) configured correctly (default)" -Level "PASS"
+            if ($isDefault) {
+                Log-Message "$name`: $($param.Name) configured correctly (default)" -Level "PASS"
+            } else {
+                New-AdvancedSetting -Entity $obj -Name $param.Name -Value $expected -Confirm:$false | Out-Null
+                Log-Message "$name`: $($param.Name) updated (undefined -> $expected)" -Level "UPDATE"
+            }
         } else {
-            Get-AdvancedSetting -Entity $obj -Name $param.Name | Remove-AdvancedSetting -Confirm:$false | Out-Null
-            Log-Message "$name`: $($param.Name) removed to prefer default ($vmval -> default)" -Level "UPDATE"
+            $pass = switch ($comparator) {
+                'eq' { $vmval -eq $expected }
+                'ge' { $vmval -ge $expected }
+                'le' { $vmval -le $expected }
+            }
+
+            if ($pass) {
+                Log-Message "$name`: $($param.Name) configured correctly ($vmval)" -Level "PASS"
+            } elseif ($isDefault) {
+                Get-AdvancedSetting -Entity $obj -Name $param.Name | Remove-AdvancedSetting -Confirm:$false | Out-Null
+                Log-Message "$name`: $($param.Name) removed to prefer default ($vmval -> default)" -Level "UPDATE"
+            } else {
+                Get-AdvancedSetting -Entity $obj -Name $param.Name | Set-AdvancedSetting -Value $expected -Confirm:$false | Out-Null
+                Log-Message "$name`: $($param.Name) updated ($vmval -> $expected)" -Level "UPDATE"
+            }
         }
     } catch {
         Log-Message "$name`: An error occurred while checking or setting $($param.Name) ($vmval)" -Level "ERROR"

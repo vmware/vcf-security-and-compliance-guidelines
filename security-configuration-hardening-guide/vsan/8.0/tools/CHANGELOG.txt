@@ -1,0 +1,45 @@
+VMware vSphere Security Configuration Guide (SCG) 8.0.3 PowerCLI Toolkit
+=========================================================================
+
+CHANGELOG
+---------
+
+Version 803-20260107-01
+-----------------------
+
+Bug Fixes:
+- Fixed EULA prompt accepting modifier keys (Ctrl, Alt, Shift) as valid input
+- Ctrl key alone no longer triggers acceptance, allowing CTRL+C to exit properly
+- Updated prompt text to "Press any character key" for clarity
+- Fixed undefined variable ($value -> $localsyslog) in audit-esxi-8.ps1
+- Fixed backwards remediation logic: MacChanges/ForgedTransmits now correctly set to $false
+- Fixed Syslog.global.logLevel from 'info' to 'error' per SCG specification
+- Fixed VCSA checks incorrectly placed inside distributed switch loop
+- Removed unused $hosts variable from VM scripts
+- Fixed line number references in remediation script safety warnings
+- Fixed Config.HostAgent.vmacore.soap.sessionTimeout from 30 to 10 per SCG specification
+
+Security Check Improvements:
+- Added comparator-based checks (eq, ge, le) to accommodate "more secure" configurations
+
+Refactoring:
+- Created scg-common.psm1 shared module to eliminate duplicated code
+- Refactored SSO policy checks to be data-driven
+- Consolidated VM numeric checks into unified data structure
+- Removed version check logic from all scripts
+
+Security Enhancements:
+- Updated connect.ps1 to use PSCredential instead of plaintext password
+- Added error handling with try/catch blocks throughout
+- Added error handling to audit-all.ps1, audit-vcenter-8.ps1, connect.ps1
+
+Files Modified:
+- scg-common.psm1 (new)
+- connect.ps1
+- audit-all.ps1
+- audit-esxi-8.ps1
+- audit-vcenter-8.ps1
+- audit-vm-8.ps1
+- remediate-esxi-8.ps1
+- remediate-vcenter-8.ps1
+- remediate-vm-8.ps1

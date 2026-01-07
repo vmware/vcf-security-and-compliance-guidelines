@@ -1,18 +1,6 @@
 <#
     Script Name: VMware vSphere Virtual Machine Security Settings Audit Utility
-    Copyright (C) 2024 Broadcom, Inc. All rights reserved.
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+    Copyright (C) 2026 Broadcom, Inc. All rights reserved.
 #>
 
 <#
@@ -58,129 +46,27 @@ Param (
     [switch]$NoSafetyChecksExceptAppliances = $false
 )
 
-#####################
-# Log to both screen and file
+# Import common functions
+Import-Module "$PSScriptRoot\scg-common.psm1" -Force
+
+# Wrapper functions for backward compatibility
 function Log-Message {
     param (
-        [Parameter(Mandatory=$false)]
-        [AllowEmptyString()]
-        [AllowNull()]
-        [string]$Message = "",
-
-        [Parameter(Mandatory=$false)]
-        [ValidateSet("INFO", "WARNING", "ERROR", "EULA", "PASS", "FAIL", "UPDATE")]
-        [string]$Level = "INFO"
+        [Parameter(Mandatory=$false)][AllowEmptyString()][AllowNull()][string]$Message = "",
+        [Parameter(Mandatory=$false)][ValidateSet("INFO", "WARNING", "ERROR", "EULA", "PASS", "FAIL", "UPDATE")][string]$Level = "INFO"
     )
-    
-    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    $logEntry = "[$timestamp] [$Level] $Message"
-    
-    # Output to screen
-    switch ($Level) {
-        "INFO"    { Write-Host $logEntry -ForegroundColor White }
-        "WARNING" { Write-Host $logEntry -ForegroundColor Yellow }
-        "ERROR"   { Write-Host $logEntry -ForegroundColor Red }
-        "EULA"    { Write-Host $logEntry -ForegroundColor Cyan }
-        "PASS"    { Write-Host $logEntry -ForegroundColor Gray }
-        "FAIL"    { Write-Host $logEntry -ForegroundColor Yellow }
-        "UPDATE"  { Write-Host $logEntry -ForegroundColor Green }
-    }
-    
-    # Append to file
-    if ($OutputFileName) {
-        $logEntry | Out-File -FilePath $OutputFileName -Append
-    }
+    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName
 }
 
-#####################
-# Accept EULA and terms to continue
-Function Accept-EULA() {
-    Log-Message "This software is provided as is and any express or implied warranties, including," -Level "EULA"
-    Log-Message "but not limited to, the implied warranties of merchantability and fitness for a particular" -Level "EULA"
-    Log-Message "purpose are disclaimed. In no event shall the copyright holder or contributors be liable" -Level "EULA"
-    Log-Message "for any direct, indirect, incidental, special, exemplary, or consequential damages (including," -Level "EULA"
-    Log-Message "but not limited to, procurement of substitute goods or services; loss of use, data, or" -Level "EULA"
-    Log-Message "profits; or business interruption) however caused and on any theory of liability, whether" -Level "EULA"
-    Log-Message "in contract, strict liability, or tort (including negligence or otherwise) arising in any" -Level "EULA"
-    Log-Message "way out of the use of this software, even if advised of the possibility of such damage." -Level "EULA"
-    Log-Message "The provider makes no claims, promises, or guarantees about the accuracy, completeness, or" -Level "EULA"
-    Log-Message "adequacy of this sample. Organizations should engage appropriate legal, business, technical," -Level "EULA"
-    Log-Message "and audit expertise within their specific organization for review of requirements and" -Level "EULA"
-    Log-Message "effectiveness of implementations. You acknowledge that there may be performance or other" -Level "EULA"
-    Log-Message "considerations, and that this example may make assumptions which may not be valid in your" -Level "EULA"
-    Log-Message "environment or organization." -Level "EULA"
-    Log-Message "" -Level "EULA"
-    Log-Message "Press any key to accept all terms and risk. Use CTRL+C to exit." -Level "EULA"
-
-    $null = $host.UI.RawUI.FlushInputBuffer()
-    while ($true) {
-        $key = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-        if ($key.Character -match '[a-zA-Z0-9 ]') {
-            break
-        }
-    }
-}
-
-Function Do-Pause() {
-    Log-Message "Check the vSphere Client to make sure all tasks have completed, then press a key." -Level "INFO"
-    $null = $host.UI.RawUI.FlushInputBuffer()
-    while ($true) {
-        $key = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-        if ($key.Character -match '[a-zA-Z0-9 ]') {
-            break
-        }
-    }
-}
-
-#####################
-# Check to see if we have the required version of VMware.PowerCLI
-Function Check-PowerCLI() {
-    $installedVersion = (Get-InstalledModule -Name 'VMware.PowerCLI' -AllVersions -ErrorAction SilentlyContinue).Version | Sort-Object -Desc | Select-Object -First 1
-    if ('13.3.0' -gt $installedVersion) {
-        Log-Message "This script requires PowerCLI 13.3 or newer. Current version is $installedVersion" -Level "ERROR"
-        Log-Message "Instructions for installation & upgrade can be found at https://developer.vmware.com/powercli" -Level "ERROR"
-        Log-Message "Some installations of PowerCLI cannot be detected. Use -NoSafetyChecks if you are sure." -Level "ERROR"
-        Exit
-    }
-}
-
-#####################
-# Check to see if we are attached to a supported vCenter Server
-Function Check-vCenter() {
-    if ($global:DefaultVIServers.Count -lt 1) {
-        Log-Message "Please connect to a vCenter Server (use Connect-VIServer) prior to running this script. Thank you." -Level "ERROR"
-        Exit
-    }
-
-    if (($global:DefaultVIServers.Count -lt 1) -or ($global:DefaultVIServers.Count -gt 1)) {
-        Log-Message "Connect to a single vCenter Server (use Connect-VIServer) prior to running this script." -Level "ERROR"
-        Exit
-    }
-
-    $vcVersion = $global:DefaultVIServers.Version
-    if (($vcVersion -lt '8.0.3') -or ($vcVersion -gt '8.0.3')) {
-        Log-Message "vCenter Server is not the correct version for this script." -Level "ERROR"
-        Exit
-    }
-}
-
-#####################
-# Check to see if we are attached to supported hosts. Older hosts might work but things change.
-Function Check-Hosts() {
-    $ESXi = Get-VMHost
-    foreach ($hostVersion in $ESXi.Version) {
-        if (($hostVersion -lt '8.0.3') -or ($hostVersion -gt '8.0.3')) {
-            Log-Message "This script requires vSphere 8.0.3 throughout the environment." -Level "ERROR"
-            Log-Message "There is at least one host attached that is downlevel ($hostVersion). Exiting." -Level "ERROR"
-            Exit
-        }
-    }    
-}
+Function Accept-EULA() { Show-EULA -OutputFileName $OutputFileName }
+Function Do-Pause() { Wait-UserInput -OutputFileName $OutputFileName }
+Function Check-vCenter() { if (-not (Test-vCenterConnection -OutputFileName $OutputFileName)) { Exit } }
+Function Check-Hosts() { if (-not (Test-HostsExist -OutputFileName $OutputFileName)) { Exit } }
 
 #######################################################################################################
 
 $currentDateTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-Log-Message "VMware Virtual Machine Security Settings Audit Utility 803-20241115-01" -Level "INFO"
+Log-Message "VMware Virtual Machine Security Settings Audit Utility 8.0.3" -Level "INFO"
 Log-Message "Audit of $name started at $currentDateTime from $env:COMPUTERNAME by $env:USERNAME" -Level "INFO"
 
 # Accept EULA and terms to continue
@@ -193,7 +79,6 @@ if ($false -eq $AcceptEULA) {
 
 # Safety checks
 if ($false -eq $NoSafetyChecks) {
-    Check-PowerCLI
     Check-vCenter
     Check-Hosts
 } else {
@@ -204,7 +89,6 @@ if ($false -eq $NoSafetyChecks) {
 # Read the VM into objects and views once to save time & resources
 $obj = Get-VM $name -ErrorAction Stop
 $view = Get-View -VIObject $obj
-$hosts = Get-VMHost
 
 # Broadcom/VMware support policy does not permit changes to VMware virtual appliances
 if (($NoSafetyChecks -eq $false) -or ($NoSafetyChecksExceptAppliances -eq $true)) {
@@ -270,18 +154,11 @@ $scg_bool = @{
     
 }    
 
-$scg_num_nondefault = @{
-    
-    'RemoteDisplay.maxConnections' = 1
-
-}
-
-$scg_num_default = @{
-    
-    'tools.setInfo.sizeLimit' = 1048576
-    'log.keepOld' = 10
-    'log.rotateSize' = 2048000
-
+$scg_num = @{
+    'RemoteDisplay.maxConnections' = @{ Expected = 1; Comparator = 'eq'; Default = $false }
+    'tools.setInfo.sizeLimit' = @{ Expected = 1048576; Comparator = 'le'; Default = $true }
+    'log.keepOld' = @{ Expected = 10; Comparator = 'eq'; Default = $true }
+    'log.rotateSize' = @{ Expected = 2048000; Comparator = 'eq'; Default = $true }
 }
 
 foreach ($param in $scg_bool.GetEnumerator() )
@@ -332,27 +209,30 @@ foreach ($param in $scg_bool.GetEnumerator() )
     }
 }
 
-foreach ($param in $scg_num_nondefault.GetEnumerator() )
-{
+foreach ($param in $scg_num.GetEnumerator()) {
     $vmval = (Get-AdvancedSetting -Entity $obj "$($param.Name)").Value
+    $expected = $param.Value.Expected
+    $comparator = $param.Value.Comparator
+    $isDefault = $param.Value.Default
 
-    if ($vmval -eq $($param.Value)) {
-        Log-Message "$name`: $($param.Name) configured correctly ($vmval)" -Level "PASS"
+    if ([string]::IsNullOrEmpty($vmval)) {
+        if ($isDefault) {
+            Log-Message "$name`: $($param.Name) not configured and is using secure defaults" -Level "PASS"
+        } else {
+            Log-Message "$name`: $($param.Name) not configured" -Level "FAIL"
+        }
     } else {
-        Log-Message "$name`: $($param.Name) configured incorrectly ($vmval)." -Level "FAIL"
-    }
-}
+        $pass = switch ($comparator) {
+            'eq' { $vmval -eq $expected }
+            'ge' { $vmval -ge $expected }
+            'le' { $vmval -le $expected }
+        }
 
-foreach ($param in $scg_num_default.GetEnumerator() )
-{
-    $vmval = (Get-AdvancedSetting -Entity $obj "$($param.Name)").Value
-
-    if ($vmval -eq $($param.Value)) {
-        Log-Message "$name`: $($param.Name) configured correctly ($vmval)" -Level "PASS"
-    } elseif (!$vmval) {
-        Log-Message "$name`: $($param.Name) not configured ($vmval)" -Level "PASS"
-    } else {
-        Log-Message "$name`: $($param.Name) configured incorrectly ($vmval)" -Level "FAIL"
+        if ($pass) {
+            Log-Message "$name`: $($param.Name) configured correctly ($vmval)" -Level "PASS"
+        } else {
+            Log-Message "$name`: $($param.Name) configured incorrectly ($vmval, expected $comparator $expected)" -Level "FAIL"
+        }
     }
 }
 

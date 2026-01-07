@@ -1,0 +1,10 @@
+VMware vSphere Security Configuration Guide (SCG) 9.0.1 PowerCLI Toolkit
+=========================================================================
+
+CHANGELOG
+---------
+
+Version 901-20260107-01
+-----------------------
+
+- Initial release for vSphere 9.0.1

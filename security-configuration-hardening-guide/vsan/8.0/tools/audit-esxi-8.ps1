@@ -1,18 +1,6 @@
 <#
-    Script Name: VMware vSphere ESXi Host Security Settings Audit Utility
-    Copyright (C) 2024 Broadcom, Inc. All rights reserved.
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+    Script Name: VMware vSphere ESX Host Security Settings Audit Utility
+    Copyright (C) 2026 Broadcom, Inc. All rights reserved.
 #>
 
 <#
@@ -39,7 +27,7 @@
 #>
 
 Param (
-    # ESXi Host Name
+    # ESX Host Name
     [Parameter(Mandatory=$true)]
     [ValidateNotNullOrEmpty()]
     [string]$Name,
@@ -55,129 +43,27 @@ Param (
     [switch]$NoSafetyChecks
 )
 
-#####################
-# Log to both screen and file
+# Import common functions
+Import-Module "$PSScriptRoot\scg-common.psm1" -Force
+
+# Wrapper functions for backward compatibility
 function Log-Message {
     param (
-        [Parameter(Mandatory=$false)]
-        [AllowEmptyString()]
-        [AllowNull()]
-        [string]$Message = "",
-
-        [Parameter(Mandatory=$false)]
-        [ValidateSet("INFO", "WARNING", "ERROR", "EULA", "PASS", "FAIL", "UPDATE")]
-        [string]$Level = "INFO"
+        [Parameter(Mandatory=$false)][AllowEmptyString()][AllowNull()][string]$Message = "",
+        [Parameter(Mandatory=$false)][ValidateSet("INFO", "WARNING", "ERROR", "EULA", "PASS", "FAIL", "UPDATE")][string]$Level = "INFO"
     )
-    
-    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    $logEntry = "[$timestamp] [$Level] $Message"
-    
-    # Output to screen
-    switch ($Level) {
-        "INFO"    { Write-Host $logEntry -ForegroundColor White }
-        "WARNING" { Write-Host $logEntry -ForegroundColor Yellow }
-        "ERROR"   { Write-Host $logEntry -ForegroundColor Red }
-        "EULA"    { Write-Host $logEntry -ForegroundColor Cyan }
-        "PASS"    { Write-Host $logEntry -ForegroundColor Gray }
-        "FAIL"    { Write-Host $logEntry -ForegroundColor Yellow }
-        "UPDATE"  { Write-Host $logEntry -ForegroundColor Green }
-    }
-    
-    # Append to file
-    if ($OutputFileName) {
-        $logEntry | Out-File -FilePath $OutputFileName -Append
-    }
+    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName
 }
 
-#####################
-# Accept EULA and terms to continue
-Function Accept-EULA() {
-    Log-Message "This software is provided as is and any express or implied warranties, including," -Level "EULA"
-    Log-Message "but not limited to, the implied warranties of merchantability and fitness for a particular" -Level "EULA"
-    Log-Message "purpose are disclaimed. In no event shall the copyright holder or contributors be liable" -Level "EULA"
-    Log-Message "for any direct, indirect, incidental, special, exemplary, or consequential damages (including," -Level "EULA"
-    Log-Message "but not limited to, procurement of substitute goods or services; loss of use, data, or" -Level "EULA"
-    Log-Message "profits; or business interruption) however caused and on any theory of liability, whether" -Level "EULA"
-    Log-Message "in contract, strict liability, or tort (including negligence or otherwise) arising in any" -Level "EULA"
-    Log-Message "way out of the use of this software, even if advised of the possibility of such damage." -Level "EULA"
-    Log-Message "The provider makes no claims, promises, or guarantees about the accuracy, completeness, or" -Level "EULA"
-    Log-Message "adequacy of this sample. Organizations should engage appropriate legal, business, technical," -Level "EULA"
-    Log-Message "and audit expertise within their specific organization for review of requirements and" -Level "EULA"
-    Log-Message "effectiveness of implementations. You acknowledge that there may be performance or other" -Level "EULA"
-    Log-Message "considerations, and that this example may make assumptions which may not be valid in your" -Level "EULA"
-    Log-Message "environment or organization." -Level "EULA"
-    Log-Message "" -Level "EULA"
-    Log-Message "Press any key to accept all terms and risk. Use CTRL+C to exit." -Level "EULA"
-
-    $null = $host.UI.RawUI.FlushInputBuffer()
-    while ($true) {
-        $key = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-        if ($key.Character -match '[a-zA-Z0-9 ]') {
-            break
-        }
-    }
-}
-
-Function Do-Pause() {
-    Log-Message "Check the vSphere Client to make sure all tasks have completed, then press a key." -Level "INFO"
-    $null = $host.UI.RawUI.FlushInputBuffer()
-    while ($true) {
-        $key = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-        if ($key.Character -match '[a-zA-Z0-9 ]') {
-            break
-        }
-    }
-}
-
-#####################
-# Check to see if we have the required version of VMware.PowerCLI
-Function Check-PowerCLI() {
-    $installedVersion = (Get-InstalledModule -Name 'VMware.PowerCLI' -AllVersions -ErrorAction SilentlyContinue).Version | Sort-Object -Desc | Select-Object -First 1
-    if ('13.3.0' -gt $installedVersion) {
-        Log-Message "This script requires PowerCLI 13.3 or newer. Current version is $installedVersion" -Level "ERROR"
-        Log-Message "Instructions for installation & upgrade can be found at https://developer.vmware.com/powercli" -Level "ERROR"
-        Log-Message "Some installations of PowerCLI cannot be detected. Use -NoSafetyChecks if you are sure." -Level "ERROR"
-        Exit
-    }
-}
-
-#####################
-# Check to see if we are attached to a supported vCenter Server
-Function Check-vCenter() {
-    if ($global:DefaultVIServers.Count -lt 1) {
-        Log-Message "Please connect to a vCenter Server (use Connect-VIServer) prior to running this script. Thank you." -Level "ERROR"
-        Exit
-    }
-
-    if (($global:DefaultVIServers.Count -lt 1) -or ($global:DefaultVIServers.Count -gt 1)) {
-        Log-Message "Connect to a single vCenter Server (use Connect-VIServer) prior to running this script." -Level "ERROR"
-        Exit
-    }
-
-    $vcVersion = $global:DefaultVIServers.Version
-    if (($vcVersion -lt '8.0.3') -or ($vcVersion -gt '8.0.3')) {
-        Log-Message "vCenter Server is not the correct version for this script." -Level "ERROR"
-        Exit
-    }
-}
-
-#####################
-# Check to see if we are attached to supported hosts. Older hosts might work but things change.
-Function Check-Hosts() {
-    $ESXi = Get-VMHost
-    foreach ($hostVersion in $ESXi.Version) {
-        if (($hostVersion -lt '8.0.3') -or ($hostVersion -gt '8.0.3')) {
-            Log-Message "This script requires vSphere 8.0.3 throughout the environment." -Level "ERROR"
-            Log-Message "There is at least one host attached that is downlevel ($hostVersion). Exiting." -Level "ERROR"
-            Exit
-        }
-    }    
-}
+Function Accept-EULA() { Show-EULA -OutputFileName $OutputFileName }
+Function Do-Pause() { Wait-UserInput -OutputFileName $OutputFileName }
+Function Check-vCenter() { if (-not (Test-vCenterConnection -OutputFileName $OutputFileName)) { Exit } }
+Function Check-Hosts() { if (-not (Test-HostsExist -OutputFileName $OutputFileName)) { Exit } }
 
 #######################################################################################################
 
 $currentDateTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-Log-Message "VMware ESXi Host Security Settings Audit Utility 803-20241115-01" -Level "INFO"
+Log-Message "VMware ESX Host Security Settings Audit Utility 8.0.3" -Level "INFO"
 Log-Message "Audit of $name started at $currentDateTime from $env:COMPUTERNAME by $env:USERNAME" -Level "INFO"
 
 # Accept EULA and terms to continue
@@ -190,7 +76,6 @@ if ($false -eq $AcceptEULA) {
 
 # Safety checks
 if ($false -eq $NoSafetyChecks) {
-    Check-PowerCLI
     Check-vCenter
     Check-Hosts
 } else {
@@ -198,60 +83,58 @@ if ($false -eq $NoSafetyChecks) {
 }
 
 #####################
-# Read the ESXi host into objects and views once to save time & resources
+# Read the ESX host into objects and views once to save time & resources
 $obj = Get-VMHost $name -ErrorAction Stop
 $view = Get-View -VIObject $obj
 $ESXcli = Get-EsxCli -VMHost $obj -V2
 
-if ($NoSafetyChecks -eq $false) {
-    #####################
-    # Check to see if the host is the right version
-    if ([version]'8.0.3' -gt $obj.Version) {
-        Log-Message "$name`: This script is designed for VMware ESXi 8.0.3. Please upgrade the specified host." -Level "ERROR"
-        Exit
-    }
-}
 
 #####################
 # Tests for advanced parameters
+# Comparators: eq = equal, ge = greater or equal (more secure), le = less or equal (more secure)
 $scg_adv = @{
-    
-    'Security.AccountUnlockTime' = 900
-    'Security.AccountLockFailures' = 5
-    'Security.PasswordQualityControl' = 'similar=deny retry=3 min=disabled,disabled,disabled,disabled,15 max=64'
-    'Security.PasswordHistory' = 5
-    'Security.PasswordMaxDays' = 9999
-    'Config.HostAgent.vmacore.soap.sessionTimeout' = 30
-    'Config.HostAgent.plugins.solo.enableMob' = $false
-    'UserVars.DcuiTimeOut' = 600
-    'UserVars.SuppressHyperthreadWarning' = 0
-    'UserVars.SuppressShellWarning' = 0
-    'UserVars.HostClientSessionTimeout' = 900
-    'Net.BMCNetworkEnable' = 0
-    'DCUI.Access' = 'root'
-    'Syslog.global.auditRecord.storageEnable' = $true
-    'Syslog.global.auditRecord.storageCapacity' = 100
-    'Syslog.global.auditRecord.remoteEnable' = $true
-    'Config.HostAgent.log.level' = 'info'
-    'Syslog.global.logLevel' = 'info'
-    'Syslog.global.certificate.checkSSLCerts' = $true
-    'Syslog.global.certificate.strictX509Compliance' = $true
-    'Net.BlockGuestBPDU' = 1
-    'Net.DVFilterBindIpAddress' = ''
-    'UserVars.ESXiShellInteractiveTimeOut' = 900
-    'UserVars.ESXiShellTimeOut' = 600
-    'UserVars.ESXiVPsDisabledProtocols' = "sslv3,tlsv1,tlsv1.1"
-    'Mem.ShareForceSalting' = 2
-    'VMkernel.Boot.execInstalledOnly' = $true
-    'Mem.MemEagerZero' = 1
-
+    'Security.AccountUnlockTime' = @{ Expected = 900; Comparator = 'ge' }
+    'Security.AccountLockFailures' = @{ Expected = 5; Comparator = 'le' }
+    'Security.PasswordQualityControl' = @{ Expected = 'similar=deny retry=3 min=disabled,disabled,disabled,disabled,15 max=64'; Comparator = 'eq' }
+    'Security.PasswordHistory' = @{ Expected = 5; Comparator = 'ge' }
+    'Security.PasswordMaxDays' = @{ Expected = 9999; Comparator = 'eq' }
+    'Config.HostAgent.vmacore.soap.sessionTimeout' = @{ Expected = 10; Comparator = 'le' }
+    'Config.HostAgent.plugins.solo.enableMob' = @{ Expected = $false; Comparator = 'eq' }
+    'UserVars.DcuiTimeOut' = @{ Expected = 600; Comparator = 'le' }
+    'UserVars.SuppressHyperthreadWarning' = @{ Expected = 0; Comparator = 'eq' }
+    'UserVars.SuppressShellWarning' = @{ Expected = 0; Comparator = 'eq' }
+    'UserVars.HostClientSessionTimeout' = @{ Expected = 900; Comparator = 'le' }
+    'Net.BMCNetworkEnable' = @{ Expected = 0; Comparator = 'eq' }
+    'DCUI.Access' = @{ Expected = 'root'; Comparator = 'eq' }
+    'Syslog.global.auditRecord.storageEnable' = @{ Expected = $true; Comparator = 'eq' }
+    'Syslog.global.auditRecord.storageCapacity' = @{ Expected = 100; Comparator = 'ge' }
+    'Syslog.global.auditRecord.remoteEnable' = @{ Expected = $true; Comparator = 'eq' }
+    'Config.HostAgent.log.level' = @{ Expected = 'info'; Comparator = 'eq' }
+    'Syslog.global.logLevel' = @{ Expected = 'error'; Comparator = 'eq' }
+    'Syslog.global.certificate.checkSSLCerts' = @{ Expected = $true; Comparator = 'eq' }
+    'Syslog.global.certificate.strictX509Compliance' = @{ Expected = $true; Comparator = 'eq' }
+    'Net.BlockGuestBPDU' = @{ Expected = 1; Comparator = 'eq' }
+    'Net.DVFilterBindIpAddress' = @{ Expected = ''; Comparator = 'eq' }
+    'UserVars.ESXiShellInteractiveTimeOut' = @{ Expected = 900; Comparator = 'le' }
+    'UserVars.ESXiShellTimeOut' = @{ Expected = 600; Comparator = 'le' }
+    'UserVars.ESXiVPsDisabledProtocols' = @{ Expected = "sslv3,tlsv1,tlsv1.1"; Comparator = 'eq' }
+    'Mem.ShareForceSalting' = @{ Expected = 2; Comparator = 'eq' }
+    'VMkernel.Boot.execInstalledOnly' = @{ Expected = $true; Comparator = 'eq' }
+    'Mem.MemEagerZero' = @{ Expected = 1; Comparator = 'eq' }
 }
 
-foreach ($param in $scg_adv.GetEnumerator() )
-{
+foreach ($param in $scg_adv.GetEnumerator()) {
     $vmval = (Get-AdvancedSetting -Entity $obj "$($param.Name)").Value
+    $expected = $param.Value.Expected
+    $comparator = $param.Value.Comparator
 
-    if ($vmval -eq $($param.Value)) {
+    $pass = switch ($comparator) {
+        'eq' { $vmval -eq $expected }
+        'ge' { $vmval -ge $expected }
+        'le' { $vmval -le $expected }
+    }
+
+    if ($pass) {
         Log-Message "$name`: $($param.Name) configured correctly ($vmval)" -Level "PASS"
     } else {
         Log-Message "$name`: $($param.Name) not configured correctly ($vmval)" -Level "FAIL"
@@ -286,9 +169,9 @@ $localsyslog = $ESXcli.system.syslog.config.get.Invoke() | Select-Object -Expand
 $localauditlog = $obj | Get-AdvancedSetting Syslog.global.auditRecord.storageDirectory | Select-Object -ExpandProperty Value
 
 if ($persistent) {
-    Log-Message "$name`: Local log location is persistent ($value)" -Level "PASS"
+    Log-Message "$name`: Local log location is persistent ($localsyslog)" -Level "PASS"
 } else {
-    Log-Message "$name`: Local log location is not persistent ($value)" -Level "FAIL"
+    Log-Message "$name`: Local log location is not persistent ($localsyslog)" -Level "FAIL"
 }
 
 if (($localsyslog -like "/scratch*") -and ($localauditlog -like "*scratch*") -and ($persistent)) {
@@ -328,14 +211,11 @@ if ($value1 -eq 'FALSE' -and $value2 -eq '0') {
 
 #####################
 # Test Host Secure Boot capability
-# Check only available with PowerCLI 13.3 and newer.
-if ([version]'13.3.0' -le $installedVersion) {
-    $value = $view.Capability.UefiSecureBoot
-    if ($value -eq 'true') {
-        Log-Message "$name`: Secure Boot is enabled on the host ($value)" -Level "PASS"
-    } else {
-        Log-Message "$name`: Secure Boot is not enabled on the host ($value)" -Level "FAIL"
-    }
+$value = $view.Capability.UefiSecureBoot
+if ($value -eq 'true') {
+    Log-Message "$name`: Secure Boot is enabled on the host ($value)" -Level "PASS"
+} else {
+    Log-Message "$name`: Secure Boot is not enabled on the host ($value)" -Level "FAIL"
 }
 
 #####################
@@ -479,7 +359,7 @@ if ($value -eq 'no') {
 }
 
 #####################
-# Test ESXi services
+# Test ESX services
 $services_should_be_false = "sfcbd-watchdog", "TSM", "slpd", "snmpd", "TSM-SSH"
 
 foreach ($service in $services_should_be_false) {

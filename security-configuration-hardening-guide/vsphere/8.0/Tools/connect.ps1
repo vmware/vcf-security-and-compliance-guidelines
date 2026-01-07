@@ -1,18 +1,6 @@
 <#
     Script Name: VMware vSphere Bulk Connect Script
-    Copyright (C) 2024 Broadcom, Inc. All rights reserved.
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+    Copyright (C) 2026 Broadcom, Inc. All rights reserved.
 #>
 
 Param (
@@ -25,10 +13,26 @@ Param (
 )
 
 $password = Read-Host -Prompt "Enter your password" -AsSecureString
+$credential = New-Object System.Management.Automation.PSCredential($User, $password)
 
-$BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($password)
-$plainPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
+try {
+    Connect-VIServer -Server $vCenter -Credential $credential -ErrorAction Stop
+    Write-Host "Connected to vCenter Server: $vCenter" -ForegroundColor Green
+} catch {
+    Write-Host "Failed to connect to vCenter Server: $_" -ForegroundColor Red
+    exit 1
+}
 
-Connect-VIServer -Server $vCenter -User $User -Password $plainPassword
-Connect-CisServer -Server $vCenter -User $User -Password $plainPassword
-Connect-SsoAdminServer -Server $vCenter -User $User -Password $plainPassword -SkipCertificateCheck
+try {
+    Connect-CisServer -Server $vCenter -Credential $credential -ErrorAction Stop
+    Write-Host "Connected to CIS Server: $vCenter" -ForegroundColor Green
+} catch {
+    Write-Host "Failed to connect to CIS Server: $_" -ForegroundColor Red
+}
+
+try {
+    Connect-SsoAdminServer -Server $vCenter -Credential $credential -SkipCertificateCheck -ErrorAction Stop
+    Write-Host "Connected to SSO Admin Server: $vCenter" -ForegroundColor Green
+} catch {
+    Write-Host "Failed to connect to SSO Admin Server: $_" -ForegroundColor Red
+}

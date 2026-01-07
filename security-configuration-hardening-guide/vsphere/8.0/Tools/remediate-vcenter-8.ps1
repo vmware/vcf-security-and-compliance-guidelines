@@ -1,18 +1,6 @@
 <#
     Script Name: VMware vCenter Security Settings Remediation Utility
-    Copyright (C) 2024 Broadcom, Inc. All rights reserved.
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+    Copyright (C) 2026 Broadcom, Inc. All rights reserved.
 #>
 
 <#
@@ -61,111 +49,27 @@ Param (
     [switch]$NoSafetyChecksExceptAppliances = $false
 )
 
-#####################
-# Log to both screen and file
+# Import common functions
+Import-Module "$PSScriptRoot\scg-common.psm1" -Force
+
+# Wrapper functions for backward compatibility
 function Log-Message {
     param (
-        [Parameter(Mandatory=$false)]
-        [AllowEmptyString()]
-        [AllowNull()]
-        [string]$Message = "",
-
-        [Parameter(Mandatory=$false)]
-        [ValidateSet("INFO", "WARNING", "ERROR", "EULA", "PASS", "FAIL", "UPDATE")]
-        [string]$Level = "INFO"
+        [Parameter(Mandatory=$false)][AllowEmptyString()][AllowNull()][string]$Message = "",
+        [Parameter(Mandatory=$false)][ValidateSet("INFO", "WARNING", "ERROR", "EULA", "PASS", "FAIL", "UPDATE")][string]$Level = "INFO"
     )
-    
-    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    $logEntry = "[$timestamp] [$Level] $Message"
-    
-    # Output to screen
-    switch ($Level) {
-        "INFO"    { Write-Host $logEntry -ForegroundColor White }
-        "WARNING" { Write-Host $logEntry -ForegroundColor Yellow }
-        "ERROR"   { Write-Host $logEntry -ForegroundColor Red }
-        "EULA"    { Write-Host $logEntry -ForegroundColor Cyan }
-        "PASS"    { Write-Host $logEntry -ForegroundColor Gray }
-        "FAIL"    { Write-Host $logEntry -ForegroundColor Yellow }
-        "UPDATE"  { Write-Host $logEntry -ForegroundColor Green }
-    }
-    
-    # Append to file
-    if ($OutputFileName) {
-        $logEntry | Out-File -FilePath $OutputFileName -Append
-    }
+    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName
 }
 
-#####################
-# Accept EULA and terms to continue
-Function Accept-EULA() {
-    Log-Message "This software is provided as is and any express or implied warranties, including," -Level "EULA"
-    Log-Message "but not limited to, the implied warranties of merchantability and fitness for a particular" -Level "EULA"
-    Log-Message "purpose are disclaimed. In no event shall the copyright holder or contributors be liable" -Level "EULA"
-    Log-Message "for any direct, indirect, incidental, special, exemplary, or consequential damages (including," -Level "EULA"
-    Log-Message "but not limited to, procurement of substitute goods or services; loss of use, data, or" -Level "EULA"
-    Log-Message "profits; or business interruption) however caused and on any theory of liability, whether" -Level "EULA"
-    Log-Message "in contract, strict liability, or tort (including negligence or otherwise) arising in any" -Level "EULA"
-    Log-Message "way out of the use of this software, even if advised of the possibility of such damage." -Level "EULA"
-    Log-Message "The provider makes no claims, promises, or guarantees about the accuracy, completeness, or" -Level "EULA"
-    Log-Message "adequacy of this sample. Organizations should engage appropriate legal, business, technical," -Level "EULA"
-    Log-Message "and audit expertise within their specific organization for review of requirements and" -Level "EULA"
-    Log-Message "effectiveness of implementations. You acknowledge that there may be performance or other" -Level "EULA"
-    Log-Message "considerations, and that this example may make assumptions which may not be valid in your" -Level "EULA"
-    Log-Message "environment or organization." -Level "EULA"
-    Log-Message "" -Level "EULA"
-    Log-Message "Press any key to accept all terms and risk. Use CTRL+C to exit." -Level "EULA"
-
-    $null = $host.UI.RawUI.FlushInputBuffer()
-    while ($Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")) {
-            break
-    }
-}
-
-Function Do-Pause() {
-    Log-Message "Check the vSphere Client to make sure all tasks have completed, then press a key." -Level "INFO"
-    $null = $host.UI.RawUI.FlushInputBuffer()
-    while ($Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")) {
-            break
-    }
-}
-
-#####################
-# Check to see if we are attached to a supported vCenter Server
-Function Check-vCenter() {
-    if ($global:DefaultVIServers.Count -lt 1) {
-        Log-Message "Please connect to a vCenter Server (use Connect-VIServer) prior to running this script. Thank you." -Level "ERROR"
-        Exit
-    }
-
-    if (($global:DefaultVIServers.Count -lt 1) -or ($global:DefaultVIServers.Count -gt 1)) {
-        Log-Message "Connect to a single vCenter Server (use Connect-VIServer) prior to running this script." -Level "ERROR"
-        Exit
-    }
-
-    $vcVersion = $global:DefaultVIServers.Version
-    if (($vcVersion -lt '8.0.3') -or ($vcVersion -gt '8.0.3')) {
-        Log-Message "vCenter Server is not the correct version for this script." -Level "ERROR"
-        Exit
-    }
-}
-
-#####################
-# Check to see if we are attached to supported hosts. Older hosts might work but things change.
-Function Check-Hosts() {
-    $ESXi = Get-VMHost
-    foreach ($hostVersion in $ESXi.Version) {
-        if (($hostVersion -lt '8.0.3') -or ($hostVersion -gt '8.0.3')) {
-            Log-Message "This script requires vSphere 8.0.3 throughout the environment." -Level "ERROR"
-            Log-Message "There is at least one host attached that is downlevel ($hostVersion). Exiting." -Level "ERROR"
-            Exit
-        }
-    }    
-}
+Function Accept-EULA() { Show-EULA -OutputFileName $OutputFileName }
+Function Do-Pause() { Wait-UserInput -OutputFileName $OutputFileName }
+Function Check-vCenter() { if (-not (Test-vCenterConnection -OutputFileName $OutputFileName)) { Exit } }
+Function Check-Hosts() { if (-not (Test-HostsExist -OutputFileName $OutputFileName)) { Exit } }
 
 #######################################################################################################
 
 $currentDateTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-Log-Message "VMware vCenter Security Settings Remediation Utility 803-20241115-01" -Level "INFO"
+Log-Message "VMware vCenter Security Settings Remediation Utility 8.0.3" -Level "INFO"
 Log-Message "Remediation of $name started at $currentDateTime from $env:COMPUTERNAME by $env:USERNAME" -Level "INFO"
 
 # Accept EULA and terms to continue
@@ -204,7 +108,7 @@ if ($false -eq $NoSafetyChecks) {
 Log-Message "This script should not be used in a production environment." -Level "ERROR"
 Log-Message "It will change things that can cause operational issues." -Level "ERROR"
 Log-Message "If you accept the risk, please remove or comment this section of the" -Level "ERROR"
-Log-Message "script (lines 203-225). By doing so, you accept any and all risk this" -Level "ERROR"
+Log-Message "script (lines 91-113). By doing so, you accept any and all risk this" -Level "ERROR"
 Log-Message "script and these commands may pose to your environment." -Level "ERROR"
 Exit
 
@@ -256,164 +160,174 @@ if ($value -match $old_banner) {
 
 #####################
 # Set SSO Lockout Configurations
-$value = Get-SsoLockoutPolicy
-if ($value.AutoUnlockIntervalSec -eq 0) {
-    Log-Message "SSO AutoUnlockIntervalSec configured correctly ($($value.AutoUnlockIntervalSec))" -Level "PASS"
-} else {
-    try {
-        Get-SsoLockoutPolicy | Set-SsoLockoutPolicy -AutoUnlockIntervalSec 0 | Out-Null
-        Log-Message "SSO AutoUnlockIntervalSec updated ($($value.AutoUnlockIntervalSec) -> 0)" -Level "UPDATE"
-    }
-    catch {
-        Log-Message "Failed to set SSO AutoUnlockIntervalSec`: $_" -Level "ERROR"
-    }
-}
+try {
+    $lockoutPolicy = Get-SsoLockoutPolicy
 
-if ($value.FailedAttemptIntervalSec -eq 900) {
-    Log-Message "SSO FailedAttemptIntervalSec configured correctly ($($value.FailedAttemptIntervalSec))" -Level "PASS"
-} else {
-    try {
-        Get-SsoLockoutPolicy | Set-SsoLockoutPolicy -FailedAttemptIntervalSec 900 | Out-Null
-        Log-Message "SSO FailedAttemptIntervalSec updated ($($value.FailedAttemptIntervalSec) -> 900)" -Level "UPDATE"
+    # AutoUnlockIntervalSec must be exactly 0
+    if ($lockoutPolicy.AutoUnlockIntervalSec -eq 0) {
+        Log-Message "SSO AutoUnlockIntervalSec configured correctly ($($lockoutPolicy.AutoUnlockIntervalSec))" -Level "PASS"
+    } else {
+        try {
+            Get-SsoLockoutPolicy | Set-SsoLockoutPolicy -AutoUnlockIntervalSec 0 | Out-Null
+            Log-Message "SSO AutoUnlockIntervalSec updated ($($lockoutPolicy.AutoUnlockIntervalSec) -> 0)" -Level "UPDATE"
+        } catch {
+            Log-Message "Failed to set SSO AutoUnlockIntervalSec: $_" -Level "ERROR"
+        }
     }
-    catch {
-        Log-Message "Failed to set SSO FailedAttemptIntervalSec`: $_" -Level "ERROR"
-    }
-}
 
-if ($value.MaxFailedAttempts -eq 5) {
-    Log-Message "SSO MaxFailedAttempts configured correctly ($($value.MaxFailedAttempts))" -Level "PASS"
-} else {
-    try {
-        Get-SsoLockoutPolicy | Set-SsoLockoutPolicy -MaxFailedAttempts 5 | Out-Null
-        Log-Message "SSO MaxFailedAttempts updated ($($value.MaxFailedAttempts) -> 5)" -Level "UPDATE"
+    # FailedAttemptIntervalSec: 900 or higher is more secure
+    if ($lockoutPolicy.FailedAttemptIntervalSec -ge 900) {
+        Log-Message "SSO FailedAttemptIntervalSec configured correctly ($($lockoutPolicy.FailedAttemptIntervalSec))" -Level "PASS"
+    } else {
+        try {
+            Get-SsoLockoutPolicy | Set-SsoLockoutPolicy -FailedAttemptIntervalSec 900 | Out-Null
+            Log-Message "SSO FailedAttemptIntervalSec updated ($($lockoutPolicy.FailedAttemptIntervalSec) -> 900)" -Level "UPDATE"
+        } catch {
+            Log-Message "Failed to set SSO FailedAttemptIntervalSec: $_" -Level "ERROR"
+        }
     }
-    catch {
-        Log-Message "Failed to set SSO MaxFailedAttempts`: $_" -Level "ERROR"
-    } 
+
+    # MaxFailedAttempts: 5 or fewer is more secure
+    if ($lockoutPolicy.MaxFailedAttempts -le 5) {
+        Log-Message "SSO MaxFailedAttempts configured correctly ($($lockoutPolicy.MaxFailedAttempts))" -Level "PASS"
+    } else {
+        try {
+            Get-SsoLockoutPolicy | Set-SsoLockoutPolicy -MaxFailedAttempts 5 | Out-Null
+            Log-Message "SSO MaxFailedAttempts updated ($($lockoutPolicy.MaxFailedAttempts) -> 5)" -Level "UPDATE"
+        } catch {
+            Log-Message "Failed to set SSO MaxFailedAttempts: $_" -Level "ERROR"
+        }
+    }
+} catch {
+    Log-Message "Failed to retrieve SSO Lockout Policy: $_" -Level "ERROR"
 }
 
 #####################
-# Test SSO Password Policy
-$value = Get-SsoPasswordPolicy
-if ($value.PasswordLifetimeDays -eq 9999) {
-    Log-Message "SSO PasswordLifetimeDays configured correctly ($($value.PasswordLifetimeDays))" -Level "PASS"
-} else {
-    try {
-        Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -PasswordLifetimeDays 9999 | Out-Null
-        Log-Message "SSO PasswordLifetimeDays updated ($($value.PasswordLifetimeDays) -> 9999)" -Level "UPDATE"
-    }
-    catch {
-        Log-Message "Failed to set SSO PasswordLifetimeDays`: $_" -Level "ERROR"
-    }
-}
+# Set SSO Password Policy
+try {
+    $passwordPolicy = Get-SsoPasswordPolicy
 
-if ($value.ProhibitedPreviousPasswordsCount -eq 5) {
-    Log-Message "SSO ProhibitedPreviousPasswordsCount configured correctly ($($value.ProhibitedPreviousPasswordsCount))" -Level "PASS"
-} else {
-    try {
-        Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -ProhibitedPreviousPasswordsCount 5 | Out-Null
-        Log-Message "SSO ProhibitedPreviousPasswordsCount updated ($($value.ProhibitedPreviousPasswordsCount) -> 5)" -Level "UPDATE"
+    # PasswordLifetimeDays must be exactly 9999
+    if ($passwordPolicy.PasswordLifetimeDays -eq 9999) {
+        Log-Message "SSO PasswordLifetimeDays configured correctly ($($passwordPolicy.PasswordLifetimeDays))" -Level "PASS"
+    } else {
+        try {
+            Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -PasswordLifetimeDays 9999 | Out-Null
+            Log-Message "SSO PasswordLifetimeDays updated ($($passwordPolicy.PasswordLifetimeDays) -> 9999)" -Level "UPDATE"
+        } catch {
+            Log-Message "Failed to set SSO PasswordLifetimeDays: $_" -Level "ERROR"
+        }
     }
-    catch {
-        Log-Message "Failed to set SSO ProhibitedPreviousPasswordsCount`: $_" -Level "ERROR"
-    } 
-}
 
-if ($value.MinLength -ge 15) {
-    Log-Message "SSO MinLength configured correctly ($($value.MinLength))" -Level "PASS"
-} else {
-    try {
-        Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MinLength 15 | Out-Null
-        Log-Message "SSO MinLength updated ($($value.MinLength) -> 15)" -Level "UPDATE"
+    # ProhibitedPreviousPasswordsCount: 5 or more is more secure
+    if ($passwordPolicy.ProhibitedPreviousPasswordsCount -ge 5) {
+        Log-Message "SSO ProhibitedPreviousPasswordsCount configured correctly ($($passwordPolicy.ProhibitedPreviousPasswordsCount))" -Level "PASS"
+    } else {
+        try {
+            Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -ProhibitedPreviousPasswordsCount 5 | Out-Null
+            Log-Message "SSO ProhibitedPreviousPasswordsCount updated ($($passwordPolicy.ProhibitedPreviousPasswordsCount) -> 5)" -Level "UPDATE"
+        } catch {
+            Log-Message "Failed to set SSO ProhibitedPreviousPasswordsCount: $_" -Level "ERROR"
+        }
     }
-    catch {
-        Log-Message "Failed to set SSO MinLength`: $_" -Level "ERROR"
-    }
-}
 
-if ($value.MaxLength -eq 64) {
-    Log-Message "SSO MaxLength configured correctly ($($value.MaxLength))" -Level "PASS"
-} else {
-    try {
-        Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MaxLength 64 | Out-Null
-        Log-Message "SSO MaxLength updated ($($value.MaxLength) -> 64)" -Level "UPDATE"
+    # MinLength: 15 or more is more secure
+    if ($passwordPolicy.MinLength -ge 15) {
+        Log-Message "SSO MinLength configured correctly ($($passwordPolicy.MinLength))" -Level "PASS"
+    } else {
+        try {
+            Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MinLength 15 | Out-Null
+            Log-Message "SSO MinLength updated ($($passwordPolicy.MinLength) -> 15)" -Level "UPDATE"
+        } catch {
+            Log-Message "Failed to set SSO MinLength: $_" -Level "ERROR"
+        }
     }
-    catch {
-        Log-Message "Failed to set SSO MaxLength`: $_" -Level "ERROR"
-    }
-}
 
-if ($value.MinNumericCount -eq 1) {
-    Log-Message "SSO MinNumericCount configured correctly ($($value.MinNumericCount))" -Level "PASS"
-} else {
-    try {
-        Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MinNumericCount 1 | Out-Null
-        Log-Message "SSO MinNumericCount updated ($($value.MinNumericCount) -> 1)" -Level "UPDATE"
+    # MaxLength: 64 or more is more secure
+    if ($passwordPolicy.MaxLength -ge 64) {
+        Log-Message "SSO MaxLength configured correctly ($($passwordPolicy.MaxLength))" -Level "PASS"
+    } else {
+        try {
+            Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MaxLength 64 | Out-Null
+            Log-Message "SSO MaxLength updated ($($passwordPolicy.MaxLength) -> 64)" -Level "UPDATE"
+        } catch {
+            Log-Message "Failed to set SSO MaxLength: $_" -Level "ERROR"
+        }
     }
-    catch {
-        Log-Message "Failed to set SSO MinNumericCount`: $_" -Level "ERROR"
-    }
-}
 
-if ($value.MinSpecialCharCount -eq 1) {
-    Log-Message "SSO MinSpecialCharCount configured correctly ($($value.MinSpecialCharCount))" -Level "PASS"
-} else {
-    try {
-        Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MinSpecialCharCount 1 | Out-Null
-        Log-Message "SSO MinSpecialCharCount updated ($($value.MinSpecialCharCount) -> 1)" -Level "UPDATE"
+    # MinNumericCount: 1 or more is more secure
+    if ($passwordPolicy.MinNumericCount -ge 1) {
+        Log-Message "SSO MinNumericCount configured correctly ($($passwordPolicy.MinNumericCount))" -Level "PASS"
+    } else {
+        try {
+            Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MinNumericCount 1 | Out-Null
+            Log-Message "SSO MinNumericCount updated ($($passwordPolicy.MinNumericCount) -> 1)" -Level "UPDATE"
+        } catch {
+            Log-Message "Failed to set SSO MinNumericCount: $_" -Level "ERROR"
+        }
     }
-    catch {
-        Log-Message "Failed to set SSO MinSpecialCharCount`: $_" -Level "ERROR"
-    }
-}
 
-if ($value.MaxIdenticalAdjacentCharacters -eq 3) {
-    Log-Message "SSO MaxIdenticalAdjacentCharacters configured correctly ($($value.MaxIdenticalAdjacentCharacters))" -Level "PASS"
-} else {
-    try {
-        Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MaxIdenticalAdjacentCharacters 3 | Out-Null
-        Log-Message "SSO MaxIdenticalAdjacentCharacters updated ($($value.MaxIdenticalAdjacentCharacters) -> 3)" -Level "UPDATE"
+    # MinSpecialCharCount: 1 or more is more secure
+    if ($passwordPolicy.MinSpecialCharCount -ge 1) {
+        Log-Message "SSO MinSpecialCharCount configured correctly ($($passwordPolicy.MinSpecialCharCount))" -Level "PASS"
+    } else {
+        try {
+            Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MinSpecialCharCount 1 | Out-Null
+            Log-Message "SSO MinSpecialCharCount updated ($($passwordPolicy.MinSpecialCharCount) -> 1)" -Level "UPDATE"
+        } catch {
+            Log-Message "Failed to set SSO MinSpecialCharCount: $_" -Level "ERROR"
+        }
     }
-    catch {
-        Log-Message "Failed to set SSO MaxIdenticalAdjacentCharacters`: $_" -Level "ERROR"
-    }
-}
 
-if ($value.MinAlphabeticCount -eq 2) {
-    Log-Message "SSO MinAlphabeticCount configured correctly ($($value.MinAlphabeticCount))" -Level "PASS"
-} else {
-    try {
-        Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MinAlphabeticCount 2 | Out-Null
-        Log-Message "SSO MinAlphabeticCount updated ($($value.MinAlphabeticCount) -> 2)" -Level "UPDATE"
+    # MaxIdenticalAdjacentCharacters: 3 or fewer is more secure
+    if ($passwordPolicy.MaxIdenticalAdjacentCharacters -le 3) {
+        Log-Message "SSO MaxIdenticalAdjacentCharacters configured correctly ($($passwordPolicy.MaxIdenticalAdjacentCharacters))" -Level "PASS"
+    } else {
+        try {
+            Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MaxIdenticalAdjacentCharacters 3 | Out-Null
+            Log-Message "SSO MaxIdenticalAdjacentCharacters updated ($($passwordPolicy.MaxIdenticalAdjacentCharacters) -> 3)" -Level "UPDATE"
+        } catch {
+            Log-Message "Failed to set SSO MaxIdenticalAdjacentCharacters: $_" -Level "ERROR"
+        }
     }
-    catch {
-        Log-Message "Failed to set SSO MinAlphabeticCount`: $_" -Level "ERROR"
-    }
-}
 
-if ($value.MinUppercaseCount -eq 1) {
-    Log-Message "SSO MinUppercaseCount configured correctly ($($value.MinUppercaseCount))" -Level "PASS"
-} else {
-    try {
-        Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MinUppercaseCount 1 | Out-Null
-        Log-Message "SSO MinUppercaseCount updated ($($value.MinUppercaseCount) -> 1)" -Level "UPDATE"
+    # MinAlphabeticCount: 2 or more is more secure
+    if ($passwordPolicy.MinAlphabeticCount -ge 2) {
+        Log-Message "SSO MinAlphabeticCount configured correctly ($($passwordPolicy.MinAlphabeticCount))" -Level "PASS"
+    } else {
+        try {
+            Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MinAlphabeticCount 2 | Out-Null
+            Log-Message "SSO MinAlphabeticCount updated ($($passwordPolicy.MinAlphabeticCount) -> 2)" -Level "UPDATE"
+        } catch {
+            Log-Message "Failed to set SSO MinAlphabeticCount: $_" -Level "ERROR"
+        }
     }
-    catch {
-        Log-Message "Failed to set SSO MinUppercaseCount`: $_" -Level "ERROR"
-    }
-}
 
-if ($value.MinLowercaseCount -eq 1) {
-    Log-Message "SSO MinLowercaseCount configured correctly ($($value.MinLowercaseCount))" -Level "PASS"
-} else {
-    try {
-        Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MinLowercaseCount 1 | Out-Null
-        Log-Message "SSO MinLowercaseCount updated ($($value.MinLowercaseCount) -> 1)" -Level "UPDATE"
+    # MinUppercaseCount: 1 or more is more secure
+    if ($passwordPolicy.MinUppercaseCount -ge 1) {
+        Log-Message "SSO MinUppercaseCount configured correctly ($($passwordPolicy.MinUppercaseCount))" -Level "PASS"
+    } else {
+        try {
+            Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MinUppercaseCount 1 | Out-Null
+            Log-Message "SSO MinUppercaseCount updated ($($passwordPolicy.MinUppercaseCount) -> 1)" -Level "UPDATE"
+        } catch {
+            Log-Message "Failed to set SSO MinUppercaseCount: $_" -Level "ERROR"
+        }
     }
-    catch {
-        Log-Message "Failed to set SSO MinLowercaseCount`: $_" -Level "ERROR"
+
+    # MinLowercaseCount: 1 or more is more secure
+    if ($passwordPolicy.MinLowercaseCount -ge 1) {
+        Log-Message "SSO MinLowercaseCount configured correctly ($($passwordPolicy.MinLowercaseCount))" -Level "PASS"
+    } else {
+        try {
+            Get-SsoPasswordPolicy | Set-SsoPasswordPolicy -MinLowercaseCount 1 | Out-Null
+            Log-Message "SSO MinLowercaseCount updated ($($passwordPolicy.MinLowercaseCount) -> 1)" -Level "UPDATE"
+        } catch {
+            Log-Message "Failed to set SSO MinLowercaseCount: $_" -Level "ERROR"
+        }
     }
+} catch {
+    Log-Message "Failed to retrieve SSO Password Policy: $_" -Level "ERROR"
 }
 
 #####################
@@ -429,7 +343,7 @@ if ($RemediateDistributedSwitches) {
         } else {
             try {
                 $switch | Get-VDSecurityPolicy | Set-VDSecurityPolicy -AllowPromiscuous $false -Confirm:$false | Out-Null
-                Log-Message "Distributed switch `'$switch`' is updated to allow promiscuous mode ($value)" -Level "UPDATE"
+                Log-Message "Distributed switch `'$switch`' is updated to disallow promiscuous mode ($value -> false)" -Level "UPDATE"
             }
             catch {
                 Log-Message "Distributed switch `'$switch`' could not be updated ($value)" -Level "ERROR"
@@ -438,11 +352,11 @@ if ($RemediateDistributedSwitches) {
 
         $value = $switch | Get-VDSecurityPolicy | Select-Object -ExpandProperty MacChanges
         if ($value -eq $false) {
-            Log-Message "Distributed switch `'$switch`' is configured to allow MAC address changes ($value)" -Level "PASS"
+            Log-Message "Distributed switch `'$switch`' is not configured to allow MAC address changes ($value)" -Level "PASS"
         } else {
             try {
-                $switch | Set-VDSecurityPolicy -MacChanges $true -Confirm:$false | Out-Null
-                Log-Message "Distributed switch `'$switch`' is updated to allow MAC address changes ($value -> true)" -Level "UPDATE"
+                $switch | Set-VDSecurityPolicy -MacChanges $false -Confirm:$false | Out-Null
+                Log-Message "Distributed switch `'$switch`' is updated to disallow MAC address changes ($value -> false)" -Level "UPDATE"
             }
             catch {
                 Log-Message "Distributed switch `'$switch`' could not be updated ($value)" -Level "ERROR"
@@ -451,11 +365,11 @@ if ($RemediateDistributedSwitches) {
 
         $value = $switch | Get-VDSecurityPolicy | Select-Object -ExpandProperty ForgedTransmits
         if ($value -eq $false) {
-            Log-Message "Distributed switch `'$switch`' is configured to allow forged transmits ($value)" -Level "PASS"
+            Log-Message "Distributed switch `'$switch`' is not configured to allow forged transmits ($value)" -Level "PASS"
         } else {
             try {
-                $switch | Set-VDSecurityPolicy -ForgedTransmits $true -Confirm:$false | Out-Null
-                Log-Message "Distributed switch `'$switch`' is updated to allow forged transmits ($value -> true)" -Level "UPDATE"
+                $switch | Set-VDSecurityPolicy -ForgedTransmits $false -Confirm:$false | Out-Null
+                Log-Message "Distributed switch `'$switch`' is updated to disallow forged transmits ($value -> false)" -Level "UPDATE"
             }
             catch {
                 Log-Message "Distributed switch `'$switch`' could not be updated ($value)" -Level "ERROR"
@@ -651,19 +565,19 @@ if ($RemediateDistributedSwitches) {
     }
 }
 
-    #####################
-    # Test VCSA Settings for SSH
-    $value = (Get-CisService -Name "com.vmware.appliance.access.ssh").get()
-    if ($value -eq $true) {
-        try {
-            (Get-CisService -Name "com.vmware.appliance.access.ssh").set($false) | Out-Null
-            Log-Message "vCenter Server Appliance SSH has been disabled ($value -> false)" -Level "UPDATE"
-        } catch {
-            Log-Message "vCenter Server Appliance SSH could not be updated ($value)" -Level "ERROR"
-        }
-    } else {
-        Log-Message "vCenter Server Appliance does not have SSH enabled ($value)" -Level "PASS"
+#####################
+# Test VCSA Settings for SSH
+$value = (Get-CisService -Name "com.vmware.appliance.access.ssh").get()
+if ($value -eq $true) {
+    try {
+        (Get-CisService -Name "com.vmware.appliance.access.ssh").set($false) | Out-Null
+        Log-Message "vCenter Server Appliance SSH has been disabled ($value -> false)" -Level "UPDATE"
+    } catch {
+        Log-Message "vCenter Server Appliance SSH could not be updated ($value)" -Level "ERROR"
     }
+} else {
+    Log-Message "vCenter Server Appliance does not have SSH enabled ($value)" -Level "PASS"
+}
 
 #####################
 # Test VCSA Settings for password policies
