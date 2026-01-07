@@ -1,13 +1,19 @@
-# ESXi 8 Log Message Formats | VMware
-Introduction
-------------
+# VMware ESX 8 Log Message Formats
+## Introduction
 
 In ESXi 8.0.0, VMware standardized the formats of log files and syslog transmissions. This standardization affects the metadata associated with each log file line or syslog transmission, for example time stamp, programmatic source identifier, message severity, and operation identifier.
 
 This document describes the changes, including the new formatting standards.
 
-Augmented Backus-Naur Form (ABNF)
----------------------------------
+## Disclaimer
+
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This document is not intended to provide advice and is provided "AS IS." Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
+
+## VMware ESXi versus VMware ESX
+
+With the release of VMware Cloud Foundation 9.0 the name of the VMware Hypervisor was changed from ESXi back to ESX. Documents such as this, which use information that span a range of release versions, may use the names ESXi and ESX interchangeably, or refer to the hypervisor solely as ESX for simplicity. Unless you are running VMware vSphere 4.1, please consider both ESXi and ESX to be the same, and use the product version to determine applicability to your environment.
+
+## Augmented Backus-Naur Form (ABNF)
 
 Logging message formats are expressed in ABNF. ABNF is governed by the following RFC:
 
@@ -15,20 +21,17 @@ Logging message formats are expressed in ABNF. ABNF is governed by the following
 
 The inspiration for using ABNF in this document comes from its use in RFC 5424. An unambiguous way to specify grammars.
 
-Adding Additional Data to a Message
------------------------------------
+## Adding Additional Data to a Message
 
 The SD-ELEMENT is the place to add additional parameters in the future. This ensures that the data is accessible via an established grammar. When RFC 5424 message transmission is enabled, the collector need not parse the unstructured data, searching for something.
 
-Time Stamps
------------
+## Time Stamps
 
 Time stamps are always UTC/GMT and comply with RFC 5424.
 
 Seconds resolution - no decimal point or anything after it - is acceptable by the RFCs and the ABNF grammars below reflect this. However, ESXi time stamps will use millisecond resolution or better where possible.
 
-Syslog Message Transmissions
-----------------------------
+## Syslog Message Transmissions
 
 vmsyslogd (a syslog originator) messages transmitted to collectors (the "remote host" capability in syslog "speak") are principally governed by the following RFCs:
 
@@ -38,8 +41,7 @@ vmsyslogd (a syslog originator) messages transmitted to collectors (the "remote 
 
 A legacy syslog collector may only be able to accept messages in RFC 3164 format; more recent syslog collectors may be able to handle RFC 3164 and RFC 5424 formats. Since a syslog originator has no way of determining the capabilities of a collector, vmsyslogd will support a configuration parameter that specifies the message format for each remote host. This also means that RFC 3164 messages will have a different format than RFC 5424 messages.
 
-RFC 3164 Transmission Message Format
-------------------------------------
+## RFC 3164 Transmission Message Format
 
 Since RFC 3164 does not provide an ABNF, an RFC 3164 ABNF is specified below. ESXi places RFC 5424 structured data frames into some messages.
 
@@ -81,8 +83,7 @@ Since RFC 3164 does not provide an ABNF, an RFC 3164 ABNF is specified below. ES
 
 Event Traceability is facilitated via an opID. When available/appropriate, the opID must be part of the an SD-ELEMENT where the PARAM-NAME is "opID" and "opID" string is the PARAM\_VALUE.
 
-RFC 5424 Transmission Message Format
-------------------------------------
+## RFC 5424 Transmission Message Format
 
 The ABNF of RFC 5424 messages can be found in section 6, pages 8 and 9. The grammar for ESXi RFC 5424 compliant messages is:
 
@@ -129,13 +130,11 @@ ESXi _never_ has a TIME-OFFSET as part of a TIMESTAMP.
 
 Event Traceability is facilitated via an opID. When available/appropriate, the opID must be part of the an SD-ELEMENT where the PARAM-NAME is "opID" and "opID" string is the PARAM\_VALUE.
 
-Audit Record Transmission Format
---------------------------------
+## Audit Record Transmission Format
 
 ESXi audit records have a facility of 13 (LOG\_AUDIT) and are fully compliant to the RFC 3164 and 5424 grammars documented above. The audit data will be contained in a SD-ELEMENT (structured data). No unstructured data follows the SD-ELEMENT. Event traceability information will be present in the audit record when that data is available.
 
-Log File Formats
-----------------
+## Log File Formats
 
 ### Log Files Written Directly By a Program
 
@@ -147,8 +146,7 @@ An example of this is the VMX (the process what manages each VM). Each VM has a 
 
 vmsyslogd takes care of the creation and management of the log files as well as writing the messages to the file. Messages from multiple programs may appear in some log files.
 
-Directly Written File Format
-----------------------------
+## Directly Written File Format
 
 The ABNF for log files written directly by program is specified here:
 
@@ -223,8 +221,7 @@ A single threaded program may not have a thread name, hence NILVALUE being accep
 
 The component (APP-NAME) is implied - the single program that is writing the file - so no component field is necessary, only the thread name.
 
-Indirectly Written File Format (vmsyslogd)
-------------------------------------------
+## Indirectly Written File Format (vmsyslogd)
 
 The ABNF for log files written written by vmsyslogd is specified here:
 
@@ -293,8 +290,7 @@ The PRIVAL contains the bits from the message "PRI". This allows one to see the 
 
 The LINE-MARKER is added to each subsequent line generated from a multi-line submission. It clearly identifies multiline submissions and prevents a log injection security attack.
 
-Audit Record Storage Format
----------------------------
+## Audit Record Storage Format
 
 Audit records are not stored, locally, in "log files." They are stored in a special format, in specially handled files. Audit records are accessed locally via the auditLogReader program; do not read, use, or edit an audit record storage file directly. Event traceability information will be present in the audit record when that data is available.
 
