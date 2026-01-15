@@ -1,15 +1,13 @@
 # Practical Ideas for Ransomware Resilience with VMware vSphere
+
+*This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository is not intended to provide advice and is provided "AS IS." Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.*
+
 Introduction
 ------------
 
 Ransomware is a major threat, and many organizations are looking for ways to protect themselves. This discussion covers steps that virtual infrastructure administrators can take to make their environments more resilient against ransomware attacks. These ideas include both technical controls and people and process changes. Defending against ransomware requires a mix of approaches, including returning to information security basics, implementing new technology, and making organizational changes.
 
-Some of these ideas have benefits beyond just ransomware defense, such as improving system resilience, encouraging automation, and fostering communication among staff. While this discussion is not comprehensive, it is intended to start changing attitudes and approaches to security based on tactics used by ransomware attackers and cybercriminals. Every environment is different, and for a full assessment, organizations should consider engaging a cybersecurity firm that specializes in penetration testing and incident response.
-
-Disclaimer
-----------
-
-This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This  repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
+Some of these ideas have benefits beyond just ransomware defense, such as improving system resilience, encouraging automation, and fostering communication among staff. While this discussion covers many topics, it is intended to start changing attitudes and approaches to security based on tactics used by ransomware attackers and cybercriminals. Every environment is different, and for a full assessment, organizations should consider engaging a cybersecurity firm that specializes in penetration testing and incident response.
 
 Business Continuity
 -------------------
@@ -92,7 +90,7 @@ IT infrastructure should be managed with separate admin accounts that are not us
 
 Authentication for infrastructure systems and devices should be isolated from general purpose authentication sources used by desktops, so that a breach does not automatically mean a compromise of the infrastructure. This can be done in a variety of ways, from local authentication on discrete infrastructure devices to a separate, purpose-built infrastructure authentication system inside the secure management perimeter that centralizes infrastructure admin logins and offers an opportunity to introduce multifactor authentication.
 
-Attackers who compromise an identity source can often add themselves to authorization groups, and simply log into systems they should not otherwise have access to. Additionally, reliance on central identity systems means that the administrators of those systems are potentially infrastructure administrators, too, as they can add themselves to infrastructure access groups at will. Some regulatory compliance efforts, such as for PCI DSS and NIST 800-171, flag those identity management admins as “in scope” for audits and compliance actions. Organizations that do not wish their domain admins – rogue or legitimate – to be storage, firewall, vSphere, or other admins should reconsider the use of domain groups for authorization.
+Attackers who compromise an identity source can often add themselves to authorization groups, and simply log into systems they should not otherwise have access to. Additionally, reliance on central identity systems means that the administrators of those systems are potentially infrastructure administrators, too, as they can add themselves to infrastructure access groups at will. Some regulatory compliance efforts, such as for PCI DSS and NIST 800-171, flag those identity management admins as “in scope” for audits and compliance actions. Organizations that do not wish their domain admins : rogue or legitimate : to be storage, firewall, vSphere, or other admins should reconsider the use of domain groups for authorization.
 
 Most infrastructure, including vSphere, allows authorization to be done on the systems themselves, such as through the use of SSO groups. This has the advantage of no dependencies on other systems but may be harder to manage. Techniques for automation of account management can be employed, though recent attacks that made headlines remind us to protect automation systems as well.
 
@@ -121,7 +119,7 @@ The vSphere Client proxies virtual machine console connections through vCenter S
 
 ### Ecosystem Connectivity
 
-Large-scale, newsworthy attacks via management systems remind us that any other system or tool that has rights to change the virtual environment must be considered an administration method and protected accordingly. For example, vRealize Operations Manager can have connectors configured to allow the automatic rightsizing of a virtual machine. This is a powerful and easy-to-use management feature, but access to it should be considered carefully. If your organization doesn’t continuously right-size workloads it may be better to leave the connectors configured as read-only.
+Large-scale, newsworthy attacks via management systems remind us that any other system or tool that has rights to change the virtual environment must be considered an administration method and protected accordingly. For example, VCF Operations can have connectors configured to allow the automatic rightsizing of a virtual machine. This is a powerful and easy-to-use management feature, but access to it should be considered carefully. If your organization doesn’t continuously right-size workloads it may be better to leave the connectors configured as read-only.
 
 ### Mythical Single Pane of Glass
 
@@ -159,7 +157,7 @@ Backup systems should be an island, extremely isolated, managed by few staff, mo
 
 ### Air Gaps & Immutable Backups
 
-Use immutable backups and/or backup “air gaps” where possible. Immutable backups are backups that cannot be altered. This has typically been implemented with specialized backup media like “WORM” – Write Once, Read Many – devices. Most current backup solutions also have software-based approaches, but care should be taken to ensure that they are truly immutable. Air gaps are where backups are intentionally taken offline, and often offsite as well, to protect against threats like fire, flood, burglary, and such. There are several strategies for this, each dependent on the software and the implementation.
+Use immutable backups and/or backup “air gaps” where possible. Immutable backups are backups that cannot be altered. This has typically been implemented with specialized backup media like “WORM” : Write Once, Read Many : devices. Most current backup solutions also have software-based approaches, but care should be taken to ensure that they are truly immutable. Air gaps are where backups are intentionally taken offline, and often offsite as well, to protect against threats like fire, flood, burglary, and such. There are several strategies for this, each dependent on the software and the implementation.
 
 Note that there may be legal implications to changes in backup strategies, especially considering GDPR and data retention issues. Many larger organizations have specific data retention policies, not just to ensure that data is retained for certain periods of time, but also that it is destroyed when that time is over.
 
@@ -168,9 +166,7 @@ More Information
 
 VMware maintains a Ransomware Resource Center with links to other trusted sites, documents, and more. Visit it at:
 
-![](data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='150' viewBox='0 0 800 300'%3E%3Cg id='Group_6' data-name='Group 6' transform='translate(-2297 -1132)'%3E%3Cpath id='Rectangle_1' data-name='Rectangle 1' d='M0,0H800V300H0Z' transform='translate(2297 1132)' fill='%23E2F0D9'/%3E%3Cg id='Group_5' data-name='Group 5' transform='translate(-6 -3)'%3E%3Ctext transform='translate(2534 1280)' font-size='50' font-family='Roboto-Regular, Roboto'%3E%3Ctspan x='0' y='0'%3ECurated Assets%3C/tspan%3E%3C/text%3E%3Ctext transform='translate(2611 1333)' font-size='20' font-family='Roboto-Regular, Roboto'%3E%3Ctspan x='0' y='0'%3ETile View (with image and controls)%3C/tspan%3E%3C/text%3E%3C/g%3E%3C/g%3E%3C/svg%3E)
 
-![](data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='150' viewBox='0 0 800 300'%3E%3Cg id='Group_6' data-name='Group 6' transform='translate(-2297 -1132)'%3E%3Cpath id='Rectangle_1' data-name='Rectangle 1' d='M0,0H800V300H0Z' transform='translate(2297 1132)' fill='%23E2F0D9'/%3E%3Cg id='Group_5' data-name='Group 5' transform='translate(-6 -3)'%3E%3Ctext transform='translate(2534 1280)' font-size='50' font-family='Roboto-Regular, Roboto'%3E%3Ctspan x='0' y='0'%3ECurated Assets%3C/tspan%3E%3C/text%3E%3Ctext transform='translate(2611 1333)' font-size='20' font-family='Roboto-Regular, Roboto'%3E%3Ctspan x='0' y='0'%3ETile View (with image and controls)%3C/tspan%3E%3C/text%3E%3C/g%3E%3C/g%3E%3C/svg%3E)
 
 About the Author
 ----------------

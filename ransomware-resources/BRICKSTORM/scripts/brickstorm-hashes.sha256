@@ -1,0 +1,25 @@
+# BRICKSTORM Known File Hashes (SHA256)
+# Source: CISA AR25-338A, Canadian Centre for Cyber Security
+# Format: SHA256_HASH  DESCRIPTION
+#
+# Usage with scanner: ./scan-brickstorm-hashes.sh
+# Usage standalone:   sha256sum -c brickstorm-hashes.sha256 (requires files to exist)
+
+# Go Variant Samples
+aaf5569c8e349c15028bc3fac09eb982efb06eabac955b705a6d447263658e38  # vmsrc
+013211c56caaa697914b5b5871e4998d0298902e336e373ebb27b7db30917eaf  # vnetd
+57bd98dbb5a00e54f07ffacda1fea91451a0c0b532cd7d570e98ce2ff741c21d  # if-up
+b3b6a992540da96375e4781afd3052118ad97cfe60ccf004d732f76678f6820a  # viocli
+22c15a32b69116a46eb5d0f2b228cc37cd1b5915a91ec8f38df79d3eed1da26b  # vts
+f7cda90174b806a34381d5043e89b23ba826abcc89f7abd520060a64475ed506  # vmckd
+39b3d8a8aedffc1b40820f205f6a4dc041cd37262880e5030b008175c45b0c46  # unknown-1
+73fe8b8fb4bd7776362fd356fdc189c93cf5d9f6724f6237d829024c10263fe5  # unknown-2
+77b49c854afd6746fee393711b48979376fb910b34105c0e18a3fdc24ea31d5c  # bkup
+
+# Rust Variant Samples
+6a67a9769a55ec889a5dd4199b2fc08965d39d737838836853bc13c81c56a800  # vsm-boot-monitordvcenter
+ed907d39efd5750236b075ca9fbb1f090d7bf578578c38faab24210d298a60ae  # vsm-monitordvcenter
+
+# Hypervisor Implants
+88db1d63dbd18469136bf9980858eb5fc0d4e41902bf3e4a8e08d7b6896654ed  # Junction
+40db68331cb52dd3ffa0698144d1e6919779ff432e2e80c058e41f7b93cec042  # GuestConduit
