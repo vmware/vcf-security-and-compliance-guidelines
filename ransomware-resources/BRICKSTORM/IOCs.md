@@ -8,7 +8,7 @@ Signs that your systems may be infected with BRICKSTORM. Use these to scan your 
 
 ## File Hashes
 
-BRICKSTORM hashes are maintained by CISA as part of the [AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) analysis report. UNC5221 is noted to recompile the malware on a per-victim basis, so the hashes may differ from the analysis report.
+BRICKSTORM hashes are maintained by CISA as part of the [AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) analysis report. UNC5221 is noted to recompile the malware on a per-victim basis, so the hashes may differ from the analysis report. There have been reports that the third-party Mandiant scanner scripts work on the vCenter appliance. This is a third-party tool; evaluate according to your organization's security policies.
 
 ---
 

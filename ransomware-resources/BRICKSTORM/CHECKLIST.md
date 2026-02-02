@@ -36,8 +36,8 @@ See [DEFENSE-GUIDE.md: IOC-Based Detection](DEFENSE-GUIDE.md#1-ioc-based-detecti
 - [ ] Check guest VMs for [GuestConduit](DEFENSE-GUIDE.md#guestconduit-detection): VSOCK listeners on port 5555
 
 **Hash and YARA Scanning:**
-- [ ] Run [CISA YARA rules](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) against VMware ESX hosts
-- [ ] Investigate any matches (note: BRICKSTORM is often compiled uniquely per victim)
+- [ ] Run [CISA YARA rules](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) against VMware ESX and vCenter. You can do this through the use of the Mandiant BRICKSTORM scanner.
+- [ ] Investigate any matches (note: BRICKSTORM is often compiled uniquely per victim so file hash matching has limited effectiveness)
 
 ### 1.2 Review Boot/Init Scripts
 

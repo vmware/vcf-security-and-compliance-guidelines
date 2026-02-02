@@ -4,43 +4,88 @@
 
 ## Table of Contents
 
-1. [Threat Overview](#threat-overview)
-   - [The BRICKSTORM Malware Family](#the-brickstorm-malware-family)
-   - [Understanding Dwell Time](#understanding-dwell-time)
-   - [How Attackers Reach vCenter](#how-attackers-reach-vcenter)
-   - [VMware Cloud Foundation: Protect the Management Domain First](#vmware-cloud-foundation-vcf-protect-the-management-domain-first)
-   - [MITRE ATT&CK Mapping](#mitre-attck-mapping)
-   - [Advanced Attack Techniques](#advanced-attack-techniques) (VSOCK, vpxuser, BRICKSTEAL, Golden SAML, Rogue VMs)
-2. [Detection Procedures](#detection-procedures)
-   - [IOC-Based Detection](#1-ioc-based-detection) (Behavioral, Hash/YARA, File Search)
-   - [Boot Script Integrity Check](#2-boot-script-integrity-check)
-   - [Network Traffic Analysis](#3-network-traffic-analysis) (DoH, WebSocket)
-   - [vCenter Activity Audit](#4-vcenter-activity-audit) (Cloning, Accounts, SSH, vpxuser)
-   - [Hypervisor-Level Detection](#5-hypervisor-level-detection) (Junction, Ghost VMs)
-   - [Rogue VM Detection](#6-rogue-vm-detection)
-   - [Guest-Level Detection](#7-guest-level-detection) (GuestConduit)
-3. [Prevention & Hardening](#prevention--hardening)
-   - [Access Control Implementation](#1-access-control-implementation)
-   - [Network Segmentation](#2-network-segmentation)
-   - [vSphere Security Configuration](#3-vsphere-security-configuration) (ESX, vCenter, VCF-Wide)
-   - [Patch Management](#4-patch-management)
-   - [Virtual Machine Hardening](#5-virtual-machine-hardening)
-4. [Monitoring & Alerting](#monitoring--alerting)
-   - [Log Collection Configuration](#1-log-collection-configuration)
-   - [Detection Rules](#2-detection-rules)
-   - [File Integrity Monitoring](#3-file-integrity-monitoring)
-   - [Egress Monitoring](#4-egress-monitoring)
-   - [NTP Monitoring](#5-ntp-monitoring)
-5. [Incident Response](#incident-response)
-   - [Initial Detection Response](#1-initial-detection-response)
-   - [Containment Procedures](#2-containment-procedures)
-   - [Evidence Collection](#3-evidence-collection)
-   - [Eradication](#4-eradication)
-6. [Recovery Procedures](#recovery-procedures)
-   - [Backup Strategy](#1-backup-strategy)
-   - [Recovery Planning](#2-recovery-planning)
-   - [Validation Before Restoration](#3-validation-before-restoration)
-   - [Post-Recovery](#4-post-recovery)
+- [BRICKSTORM Defense Guide](#brickstorm-defense-guide)
+  - [Table of Contents](#table-of-contents)
+  - [Threat Overview](#threat-overview)
+    - [The BRICKSTORM Malware Family](#the-brickstorm-malware-family)
+      - [How It Stays Running](#how-it-stays-running)
+      - [How It Tracks Itself](#how-it-tracks-itself)
+    - [Understanding Dwell Time](#understanding-dwell-time)
+    - [How BRICKSTORM Differs from Ransomware](#how-brickstorm-differs-from-ransomware)
+    - [How Attackers Reach vCenter](#how-attackers-reach-vcenter)
+      - [The Attack Path to VMware](#the-attack-path-to-vmware)
+    - [VMware Cloud Foundation (VCF): Protect the Management Domain First](#vmware-cloud-foundation-vcf-protect-the-management-domain-first)
+    - [MITRE ATT\&CK Mapping](#mitre-attck-mapping)
+    - [Advanced Attack Techniques](#advanced-attack-techniques)
+      - [VSOCK Bypass (Junction and GuestConduit)](#vsock-bypass-junction-and-guestconduit)
+      - [vpxuser Lateral Movement](#vpxuser-lateral-movement)
+      - [BRICKSTEAL Credential Harvesting](#bricksteal-credential-harvesting)
+      - [Golden SAML Attack](#golden-saml-attack)
+      - [Anti-Forensic Techniques](#anti-forensic-techniques)
+      - [Rogue and Ghost VMs](#rogue-and-ghost-vms)
+  - [Detection Procedures](#detection-procedures)
+    - [1. IOC-Based Detection](#1-ioc-based-detection)
+      - [Behavioral Detection (Higher Confidence)](#behavioral-detection-higher-confidence)
+      - [File Hash and YARA Scanning](#file-hash-and-yara-scanning)
+      - [Suspicious File Search](#suspicious-file-search)
+    - [2. Boot Script Integrity Check](#2-boot-script-integrity-check)
+    - [3. Network Traffic Analysis](#3-network-traffic-analysis)
+      - [DNS-over-HTTPS Detection](#dns-over-https-detection)
+      - [WebSocket Communication](#websocket-communication)
+    - [4. vCenter Activity Audit](#4-vcenter-activity-audit)
+      - [VM Cloning Operations](#vm-cloning-operations)
+      - [Account Audit](#account-audit)
+      - [SSH Access Changes](#ssh-access-changes)
+      - [vpxuser SSH Monitoring](#vpxuser-ssh-monitoring)
+    - [5. Hypervisor-Level Detection](#5-hypervisor-level-detection)
+      - [Junction Implant Detection](#junction-implant-detection)
+      - [Ghost VM Detection](#ghost-vm-detection)
+    - [6. Rogue VM Detection](#6-rogue-vm-detection)
+    - [7. Guest-Level Detection](#7-guest-level-detection)
+      - [GuestConduit Detection](#guestconduit-detection)
+  - [Prevention \& Hardening](#prevention--hardening)
+    - [1. Access Control Implementation](#1-access-control-implementation)
+      - [Service Account Least Privilege](#service-account-least-privilege)
+      - [Identity Federation and Authentication](#identity-federation-and-authentication)
+      - [Access Restrictions](#access-restrictions)
+      - [Credential Management](#credential-management)
+    - [2. Network Segmentation](#2-network-segmentation)
+      - [Management Network Isolation](#management-network-isolation)
+      - [Separated Management and Workload Clusters](#separated-management-and-workload-clusters)
+      - [Out-of-Band Management (BMC/IPMI/iDRAC/iLO)](#out-of-band-management-bmcipmiidracilo)
+    - [3. vSphere Security Configuration](#3-vsphere-security-configuration)
+      - [VMware ESX Hardening](#vmware-esx-hardening)
+      - [vCenter Hardening](#vcenter-hardening)
+      - [VCF-Wide Controls](#vcf-wide-controls)
+    - [4. Patch Management](#4-patch-management)
+      - [Edge Device Inventory](#edge-device-inventory)
+      - [Zero-Day Interim Mitigations](#zero-day-interim-mitigations)
+    - [5. Virtual Machine Hardening](#5-virtual-machine-hardening)
+      - [Protecting Critical Infrastructure VMs (Domain Controllers, Vaults)](#protecting-critical-infrastructure-vms-domain-controllers-vaults)
+        - [BRICKSTORM Credential Extraction Attack:](#brickstorm-credential-extraction-attack)
+        - [Defense](#defense)
+        - [VMware Tools Guest Operations](#vmware-tools-guest-operations)
+  - [Monitoring \& Alerting](#monitoring--alerting)
+    - [1. Log Collection Configuration](#1-log-collection-configuration)
+      - [Immutable Log Storage](#immutable-log-storage)
+    - [2. Detection Rules](#2-detection-rules)
+      - [Detection Queries for VCF Operations for Logs](#detection-queries-for-vcf-operations-for-logs)
+      - [Sigma Rules](#sigma-rules)
+      - [Audit Events Reference](#audit-events-reference)
+    - [3. File Integrity Monitoring](#3-file-integrity-monitoring)
+    - [4. Egress Monitoring](#4-egress-monitoring)
+    - [5. NTP Monitoring](#5-ntp-monitoring)
+  - [Incident Response](#incident-response)
+    - [1. Initial Detection Response](#1-initial-detection-response)
+    - [2. Containment Procedures](#2-containment-procedures)
+    - [3. Evidence Collection](#3-evidence-collection)
+    - [4. Eradication](#4-eradication)
+  - [Recovery Procedures](#recovery-procedures)
+    - [1. Backup Strategy](#1-backup-strategy)
+    - [2. Recovery Planning](#2-recovery-planning)
+    - [3. Validation Before Restoration](#3-validation-before-restoration)
+    - [4. Post-Recovery](#4-post-recovery)
+  - [References](#references)
 
 
 
@@ -99,7 +144,7 @@ Day 393:     You finally discover the breach
 
 ### How BRICKSTORM Differs from Ransomware
 
-Most VMware security guides focus on ransomware. BRICKSTORM is a different kind of threat:
+Many VMware security guides focus on ransomware. BRICKSTORM is a different kind of threat:
 
 | | Ransomware | BRICKSTORM |
 |--------|-------------------|------------------------------|
@@ -112,13 +157,13 @@ Most VMware security guides focus on ransomware. BRICKSTORM is a different kind 
 | **Data** | Encrypt it, maybe steal it | Quietly copy it without you knowing |
 | **Work Hours** | Any time | **01:00-10:00 UTC** |
 
-This matters because **you need different defenses**. Most VMware security guides focus on ransomware, but BRICKSTORM works differently.
+This matters because **you need different defenses**, though most defenses against threats like BRICKSTORM are also good defenses against ransomware, too.
 
 ### How Attackers Reach vCenter
 
 Attackers don't usually break directly into vCenter. They first get into other systems (VPNs, websites, or steal passwords), then work their way toward vCenter. Common entry points include VPN appliances, load balancers, public-facing web sites, and partners/vendors with access.
 
-**These attackers sometimes exploit vulnerabilities before patches are available.** Apply security updates to VPNs and vCenter within hours of release.
+**These attackers sometimes exploit vulnerabilities before patches are available.** Apply security updates to VPNs and vCenter within hours of release. There have been some ESX and vCenter vulnerabilities cited as being exploited by BRICKSTORM, but these have had patches available for years. In general, attackers will use whatever exploits are available to them.
 
 #### The Attack Path to VMware
 
@@ -240,17 +285,15 @@ BRICKSTORM provides attackers with persistent vCenter access, enabling them to d
 | **Ghost VMs** | Running on VMware ESX hosts but deleted from vCenter inventory (completely invisible to vCenter management) | Harder: Requires comparing VMware ESX running processes against vCenter inventory |
 | **vCLS Masquerading** | Rogue VMs named `vCLS-*` to blend with legitimate vSphere Cluster Services agents | Harder: Requires checking for network adapters (legitimate vCLS VMs have none) |
 
-
-
 ## Detection Procedures
 
 ### 1. IOC-Based Detection
 
-> **Important**: BRICKSTORM samples are often compiled uniquely per victim, so file hash matching has limited effectiveness. Prioritize behavioral detection (network connections, listening ports, boot script modifications) over static hash scanning.
+> **Important**: BRICKSTORM samples are compiled uniquely per victim, so file hash matching has limited effectiveness. Prioritize behavioral detection (network connections, listening ports, boot script modifications) over static hash scanning.
 
 #### Behavioral Detection (Higher Confidence)
 
-These checks detect BRICKSTORM activity regardless of file hash:
+These checks help detect BRICKSTORM activity regardless of file hash:
 
 ```bash
 # Check for Junction implant (port 8090 listener)
@@ -274,7 +317,7 @@ See [Hypervisor-Level Detection](#5-hypervisor-level-detection) for Junction and
 
 #### File Hash and YARA Scanning
 
-For hash-based detection, use the official YARA rules and IOC lists from [CISA AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a). CISA provides regularly updated detection signatures in STIX and YARA formats.
+For attempts at hash-based detection, use the official YARA rules and IOC lists from [CISA AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a). CISA provides regularly updated detection signatures in STIX and YARA formats. Similarly, the Mandiant scanner scripts, which contain adaptations of the YARA rules, can be run against vCenter appliances. This is a third-party tool which is not covered by VMware support; evaluate according to your organization's security policies.
 
 See [IOCs.md](IOCs.md) for the full list of known hashes, filenames, and detection commands.
 
@@ -388,26 +431,7 @@ IP-based blocking only catches known public resolvers. Attackers can easily depl
 
 **Layer 3/4 (IP-Based) Blocking:**
 
-As a baseline, block known public DoH resolver IPs from management networks:
-
-| Provider | IPv4 | IPv6 |
-|----------|------|------|
-| Cloudflare | `1.1.1.1`, `1.0.0.1` | `2606:4700:4700::1111`, `2606:4700:4700::1001` |
-| Google | `8.8.8.8`, `8.8.4.4` | `2001:4860:4860::8888`, `2001:4860:4860::8844` |
-| Quad9 | `9.9.9.9`, `9.9.9.11`, `149.112.112.11` | `2620:fe::fe`, `2620:fe::11` |
-| NextDNS | `45.90.28.160` | - |
-
-**Firewall Rule Example (iptables):**
-```bash
-# Block DoH to common providers from management network
-iptables -A OUTPUT -d 1.1.1.1 -p tcp --dport 443 -j DROP
-iptables -A OUTPUT -d 1.0.0.1 -p tcp --dport 443 -j DROP
-iptables -A OUTPUT -d 8.8.8.8 -p tcp --dport 443 -j DROP
-iptables -A OUTPUT -d 8.8.4.4 -p tcp --dport 443 -j DROP
-iptables -A OUTPUT -d 9.9.9.9 -p tcp --dport 443 -j DROP
-```
-
-> **Note**: IP blocking alone is insufficient. Attackers can deploy DoH resolvers on any cloud IP. Use L7 blocking where possible, and implement egress allowlisting for management infrastructure.
+Egress traffic from infrastructure management subnets should always be blocked unless it is to a known service. Blocking specific DNS resolvers is not sufficient, as attackers can deploy DoH resolvers on any cloud IP.
 
 #### WebSocket Communication
 
@@ -591,7 +615,6 @@ Get-NetTCPConnection -LocalPort 5555
 ```bash
 ss -tulnp | grep 5555
 ```
-
 
 
 ## Prevention & Hardening
