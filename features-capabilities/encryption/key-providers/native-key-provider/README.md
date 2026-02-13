@@ -445,14 +445,14 @@ This warning is leftover from vSphere 7, when Native Key Provider was introduced
 Best practices for Native Key Provider tend to be the same as good design practices for any other system:
 
 - Keep it simple.
-  -- More key providers means more opportunity for VMs to be encrypted with the wrong key provider.
-  -- More key providers means more things to back up, manage, and audit.
-  -- You can have a default key provider at the vCenter level, and then have different default key providers for each cluster. But... do you really need to do that? What problem are you solving? Is it the same set of VCF admins for everything?
-  -- vSAN can also have a different key provider, per cluster. In general, organizations that use two key providers often use a Standard Key Provider for vSAN, to protect against theft and improper decommissioning of equipement, and a Native Key Provider for VMs and workloads, to reduce dependencies and minimize KMS licensing costs. The Native Key Provider instance is usually configured as the default key provider.
+-- More key providers means more opportunity for VMs to be encrypted with the wrong key provider.
+-- More key providers means more things to back up, manage, and audit.
+-- You can have a default key provider at the vCenter level, and then have different default key providers for each cluster. But... do you really need to do that? What problem are you solving? Is it the same set of VCF admins for everything?
+-- vSAN can also have a different key provider, per cluster. In general, organizations that use two key providers often use a Standard Key Provider for vSAN, to protect against theft and improper decommissioning of equipement, and a Native Key Provider for VMs and workloads, to reduce dependencies and minimize KMS licensing costs. The Native Key Provider instance is usually configured as the default key provider.
 - If you have multiple clusters, decide if you are going to use the same key provider for all of them, or if you want to have a separate key provider for each cluster.
-  -- If you use the same key provider for all clusters (creating it on one, exporting it, and importing it on the others) it makes cross-vCenter vMotion easier.
-  -- It is easy to rekey a cluster and its VMs into a new key provider if you need to change (see the code samples here).
-  -- If you decide to use separate key providers for each cluster, name them all differently, and ideally with a scheme that makes it easy to tell which is which.
+-- If you use the same key provider for all clusters (creating it on one, exporting it, and importing it on the others) it makes cross-vCenter vMotion easier.
+-- It is easy to rekey a cluster and its VMs into a new key provider if you need to change (see the code samples here).
+-- If you decide to use separate key providers for each cluster, name them all differently, and ideally with a scheme that makes it easy to tell which is which.
 
 Since key providers are very flexible, start simply and add complexity only when you need it.
 
