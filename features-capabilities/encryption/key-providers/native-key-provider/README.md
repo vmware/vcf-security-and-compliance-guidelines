@@ -31,7 +31,7 @@ No. Native Key Provider is designed specifically for encryption in vSphere and i
 
 ### Can I use Native Key Provider with my external devices, like my tape library or storage array?
 
-Native Key Provider is for use only within vSphere and does not support traditional KMS connectivity.
+Native Key Provider is for use only within VCF/vSphere and does not support traditional KMS connectivity.
 
 ### Do I have to license Native Key Provider in some way, per key or per host?
 
@@ -68,13 +68,11 @@ There is a sample script available in the [code-samples](https://github.com/vmwa
 
 ### Can I use Native Key Provider with a standalone host?
 
-Organizations must use vCenter to manage Native Key Provider, and hosts must be inside a vSphere cluster object. However, you can put a single host inside a vCenter cluster object.
+Organizations must use vCenter to manage Native Key Provider, and hosts must be inside a vSphere cluster object. However, you can put a single host inside a vCenter cluster.
 
 ### Can I use Native Key Provider with vSAN?
 
 Yes! Configure Native Key Provider as the default before you enable data-at-rest encryption on the vSAN datastore & cluster or use the rekeying process to change between a standard key provider and Native Key Provider. For more information visit the [vSAN Frequently Asked Questions](https://www.vmware.com/docs/vmw-vsan-faqs) page.
-
-No; vSphere Trust Authority requires a Standard Key Provider (KMS).
 
 ### If I use vSAN with Native Key Provider, can I host vCenter on the vSAN datastore?
 
@@ -82,7 +80,7 @@ Yes, you can use vCenter on the vSAN datastore. Because the Native Key Provider 
 
 ### How many hosts can use Native Key Provider? Are there scalability limits?
 
-Native Key Provider has the same virtual machine scalability maximums as vSphere. See the [VMware Configuration Maximum tool](https://configmax.broadcom.com/).
+Native Key Provider has the same virtual machine scalability maximums as VCF/vSphere. See the [VMware Configuration Maximum tool](https://configmax.broadcom.com/).
 
 ### Do I need a Trusted Platform Module 2.0 (TPM) for my ESX hosts?
 
@@ -110,11 +108,9 @@ Yes, if a host has a TPM installed and configured it will be used to protect ESX
 
 Threats and risks are something that organizations must assess for themselves when designing systems and organizational processes. However, one area of consideration is often around physical security of hosts. Since Native Key Provider stores decryption keys locally on ESX hosts, an attacker that steals a host may still be able to unlock encrypted VMs and vSAN datastores. If physical security is a concern then Standard Key Providers configured to access a remote KMS may be a better solution, depending on your threat models, risks, and such.
 
-### What vSphere license do I need for Native Key Provider?
+### What vSphere or Cloud Foundation license do I need for Native Key Provider?
 
-All vSphere editions include VMware vSphere Native Key Provider (NKP), which enables the use of vTPMs for workloads.
-
-VM Encryption and vSAN Data-at-Rest Encryption can also use Native Key Provider, but require additional licensing (vSphere Enterprise Plus or VCF, for example).
+All vSphere and Cloud Foundation editions include VMware vSphere Native Key Provider (NKP).
 
 ### What encryption technologies work with Native Key Provider?
 
@@ -124,7 +120,7 @@ Data-in-transit (TLS, Encrypted vMotion, vSAN Data-in-Transit Encryption) and da
 
 ### Does ESX Configuration Encryption require Native Key Provider?
 
-ESX Configuration Encryption does not use Native Key Provider. It uses the same encryption libraries present in vSphere but handles encryption operations itself, in order to manage and avoid dependencies at cluster startup.
+ESX Configuration Encryption does not use Native Key Provider. It uses the same encryption libraries present in vSphere/VCF but handles encryption operations itself, in order to manage and avoid dependencies at cluster startup.
 
 ### Is the ESX configuration encryption key stored in Native Key Provider?
 
@@ -140,19 +136,19 @@ No. It uses the same underlying encryption libraries in vSphere, but it handles 
 
 ### Does vMotion work for virtual machines that are encrypted?
 
-Yes, all vSphere features continue to work when you use virtual machine Encryption, vSAN Encryption, or vTPM with Native Key Provider.
+Yes, all vSphere features continue to work when you use VM Encryption, vSAN Encryption, or vTPM with Native Key Provider.
 
 ### Can I use Cross-vCenter vMotion to migrate encrypted virtual machines?
 
-Yes. Encrypted virtual machines need to find their key provider configured at the destination. Simply import the backup of the key provider.
+Yes. Encrypted virtual machines need to find their key provider configured with the same name at the destination. Simply import the backup of the key provider.
 
 ### Does DRS work for virtual machines that are encrypted?
 
-Yes, all vSphere features continue to work when you use virtual machine Encryption, vSAN Encryption, or vTPM with Native Key Provider.
+Yes, all vSphere features continue to work when you use VM Encryption, vSAN Encryption, or vTPM with Native Key Provider.
 
 ### Does vSphere HA work for virtual machines that are encrypted?
 
-Yes, all vSphere features continue to work when you use virtual machine Encryption, vSAN Encryption, or vTPM with Native Key Provider.
+Yes, all vSphere features continue to work when you use VM Encryption, vSAN Encryption, or vTPM with Native Key Provider.
 
 ### What is a KEK?
 
@@ -161,6 +157,10 @@ KEK stands for Key Encryption Key and is a key used to encrypt other encryption 
 ### What is a DEK?
 
 DEK stands for Data Encryption Key and is the key that is used to encrypt individual virtual machine objects, like the NVRAM file where vTPM data is stored, VMDKs, etc. In vSphere, the DEK is encrypted with a KEK and written into the virtual machine configuration file for portability (replication, backups, etc.).
+
+### Cloud Foundation 9.0 and later have a concept of a "wrapping key." Is that supported by Native Key Provider?
+
+"Wrapping keys" are a feature of Standard Key Providers in VCF/vSphere 9.0 and later. They are not needed on Native Key Provider.
 
 ### What is a KDK? What is the difference between a KDK and a KEK?
 
@@ -233,7 +233,7 @@ foreach ($vm in Get-VM) {
 
 ```
 
-You can use the vSphere API directly from a variety of languages. For more information visit [https://developer.vmware.com](https://developer.vmware.com/).
+You can use the vSphere API directly from a variety of languages. For more information visit [https://developer.broadcom.com](https://developer.broadcom.com/).
 
 Shallow rekeys can be done while the VM is powered on. The guest OS will never know!
 
@@ -382,7 +382,7 @@ Functionally yes. Because the ESX host has the Key Derivation Key stored as part
 
 ### Do I need to enable ESX Key Persistence to use Native Key Provider?
 
-No – ESX Key Persistence is a separate feature that, in effect, caches encryption keys from a standard key provider (not a Native Key Provider) on a host using the host’s Trusted Platform Module. While Native Key Provider does something similar, it does not use the Key Persistence feature, and does not require the feature to be enabled.
+No. ESX Key Persistence is a separate feature that, in effect, caches encryption keys from a standard key provider (not a Native Key Provider) on a host using the host’s Trusted Platform Module. While Native Key Provider does something similar, it does not use the Key Persistence feature, and does not require the feature to be enabled.
 
 Key Persistence is disabled by default, and the use cases for the feature are limited. Most organizations should not enable Key Persistence without thoroughly examining their threat models and risks.
 
@@ -437,6 +437,24 @@ No. You can delete a key provider that is in use. Ensure you have a backup of th
 If virtual machines which use that key provider are running, they will continue running, but once those virtual machines are powered off, they will be unable to power on again until the correct key provider is restored.
 
 There is a sample script available in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory that can be used to audit the use of a key provider.
+
+### I am seeing a warning in vCenter saying "Multiple Native Key Providers are configured. Consult the documentation for guidelines and best practices." What does this mean?
+
+This warning is leftover from vSphere 7, when Native Key Provider was introduced, and a future release will remove it. It is supported to have up to 32 key providers in total, using any combination of Native Key Provider and Standard Key Provider.
+
+Best practices for Native Key Provider tend to be the same as good design practices for any other system:
+
+- Keep it simple.
+  -- More key providers means more opportunity for VMs to be encrypted with the wrong key provider.
+  -- More key providers means more things to back up, manage, and audit.
+  -- You can have a default key provider at the vCenter level, and then have different default key providers for each cluster. But... do you really need to do that? What problem are you solving? Is it the same set of VCF admins for everything?
+  -- vSAN can also have a different key provider, per cluster. In general, organizations that use two key providers often use a Standard Key Provider for vSAN, to protect against theft and improper decommissioning of equipement, and a Native Key Provider for VMs and workloads, to reduce dependencies and minimize KMS licensing costs. The Native Key Provider instance is usually configured as the default key provider.
+- If you have multiple clusters, decide if you are going to use the same key provider for all of them, or if you want to have a separate key provider for each cluster.
+  -- If you use the same key provider for all clusters (creating it on one, exporting it, and importing it on the others) it makes cross-vCenter vMotion easier.
+  -- It is easy to rekey a cluster and its VMs into a new key provider if you need to change (see the code samples here).
+  -- If you decide to use separate key providers for each cluster, name them all differently, and ideally with a scheme that makes it easy to tell which is which.
+
+Since key providers are very flexible, start simply and add complexity only when you need it.
 
 ## Disclaimer
 
