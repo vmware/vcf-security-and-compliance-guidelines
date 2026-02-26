@@ -8,7 +8,7 @@ This page is accessible directly using the [https://brcm.tech/tcp-compliance](ht
 
 ## Broadcom Resources
 
-- [EU NIS2 - Product Applicability Guide for VMware Telco Cloud Platform 5.1](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/telco-cloud-platform/5.1/nis2/telco-cloud-platform-51-eu-nis.pdf) - direct PDF download of the document in this directory
+- [EU NIS2 - Product Applicability Guide for VMware Telco Cloud Platform 5.1](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/telco-cloud-platform/5.1/nis2/telco-cloud-platform-51-eu-nis2.pdf) - direct PDF download of the document in this directory
 
 ## External Resources
 

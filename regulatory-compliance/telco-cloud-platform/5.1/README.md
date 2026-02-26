@@ -12,7 +12,7 @@ This page is accessible directly using the [https://brcm.tech/tcp-compliance](ht
 
 The **Network and Information Security Directive 2 (NIS2)** (Directive 2022/2555) is the EU's updated cybersecurity framework, replacing the original *NIS Directive (2016/1148)* to address the evolving threat landscape across critical sectors. It significantly broadens the scope of covered organizations by distinguishing between **Essential Entities** (e.g., energy, transport, healthcare, digital infrastructure) and **Important Entities** (e.g., postal services, waste management, manufacturing, digital providers)—with classification based on sector criticality and organizational size thresholds (generally ≥50 employees or ≥€10m annual turnover). NIS2 mandates a risk-based approach to cybersecurity, requiring covered entities to implement appropriate technical, operational, and organizational measures spanning incident handling, supply chain security, encryption, and business continuity.
 
-- [Product Applicability Guide (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/telco-cloud-platform/5.1/nis2/telco-cloud-platform-51-eu-nis.pdf)
+- [Product Applicability Guide (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/telco-cloud-platform/5.1/nis2/telco-cloud-platform-51-eu-nis2.pdf)
 
 ### [NIST SP 800-53 Revision 5](nist-800-53-r5/)
 
