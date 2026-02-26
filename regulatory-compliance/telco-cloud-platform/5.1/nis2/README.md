@@ -4,7 +4,7 @@ The **Network and Information Security Directive 2 (NIS2)** (Directive 2022/2555
 
 ## Permanent Link
 
-This page is accessible directly using the [https://brcm.tech/tcp-nis2](https://brcm.tech/tcp-nis2) permanent link.
+This page is accessible directly using the [https://brcm.tech/tcp-compliance](https://brcm.tech/tcp-compliance) permanent link.
 
 ## Broadcom Resources
 

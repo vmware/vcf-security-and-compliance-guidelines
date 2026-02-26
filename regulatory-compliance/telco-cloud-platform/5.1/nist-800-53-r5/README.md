@@ -4,7 +4,7 @@
 
 ## Permanent Link
 
-This page is accessible directly using the [https://brcm.tech/tcp-nist80053](https://brcm.tech/tcp-nist80053) permanent link.
+This page is accessible directly using the [https://brcm.tech/tcp-compliance](https://brcm.tech/tcp-compliance) permanent link.
 
 ## Broadcom Resources
 

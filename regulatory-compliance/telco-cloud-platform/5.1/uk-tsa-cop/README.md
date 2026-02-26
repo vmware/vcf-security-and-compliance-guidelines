@@ -4,7 +4,7 @@ The **Telecommunications Security Code of Practice** functions as the technical 
 
 ## Permanent Link
 
-This page is accessible directly using the [https://brcm.tech/vcf-uk-tsa-cop](https://brcm.tech/vcf-uk-tsa-cop) permanent link.
+This page is accessible directly using the [https://brcm.tech/tcp-compliance](https://brcm.tech/tcp-compliance) permanent link.
 
 ## Broadcom Resources
 
