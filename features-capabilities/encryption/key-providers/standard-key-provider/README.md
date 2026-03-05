@@ -45,9 +45,13 @@ Prior to VCF 9.0, and when the "Use a single KMS wrapping key" is unchecked, the
 - A KEK for each vSAN disk group
 - A KEK for each ESX host
 
-So if you have 1000 VMs on 32 hosts, and each host has two vSAN disk groups, you will have 1096 keys stored in the KMS.
+So if you have 1000 VMs which each have a vTPM, 32 hosts in your cluster, each host has two vSAN disk groups, and vSAN has data-at-rest encryption enabled, you will have 1096 keys stored in the KMS (1000 + 32 + 64).
 
-After VCF 9.0, if "Use a single KMS wrapping key" is checked, there will be one wrapping key stored in the KMS. If you have configured the rotation interval then additional old wrapping keys will be stored.
+If you have 5 VMs with a vTPM, 995 VMs that do NOT have a vTPM, 32 hosts each with two vSAN disk groups and vSAN data-at-rest encryption is enabled, you will have 101 keys stored in the KMS (5 + 32 + 64).
+
+If you have 5 VMs with a vTPM, 995 VMs that do NOT have a vTPM, 32 hosts each with vSAN data-at-rest encryption disabled, you will have 37 keys stored (5 + 32).
+
+After VCF 9.0, if "Use a single KMS wrapping key" is checked, there will be one wrapping key stored in the KMS. If you have configured the rotation interval additional old wrapping keys will also be stored. For example, if you configured key rotation intervals of 30 days, after a year you will have 11 additional keys, for a total of 12.
 
 ### If the wrapping key is the only thing in the KMS, where did the KEK go?
 
