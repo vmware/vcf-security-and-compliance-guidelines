@@ -63,7 +63,8 @@ process {
     $CryptoRoles = @()
     foreach ($Role in $Roles) {
         $Privs = Get-VIPrivilege -Role $Role -ErrorAction SilentlyContinue
-        if ($Privs.Id -contains "Cryptographer.*" -or $Role.Name -eq "Administrator") {
+        $HasCrypto = $Privs | Where-Object { $_.Id -like "Cryptographer.*" }
+        if ($HasCrypto -or $Role.Name -eq "Administrator") {
             $CryptoRoles += $Role.Name
         }
     }

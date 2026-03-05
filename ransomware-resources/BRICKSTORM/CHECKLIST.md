@@ -1,5 +1,7 @@
 # BRICKSTORM Defense Checklist
 
+*Last updated: March 5, 2026*
+
 A step-by-step checklist for protecting VMware systems from BRICKSTORM. For detailed guidance, see [DEFENSE-GUIDE.md](DEFENSE-GUIDE.md).
 
 *This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository is not intended to provide advice and is provided "AS IS." Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.*
@@ -10,7 +12,7 @@ A step-by-step checklist for protecting VMware systems from BRICKSTORM. For deta
 
 | # | Action | Details |
 |---|--------|---------|
-| 1 | Scan for signs of infection now | [IOC Detection](#11-check-for-known-iocs) |
+| 1 | Scan for signs of infection now (vCenter, ESX, VCF Automation Orchestrator) | [IOC Detection](#11-check-for-known-iocs) |
 | 2 | Keep logs for 2+ years | [Log Retention](#31-log-collection--retention) |
 | 3 | Put vCenter on a separate network | [Network Segmentation](#21-architecture--network-segmentation) |
 | 4 | Use separate logins for VCF admins | [Identity Management](#23-identity--access-management) |
@@ -36,8 +38,8 @@ See [DEFENSE-GUIDE.md: IOC-Based Detection](DEFENSE-GUIDE.md#1-ioc-based-detecti
 - [ ] Check guest VMs for [GuestConduit](DEFENSE-GUIDE.md#guestconduit-detection): VSOCK listeners on port 5555
 
 **Hash and YARA Scanning:**
-- [ ] Run [CISA YARA rules](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) against VMware ESX and vCenter. You can do this through the use of the Mandiant BRICKSTORM scanner.
-- [ ] Investigate any matches (note: BRICKSTORM is often compiled uniquely per victim so file hash matching has limited effectiveness)
+- [ ] Run [CISA YARA rules](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) (7 rules covering Go, Rust, and .NET AOT variants) against VMware ESX, vCenter, and VCF Automation Orchestrator. The [Mandiant BRICKSTORM scanner](https://github.com/mandiant/brickstorm-scanner) can run on appliances without YARA installed but detects Go variants only; supplement with CISA and GTIG YARA rules for broader coverage.
+- [ ] Investigate any matches (note: BRICKSTORM is compiled uniquely per victim and file hash matching has limited effectiveness; however, the first observed C2 infrastructure reuse was documented in February 2026, so network IOCs may have broader applicability than previously assessed)
 
 ### 1.2 Review Boot/Init Scripts
 
@@ -120,7 +122,8 @@ See [DEFENSE-GUIDE.md: Patch Management](DEFENSE-GUIDE.md#4-patch-management) fo
 **Patching Process:**
 - [ ] Subscribe to VMware Security Advisories (VMSA)
 - [ ] Subscribe to edge vendor security bulletins
-- [ ] Monitor CISA KEV catalog
+- [ ] Monitor CISA KEV catalog (CVE-2026-22719 for VCF Operations added March 2026)
+- [ ] Patch VMware vCenter, VMware ESX, VCF Automation Orchestrator, and VCF Operations within hours of security advisory release
 - [ ] Test patches in non-production before deployment
 - [ ] Maintain rollback capability for critical systems
 - [ ] Document patching decisions and exceptions
@@ -157,12 +160,13 @@ See [DEFENSE-GUIDE.md: DNS-over-HTTPS Detection](DEFENSE-GUIDE.md#dns-over-https
 - [ ] Block outbound DoH to public resolvers from infrastructure (IPv4 and IPv6)
 - [ ] Block known DoH endpoints at firewall/proxy
 - [ ] Monitor for encrypted DNS traffic anomalies
+- [ ] Note: newer BRICKSTORM samples include hardcoded C2 IPs as a fallback when DoH is blocked; egress allowlisting for management infrastructure is the recommended control
 
 ### 2.5 VMware ESX Host Hardening
 
 See [DEFENSE-GUIDE.md: VMware ESX Hardening](DEFENSE-GUIDE.md#vmware-esx-hardening) for BRICKSTORM-specific considerations.
 
-**Secure Boot and Binary Execution (critical for BRICKSTORM prevention):**
+**Secure Boot and Binary Execution (helps limit BRICKSTORM techniques):**
 - [ ] Enable UEFI Secure Boot in firmware (`esx-9.hardware-secureboot`)
 - [ ] Enable Secure Boot enforcement (`esx-9.secureboot`)
 - [ ] Enable TPM-based Secure Boot enforcement (`esx-9.secureboot-enforcement`)
@@ -176,7 +180,7 @@ See [DEFENSE-GUIDE.md: VMware ESX Hardening](DEFENSE-GUIDE.md#vmware-esx-hardeni
 - [ ] Configure shell service timeout (`esx-9.shell-timeout`)
 - [ ] Configure interactive session timeout (`esx-9.shell-interactive-timeout`)
 - [ ] Do not suppress shell warnings (`esx-9.shell-warning`)
-- [ ] Enable lockdown mode (`esx-9.lockdown-mode`)
+- [ ] Enable Normal Lockdown Mode (`esx-9.lockdown-mode`)
 
 **Logging:**
 - [ ] Forward logs to remote collector (`esx-9.log-forwarding`)
@@ -200,7 +204,7 @@ See [DEFENSE-GUIDE.md: vCenter Hardening](DEFENSE-GUIDE.md#vcenter-hardening) fo
 
 **Credential and Account Controls:**
 - [ ] Disable unused accounts (`vcenter-9.disable-accounts`)
-- [ ] Configure vpxuser password rotation (`vcenter-9.vpxuser-rotation`)
+- [ ] Configure vpxuser password rotation (`vcenter-9.vpxuser-rotation`, `VirtualCenter.VimPasswordExpirationInDays`; default 30 days)
 - [ ] Enable SSO account action alerts (`vcenter-9.account-alert`)
 - [ ] Configure failed login lockout (`vcenter-9.account-lockout-max-attempts`)
 
@@ -273,7 +277,7 @@ See [DEFENSE-GUIDE.md: Protecting Critical Infrastructure VMs](DEFENSE-GUIDE.md#
 
 See [DEFENSE-GUIDE.md: Log Collection Configuration](DEFENSE-GUIDE.md#1-log-collection-configuration) for retention tiers and immutability requirements.
 
-> **Prerequisite**: VMware ESX local syslog partitions are small and rotate quickly (often less than 24 hours in busy environments). Real-time remote syslog forwarding is the only way to achieve long-term retention. Before proceeding, verify logs are actually reaching your collector.
+> **Prerequisite**: VMware ESX local syslog partitions are small and rotate quickly (often less than 24 hours in busy environments). Real-time remote syslog forwarding is required to achieve long-term retention. Before proceeding, verify logs are actually reaching your collector.
 
 - [ ] **Verify syslog is reaching collector**: Check your SIEM for recent VMware ESX events; local logs vanish quickly
 
@@ -309,7 +313,8 @@ See [DEFENSE-GUIDE.md: Immutable Log Storage](DEFENSE-GUIDE.md#immutable-log-sto
 
 See [DEFENSE-GUIDE.md: Detection Rules](DEFENSE-GUIDE.md#2-detection-rules) and [AUDIT-EVENTS.md](AUDIT-EVENTS.md) for complete event reference.
 
-- [ ] Deploy YARA rules for BRICKSTORM detection (see [CISA AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a))
+- [ ] Deploy YARA rules for BRICKSTORM detection (7 rules covering Go, Rust, and .NET AOT variants; see [CISA AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a), last updated Feb 11, 2026)
+- [ ] Deploy GTIG YARA rules for GRIMBOLT and SLAYSTYLE (3 rules from [Mandiant Feb 17, 2026 report](https://cloud.google.com/blog/topics/threat-intelligence/unc6201-exploiting-dell-recoverpoint-zero-day)); these families have not been observed on VMware platforms but share C2 infrastructure with BRICKSTORM
 - [ ] Implement [Sigma rules](DEFENSE-GUIDE.md#sigma-rules) for vCenter anomalies
 - [ ] Alert on [VM cloning followed by rapid deletion](DEFENSE-GUIDE.md#vm-cloning-operations)
 - [ ] Alert on disk attachment from critical VMs to other VMs
@@ -318,6 +323,7 @@ See [DEFENSE-GUIDE.md: Detection Rules](DEFENSE-GUIDE.md#2-detection-rules) and 
 - [ ] Alert on init script modifications
 - [ ] Alert on suspicious file API access patterns
 - [ ] Alert on Enterprise App permission grants in Entra ID
+- [ ] Alert on VIB signature bypass: monitor `/var/log/esxupdate.log` for `acceptance level checking disabled` or `bypassing signing and acceptance level verification` (see [AUDIT-EVENTS.md](AUDIT-EVENTS.md))
 
 ### 3.4 Behavioral Monitoring
 
@@ -329,6 +335,8 @@ See [DEFENSE-GUIDE.md: Detection Rules](DEFENSE-GUIDE.md#2-detection-rules) and 
 - [ ] Inventory and monitor Shadow IT edge devices
 - [ ] Alert on [vpxuser SSH sessions](DEFENSE-GUIDE.md#vpxuser-ssh-monitoring)
 - [ ] Monitor for [VSOCK activity](DEFENSE-GUIDE.md#vsock-bypass-junction-and-guestconduit) on ports 8090 (Junction) and 5555 (GuestConduit)
+- [ ] Monitor for [Ghost NIC activity](DEFENSE-GUIDE.md#ghost-nics-temporary-virtual-network-adapters): rapid vNIC add/remove on VMs (lateral movement technique)
+- [ ] Check vCenter iptables rules for hex-string pattern matching on port 443 (iptables SPA technique; observed on non-VMware appliances but applicable to any compromised Linux system)
 
 ### 3.5 File Integrity Monitoring
 
@@ -387,7 +395,7 @@ See [DEFENSE-GUIDE.md: Recovery Procedures](DEFENSE-GUIDE.md#recovery-procedures
 
 - [ ] Delete VM disks immediately upon decommissioning (don't just power off)
 - [ ] Regular audit for [orphaned/unknown VMs](DEFENSE-GUIDE.md#6-rogue-vm-detection)
-- [ ] Regular audit for [unused snapshots](scripts/Get-StaleSnapshots.ps1)
+- [ ] Regular audit for [unused snapshots](scripts/Get-StaleSnapshots.ps1) (stale snapshots may indicate attacker data staging)
 
 ### 4.5 Rogue VM Detection
 

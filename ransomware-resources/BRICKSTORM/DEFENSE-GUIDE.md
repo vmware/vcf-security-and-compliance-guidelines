@@ -1,5 +1,7 @@
 # BRICKSTORM Defense Guide
 
+*Last updated: March 5, 2026*
+
 *This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository is not intended to provide advice and is provided "AS IS." Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.*
 
 ## Table of Contents
@@ -22,6 +24,7 @@
       - [BRICKSTEAL Credential Harvesting](#bricksteal-credential-harvesting)
       - [Golden SAML Attack](#golden-saml-attack)
       - [Anti-Forensic Techniques](#anti-forensic-techniques)
+      - [Ghost NICs (Temporary Virtual Network Adapters)](#ghost-nics-temporary-virtual-network-adapters)
       - [Rogue and Ghost VMs](#rogue-and-ghost-vms)
   - [Detection Procedures](#detection-procedures)
     - [1. IOC-Based Detection](#1-ioc-based-detection)
@@ -32,6 +35,7 @@
     - [3. Network Traffic Analysis](#3-network-traffic-analysis)
       - [DNS-over-HTTPS Detection](#dns-over-https-detection)
       - [WebSocket Communication](#websocket-communication)
+      - [iptables Single Packet Authorization](#iptables-single-packet-authorization)
     - [4. vCenter Activity Audit](#4-vcenter-activity-audit)
       - [VM Cloning Operations](#vm-cloning-operations)
       - [Account Audit](#account-audit)
@@ -91,11 +95,13 @@
 
 ## Threat Overview
 
-BRICKSTORM is a sophisticated, modular backdoor attributed to PRC state-sponsored actors, tracked as UNC5221 by Mandiant and WARP PANDA by CrowdStrike. Unlike traditional malware that typically targets user endpoints, BRICKSTORM is specifically engineered to compromise critical network infrastructure, including edge devices and the virtualization management plane. This strategic focus allows the threat actors to "live off the infrastructure," maintaining persistent, stealthy access for an average of over a year (393 days).
+BRICKSTORM is a sophisticated, modular backdoor attributed by CISA and Mandiant to PRC state-sponsored actors, tracked as UNC5221 and UNC6201 by Mandiant and WARP PANDA by CrowdStrike. Unlike traditional malware that typically targets user endpoints, BRICKSTORM is specifically engineered to compromise critical network infrastructure, including edge devices and the virtualization management plane. CISA has confirmed long-term access in at least eight government services and IT organizations, plus dozens of other entities. This strategic focus allows the threat actors to "live off the infrastructure," maintaining persistent, stealthy access for an average of over a year (393 days).
 
-Technically, the malware is highly adaptable, with variants observed in both Go and Rust, and is capable of running on Linux, Windows, and BSD-based systems. It employs advanced tradecraft to ensure resilience and conceal its communications; this includes a "self-watching" process architecture that automatically respawns the malware if it is terminated. For command and control (C2), BRICKSTORM blends into legitimate network traffic by using DNS-over-HTTPS (DoH) with public resolvers, and by encapsulating communication within encrypted WebSockets and nested TLS tunnels.
+Technically, the malware is highly adaptable, with variants observed in Go, Rust, and .NET Native AOT, and is capable of running on Linux, Windows, and BSD-based systems. CISA has analyzed 12 samples across these variants as of February 2026. Go and Rust variants employ a "self-watching" process architecture that automatically respawns the malware if it is terminated; the .NET AOT variant spawns a child process instead and lacks this self-monitoring capability. For command and control (C2), BRICKSTORM blends into legitimate network traffic by using DNS-over-HTTPS (DoH) with public resolvers, and by encapsulating communication within encrypted WebSockets and nested TLS tunnels. Newer samples include hardcoded C2 IP addresses as a fallback when DoH resolution is blocked.
 
-The primary objective of the BRICKSTORM campaign is long-term cyber espionage, heavily targeting sectors such as government, defense, technology, and legal services. Once inside, actors leverage the malware to move laterally and harvest credentials, often using specialized tools like BRICKSTEAL to intercept vCenter logins or by cloning virtual machines to extract Active Directory databases offline without triggering alerts. This campaign represents a significant shift in the threat landscape, where the management layer itself has become a primary vector for persistent, state-sponsored intrusion.
+The primary objective of the BRICKSTORM campaign is long-term cyber espionage, heavily targeting sectors such as government, defense, technology, legal services, manufacturing, SaaS providers, and business process outsourcers. Once inside, actors leverage the malware to move laterally and harvest credentials, often using specialized tools like BRICKSTEAL to intercept vCenter logins or by cloning virtual machines to extract Active Directory databases offline without triggering alerts. BRICKSTORM is notable because the attackers target the management layer directly, treating VMware vCenter and VMware ESX as primary objectives rather than as stepping stones to workloads.
+
+[KB427833](https://knowledge.broadcom.com/external/article/427833/brickstorm-backdoor-to-vsphere.html) states that BRICKSTORM is not caused by a vulnerability in VMware vCenter or ESX. The attackers use credential compromise or exploit previously patched VMware CVEs (CVE-2021-22005, CVE-2023-34048, CVE-2024-37079, CVE-2024-38812, CVE-2024-38813), all of which have had patches available.
 
 ### The BRICKSTORM Malware Family
 
@@ -103,14 +109,20 @@ BRICKSTORM is actually several tools that work together:
 
 | Tool | Where It Runs | What It Does |
 |------|---------------|--------------|
-| **BRICKSTORM** | vCenter, VMware ESX | Main backdoor; gives attackers remote access and file control |
+| **BRICKSTORM** | vCenter, VMware ESX, VCF Automation Orchestrator | Main backdoor; gives attackers remote access and file control (Go, Rust, and .NET AOT variants) |
 | **Junction** | VMware ESX host | Hides on the hypervisor; lets attackers bypass firewalls |
 | **GuestConduit** | Inside VMs | Creates hidden tunnels between VMs that bypass network security |
-| **BRICKSTEAL** | vCenter server | Steals administrator passwords when people log in |
+| **BRICKSTEAL** | vCenter | Steals administrator passwords when people log in |
+| **GRIMBOLT** | Not observed on VMware platforms | C# .NET AOT + UPX-packed successor backdoor; shares C2 infrastructure with BRICKSTORM |
+| **SLAYSTYLE** | Not observed on VMware platforms | JSP web shell deployed via Tomcat WAR file upload |
+
+VCF Automation Orchestrator (formerly VMware Aria Automation Orchestrator) is explicitly listed by CISA as a BRICKSTORM target alongside VMware vCenter and VMware ESX.
+
+GRIMBOLT and SLAYSTYLE have been observed on non-VMware appliances compromised by UNC6201. They are listed here because they share C2 infrastructure and operational patterns with BRICKSTORM. If GRIMBOLT or SLAYSTYLE are detected on any device in your environment, audit your VMware infrastructure for BRICKSTORM indicators immediately.
 
 #### How It Stays Running
 
-BRICKSTORM watches itself. When it runs, it creates a second copy that monitors the first. If you kill one copy, the other brings it back. This makes it hard to remove.
+Go and Rust variants watch themselves. When the malware runs, it creates a second copy that monitors the first. If you kill one copy, the other brings it back. This makes it hard to remove. The .NET AOT variant (identified February 2026) takes a different approach: it spawns a child process but does not include the self-monitoring persistence mechanism, relying instead on other persistence methods.
 
 #### How It Tracks Itself
 
@@ -161,9 +173,9 @@ This matters because **you need different defenses**, though most defenses again
 
 ### How Attackers Reach vCenter
 
-Attackers don't usually break directly into vCenter. They first get into other systems (VPNs, websites, or steal passwords), then work their way toward vCenter. Common entry points include VPN appliances, load balancers, public-facing web sites, and partners/vendors with access.
+Attackers don't usually break directly into vCenter. They first get into other systems (VPNs, websites, or steal passwords), then work their way toward vCenter and other VMware management components. Common entry points include VPN appliances, load balancers, public-facing web sites, and partners/vendors with access. In addition to VMware vCenter and VMware ESX, CISA also identifies VCF Automation Orchestrator (formerly VMware Aria Automation Orchestrator) as a BRICKSTORM target.
 
-**These attackers sometimes exploit vulnerabilities before patches are available.** Apply security updates to VPNs and vCenter within hours of release. There have been some ESX and vCenter vulnerabilities cited as being exploited by BRICKSTORM, but these have had patches available for years. In general, attackers will use whatever exploits are available to them.
+**These attackers sometimes exploit vulnerabilities before patches are available.** Apply security updates to VPNs, vCenter, and other VCF components within hours of release. All VMware CVEs exploited in BRICKSTORM campaigns have had patches available (CVE-2021-22005, CVE-2023-34048, CVE-2024-37079, CVE-2024-38812, CVE-2024-38813). In general, attackers will use whatever exploits are available to them.
 
 #### The Attack Path to VMware
 
@@ -265,7 +277,7 @@ BRICKSTEAL is a Java servlet filter that hides inside vCenter's web server. When
 
 #### Golden SAML Attack
 
-If your organization uses ADFS (Active Directory Federation Services) for single sign-on, attackers can steal the token-signing certificate to create fake login tickets. With this certificate, they can authenticate as any user to any federated service, and multi-factor authentication cannot stop them because the forged token bypasses the authentication flow entirely.
+If your organization uses ADFS (Active Directory Federation Services) for single sign-on, attackers can steal the token-signing certificate to create fake login tickets. With this certificate, they can authenticate as any user to any federated service, and multi-factor authentication does not help because the forged token bypasses the authentication flow entirely.
 
 #### Anti-Forensic Techniques
 
@@ -274,6 +286,13 @@ If your organization uses ADFS (Active Directory Federation Services) for single
 | **Timestomping** | Modifying file timestamps to match legitimate system files |
 | **Log Clearing** | Wiping or selectively editing system logs |
 | **Delay Timers** | Hard-coded sleep periods (weeks/months) to outlast incident response |
+| **iptables SPA** | Single Packet Authorization using iptables hex-string matching on port 443; creates a 300-second knock-based C2 listener that redirects to a hidden port (e.g., 10443). Invisible to standard port scanning. Observed on non-VMware appliances but applicable to any compromised Linux system including vCenter. |
+
+#### Ghost NICs (Temporary Virtual Network Adapters)
+
+UNC6201 has been observed using a lateral movement technique in which temporary virtual network adapters are created on VMs running on VMware ESX hosts. These "Ghost NICs" are connected to target port groups, used to pivot into internal networks, and then deleted to minimize forensic artifacts. Because the adapters exist only briefly, they are difficult to detect through periodic inventory checks.
+
+Ghost NIC activity generates `VmReconfiguredEvent` events in VMware vCenter. Alert on vNIC add/remove operations that occur in rapid succession, particularly during attacker operational hours (01:00-10:00 UTC). See [AUDIT-EVENTS.md](AUDIT-EVENTS.md) for specific event correlation patterns.
 
 #### Rogue and Ghost VMs
 
@@ -433,6 +452,8 @@ IP-based blocking only catches known public resolvers. Attackers can easily depl
 
 Egress traffic from infrastructure management subnets should always be blocked unless it is to a known service. Blocking specific DNS resolvers is not sufficient, as attackers can deploy DoH resolvers on any cloud IP.
 
+**Hardcoded C2 IP Fallback**: Newer BRICKSTORM samples include hardcoded C2 IP addresses as a fallback when DoH resolution is blocked. Blocking DoH alone is not sufficient. Egress allowlisting for management infrastructure (VMware ESX, vCenter, VCF Automation Orchestrator) is the recommended control: define explicit permitted destinations for outbound traffic and alert on anything outside the allowlist.
+
 #### WebSocket Communication
 
 Monitor for HTTP-to-WebSocket upgrade patterns from vCenter/VMware ESX:
@@ -442,6 +463,19 @@ Monitor for HTTP-to-WebSocket upgrade patterns from vCenter/VMware ESX:
 GET / HTTP/1.1
 Upgrade: websocket
 Connection: Upgrade
+```
+
+#### iptables Single Packet Authorization
+
+UNC6201 has been observed using iptables rules with hex-string pattern matching on port 443 to create a hidden, knock-based C2 listener. When a connection containing a specific hex-string trigger arrives, the source IP is approved and traffic is silently redirected from port 443 to a hidden port (e.g., 10443) for 300 seconds. This technique was observed on non-VMware appliances but is applicable to any compromised Linux system, including vCenter. Standard port scanning cannot detect this listener.
+
+On a suspect vCenter appliance, inspect iptables rules for unexpected hex-string matching or port redirection:
+
+```bash
+iptables -L -n -v
+iptables -t nat -L -n -v
+# Look for rules with --hex-string or -m string --algo
+# Look for REDIRECT or DNAT rules pointing to unexpected ports
 ```
 
 ### 4. vCenter Activity Audit
@@ -470,10 +504,16 @@ The script flags:
 **SIEM Detection Query (Clone & Burn Pattern):**
 
 ```
-# SIEM pseudocode
+# SIEM pseudocode (high-confidence: 15-minute window for rapid clone-extract-delete)
 source="vmware:vcenter"
 (Event="VmClonedEvent" OR Event="VmRemovedEvent")
 | transaction VM_Name maxspan=15m startsWith="VmClonedEvent" endsWith="VmRemovedEvent"
+| table _time, User, VM_Name, Source_Host
+
+# Broader hunting query (24-hour window for slower extraction patterns)
+source="vmware:vcenter"
+(Event="VmClonedEvent" OR Event="VmRemovedEvent")
+| transaction VM_Name maxspan=24h startsWith="VmClonedEvent" endsWith="VmRemovedEvent"
 | table _time, User, VM_Name, Source_Host
 ```
 
@@ -598,6 +638,16 @@ The script flags:
 
 Cross-reference flagged VMs against change management records.
 
+Also audit for stale snapshots using [Get-StaleSnapshots.ps1](scripts/Get-StaleSnapshots.ps1). Snapshots that exceed normal age or size thresholds may indicate attacker activity (data staging, evidence of cloning operations) or a recovery risk.
+
+```powershell
+# Find snapshots older than 7 days or larger than 50 GB
+.\scripts\Get-StaleSnapshots.ps1
+
+# Custom thresholds
+.\scripts\Get-StaleSnapshots.ps1 -AgeThresholdDays 3 -SizeThresholdGB 25
+```
+
 > **Third-Party Tool**: CrowdStrike provides a [VirtualGHOST scanner](https://github.com/CrowdStrike/VirtualGHOST) that can detect rogue VMs and other anomalies. This may help identify VMs deployed by attackers with vCenter access. This is a third-party tool; evaluate according to your organization's security policies.
 
 ### 7. Guest-Level Detection
@@ -669,7 +719,7 @@ The script flags:
 #### Credential Management
 
 13. Staff outside the VMware Cloud Foundation administration team should not have the ability to reset infrastructure administrator credentials. This includes the Help Desk.
-14. For privileged accounts, authenticator resets must be performed in-person, not through help desk tickets or phone calls. If your team is fully remote you may need to make accomodations, but note that "deep fake" interactive video calls exist and have been used to defraud organizations. You will need a high-confidence way of verifying staff, and no action should be performed unless that high-confidence method is successful.
+14. For privileged accounts, authenticator resets must be performed in-person, not through help desk tickets or phone calls. If your team is fully remote you may need to make accommodations, but note that "deep fake" interactive video calls exist and have been used to defraud organizations. You will need a high-confidence way of verifying staff, and no action should be performed unless that high-confidence method is successful.
 15. Carefully consider where break-glass authentication information is stored; this material must be protected from both unauthorized access and loss.
 
 ### 2. Network Segmentation
@@ -791,7 +841,7 @@ The following [VMware Cloud Foundation Security Configuration Guide](https://brc
 | `esx-9.tpm-configuration` | Require TPM-based configuration encryption | Protects host configuration from offline tampering |
 | `esx-9.hardware-tpm` | Require TPM 2.0 hardware | Enables hardware-backed security features |
 
-These controls work together: `execInstalledOnly` restricts execution to VMware-signed binaries, while Secure Boot and TPM enforcement prevent attackers from disabling these restrictions. BRICKSTORM binaries are unsigned and cannot execute when these controls are properly configured.
+These controls work together: `execInstalledOnly` restricts execution to VMware-signed binaries, while Secure Boot and TPM enforcement prevent attackers from disabling these restrictions. BRICKSTORM binaries are unsigned, and these controls restrict execution to VMware-signed binaries. UNC5221 has been observed installing malicious VIBs using `esxcli software vib install --no-sig-check` or by changing the host's software acceptance level to bypass signature validation. Monitor `/var/log/esxupdate.log` for the strings `acceptance level checking disabled` or `bypassing signing and acceptance level verification`, both of which indicate a deliberate override of these protections.
 
 **SSH and Shell Access Controls:**
 | Control ID | Description | BRICKSTORM Relevance |
@@ -801,9 +851,17 @@ These controls work together: `execInstalledOnly` restricts execution to VMware-
 | `esx-9.shell-timeout` | Set shell service timeout | Auto-disables shell after inactivity |
 | `esx-9.shell-interactive-timeout` | Set interactive session timeout | Terminates idle sessions |
 | `esx-9.shell-warning` | Do not suppress shell warnings | Alerts administrators when shell is enabled |
-| `esx-9.lockdown-mode` | Enable lockdown mode | Forces all access through vCenter |
+
+**Administrative shell restrictions (ESX 8.0+).** VMware ESX 8.0 and later allow administrators to revoke shell access for specific accounts, including vpxuser and root. When shell access is revoked for an account, that account is also prevented from granting shell access to other users or changing passwords of users who have shell access. This breaks the privilege escalation path that BRICKSTORM operators rely on after capturing vpxuser credentials via BRICKSTEAL. Note that this restriction does not affect password or configuration changes made through automated deployment mechanisms such as Host Profiles.
+
+**Lockdown Mode:**
+| Control ID | Description | BRICKSTORM Relevance |
+|------------|-------------|---------------------|
+| `esx-9.lockdown-mode` | Enable lockdown mode | Forces all access through vCenter (see note below) |
 | `esx-9.lockdown-dcui-access` | Restrict DCUI access list | Limits direct console access |
 | `esx-9.lockdown-exception-users` | Minimize exception users | Reduces bypass opportunities |
+
+**Normal vs. Strict Lockdown Mode.** VMware ESX supports two lockdown modes. Normal Lockdown Mode is the recommended configuration. It forces all management through vCenter while keeping the Direct Console User Interface (DCUI) available for break-glass recovery if vCenter becomes unavailable. Strict Lockdown Mode goes further by stopping the DCUI service entirely, which closes out-of-band management vectors but also removes DCUI as a recovery path. Organizations that choose to evaluate Strict mode should understand this tradeoff and have documented recovery procedures that do not depend on DCUI access.
 
 **Logging Controls:**
 | Control ID | Description | BRICKSTORM Relevance |
@@ -841,12 +899,14 @@ The following [VMware Cloud Foundation Security Configuration Guide](https://brc
 | Control ID | Description | BRICKSTORM Relevance |
 |------------|-------------|---------------------|
 | `vcenter-9.disable-accounts` | Disable unused accounts | Reduces attack surface; dormant accounts are often targeted |
-| `vcenter-9.vpxuser-rotation` | Configure vpxuser password rotation | Limits exposure window if vpxuser is compromised |
+| `vcenter-9.vpxuser-rotation` | Configure vpxuser password rotation | Limits exposure window if vpxuser is compromised (see note below) |
 | `vcenter-9.vpxuser-length` | Ensure vpxuser password length | Strengthens auto-generated host credentials |
 | `vcenter-9.account-alert` | Enable SSO account action alerts | Detects unauthorized account creation/modification |
 | `vcenter-9.account-lockout-max-attempts` | Configure failed login lockout | Limits brute-force attacks |
 | `vcenter-9.account-lockout-duration` | Configure lockout duration | Requires admin intervention after lockout |
 | `vcenter-9.account-lockout-reset` | Configure lockout reset interval | Controls failed attempt counting window |
+
+**vpxuser password rotation interval.** vCenter automatically rotates the vpxuser password on each managed VMware ESX host at an interval controlled by the `VirtualCenter.VimPasswordExpirationInDays` advanced setting (default: 30 days). Organizations under active investigation or at elevated risk should consider reducing this interval. An immediate forced rotation can also be triggered by disconnecting and reconnecting each VMware ESX host from vCenter inventory, which invalidates any vpxuser credentials that may have been captured via BRICKSTEAL or memory extraction. See [Recovery Planning](#2-recovery-planning) for the correct rotation sequence during incident response.
 
 **Logging Controls:**
 | Control ID | Description | BRICKSTORM Relevance |
@@ -946,7 +1006,7 @@ For **Windows/Linux VMs you control** (Domain Controllers, CAs, vaults), VM Encr
 - **vSAN Encryption (Data at Rest)**: Protects against physical theft of drives but does not protect against VM cloning. The hypervisor decrypts I/O transparently, so a rogue administrator can clone the VM and access its contents normally.
 - **VM Encryption (with vTPM)**: Seals encryption keys to the VM's boot state. When a VM is cloned, the vTPM state does not transfer, preventing the clone from decrypting its contents. This is the appropriate protection against the credential extraction attack.
 
-BitLocker with a boot PIN provides an additional layer; even if the VM is cloned, the attacker cannot boot it without the PIN.
+BitLocker with a boot PIN provides an additional layer; even if the VM is cloned, the clone does not boot without the PIN.
 
 **VM encryption does NOT prevent cloning**: Administrators with Cryptographer privileges can clone encrypted VMs. The clone remains encrypted but accessible to those with privileges. BRICKSTORM implies Administrator@vsphere.local compromise, and Administrators have Cryptographer privileges by default. **Encryption provides no protection unless Cryptographer privileges are revoked from standard administrator roles.**
 
@@ -963,7 +1023,7 @@ Consult the [VMware Cloud Foundation Security Configuration Guide](https://brcm.
 
 ##### VMware Tools Guest Operations
 
-VMware Tools enables guest operations (file transfers, process execution, registry access) from vCenter without network connectivity to the VM. These operations require authentication to the guest OS. However, if attackers have already extracted credentials via VM cloning, guest operations become another attack vector that network-level controls cannot block.
+VMware Tools enables guest operations (file transfers, process execution, registry access) from vCenter without network connectivity to the VM. These operations require authentication to the guest OS. However, if attackers have already extracted credentials via VM cloning, guest operations become another attack vector that network-level controls do not address.
 
 This reinforces the importance of:
 - **Separate identity infrastructure** for vSphere (prevents using same credentials)
@@ -981,7 +1041,7 @@ Forward VMware ESX and vCenter logs to a SIEM with extended retention. Given BRI
 With a 393-day average dwell time, attackers have administrative access for over a year before discovery. Standard log retention (30-90 days) means you will have no evidence from the initial 300+ days of compromise. Attackers with vCenter credentials can also delete logs stored on infrastructure they control.
 
 **Requirements:**
-- Forward logs to a SIEM that vCenter administrators cannot access or modify, using a separate authentication domain and network segment
+- Forward logs to a SIEM that is not accessible to vCenter administrators, using a separate authentication domain and network segment
 - Enable log immutability using WORM (Write-Once-Read-Many) storage or platform immutability features
 - Implement real-time forwarding rather than batching on source systems
 - Monitor log forwarding health and alert on disruptions (attackers may attempt to stop logging before sensitive operations)
@@ -1078,7 +1138,7 @@ Denied egress traffic is an early indicator of C2 attempts. When malware cannot 
 
 ### 5. NTP Monitoring
 
-Attackers manipulate time to evade time-based detection rules, hide in log gaps, and invalidate forensic timelines. Alert on NTP configuration changes (`HostNtpConfigEvent`, `HostDateTimeConfigEvent`) and investigate the user and reason for the change.
+Attackers manipulate time to evade time-based detection rules, hide in log gaps, and invalidate forensic timelines. Alert on NTP configuration changes (`HostNtpConfigEvent`, `HostDateTimeConfigEvent`) and investigate the user and reason for the change. Also monitor `/var/log/vmkernel.log` for `NTPClock` warnings with large delta values (e.g., `delta > 172800 seconds`), which indicate the timestomping technique UNC5221 uses to backdate malicious files.
 
 ## Incident Response
 
@@ -1099,7 +1159,7 @@ Attackers manipulate time to evade time-based detection rules, hide in log gaps,
 
 ### 2. Containment Procedures
 
-**Critical: Do NOT Power Off VMs.** If a VM is powered on, its files (VMDKs) are locked by the hypervisor. Shutting down the VM releases these locks, potentially allowing ransomware to encrypt the files. Memory-resident malware is also lost on reboot.
+**Critical: Do NOT Power Off VMs or Reboot VMware ESX Hosts.** If a VM is powered on, its files (VMDKs) are locked by the hypervisor. Shutting down the VM releases these locks, potentially allowing ransomware to encrypt the files. For BRICKSTORM specifically, memory-resident components (BRICKSTEAL's Tomcat servlet filter, active VSOCK tunneling state, decryption keys for nested TLS and DoH communications) are lost on reboot. Rebooting may also trigger the malware's self-deletion routines, destroying evidence of the intrusion's scope and data exfiltration.
 
 **Isolate at Network Level.** Block affected systems' outbound connectivity and known C2 infrastructure. For storage, isolate the SAN/iSCSI network rather than unmounting datastores.
 
@@ -1121,6 +1181,17 @@ Attackers manipulate time to evade time-based detection rules, hide in log gaps,
 - Focus on **live response**: collect volatile data via script (running processes, network connections, open files, loaded modules) before any changes
 - If the host crashed or can be forced to crash safely, prioritize capturing the **VMware ESX core dump partition** (`/var/core/`)
 - Consider specialized hardware acquisition only if you have the equipment and expertise
+
+**ESXCLI forensic commands.** Run these on each suspect VMware ESX host during live response to capture network state:
+
+| Command | What it captures |
+|---------|-----------------|
+| `esxcli network ip connection list` | All active TCP/UDP connections, source/destination IPs, ports. Look for persistent connections on anomalous ports, particularly TCP 8090 (Junction). |
+| `esxcli network vswitch standard list` | Standard vSwitches and port groups. Reveals if the attacker created isolated vSwitches to route traffic between hidden Ghost VMs without touching the production network. |
+| `esxcli network ip interface list` | All VMkernel interfaces (vmk0, vmk1, etc.). Establishes a baseline of authorized interfaces; rogue interfaces or altered MAC addresses indicate network manipulation. |
+| `esxcli network ip dns server list` | Configured DNS servers. Identifies if the host has been pointed at anomalous public resolvers to facilitate BRICKSTORM C2 via DoH. |
+| `esxcli network firewall get` | Firewall enabled/disabled state. Detects if the attacker ran `esxcli network firewall set --enabled false`. |
+| `esxcli network firewall ruleset list` | Individual firewall rulesets. Shows which rulesets have been modified to permit inbound C2 traffic. |
 
 **Collect Logs.** Create vCenter support bundles and preserve VMware ESX logs before any remediation.
 
@@ -1178,4 +1249,11 @@ Implement enhanced monitoring for 90+ days after recovery. Document lessons lear
 
 ## References
 
-See [README.md: Resources](README.md#resources) for consolidated links to government advisories, VMware documentation, and MITRE ATT&CK references.
+See [README.md: Resources](README.md#resources) for consolidated links to government advisories, VMware documentation, threat intelligence reports, and MITRE ATT&CK references.
+
+Key resources:
+
+- [CISA AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) - Primary BRICKSTORM analysis (12 samples, 7 YARA rules; updated through Feb 11, 2026)
+- [Broadcom KB427833](https://knowledge.broadcom.com/external/article/427833/brickstorm-backdoor-to-vsphere.html) - VMware's official BRICKSTORM guidance
+- [VMware Cloud Foundation Security Configuration Guide](https://brcm.tech/vcf-scg) - Hardening controls referenced throughout this guide
+- [Mandiant BRICKSTORM Scanner](https://github.com/mandiant/brickstorm-scanner) - Bash-based detection for appliances without YARA

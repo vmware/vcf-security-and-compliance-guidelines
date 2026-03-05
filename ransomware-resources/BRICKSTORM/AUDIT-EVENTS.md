@@ -1,5 +1,7 @@
 # BRICKSTORM Detection: Audit Events Reference
 
+*Last updated: March 5, 2026*
+
 What to watch for in your VMware logs to detect BRICKSTORM attacks.
 
 *This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository is not intended to provide advice and is provided "AS IS." Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.*
@@ -237,6 +239,8 @@ Attackers manipulate time to evade detection and corrupt forensic timelines.
 
 **Why Time Manipulation Matters**: Attackers modify `maxPosPhaseCorrection` to allow large time adjustments that would normally be rejected by NTP. This enables backdating malicious activity to appear as if it occurred during a different timeframe, corrupting forensic timelines and potentially placing attacker activity outside your log retention window.
 
+**VMkernel log detection**: In addition to the structured audit events above, monitor `/var/log/vmkernel.log` for NTPClock warnings that indicate large clock steps. The entry `WARNING: NTPClock: system clock stepped to [...], but delta [...] > 172800 seconds` (or similar large delta values) is a high-confidence indicator of the timestomping technique used by UNC5221. Forward vmkernel logs to your SIEM and alert on any `NTPClock` warning where the delta exceeds your expected drift threshold.
+
 ---
 
 ## 7. VIB/Software Events (CRITICAL)
@@ -249,6 +253,13 @@ Attackers manipulate time to evade detection and corrupt forensic timelines.
 ### Detection Pattern
 
 Any `vib.install` event outside of scheduled maintenance windows should trigger immediate investigation.
+
+**esxupdate.log monitoring**: The `/var/log/esxupdate.log` file records details of VIB and image profile operations that the structured audit events do not capture. Forward this log to your SIEM and alert on the following strings, which indicate that VMware ESX cryptographic integrity checks have been intentionally bypassed:
+
+- `acceptance level checking disabled`
+- `Attempting to install an image profile bypassing signing and acceptance level verification`
+
+These strings correspond to the use of `--no-sig-check` or a changed software acceptance level (e.g., `CommunitySupported`). Either condition means an operator with root privileges has deliberately overridden signature validation, which is the method UNC5221 uses to install malicious VIBs for persistence.
 
 ---
 
@@ -703,7 +714,7 @@ eventTypeId:(AlarmRemovedEvent OR AlarmReconfiguredEvent)
 
 ## Correlation Rules
 
-### Rule 1: VM Credential Extraction Pattern
+### Rule 1: VM Credential Extraction Pattern (T1003.003)
 
 **Trigger**: The following sequence within 24 hours:
 1. `vm.create` or `vm.storage.add`
@@ -713,7 +724,7 @@ eventTypeId:(AlarmRemovedEvent OR AlarmReconfiguredEvent)
 
 **Priority**: ⛔ CRITICAL
 
-### Rule 2: SSH Enabled + Command Execution
+### Rule 2: SSH Enabled + Command Execution (T1021.004)
 
 **Trigger**:
 1. `service.start` where object contains "SSH"
@@ -721,7 +732,7 @@ eventTypeId:(AlarmRemovedEvent OR AlarmReconfiguredEvent)
 
 **Priority**: ⛔ CRITICAL
 
-### Rule 3: Security Bypass Attempt
+### Rule 3: Security Bypass Attempt (T1562.001)
 
 **Trigger**: Any of:
 - `configenc.reqeio.disable`
@@ -730,7 +741,7 @@ eventTypeId:(AlarmRemovedEvent OR AlarmReconfiguredEvent)
 
 **Priority**: ⛔ CRITICAL
 
-### Rule 4: Time Manipulation
+### Rule 4: Time Manipulation (T1070.006)
 
 **Trigger**:
 - `time.set.systemclock`
@@ -742,7 +753,7 @@ eventTypeId:(AlarmRemovedEvent OR AlarmReconfiguredEvent)
 
 **Trigger**: Any CRITICAL or HIGH priority event occurring between 01:00-10:00 UTC
 
-**Why This Window Matters**: BRICKSTORM operators have been observed conducting interactive operations during 01:00-10:00 UTC, which corresponds to PRC (Beijing) business hours (09:00-18:00 CST). While your organization may have legitimate after-hours maintenance, VM cloning, account creation, or privilege changes during this specific window warrant elevated scrutiny.
+**Why This Window Matters**: BRICKSTORM operators have been observed conducting interactive operations during 01:00-10:00 UTC, which corresponds to Beijing business hours (09:00-18:00 CST). While your organization may have legitimate after-hours maintenance, VM cloning, account creation, or privilege changes during this specific window warrant elevated scrutiny.
 
 > **Caveat**: This time window is based on observed operational patterns and is not universal. Threat actors adapt their schedules and may operate outside these hours to evade detection or accommodate different operators. Use this as one signal among many, not as a definitive indicator.
 
@@ -757,13 +768,13 @@ eventTypeId:(AlarmRemovedEvent OR AlarmReconfiguredEvent)
 
 **Priority**: ⚠️ HIGH (elevated from base priority)
 
-### Rule 6: Temporary Account Creation
+### Rule 6: Temporary Account Creation (T1136)
 
 **Trigger**: `account.create` followed by `account.delete` for same account within 7 days
 
 **Priority**: ⛔ CRITICAL
 
-### Rule 7: VM Clone-Delete Pattern (vCenter)
+### Rule 7: VM Clone-Delete Pattern (vCenter, T1003.003)
 
 **Trigger**: The following vCenter events in sequence within 24 hours:
 1. `VmClonedEvent` where source VM is in Critical VM list
@@ -784,7 +795,7 @@ Alert when ALL conditions are true:
 
 **Priority**: ⛔ CRITICAL
 
-### Rule 8: Disk Swap and Snapshot Attack (vCenter)
+### Rule 8: Disk Swap and Snapshot Attack (vCenter, T1003.003)
 
 **Attack Description**: Attackers extract NTDS.dit without cloning the entire VM using two techniques:
 
@@ -823,7 +834,7 @@ Hot-add to a running VM bypasses the normal workflow of powering off before reco
 
 **Tuning Note**: Backup solutions often attach disks to proxy VMs for backup operations. Without whitelisting, this rule generates false positives during backup windows.
 
-- **Whitelist by MoRef ID, not VM name**: Use the VM's Managed Object Reference ID (e.g., `vm-1234`) rather than display name. Attackers can rename a staging VM to `Veeam-Proxy-99`, but they cannot spoof the MoRef ID of a legitimate proxy.
+- **Whitelist by MoRef ID, not VM name**: Use the VM's Managed Object Reference ID (e.g., `vm-1234`) rather than display name. Attackers can rename a staging VM to `Veeam-Proxy-99`, but the MoRef ID of a legitimate proxy is assigned by vCenter and not under attacker control.
 - **Time-bound exceptions**: Alert on backup proxy activity outside scheduled backup windows
 - **Target validation**: Alert if backup proxies attach disks from VMs they don't normally back up
 
@@ -870,7 +881,7 @@ WHERE EventType = 'VmReconfiguredEvent'
 
 **Response**: Immediately investigate the target VM, the user who performed the operation, and capture memory/disk before any remediation.
 
-### Rule 9: Permission Escalation
+### Rule 9: Permission Escalation (T1078)
 
 **Trigger**: Any of:
 - `PermissionAddedEvent` granting Administrator role
@@ -879,7 +890,7 @@ WHERE EventType = 'VmReconfiguredEvent'
 
 **Priority**: ⚠️ HIGH
 
-### Rule 10: Security Feature Disabled (vCenter-Relayed)
+### Rule 10: Security Feature Disabled (vCenter-Relayed, T1562.001)
 
 **Trigger**: Any of:
 - `esx.audit.lockdownmode.disabled`
@@ -888,19 +899,19 @@ WHERE EventType = 'VmReconfiguredEvent'
 
 **Priority**: ⛔ CRITICAL
 
-### Rule 11: execInstalledOnly Violation
+### Rule 11: execInstalledOnly Violation (T1036.005)
 
 **Trigger**: `esx.audit.uw.security.execInstalledOnly.violation`
 
 **Priority**: ⛔ CRITICAL (indicates active attack blocked by security control)
 
-### Rule 12: Alarm Tampering
+### Rule 12: Alarm Tampering (T1562)
 
 **Trigger**: `AlarmRemovedEvent` or `AlarmReconfiguredEvent` for security-related alarms
 
 **Priority**: ⚠️ HIGH (possible detection evasion)
 
-### Rule 13: vpxuser SSH Lateral Movement
+### Rule 13: vpxuser SSH Lateral Movement (T1021.004)
 
 **Trigger**: `ssh.session.begin` where user is `vpxuser`
 
@@ -908,7 +919,7 @@ WHERE EventType = 'VmReconfiguredEvent'
 
 **Priority**: ⛔ CRITICAL
 
-### Rule 14: Junction/GuestConduit Activity
+### Rule 14: Junction/GuestConduit Activity (T1095, T1572)
 
 **Trigger**: Any of:
 - Process listening on port 8090
@@ -917,7 +928,7 @@ WHERE EventType = 'VmReconfiguredEvent'
 
 **Priority**: ⛔ CRITICAL
 
-### Rule 15: BRICKSTEAL Deployment Indicators
+### Rule 15: BRICKSTEAL Deployment Indicators (T1556.001)
 
 **Trigger**: Sequence within 24 hours:
 1. vCenter SSH enabled (`esx.audit.ssh.enabled` or equivalent on VCSA)
@@ -958,6 +969,37 @@ Filter results against your approved VM naming patterns and folder structure.
 
 **Priority**: ⚠️ HIGH (CRITICAL if during operational hours 01:00-10:00 UTC)
 
+### Rule 17: Ghost NIC Lateral Movement (T1021)
+
+**Attack Description**: UNC6201 has been observed creating temporary virtual network adapters ("Ghost NICs") on VMs running on VMware ESX hosts. These adapters are connected to target port groups for lateral movement, then deleted to minimize forensic artifacts. Because the adapters exist only briefly, they evade periodic inventory checks.
+
+**Trigger**: `VmReconfiguredEvent` where `configSpec.deviceChange` involves a `VirtualEthernetCard` with:
+- `operation = "add"` followed by `operation = "remove"` for the same VM within a short timeframe (hours)
+- OR any vNIC add/remove during 01:00-10:00 UTC
+
+**Detection Logic**:
+
+```
+Alert when ANY condition is true:
+  1. VmReconfiguredEvent with deviceChange adding a VirtualEthernetCard
+     followed by VmReconfiguredEvent removing a VirtualEthernetCard
+     for the same VM within 4 hours
+  2. VmReconfiguredEvent adding a VirtualEthernetCard to a VM
+     that normally has a fixed NIC count (e.g., production servers)
+  3. VmReconfiguredEvent adding a VirtualEthernetCard to a port group
+     the VM is not normally assigned to
+```
+
+**VCF Operations for Logs Query**:
+
+```
+eventTypeId:VmReconfiguredEvent AND configSpec.deviceChange.device.type:VirtualEthernetCard
+```
+
+**Tuning Note**: Legitimate NIC changes occur during VM provisioning, migration, and maintenance. Baseline the typical NIC change frequency for your environment. Ghost NIC activity is characterized by add-then-remove sequences that are unrelated to change management records.
+
+**Priority**: ⚠️ HIGH (CRITICAL if combined with other BRICKSTORM indicators)
+
 ---
 
 ## Log Retention Recommendations
@@ -977,10 +1019,14 @@ Filter results against your approved VM naming patterns and folder structure.
 - With 393-day average dwell time, 90-day retention means you will have **no logs** from the initial 300+ days of compromise
 - When an intrusion is discovered, the question "how did they get in?" often cannot be answered because those logs are gone
 - Consider **immutable log storage** to prevent attackers from deleting evidence during their extended access period
-- Forward logs to a **separate, isolated SIEM** that attackers cannot access even with vCenter administrative credentials
+- Forward logs to a **separate, isolated SIEM** that is not accessible with vCenter administrative credentials
 
 ---
 
 ## References
 
-See [README.md: Resources](README.md#resources) for consolidated links to government advisories, VMware documentation, and MITRE ATT&CK references.
+See [README.md: Resources](README.md#resources) for consolidated links to government advisories, VMware documentation, threat intelligence reports, and MITRE ATT&CK references. Key references for this document:
+
+- [CISA AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) - 12 samples, 7 YARA rules (last updated Feb 11, 2026)
+- [VMware ESX 9.0 Audit Events Reference](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/logging/vmware-esx-90-audit-log-event-reference.md)
+- [VMware vCenter 9.0 Event Reference](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/logging/vmware-vcenter-90-audit-events.md)

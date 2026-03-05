@@ -56,7 +56,7 @@ SCAN_DIRS="
 "
 
 # Malicious filenames to specifically check
-MALICIOUS_NAMES="vmsrc vnetd if-up viocli vts vmckd bkmgr updatemgr vami vmware-sphere vsm-boot-monitordvcenter vsm-monitordvcenter"
+MALICIOUS_NAMES="vmsrc vnetd if-up viocli vts vmckd bkmgr updatemgr vami vmware-sphere vsm-boot-monitordvcenter vsm-monitordvcenter sqiud"
 
 log_result() {
     status="$1"

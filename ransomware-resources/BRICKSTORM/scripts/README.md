@@ -1,5 +1,7 @@
 # BRICKSTORM Detection Scripts
 
+*Last updated: March 5, 2026*
+
 Scripts for scanning VMware environments for BRICKSTORM indicators of compromise.
 
 ## Quick Start
@@ -36,7 +38,7 @@ Connect-VIServer -Server vcenter.example.com
 | Script | Purpose |
 |--------|---------|
 | `scan-brickstorm-hashes.sh` | Scans a VMware ESX host for BRICKSTORM indicators (hashes, filenames, Junction implant) |
-| `scan-hosts.sh` | Wrapper to run the scanner across multiple hosts via SSH |
+| `scan-hosts.sh` | Wrapper to run the scanner across multiple hosts via SSH (not yet available) |
 | `brickstorm-hashes.sha256` | SHA256 hashes of known BRICKSTORM samples |
 
 ### PowerCLI Scripts (Run against vCenter)
@@ -109,10 +111,13 @@ ERROR     esxi-03         /opt/vmware/sbin/test       -         Permission denie
 
 To add new hashes, edit `brickstorm-hashes.sha256` and update the `KNOWN_HASHES` variable in `scan-brickstorm-hashes.sh`.
 
-Get the latest IOCs from [CISA AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a).
+Get the latest IOCs from [CISA AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) (12 samples, last updated Feb 11, 2026).
+
+The [Mandiant BRICKSTORM scanner](https://github.com/mandiant/brickstorm-scanner) is an alternative bash-based scanner that replicates YARA rule logic using common system utilities, without requiring YARA to be installed. The Mandiant scanner detects Go-based variants only; supplement with CISA and GTIG YARA rules for Rust, .NET AOT, and GRIMBOLT coverage.
 
 ## Limitations
 
 - Scans file hashes only; does not detect memory-resident malware
-- Attackers may use unknown variants with different hashes
+- Attackers compile uniquely per victim; however, the first observed C2 infrastructure reuse was documented in February 2026
+- The .NET AOT variant (Feb 2026) will not match Go or Rust hashes
 - Combine with behavioral detection (see [AUDIT-EVENTS.md](../AUDIT-EVENTS.md))

@@ -1,5 +1,7 @@
 # BRICKSTORM Indicators of Compromise (IOCs)
 
+*Last updated: March 5, 2026*
+
 Signs that your systems may be infected with BRICKSTORM. Use these to scan your environment.
 
 *This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository is not intended to provide advice and is provided "AS IS." Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.*
@@ -8,7 +10,7 @@ Signs that your systems may be infected with BRICKSTORM. Use these to scan your 
 
 ## File Hashes
 
-BRICKSTORM hashes are maintained by CISA as part of the [AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) analysis report. UNC5221 is noted to recompile the malware on a per-victim basis, so the hashes may differ from the analysis report. There have been reports that the third-party Mandiant scanner scripts work on the vCenter appliance. This is a third-party tool; evaluate according to your organization's security policies.
+BRICKSTORM hashes are maintained by CISA as part of the [AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) analysis report, which has been updated multiple times (Dec 5, Dec 19, 2025, Jan 20, and Feb 11, 2026) and now covers 12 samples across Go, Rust, and .NET Native AOT variants, with 7 YARA rules. UNC5221 is noted to recompile the malware on a per-victim basis, and CISA originally reported no reuse of C2 domains or malware samples across investigations, so file hash matching has limited effectiveness. However, Mandiant's February 17, 2026 report documented the first observed reuse of C2 infrastructure (at 149.248.11.71), suggesting the operators may be consolidating infrastructure or sharing it across related campaigns. The [Mandiant BRICKSTORM scanner](https://github.com/mandiant/brickstorm-scanner) is a bash script that runs on appliances without requiring YARA to be installed, using common utilities (grep, xxd, head, sed, find) to replicate specific YARA rule logic. The scanner detects Go-based variants only; it does not detect Rust, .NET AOT, or GRIMBOLT variants. Supplement with [CISA YARA rules](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) (which cover .NET AOT) and the three GTIG YARA rules for GRIMBOLT/SLAYSTYLE from the [February 17, 2026 Mandiant report](https://cloud.google.com/blog/topics/threat-intelligence/unc6201-exploiting-dell-recoverpoint-zero-day). There have been reports that the scanner works on the vCenter appliance. This is a third-party tool; evaluate according to your organization's security policies.
 
 ---
 
@@ -32,6 +34,9 @@ Search for these filenames in VMware system directories:
 - `vsm-monitordvcenter`
 - Files matching pattern `vsm-*monitor*`
 
+**.NET Native AOT Variant (added Feb 2026):**
+- `sqiud` (intentional misspelling of "squid"; installed to `/usr/sbin/`)
+
 **Copied/Installed Names:**
 - `vmware-sphere`
 - `updatemgr`
@@ -43,6 +48,7 @@ Search for these filenames in VMware system directories:
 - `vami-httpd`
 - `httpd`
 - `tmpd`
+- `sqiud`
 
 **Hypervisor Implants:**
 
@@ -92,6 +98,7 @@ After execution, samples copy themselves to variant-specific locations:
 |---------|-------------------|-------------------|
 | Go | `vmware-sphere`, `updatemgr`, `vami`, `bkmgr` | `/opt/vmware/sbin/`, `/usr/java/jre-vmware/bin/` |
 | Rust | `vsm-boot-monitordvcenter`, `vsm-monitordvcenter` | `/usr/sbin/` |
+| .NET AOT | `sqiud` | `/usr/sbin/` |
 
 ### Boot Script Persistence
 
@@ -136,6 +143,7 @@ BRICKSTORM uses DoH to resolve C2 domains, bypassing traditional DNS monitoring:
 | `208.83.233[.]14` | Observed C2 server |
 | `149.28.120[.]31` | Observed C2 server |
 | `64.176.166[.]79` | Observed C2 server |
+| `149.248.11[.]71` | .NET AOT variant (Feb 2026); hardcoded C2, WebSocket endpoint `/rest/apisession`. First observed reuse of C2 infrastructure across campaigns. |
 
 > **Note**: Threat actors rotate C2 infrastructure regularly. These IPs represent point-in-time observations and may no longer be active. Use these for historical correlation and threat hunting, but do not rely solely on IP blocking for detection. Monitor for behavioral patterns (DoH usage, cloud service C2, VSOCK tunneling) rather than specific IPs.
 
@@ -160,6 +168,10 @@ BRICKSTORM samples have been observed using legitimate cloud services for C2 inf
 - Nested TLS encryption (TLS within TLS)
 - HTTP-to-WebSocket upgrade patterns
 - VSOCK tunneling (bypasses network firewalls entirely)
+- AES-encrypted C2 address resolution (.NET AOT variant)
+- Hardcoded C2 IP fallback when DoH resolution is blocked (newer samples)
+- Nerdbank.Streams MultiplexingStream library (.NET AOT variant)
+- iptables-based Single Packet Authorization (SPA): iptables rules with hex-string pattern matching on port 443 create a 300-second knock-based C2 listener, redirecting matched traffic to a hidden port (e.g., 10443). This technique has been observed on non-VMware appliances but could apply to any compromised Linux-based system, including vCenter. It is invisible to standard port scanning.
 
 **NetFlow/IPFIX Detection (External)**: WebSocket C2 connections exhibit a "long duration, low volume" pattern: persistent connections on port 443 that remain open for hours or days with minimal data transfer (occasional heartbeats). Query NetFlow/IPFIX data for connections from management infrastructure (VMware ESX, vCenter) to external IPs on port 443 with:
 - Duration > 1 hour
@@ -184,6 +196,16 @@ Normal management traffic (API calls, monitoring) is bursty and short-lived. Per
 | **GuestConduit** | VSOCK | 5555 | Guest VM listener for hypervisor tunneling |
 
 **Detection Note**: VSOCK traffic does not traverse the virtual network switch and is invisible to network firewalls and IDS. Detection requires host-level monitoring.
+
+### Ghost NIC Indicators
+
+UNC6201 has been observed creating temporary virtual network adapters ("Ghost NICs") on VMs running on VMware ESX hosts. These adapters are used to pivot into internal networks, then deleted to minimize forensic artifacts. Detection relies on monitoring `VmReconfiguredEvent` events in VMware vCenter for vNIC add/remove operations, particularly when a vNIC is added and then removed within a short timeframe.
+
+| Indicator | Detection Method |
+|-----------|-----------------|
+| Rapid vNIC add/remove | `VmReconfiguredEvent` with device change involving `VirtualEthernetCard` |
+| vNIC added to unexpected port group | Cross-reference network adapter changes against approved network assignments |
+| vNIC changes during attacker operational hours | 01:00-10:00 UTC |
 
 ---
 
@@ -226,13 +248,13 @@ done
 
 > **VMware ESX Note**: VMware ESX uses BusyBox, which has limited command options compared to standard Linux. The commands above work on VMware ESX, but if you encounter issues, verify syntax with `busybox --help`. The `/proc/$pid/environ` approach is compatible with the VMware ESX environment.
 
-> **Note**: Variable names vary across BRICKSTORM samples. The presence of any unusual single-word environment variable on VMware ESX hosts warrants investigation. See [CISA AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) for the full sample-to-variable mapping.
+> **Note**: Variable names vary across BRICKSTORM samples. The presence of any unusual single-word environment variable on VMware ESX hosts or vCenter appliances warrants investigation. The .NET AOT variant (Sample 12) spawns a child process rather than copying itself, and does not use the self-monitoring persistence mechanism found in Go and Rust variants. See [CISA AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) for the full sample-to-variable mapping.
 
 ---
 
 ## Exploited Vulnerabilities
 
-UNC5221 has demonstrated capability to exploit vulnerabilities before public disclosure. Edge devices and vCenter should be patched within hours of security advisory release.
+UNC5221 has demonstrated capability to exploit vulnerabilities before public disclosure. Edge devices, VMware vCenter, and VCF Automation Orchestrator (formerly VMware Aria Automation Orchestrator) should be patched within hours of security advisory release. CISA has confirmed that all VMware CVEs exploited in BRICKSTORM campaigns have had patches available: CVE-2021-22005, CVE-2023-34048, CVE-2024-37079, CVE-2024-38812, and CVE-2024-38813.
 
 ---
 
@@ -256,6 +278,8 @@ The Rust variant exposes these file management endpoints:
 ```
 
 **Detection Opportunity**: These endpoints are unauthenticated. Any HTTP requests to these paths on VMware ESX or vCenter systems indicate active BRICKSTORM infection. Monitor web server access logs for requests matching `/api/file/*` patterns. Since legitimate VMware services do not expose these endpoints, any match is a high-confidence indicator.
+
+The .NET AOT variant uses a different WebSocket endpoint for C2 communication: `/rest/apisession`. Monitor for connections to this path from VMware management infrastructure.
 
 ---
 
@@ -310,6 +334,9 @@ find / -name "vmsrc" -o -name "vnetd" -o -name "viocli" -o -name "vts" \
 # Search for Rust variant filenames
 # Pattern *vsm-*monitor* catches vsm-boot-monitordvcenter and similar
 find /usr/sbin -name "*vsm-*monitor*" 2>/dev/null
+
+# Search for .NET AOT variant (intentional misspelling of "squid")
+find /usr/sbin -name "sqiud" 2>/dev/null
 
 # Check directories where BRICKSTORM installs itself
 # Look for ELF binaries or recently modified files that don't belong
@@ -383,8 +410,10 @@ Download detection signatures and machine-readable IOCs:
 
 | Source | Description | Formats |
 |--------|-------------|---------|
-| [CISA AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) | Primary BRICKSTORM analysis | STIX, YARA, Sigma, PDF |
+| [CISA AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) | Primary BRICKSTORM analysis (12 samples, 7 YARA rules; last updated Feb 11, 2026) | STIX, YARA, Sigma, PDF |
 | [Canadian Centre for Cyber Security](https://www.cyber.gc.ca/en/news-events/joint-malware-analysis-report-brickstorm-backdoor) | Joint malware analysis report | PDF |
+| [Mandiant BRICKSTORM Scanner](https://github.com/mandiant/brickstorm-scanner) | Bash-based scanner for appliances without YARA. **Detects Go variants only**; does not detect Rust, .NET AOT, or GRIMBOLT. Supplement with CISA and GTIG YARA rules. | Shell script |
+| [Broadcom KB427833](https://knowledge.broadcom.com/external/article/427833/brickstorm-backdoor-to-vsphere.html) | VMware's official BRICKSTORM guidance | KB article |
 
 ---
 
@@ -393,6 +422,18 @@ Download detection signatures and machine-readable IOCs:
 See [README.md: Resources](README.md#resources) for consolidated links to government advisories, VMware documentation, and MITRE ATT&CK references.
 
 > **Note**: External IOC sources should be re-verified periodically. Given BRICKSTORM's 393-day average dwell time, bookmark these links and confirm availability during incident response.
+
+---
+
+## GRIMBOLT and SLAYSTYLE (Non-VMware Platforms)
+
+GRIMBOLT and SLAYSTYLE are malware families deployed by UNC6201 that share C2 infrastructure with BRICKSTORM. Neither has been observed on VMware platforms. They are documented here because their presence on any device in your environment should trigger an immediate audit of VMware infrastructure for BRICKSTORM indicators.
+
+**GRIMBOLT** is a C# backdoor compiled using .NET Native AOT and packed with UPX. Mandiant first observed GRIMBOLT replacing BRICKSTORM binaries on compromised appliances in September 2025. It provides remote shell capability and uses the same C2 infrastructure as BRICKSTORM. Native AOT compilation strips the CIL metadata normally present in C# binaries, complicating static analysis. It is unclear whether the replacement of BRICKSTORM with GRIMBOLT was a planned lifecycle iteration or a reaction to incident response activity.
+
+**SLAYSTYLE** is a JSP web shell deployed via malicious WAR file uploads through Apache Tomcat Manager. It was used as the initial post-exploitation foothold before BRICKSTORM/GRIMBOLT deployment. Because vCenter also runs Apache Tomcat, WAR file deployment is a technique worth monitoring on VMware infrastructure even though SLAYSTYLE itself has not been observed there. Monitor Tomcat deployment logs and the `webapps/` directory for unexpected WAR files.
+
+Three YARA rules for these families were published in the [Mandiant/GTIG February 17, 2026 report](https://cloud.google.com/blog/topics/threat-intelligence/unc6201-exploiting-dell-recoverpoint-zero-day): `G_APT_BackdoorToehold_GRIMBOLT_1`, `G_Hunting_BackdoorToehold_GRIMBOLT_1`, and `G_APT_BackdoorWebshell_SLAYSTYLE_4`.
 
 ---
 
