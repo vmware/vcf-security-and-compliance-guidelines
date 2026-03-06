@@ -1,0 +1,1545 @@
+Control ID,SCF ID,Description,Control Coverage,Response,,,,,,,,,,,,,,,,,,,,,
+164.306(a)(1),"GOV-01, GOV-15, GOV-15.1, GOV-15.2, GOV-15.3, GOV-15.4, GOV-15.5","General requirements. Covered entities and business associates must do the following:
+
+Ensure the confidentiality, integrity, and availability of all electronic protected health information the covered entity or business associate creates, receives, maintains, or transmits
+",Contributes,"VMware Cloud Foundation provides the foundational infrastructure for ensuring the confidentiality, integrity, and availability of electronic protected health information. VCF Operations continuously monitors the infrastructure for compliance drift, surfacing non-compliant objects and associated violations through dashboards and alerts. Administrators define monitoring policies, customizing settings per object to tailor monitoring to specific risk profiles. Platform operators configure alerts, perform log analysis, troubleshoot, and run diagnostics and health checks across the VCF environment.
+
+VCF Operations for Logs aggregates log data from vCenter and ESX hosts, providing searchable dashboards and analytics for asset owners. VCF Automation adds resource usage monitoring and permission controls through its Organizations model, enforcing governance boundaries. On the user security side, VCF Operations supports continuous monitoring of user access patterns to detect security risks and verify appropriate access levels, with role-based access in vCenter allowing delegation of monitoring responsibilities.
+
+Complementing this, VMware vDefend's Security Intelligence delivers continuous network-level monitoring through flow visualization, anomaly detection, and Network Detection and Response (NDR) capabilities, supporting ongoing assessment of control effectiveness for in-scope workloads and services. IDS/IPS and Advanced Threat Prevention (ATP) continuously monitor network traffic for threats, while Intelligent Assist provides event management to track investigation status and support structured response workflows. The Admin Dashboard and Intelligent Assist integrate with IDS/IPS, Detections, and Campaigns pages to surface security events and support analyst workflows for ongoing monitoring.
+
+While these capabilities provide robust technical tools for monitoring assets for threats, misconfigurations, and control failures at both the infrastructure and network layers, the overarching organizational policies that mandate such monitoring, define its cadence, and establish accountability structures are governance responsibilities that reside with the customer. Furthermore, broader program-level monitoring activities, including policy reviews, vendor assessments, and audit scheduling, fall outside the scope of these technical platforms.",,,,,,,,,,,,,,,,,,,,,
+164.306(a)(2),GOV-01,"General requirements. Covered entities and business associates must do the following:
+
+
+Protect against any reasonably anticipated threats or hazards to the security or integrity of such information.
+
+",Not Applicable,"VCF establishes a robust, secure infrastructure foundation, incorporating security best practices, hardening, and continuous patching to mitigate known vulnerabilities and reduce the attack surface. It provides a secure environment for workloads, ensuring the integrity and availability of the underlying platform components.
+
+The platform does not perform threat intelligence, risk assessments, or define the customer's overall security governance program. Establishing processes for identifying reasonably anticipated threats, conducting risk analyses, and implementing comprehensive organizational policies and procedures to protect against these threats remains the customer's responsibility. The customer must define and maintain their security governance program, including threat anticipation and response strategies, which operate within and leverage the secure VCF infrastructure.",,,,,,,,,,,,,,,,,,,,,
+164.306(a)(3),"GOV-01, DCH-01, RSK-01","General requirements. Covered entities and business associates must do the following:
+
+Protect against any reasonably anticipated uses or disclosures of such information that are not permitted or required under subpart E of this part.",Contributes,"VMware Cloud Foundation provides comprehensive technical controls to protect against unauthorized uses and disclosures of information. Data at rest is secured through vSAN encryption and VM Encryption, both leveraging FIPS 140-3 validated cryptographic modules and integrating with external key management systems. Data in transit between VCF components is protected by TLS, and vSphere Replication encrypts replication traffic between sites.
+
+VMware vDefend enforces microsegmentation policies at the vNIC level via the Distributed Firewall, restricting network access to data stores and application tiers based on workload identity and security tags, thereby limiting the blast radius of potential compromises and preventing lateral movement. Security Intelligence identifies risky clear text protocols and detects anomalous traffic patterns indicative of data exfiltration, while vDefend IDS/IPS inspects east-west traffic for data theft signatures and Malware Prevention analyzes files for malicious payloads.
+
+Data resiliency is ensured through vSAN data protection, VMware Live Site Recovery for orchestrated disaster recovery, and VMware Kubernetes Service data protection built on Velero, providing robust backup, replication, and recovery capabilities with configurable RPOs and retention rules. Access to operational data within VCF Operations is controlled through privilege-based access controls, restricting visibility based on user roles.
+
+While the platform provides the technical mechanisms to enforce protection, the organization remains responsible for defining what constitutes ""permitted or required"" uses and disclosures of information. This includes establishing comprehensive information security policies, procedures, and an overarching program to govern data handling, access provisioning, risk assessments, and incident response. The customer must also identify and document ""reasonably anticipated"" threats and vulnerabilities to inform the configuration and ongoing management of these protective controls.",,,,,,,,,,,,,,,,,,,,,
+164.306(b)(1),"GOV-09, GOV-15, SEA-01, SEA-02, SEA-03",Covered entities and business associates may use any security measures that allow the covered entity or business associate to reasonably and appropriately implement the standards and implementation specifications as specified in this subpart.,Contributes,"VMware Cloud Foundation (VCF) provides a comprehensive, layered security architecture designed to enable the reasonable and appropriate implementation of diverse security measures.
+
+At the infrastructure layer, ESX hosts support TPM-based measured boot and attestation, alongside UEFI Secure Boot for firmware and hypervisor integrity.
+
+The hypervisor and storage layers offer vSAN data-at-rest encryption and VM encryption, operating independently of guest operating systems.
+
+Network security is delivered through NSX, providing software-defined networking, overlay-backed segments, network profiles for isolation, and NSX Projects for departmental separation.
+
+Identity and access management are centralized via VCF SSO and granular Role-Based Access Control (RBAC) across all components, with the VMware Certificate Authority (VMCA) handling service-to-service authentication.
+
+All management interfaces and API endpoints utilize TLS encryption, with configurable protocol versions and cipher suites.
+
+Furthermore, VCF includes a Security Baseline, a security dashboard, and component-specific Security Configuration Guides to aid in compliance and hardening.
+
+VMware vDefend extends VCF's capabilities by operationalizing secure engineering principles within its network security domain, implementing a defense-in-depth strategy with multiple independent layers.
+
+The Distributed Firewall provides hypervisor-level Layer 2 through Layer 7 traffic inspection and microsegmentation, enforcing policies at the vNIC regardless of guest OS state.
+
+The Deep Packet Inspection (DPI) engine independently identifies applications for Layer 7 rule matching.
+
+Threat detection is enhanced with IDS/IPS for signature-based and behavioral analysis, and Advanced Threat Prevention (ATP) for malware sandboxing, both operating independently of firewall policies.
+
+Security Intelligence and the Security Services Platform offer traffic flow analysis, posture assessment, and policy lifecycle management, enabling structured segmentation planning and verification.
+
+Each of these layers operates independently, ensuring that a failure or misconfiguration in one layer does not compromise the effectiveness of others.
+
+While VCF and vDefend provide a robust and flexible suite of technical security measures, the covered entity remains responsible for defining what constitutes ""reasonable and appropriate"" implementation based on their specific risk profile and regulatory obligations.
+
+This includes establishing organizational security policies, integrating secure systems engineering governance into their broader SDLC, and ensuring human accountability through formally defined roles and responsibilities for security engineering activities.
+
+The platform provides the tools; the customer must define and enforce the overarching strategy and processes.",,,,,,,,,,,,,,,,,,,,,
+164.306(b)(2)(i),"GOV-08, PRM-06","In deciding which security measures to use, a covered entity or business associate must take into account the following factors:
+
+The size, complexity, and capabilities of the covered entity or business associate.
+
+",Not Applicable,"The VCF platform delivers a standardized, secure, and hardened infrastructure foundation, incorporating a comprehensive suite of integrated security controls and best practices. These inherent capabilities establish a robust baseline for security measures within the environment.
+
+However, the platform does not automate or directly participate in the organizational-level decision-making process for selecting security measures. The responsibility for evaluating the organization's specific size, complexity, and capabilities, and subsequently determining the appropriate security measures to implement across the entire enterprise, remains with the customer. This includes defining the governance framework and risk management processes that inform such decisions.",,,,,,,,,,,,,,,,,,,,,
+164.306(d)(3)(i),"CPL-02, CPL-03, CPL-03.2","When a standard adopted in § 164.308, § 164.310, § 164.312, § 164.314, or § 164.316 includes addressable implementation specifications, a covered entity or business associate must-
+
+Assess whether each implementation specification is a reasonable and appropriate safeguard in its environment, when analyzed with reference to the likely contribution to protecting electronic protected health information; and
+
+",Contributes,"VMware Cloud Foundation (VCF) Operations provides comprehensive compliance management capabilities, continuously monitoring infrastructure against industry-standard security benchmarks and custom policies. It calculates a compliance score for managed objects, identifying non-compliant configurations and enabling administrators to review violations and take remedial action. Organizations define custom compliance benchmarks to codify their cybersecurity and data protection policies, ensuring consistent enforcement across deployments. At the host layer, vSphere Configuration Profiles and vSphere Lifecycle Manager assess ESX host configurations against approved baselines, detecting and remediating drift. NSX also provides compliance status reporting for network configurations. These mechanisms verify that infrastructure configurations align with desired baselines and meet compliance benchmarks, providing essential data for assessing the appropriateness of safeguards.
+
+VMware vDefend further enhances this by providing network security-specific compliance assessment, policy analysis, and segmentation scoring. The Security Services Platform includes a Security Segmentation score and report generation, offering a quantitative measure of microsegmentation policy enforcement. Its metrics service collects key performance indicators across vDefend components, forming a robust data foundation for ongoing compliance reviews. Security Intelligence offers policy recommendation analysis, comparing recommended rules against current NSX inventory to identify gaps between desired and actual security policy, directly supporting the assessment of network security safeguard reasonableness and appropriateness. The Threat Event Monitoring dashboard provides consolidated visibility into security issues and policy violations, creating an evidence trail for compliance reviews.
+
+While these platforms provide extensive technical tools and data for assessing safeguard configurations and effectiveness, the ultimate determination of whether an implementation specification is a reasonable and appropriate safeguard in a specific environment, particularly for addressable specifications, requires organizational policy definition, risk-based decision-making, and periodic functional validation beyond automated configuration checks.",,,,,,,,,,,,,,,,,,,,,
+164.306(d)(3)(ii)(A),GOV-15.2,"When a standard adopted in § 164.308, § 164.310, § 164.312, § 164.314, or § 164.316 includes addressable implementation specifications, a covered entity or business associate must-
+
+As applicable to the covered entity or business associate-
+
+Implement the implementation specification if reasonable and appropriate; or
+",Not Applicable,"VCF delivers a robust, secure infrastructure foundation designed to support the technical implementation of various security controls. The platform provides the underlying capabilities for standards such as access control, audit logging, and data protection.
+
+However, VCF does not perform the organizational assessment or risk analysis required to determine the reasonableness and appropriateness of addressable implementation specifications for a covered entity or business associate. The evaluation and decision-making process for adopting or documenting alternatives for addressable specifications remains a direct responsibility of the customer, encompassing their specific operational context, risk posture, and policy framework.",,,,,,,,,,,,,,,,,,,,,
+164.306(d)(3)(ii)(B)(1),GOV-02.1,"When a standard adopted in § 164.308, § 164.310, § 164.312, § 164.314, or § 164.316 includes addressable implementation specifications, a covered entity or business associate must-
+
+As applicable to the covered entity or business associate-
+
+If implementing the implementation specification is not reasonable and appropriate:
+
+Document why it would not be reasonable and appropriate to implement the implementation specification; 
+",Not Applicable,"The control requires the documentation of rationale for not implementing addressable implementation specifications. This is a governance and policy-level activity that involves organizational decision-making, risk assessment, and formal documentation processes.
+
+VCF provides the underlying cloud infrastructure and its associated technical controls, but it does not perform or automate the creation of policy documents, risk justifications, or the formal recording of decisions regarding the applicability and implementation of regulatory requirements.
+
+The responsibility for establishing and documenting the rationale for addressable implementation specifications, including the justification for non-implementation, rests entirely with the customer.",,,,,,,,,,,,,,,,,,,,,
+164.306(d)(3)(ii)(B)(2),RSK-06.2,"When a standard adopted in § 164.308, § 164.310, § 164.312, § 164.314, or § 164.316 includes addressable implementation specifications, a covered entity or business associate must-
+
+As applicable to the covered entity or business associate-
+
+If implementing the implementation specification is not reasonable and appropriate-
+
+Implement an equivalent alternative measure if reasonable and appropriate.
+
+",Contributes,"VMware vDefend directly implements technical compensating countermeasures at the network layer through Distributed Firewall microsegmentation, IDS/IPS, malware prevention, URL filtering, and TLS inspection. These capabilities inherently reduce risk exposure and limit the impact of threats. Intelligent Assist further recommends and enables the creation of targeted or comprehensive remediation policies, which function as compensating controls when primary preventive measures are insufficient, effectively stopping attacks such as lateral propagation.
+
+The activation of these remediation policies requires manual enablement following administrator due diligence and verification, necessitating human oversight.
+
+Organizational risk governance and the formal documentation of compensating controls remain outside the platform's scope. Customers are responsible for establishing the processes to determine when primary implementation specifications are not reasonable and appropriate, and for the formal documentation and activation of equivalent alternative measures.",,,,,,,,,,,,,,,,,,,,,
+164.306(e),CPL-03.2,"When a standard adopted in § 164.308, § 164.310, § 164.312, § 164.314, or § 164.316 includes addressable implementation specifications, a covered entity or business associate must-
+
+Maintenance. A covered entity or business associate must review and modify the security measures implemented under this subpart as needed to continue provision of reasonable and appropriate protection of electronic protected health information, and update documentation of such security measures in accordance with § 164.316(b)(2)(iii).",Contributes,"VMware Cloud Foundation (VCF) provides robust mechanisms for the continuous review of technology assets, ensuring adherence to established cybersecurity and data protection policies.
+
+VCF Operations includes comprehensive compliance management capabilities that monitor the infrastructure against industry-standard security benchmarks and custom organizational policies. It calculates a compliance score for managed objects, highlighting non-compliant assets and associated violations, thereby streamlining the identification of areas requiring attention. Organizations can define and implement custom compliance benchmarks, ensuring consistent policy enforcement across multiple deployments.
+
+At the host layer, vSphere Configuration Profiles and vSphere Lifecycle Manager continuously assess ESX host configurations against approved baselines, detecting and alerting administrators to configuration drift, with options for automated remediation. NSX further extends this by providing its own compliance status reporting, detailing non-compliant configurations by standard, resource, and specific codes. These capabilities collectively verify that infrastructure configurations align with desired baselines and meet defined compliance benchmarks.
+
+VMware vDefend complements these capabilities by contributing to the functional review of cybersecurity controls, specifically within the network security domain.
+
+The Security Services Platform offers a Security Segmentation score and report generation, enabling compliance officers to assess and demonstrate adherence to network security best practices. Its metrics service collects key performance indicators and operational data from Distributed Firewall, Gateway Firewall, Intrusion Detection and Prevention System, and TLS inspection, forming a data foundation for ongoing compliance reviews.
+
+Security Intelligence provides policy recommendation analysis, comparing suggested rules, groups, and services against the current NSX inventory to identify gaps between desired and actual security policy. Administrators utilize the Monitor & Plan interface to review and manage these recommendations, pinpointing where current firewall rules may diverge from optimal traffic patterns.
+
+The Threat Event Monitoring dashboard within Security Services Platform offers consolidated visibility into security issues, detected threats, and policy violations, creating an auditable evidence trail. The platform's operational model inherently supports an iterative review cycle, advising administrators to monitor traffic and refine policies post-publication. A dedicated Auditor role within Security Services Platform's role-based access control facilitates independent compliance and security reviews.
+
+While the platform provides extensive technical tools for reviewing configuration states, assessing network security posture, and identifying potential policy gaps or non-compliance, the ultimate responsibility for defining organizational cybersecurity and data protection policies, performing periodic functional validation of security controls, making decisions regarding necessary modifications, and formally updating documentation of security measures rests with the customer. The platform identifies areas for review and modification, but the human judgment, policy refinement, and formal documentation updates are external organizational processes.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(1)(i),"GOV-02, CHG-01, CFG-01, MON-01, MON-01.16, IRO-01","A covered entity or business associate must, in accordance with § 164.306:
+
+Standard: Security management process. Implement policies and procedures to prevent, detect, contain, and correct security violations.",Contributes,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend collectively provide a robust technical framework to prevent, detect, contain, and correct security violations.
+
+VCF components offer comprehensive change management through workflow approvals, ITSM integration, and role-based access controls, restricting unauthorized modifications. Configuration management features, including desired-state enforcement, drift detection, and integration with source control for templates, ensure system integrity. VMware vDefend directly prevents threats with distributed firewall capabilities, draft policy management, and IDS/IPS.
+
+For detection, VCF Operations provides continuous monitoring of infrastructure health, performance metrics, and centralized log analysis with customizable alerting. VLR extends this with specific monitoring for replication status and RPO violations, while vDefend's Security Intelligence continuously monitors network traffic, detects anomalous flows, and correlates threat events across the environment.
+
+Containment is supported by vDefend's quarantine policies, which isolate affected virtual machines, and AI-guided remediation workflows that can create immediate network-level containment rules.
+
+Correction capabilities include VCF's automated remediation for configuration drift, vSphere HA for workload recovery, VLR's structured recovery plans with automated failover orchestration, and vDefend's intelligent assistance for creating remediation policies.
+
+While these platforms deliver the essential technical mechanisms, the organization remains responsible for defining and implementing the overarching security management policies and procedures. This includes establishing specific guidelines for preventing, detecting, containing, and correcting security violations, assigning roles and responsibilities, and maintaining comprehensive documentation for the security management process.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(1)(ii)(A),RSK-04,"A covered entity or business associate must, in accordance with § 164.306:
+Implementation specifications: 
+Risk analysis (Required). Conduct an accurate and thorough assessment of the potential risks and vulnerabilities to the confidentiality, integrity, and availability of electronic protected health information held by the covered entity or business associate.",Not Applicable,"VMware Cloud Foundation provides a robust, secure, and compliant infrastructure foundation designed to host workloads, including those processing electronic protected health information. The platform incorporates security hardening, vulnerability management, and configuration compliance capabilities at the compute, storage, and network layers, contributing to a reduced attack surface and a more secure operating environment. However, the platform's technical capabilities are focused on the underlying infrastructure.
+
+The comprehensive organizational risk analysis, which involves assessing potential risks and vulnerabilities to electronic protected health information across applications, data flows, business processes, and the overall operational environment, remains entirely the responsibility of the customer. This includes identifying and evaluating risks specific to their ePHI handling practices, data classification, and application-level security, independent of the underlying infrastructure platform.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(1)(ii)(B),"GOV-09, GOV-15.2","A covered entity or business associate must, in accordance with § 164.306:
+Implementation specifications: 
+Risk management (Required). Implement security measures sufficient to reduce risks and vulnerabilities to a reasonable and appropriate level to comply with § 164.306(a).",Contributes,"VCF establishes a hardened, secure infrastructure foundation, implementing robust security controls across compute, storage, and networking layers. This includes secure configurations, automated patching, comprehensive logging, and granular access controls, all designed to reduce common infrastructure risks and vulnerabilities. The platform provides a secure environment that inherently contributes to an organization's overall security posture by mitigating a significant portion of underlying technical risks.
+
+VCF does not define an organization's overall risk management program, conduct risk assessments, establish risk tolerance levels, or determine what constitutes a ""reasonable and appropriate level"" of risk reduction for specific organizational assets or data. The customer is responsible for establishing and maintaining a comprehensive risk management program, including defining policies, processes for identifying and assessing risks and vulnerabilities, and developing and implementing specific risk treatment plans. The customer must also ensure that the implemented security measures, including those provided by VCF, are sufficient to meet their defined risk reduction objectives.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(1)(ii)(C),HRS-07,"A covered entity or business associate must, in accordance with § 164.306:
+Implementation specifications: 
+Sanction policy (Required). Apply appropriate sanctions against workforce members who fail to comply with the security policies and procedures of the covered entity or business associate.",Not Applicable,"VMware Cloud Foundation provides a robust, secure, and compliant infrastructure for virtualized workloads, compute, storage, and networking. The platform's capabilities are focused on the technical security and operational integrity of the underlying infrastructure components.
+
+It does not extend to human resource management, the definition of organizational sanction policies, or the enforcement of disciplinary actions against workforce members. The application of sanctions for non-compliance with security policies and procedures is an organizational responsibility, managed through internal HR processes and policies.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(1)(ii)(D),"MON-01, MON-01.8, MON-01.16, IRO-09","A covered entity or business associate must, in accordance with § 164.306:
+Implementation specifications: 
+Information system activity review (Required). Implement procedures to regularly review records of information system activity, such as audit logs, access reports, and security incident tracking reports.",Contributes,"VMware Cloud Foundation (VCF) provides comprehensive capabilities for generating, collecting, and analyzing records of information system activity. VCF Operations for Logs centralizes log data from vCenter, ESX hosts, NSX, and other VCF components, offering dashboards, analytics, and log-based alerts. The platform's audit events framework captures user logins, logouts, capability checks, and configuration changes across vSphere, vSAN, and NSX. VCF Operations includes a Troubleshooting Incidents page for managing incidents and integrates with ServiceNow for structured incident records, supporting incident tracking.
+
+VMware Live Recovery (VLR) generates audit events for disaster recovery operations, including protection group modifications and replication lifecycle changes, with configurable alarms for event escalation. VLR monitors replication status, site connectivity, and recovery plan readiness, feeding data into the broader VCF monitoring ecosystem.
+
+VMware vDefend generates security event logs from its Distributed Firewall, Gateway Firewall, and IDS/IPS components. Security Intelligence provides real-time network security monitoring, detecting and categorizing suspicious traffic events by severity, mapping them to MITRE ATT&CK tactics, and correlating individual detection events into campaigns for a consolidated view of ongoing incidents.
+
+All platforms support syslog forwarding to external SIEMs for centralized event review and correlation.
+
+While the platform provides robust technical instrumentation for monitoring, logging, and incident detection, the implementation of formal procedures for the regular review of these records, including defining review frequencies, assigning human accountability, and establishing organizational processes for incident notification, cross-functional response coordination, and resolution tracking, remains a customer responsibility.
+
+The governance-level decisions regarding asset criticality, data sensitivity, and the prioritization of monitoring activities based on these classifications are organizational risk management functions.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(2),GOV-04,Standard: Assigned security responsibility. Identify the security official who is responsible for the development and implementation of the policies and procedures required by this subpart for the covered entity or business associate.,Not Applicable,"The VCF platform delivers a robust, secure infrastructure foundation, encompassing compute, storage, networking, and management plane capabilities. This includes technical security services, logging, and infrastructure-level controls.
+
+However, the control specifically mandates the identification of a human security official responsible for the development and implementation of organizational policies and procedures.
+
+The platform's technical scope does not extend to defining organizational roles, assigning human accountability, or managing policy lifecycle processes. These are entirely organizational governance and human resource functions.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(3)(i),"GOV-02, CFG-08, IAC-01, IAC-08, IAC-21","Standard: Workforce security. Implement policies and procedures to ensure that all members of its workforce have appropriate access to electronic protected health information, as provided under paragraph (a)(4) of this section, and to prevent those workforce members who do not have access under paragraph (a)(4) of this section from obtaining access to electronic protected health information.",Contributes,"VMware Cloud Foundation (VCF) provides a comprehensive, layered identity and access management architecture built on VCF SSO, which centralizes authentication, supports identity federation, and enables multi-factor authentication. Role-based access control (RBAC) is enforced across all VCF components, including vCenter, ESX, SDDC Manager, NSX, VCF Operations, and Kubernetes Namespaces, allowing for granular permissions and custom roles to implement least privilege. Fine-grained cryptographic operation privileges control access to encryption and decryption functions. VCF Automation enforces organizational and project-level isolation. VMware Live Recovery (VLR) extends RBAC to disaster recovery operations, defining roles for managing replication and recovery plans, and enforcing dual-site permission checks. VLR also offers encryption for replication traffic. VMware vDefend contributes to network-layer access control through microsegmentation and the Distributed Firewall, enforcing identity-aware policies and default-deny rule bases to restrict workload communication to only explicitly permitted flows. vDefend's own management plane implements RBAC with predefined roles to control access to security policy management, firewall rule administration, and threat analysis features, ensuring least privilege for security operations.
+
+While these platforms provide robust technical controls for authentication, authorization, and network security, the organization is responsible for defining and implementing the overarching policies and procedures that govern appropriate access to electronic protected health information (ePHI) for its workforce. This includes establishing specific roles, assigning users to those roles, configuring access privileges based on job function, and developing procedures for managing access lifecycle, including provisioning, review, and revocation.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(3)(ii)(A),"HRS-01, IAC-07.1, IAC-08, IAC-28.1","Implementation specifications: 
+
+Authorization and/or supervision (Addressable). Implement procedures for the authorization and/or supervision of workforce members who work with electronic protected health information or in locations where it might be accessed.
+
+",Contributes,"VMware Cloud Foundation (VCF) provides comprehensive role-based access control (RBAC) across its entire stack, including vCenter, NSX, SDDC Manager, VCF Operations, and VCF Automation. This enables granular authorization by restricting access to technology assets, applications, services, and data based on assigned roles and privileges. VCF components support predefined and custom roles, allowing administrators to define specific sets of permissions, such as read-only, edit, or full control, which can be assigned to users and groups. Changes to role assignments or modifications to predefined roles are applied immediately, ensuring that user access rights accurately reflect current job functions. VCF integrates with enterprise identity providers, allowing changes in directory service group memberships to automatically reflect in VCF access.
+
+VMware Live Recovery (VLR) enforces RBAC through purpose-built roles registered in vCenter, providing distinct permissions for DR configuration, protection group management, and vSphere Replication operations, including dual-site permission checks for cross-site actions. VMware vDefend further extends RBAC to security policy management, controlling who can create or modify firewall rules within the Distributed Firewall and managing access to Security Services Platform and Security Intelligence features through defined roles.
+
+VCF also offers technical capabilities that support management approval workflows for account creation and permission changes, including built-in approval policies in VCF Automation and access request approvals in VCF Operations, alongside logging of user account changes in NSX Manager for auditing purposes.
+
+While VCF, VLR, and vDefend provide the essential technical mechanisms for authorization and the tooling to support approval workflows, the implementation of comprehensive procedures for the authorization and supervision of workforce members remains an organizational responsibility. The platforms do not encompass the full management approval lifecycle, dedicated user access review, or identity governance consoles.
+
+Organizations must define and implement their own policies and processes for identifying when personnel roles change, initiating appropriate access modifications, and conducting regular access reviews. This typically requires integration of VCF's identity infrastructure with external Identity and Access Management (IAM) or IT Service Management (ITSM) platforms to manage the complete lifecycle of account requests and ensure ongoing supervision.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(3)(ii)(B),"HRS-02, HRS-03, IAC-17","Implementation specifications: 
+Workforce clearance procedure (Addressable). Implement procedures to determine that the access of a workforce member to electronic protected health information is appropriate.
+
+",Contributes,"VMware Cloud Foundation provides robust capabilities that support the determination of appropriate workforce access to electronic protected health information. vCenter includes a privilege checks recorder that monitors and records privileges exercised during operations, allowing administrators to identify unused privileges during access reviews. VCF Operations offers User Permissions Audit reports, which consolidate user accounts, roles, access groups, and privileges, providing a clear view for validating access during periodic reviews. System administrators can leverage these insights to modify account attributes, revoke access, or delete accounts as needed. Furthermore, VCF Operations supports an access request approval workflow through the Automation Portal, requiring approval for new privilege grants via the Service Accounts tab before OAuth token access is provided.
+
+VMware vDefend's Security Services Platform also supports periodic review of user privileges within its own management plane, offering an administrative interface to review and update role assignments for both local and directory-managed accounts, with RBAC controls governing access to Security Intelligence functions.
+
+While VCF and vDefend offer essential technical tools and data for assessing access appropriateness, the organization is responsible for establishing and implementing the overarching workforce clearance procedures. This includes defining the policies, scheduling periodic access review campaigns, and tracking recertification efforts, which typically require integration with external identity governance tools. vDefend's contribution is specifically limited to privilege review within its own management interfaces, and does not extend to broader organizational access reviews.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(3)(ii)(C),"HRS-08, HRS-09, IAC-07, IAC-07.2","Implementation specifications: 
+Termination procedures (Addressable). Implement procedures for terminating access to electronic protected health information when the employment of, or other arrangement with, a workforce member ends or as required by determinations made as specified in paragraph (a)(3)(ii)(B) of this section.",Contributes,"VMware Cloud Foundation provides robust technical mechanisms for the timely termination of access to electronic protected health information upon a workforce member's departure or role change. VCF leverages centralized identity management through Single Sign-On (SSO) and integrates with external identity providers such as Active Directory, LDAP, SAML, and OIDC. Changes to a user's status or group membership within the federated identity provider are automatically reflected in VCF permissions upon the next authentication event, ensuring that access is revoked in alignment with organizational directory updates. Administrators can directly manage and revoke user and group role assignments across VCF components, including vCenter, VCF Automation, and VCF Operations, through dedicated access control interfaces. VCF Automation supports explicit user account deactivation, which removes active access while preserving the account, and allows for the transfer of entity ownership to prevent orphaned resources. Furthermore, VCF enforces deployment lease policies that automatically shut down and destroy deployments after expiration, providing an additional safeguard against lingering resource access.
+
+While VCF delivers the essential technical enforcement layer for access termination, the organization remains responsible for establishing and implementing the overarching procedures. This includes defining HR notification workflows, ensuring timely communication between HR and IT, establishing formal approval processes for access changes, and conducting periodic access reviews to validate entitlements.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(4)(i),"GOV-02, IAC-01",Standard: Information access management. Implement policies and procedures for authorizing access to electronic protected health information that are consistent with the applicable requirements of subpart E of this part.,Contributes,"VMware Cloud Foundation (VCF) establishes a comprehensive identity and access management architecture, leveraging VCF SSO as the centralized authentication service. This architecture issues security tokens for authenticated access to core platform components including vCenter, SDDC Manager, NSX Manager, and VCF Operations. Identity federation with enterprise identity providers such as Microsoft Entra ID, ADFS, and Okta is fully supported, enabling advanced authentication methods like multifactor authentication and automated user synchronization.
+
+Role-based access control (RBAC) is consistently enforced across all VCF components. In vCenter, permissions link users or groups to roles on specific inventory objects, with options for predefined and custom roles to enforce least privilege. SDDC Manager provides granular RBAC for platform operations, while VCF Operations supports importing users and groups from VCF SSO and assigning roles for dashboards, reports, and administrative functions. VCF Automation extends these controls with organization-level and project-level access management, allowing for shared identity providers, token-based access, and predefined roles. For Kubernetes workloads, VMware Kubernetes Service implements namespace permission roles (Owner, Can Edit, Can View) that map to Kubernetes ClusterRoles, supporting both VCF SSO and external OpenID Connect providers. NSX integrates with LDAP and external identity management services for administrative access to networking configurations, complemented by network access policies that restrict communication based on user and workload identity.
+
+Furthermore, VMware vDefend enhances these capabilities by providing identity-aware network enforcement through its Identity Firewall, which integrates with Active Directory to apply firewall policies based on authenticated user identity. Within its own management plane, vDefend's Security Services Platform and Security Intelligence implement RBAC with defined roles to control access to specific security functions.
+
+While the VCF platform and vDefend provide robust technical mechanisms for authorizing and enforcing access to electronic protected health information, the explicit requirement to ""implement policies and procedures"" remains a customer responsibility. The customer must define, document, and maintain the specific organizational policies and procedures that govern access authorization, including criteria for granting, modifying, and revoking access, and ensuring these are consistent with applicable regulatory requirements. The platform provides the tools to enforce these customer-defined policies.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(4)(ii)(A),GOV-02,"Implementation specifications: 
+Isolating health care clearinghouse functions (Required). If a health care clearinghouse is part of a larger organization, the clearinghouse must implement policies and procedures that protect the electronic protected health information of the clearinghouse from unauthorized access by the larger organization.
+",Not Applicable,"VCF provides a secure, isolated, and compliant infrastructure for hosting workloads, ensuring robust technical controls for data segregation and access management at the infrastructure layer. The platform's capabilities include logical separation, granular access controls, and network segmentation, which can be leveraged to create distinct environments.
+
+However, the control specifically mandates the implementation of organizational policies and procedures to protect electronic protected health information from unauthorized access by a larger organization of which a healthcare clearinghouse is a part. The establishment and enforcement of these organizational-level policies and procedures, which govern internal access between distinct business units or functions within a customer's enterprise, are entirely within the customer's operational and governance domain.
+
+VCF does not define, implement, or enforce these specific inter-organizational access policies or the procedures for isolating a clearinghouse's ePHI from its parent entity's internal operations.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(4)(ii)(B),IAC-01,"Implementation specifications: 
+Access authorization (Addressable). Implement policies and procedures for granting access to electronic protected health information, for example, through access to a workstation, transaction, program, process, or other mechanism.",Contributes,"VMware Cloud Foundation (VCF) establishes a comprehensive identity and access management architecture centered on VCF SSO, which serves as the centralized authentication service. This system supports identity federation with enterprise identity providers such as Microsoft Entra ID, ADFS, and Okta, enabling multifactor authentication and automated user synchronization.
+
+Role-based access control (RBAC) is enforced consistently across all VCF components, including vCenter, SDDC Manager, NSX Manager, VCF Operations, and VCF Automation. In vCenter, permissions link users or groups to roles on specific inventory objects, allowing for predefined and custom roles with minimum required privileges. SDDC Manager provides granular RBAC for platform operations, while VCF Operations supports importing users and groups from VCF SSO and assigning roles for dashboards, reports, and administrative functions. VCF Automation extends these controls with organization-level and project-level access, supporting predefined roles and group-level access configuration, including the ability to disable users and groups at the organization level for access revocation.
+
+For Kubernetes workloads, VMware Kubernetes Service implements namespace permission roles (Owner, Can Edit, Can View) that map to Kubernetes ClusterRoles, integrating with VCF SSO and external OpenID Connect providers for authentication.
+
+NSX integrates with LDAP and external identity management services for administrative access to networking configuration, complemented by network access policies that restrict communication based on identity. Solution users authenticate between VCF components using certificates for secure service-to-service communications.
+
+VMware vDefend further contributes to robust access authorization by providing identity-aware network enforcement through its Identity Firewall, which integrates with Active Directory to apply firewall policies based on authenticated user identity rather than solely on IP addresses. Within its own management plane, vDefend's Security Services Platform and Security Intelligence implement RBAC with defined roles to control access and operation of specific security functions.
+
+While VCF and vDefend provide the robust technical mechanisms and enforcement capabilities for access authorization, the organization is responsible for defining and implementing the overarching policies and procedures for granting access to electronic protected health information. This includes establishing specific roles, privileges, approval workflows, and regular access reviews that align with organizational security requirements and regulatory obligations.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(4)(ii)(C),IAC-08,"Implementation specifications: 
+Access establishment and modification (Addressable). Implement policies and procedures that, based upon the covered entity's or the business associate's access authorization policies, establish, document, review, and modify a user's right of access to a workstation, transaction, program, or process.",Contributes,"VMware Cloud Foundation (VCF) implements robust role-based access control (RBAC) across all its components, ensuring that access to technology assets, applications, services, and data is restricted based on assigned roles. vCenter provides fine-grained authorization through a permissions model, associating roles with users or groups on objects in the inventory hierarchy, supporting predefined and custom roles with immediate application of privilege changes. NSX extends RBAC across multiple operational domains, allowing administrators to manage user assignments and create custom roles for specific permissions. SDDC Manager and VCF Operations also leverage RBAC with granular permissions and service role assignments, while VCF Automation governs access through predefined project-level roles. For Kubernetes workloads, vSphere Namespaces support distinct permission roles that map to Kubernetes ClusterRoles, providing controlled access to resources.
+
+VMware Live Recovery (VLR) enforces RBAC through purpose-built roles registered in vCenter, such as the VLR Administrator and SRM Protection Groups Administrator, which grant specific permissions for DR configuration and administration. These roles are collections of privileges, and custom roles can be derived from existing ones. VLR also implements dual-site permission checks for cross-site operations, ensuring that users require appropriate permissions on both protected and recovery sites.
+
+VMware vDefend further strengthens access control by enforcing RBAC across its components, restricting access to security policy management, firewall rule administration, and threat analysis features. The vDefend Distributed Firewall uses RBAC to control rule creation and modification, maintaining the integrity of network security policies. The Security Services Platform and Security Intelligence components utilize defined roles, supporting assignments to individual users or groups and ensuring a clear separation of duties between infrastructure administration and security policy management.
+
+While the platform provides comprehensive technical mechanisms to establish, modify, and review user access rights to workstations, transactions, programs, and processes, the covered entity or business associate is responsible for implementing the overarching access authorization policies and the specific policies and procedures that govern these actions. This includes defining the organizational framework for access management, documenting the processes for access lifecycle, and assigning human accountability for the establishment, review, and modification of access.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(5)(i),"SAT-01, SAT-02","Standard: Security awareness and training. Implement a security awareness and training program for all members of its workforce (including management).
+",Not Applicable,"VMware Cloud Foundation (VCF) provides the foundational infrastructure for virtualized and containerized workloads, encompassing compute, storage, and networking capabilities. The platform's scope is limited to the technical components and operational aspects of the SDDC infrastructure itself.
+
+The implementation of a security awareness and training program for an organization's workforce, including management, falls outside the technical domain of the VCF platform. This control requires the establishment of organizational policies, the development and delivery of training content, and the tracking of workforce completion, which are all customer-defined and managed responsibilities.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(5)(ii)(A),SAT-03.6,"Implementation specifications. Implement:
+Security reminders (Addressable). Periodic security updates.",Not Applicable,"VCF provides a secure, integrated infrastructure platform, managing the lifecycle and configuration of its core components, including applying security patches and updates to the underlying compute, storage, and network virtualization layers. The platform's capabilities are centered on maintaining the security posture of the infrastructure itself through automated patching and configuration management.
+
+The requirement for ""Security reminders"" in the form of ""Periodic security updates"" pertains to organizational processes for communicating security awareness, policy changes, or general security information to personnel.
+
+VCF does not include functionality for generating or disseminating such reminders or updates to end-users or administrators regarding general security practices or organizational policies. This remains an organizational responsibility to establish and execute communication plans for security awareness.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(5)(ii)(B),SAT-03.2,"Implementation specifications. Implement:
+Protection from malicious software (Addressable). Procedures for guarding against, detecting, and reporting malicious software.",Not Applicable,"VCF provides the robust, hardened infrastructure necessary for deploying and operating security solutions designed to protect against malicious software. The platform supports the integration of advanced threat prevention, endpoint detection and response, and security information and event management (SIEM) systems, which enable the technical capabilities for guarding against and detecting malicious software within the virtualized environment.
+
+However, the control explicitly requires the implementation of organizational procedures for guarding against, detecting, and reporting malicious software. VCF, as an infrastructure platform, does not define, implement, or execute these operational procedures or reporting mechanisms. The establishment, documentation, and enforcement of these procedures, along with the associated reporting, remain the direct responsibility of the customer within their security policies and incident response frameworks.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(5)(ii)(C),SAT-03,"Implementation specifications. Implement:
+Log-in monitoring (Addressable). Procedures for monitoring log-in attempts and reporting discrepancies.",Not Applicable,"VCF does not inherently provide the operational procedures for monitoring log-in attempts. The platform does not include built-in mechanisms for automated discrepancy reporting based on log-in activity.
+
+Establishing comprehensive log-in monitoring procedures, defining thresholds for suspicious activity, and implementing reporting mechanisms for discrepancies are entirely the responsibility of the customer. This includes configuring any necessary logging, integrating with external security information and event management (SIEM) systems, and developing the organizational processes for review and response.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(5)(ii)(D),SAT-03,"Implementation specifications. Implement:
+Password management (Addressable). Procedures for creating, changing, and safeguarding passwords.",Contributes,"VCF provides robust technical mechanisms that support password management across the SDDC. It integrates seamlessly with enterprise identity providers such as Active Directory and LDAP, allowing for the enforcement of centralized password policies for user authentication to core components like vCenter Server, NSX Manager, and SDDC Manager.
+
+For local accounts and internal service accounts, VCF enforces strong password complexity, expiration, and lockout policies, and manages automated password rotation and secure storage. The platform's secure communication protocols further safeguard credentials during transit.
+
+While VCF offers foundational technical controls, the customer is responsible for establishing comprehensive organizational procedures for creating, changing, and safeguarding passwords across the entire environment.
+
+This includes defining and implementing enterprise-wide password policies, user training on password best practices, and processes for password resets, forgotten passwords, and incident response related to credential compromise. The customer must also ensure the secure management of any passwords not directly controlled or automated by the VCF platform.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(6)(i),"GOV-02, IRO-01",Standard: Security incident procedures. Implement policies and procedures to address security incidents.,Contributes,"VMware Cloud Foundation provides the technical infrastructure to support various phases of the incident response lifecycle.
+
+VCF Operations offers a dedicated interface for creating, managing, and tracking incidents, complete with metadata such as status, impact, and urgency, and integrates with external ITSM workflows like ServiceNow for seamless incident flow. It includes robust event correlation, fault surfacing, and configurable notification rules and alarms for automated detection and alerting.
+
+For recovery, vSphere HA and Proactive HA ensure workload availability and resilience.
+
+VMware Live Recovery further enhances data protection incident response through structured recovery plans, which define documented, repeatable procedures for VM recovery, network reconfiguration, and custom command execution, supported by non-disruptive testing and automated failover orchestration. VLR's event logging and alarm framework detect data protection-specific incidents and document recovery plan execution.
+
+VMware vDefend integrates advanced threat detection, investigation, correlation, and remediation capabilities directly into the network security layer. It identifies multi-stage attack campaigns by correlating events like lateral movement and command-and-control traffic, providing impact scores for prioritization. vDefend's Security Intelligence highlights critical suspicious traffic and identifies unauthorized changes. Its Intelligent Assist feature guides security teams in creating targeted or comprehensive remediation policies, which are subject to human review and approval, enabling immediate network-level containment through the Distributed Firewall.
+
+While these platforms provide essential technical tools for incident detection, tracking, investigation, containment, and recovery, the overarching responsibility for implementing and maintaining organization-wide security incident policies and procedures rests with the customer. This includes defining the formal incident response program, establishing roles and responsibilities, creating comprehensive incident response documentation, and integrating the platform's capabilities into their established playbooks and runbooks for a complete and governed incident response framework.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(6)(ii),IRO-02,"Implementation specification: Response and reporting (Required). Identify and respond to suspected or known security incidents; mitigate, to the extent practicable, harmful effects of security incidents that are known to the covered entity or business associate; and document security incidents and their outcomes.",Contributes,"VMware Cloud Foundation provides robust technical capabilities that support multiple phases of the incident handling lifecycle. It offers automated event detection by correlating events from monitored infrastructure components, ranking them by severity, and triggering notifications through vCenter Server alarms. For analysis, VCF Operations provides a Troubleshooting Incidents page for managing incidents, identifying root causes with Diagnostic Findings, and integrating with ITSM workflows like ServiceNow.
+
+Containment is supported through vCenter Server's ability to isolate affected workloads via power state changes and network reconfiguration. Recovery capabilities include vSphere HA for automatic VM restarts, Proactive HA for detecting degrading components and evacuating workloads, and vSphere Fault Tolerance for zero-downtime protection.
+
+VMware Live Recovery extends these capabilities by providing structured incident handling for disaster recovery scenarios, including automated failover orchestration, customizable recovery plans, and non-disruptive testing. VMware vDefend further enhances incident response by detecting and prioritizing suspicious traffic events for analysis and automating remediation actions for containment and eradication.
+
+While the platform provides a comprehensive suite of technical tools for incident detection, analysis, containment, and recovery, the full implementation of incident response, including organizational preparation, process governance, manual incident intake, and complete recovery phases, remains the customer's responsibility. Customers must define their specific incident response policies, establish procedures for manual cleanup of certain automated remediation errors, and ensure thorough documentation of security incidents and their outcomes as part of their overall security program.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(7)(i),"GOV-02, BCD-01, IRO-01","Standard: Contingency plan. Establish (and implement as needed) policies and procedures for responding to an emergency or other occurrence (for example, fire, vandalism, system failure, and natural disaster) that damages systems that contain electronic protected health information.",Contributes,"VMware Cloud Foundation provides robust technical capabilities for business continuity and disaster recovery, including vSphere High Availability for automated workload restarts, vSAN stretched clusters for zone-level resilience, and vSAN Data Protection for snapshot-based protection. It enforces regular backup schedules and retention policies for all management components, utilizing features like Changed Block Tracking for efficiency. VCF Operations supports incident management through a dedicated interface, integrates with ITSM workflows for structured incident flow, and provides automated event detection and alerting.
+
+VMware Live Recovery is purpose-built for contingency planning, enabling the creation of executable recovery plans that define sequences, priorities, and configurations for failover operations. It supports non-disruptive testing to validate procedures, offers host-based and array-based replication with configurable RPOs, and facilitates both planned migrations and disaster recovery failovers. Its event logging and alarm framework detects data protection incidents, and recovery plan history reports document execution outcomes.
+
+VMware vDefend contributes to business continuity by maintaining security posture during disaster recovery events, ensuring distributed and gateway firewall policies remain active across sites. For incident response, vDefend provides integrated threat detection, investigation, and correlation of multi-stage attack campaigns, leveraging Network Detection and Response (NDR) across sites. Security Intelligence prioritizes events by impact and severity, and Intelligent Assist offers AI-guided remediation workflows with human review for network-level containment.
+
+While these platforms provide the essential technical infrastructure and tools for resilience, recovery, detection, and response, the organization is responsible for establishing the formal contingency plan. This includes defining comprehensive policies and procedures for emergency response, conducting business impact analyses, developing risk assessments, and creating detailed incident response and disaster recovery playbooks that leverage the platform's capabilities. The organization must also define roles, responsibilities, communication strategies, and the overall governance of its business continuity management system, as these organizational and process-level functions fall outside the scope of the technical platforms.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(7)(ii)(A),BCD-11,"Implementation specifications: 
+Data backup plan (Required). Establish and implement procedures to create and maintain retrievable exact copies of electronic protected health information.",Contributes,"VMware Cloud Foundation, VMware Live Recovery, and VMware vDefend collectively provide robust capabilities for creating and maintaining retrievable exact copies of electronic protected health information. VMware Cloud Foundation offers comprehensive backup, snapshot, and replication mechanisms across its management and workload layers, supporting defined Recovery Time Objectives (RTOs) and Recovery Point Objectives (RPOs). SDDC Manager, NSX Manager, and VMware vCenter support file-based and image-based backups for management components, enabling consistent restoration of the management plane. For workload data, Changed Block Tracking (CBT) facilitates incremental backups, and VMware vStorage APIs for Data Protection (VADP) provide standardized integration for third-party backup solutions. vSAN Data Protection allows external replication of snapshots with automated scheduling and retention, while vSAN Express Storage Architecture (ESA) delivers high-performance, metadata-based snapshots for point-in-time recovery. VMware Kubernetes Service (VKS) supports backup and restore for cluster management workloads, including CSI volume snapshots with flexible scheduling and separate backup storage.
+
+VMware Live Recovery extends these capabilities through continuous host-based replication via VMware vSphere Replication, maintaining current replicas with configurable RPO intervals and multiple point-in-time snapshots. VMware Live Site Recovery further enhances this with vSAN Data Protection protection groups, enabling scheduled management of vSAN snapshots and supporting up to 200 recovery points on a peer site, alongside array-based replication for entire datastores. Recovery plan testing verifies data recoverability and integrity, confirming that replicated data is usable and RPO targets are met.
+
+VMware vDefend provides dedicated backup and restore capabilities for its Security Services Platform (SSP) control plane, protecting firewall rules, microsegmentation policies, and IDS/IPS configurations. These backups are encrypted, support recurring schedules, and are transmitted to an SFTP server, ensuring the integrity and recoverability of the security posture data.
+
+While the platform provides the necessary technical mechanisms for creating and maintaining retrievable copies, the customer is responsible for establishing and implementing the overarching data backup plan and associated procedures. This includes defining specific backup schedules, retention policies, and RTO/RPO targets tailored to their electronic protected health information requirements. Customers must provision and manage sufficient storage capacity for backup data, integrate any required third-party backup solutions, and ensure regular restore testing is conducted as part of their defined operational procedures to verify data integrity and retrievability. The scope of ePHI to be protected and the specific configuration of backup and replication strategies across the environment remain a customer responsibility.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(7)(ii)(B),BCD-12,"Implementation specifications: 
+Disaster recovery plan (Required). Establish (and implement as needed) procedures to restore any loss of data.",Contributes,"VMware Cloud Foundation provides robust capabilities for secure recovery and reconstitution of infrastructure and data. This includes automatic restart of virtual machines on surviving hosts through vSphere HA, zero-downtime failover for individual workloads with vSphere Fault Tolerance, and proactive detection of hardware degradation.
+
+Data resilience is ensured through vSAN stretched clusters for site-level recovery and vSAN fault domains.
+
+Point-in-time recovery is available via vSAN Data Protection's snapshot-based capabilities, supporting automated scheduling, retention, and incremental backups.
+
+The platform management layer, including vCenter and VCF Operations, supports file-based and image-based restore operations, with reconciliation APIs to maintain infrastructure state. HCX further enables data mobility and replication for recovery scenarios.
+
+VMware Live Recovery extends these capabilities by providing comprehensive mechanisms for orchestrating the secure recovery of virtual machine workloads. It enables the definition of protection groups and recovery plans, which are explicit procedures for restoring workloads to a known state after disruption. These plans support both planned migrations and disaster recovery, tracking their state throughout the recovery lifecycle.
+
+Multiple replication methods, including vSphere Replication and array-based replication, ensure data synchronization.
+
+Crucially, VMware Live Recovery includes built-in, non-disruptive testing of recovery plans, validating the successful restoration of protected virtual machines and proper configuration of recovery sites through inventory mappings. All communications are secured via TLS.
+
+VMware vDefend contributes by ensuring the recoverability of the security infrastructure itself, offering backup and restore functionality for the Security Services Platform and its configurations.
+
+Furthermore, NSX Federation maintains the continuity of established security frameworks, such as Distributed Firewall rules and microsegmentation policies, across sites during failover events, ensuring the security posture follows the workloads without requiring manual reconstruction.
+
+While the platform provides the essential technical tools and a robust framework for defining and executing recovery procedures, the comprehensive establishment and implementation of an overarching disaster recovery plan remain the responsibility of the customer. This includes defining specific recovery time and recovery point objectives, conducting business impact analyses, establishing organizational policies, assigning roles and responsibilities, developing communication plans, and ensuring the regular review and maintenance of the complete disaster recovery strategy.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(7)(ii)(C),"BCD-01, BCD-02.2","Implementation specifications: 
+Emergency mode operation plan (Required). Establish (and implement as needed) procedures to enable continuation of critical business processes for protection of the security of electronic protected health information while operating in emergency mode.",Contributes,"VMware Cloud Foundation (VCF) provides a robust foundation for business continuity and disaster recovery, enabling the continuation of critical business processes during emergency operations. This includes vSphere High Availability (HA) for automatic virtual machine restarts and vSphere Fault Tolerance for zero-downtime failover. vSAN stretched clusters extend storage and compute across availability zones, ensuring site-level continuity, complemented by vSAN Data Protection for snapshot-based data protection and replication.
+
+VCF also ensures the resilience of its management plane through image-based backup and restore capabilities for VCF Operations and regular backup schedules for components like SDDC Manager, vCenter, and NSX Manager. VMware HCX facilitates workload mobility and replication between sites, supporting various migration scenarios.
+
+VMware Live Recovery (VLR) is purpose-built to orchestrate contingency planning and execution. It enables the creation of recovery plans that serve as executable BC/DR playbooks, defining the sequence and priority for failover operations. VLR supports non-disruptive testing to validate these procedures and offers both planned migration and disaster recovery modes. vSphere Replication provides host-based replication with configurable Recovery Point Objectives (RPO), while array-based replication integrates with third-party storage. VLR manages the recovery process, including cleanup operations after testing and orchestrating the return of workloads to the primary site via planned migration.
+
+VMware vDefend further contributes by maintaining security posture during disaster recovery events and workload migrations, ensuring that distributed firewall and gateway firewall policies remain active and continuously enforced across primary and secondary sites, thereby protecting the security of electronic protected health information (ePHI) during emergency mode operations.
+
+While the platform provides comprehensive technical capabilities for high availability, data protection, replication, and recovery orchestration, the establishment and implementation of the overarching emergency mode operation plan, the identification of specific critical business processes, the definition of RTO/RPO targets, and the broader organizational governance and policy framework remain the responsibility of the customer. The platform provides the tools and mechanisms to execute these procedures, but the customer must define the specific operational procedures and integrate them into their overall business continuity management program.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(7)(ii)(D),"BCD-04, BCD-05","Implementation specifications: 
+Testing and revision procedures (Addressable). Implement procedures for periodic testing and revision of contingency plans.",Contributes,"VMware Cloud Foundation provides the foundational infrastructure and recovery mechanisms essential for exercising contingency plans. vSAN stretched clusters enable simulation of site failures through host maintenance mode, validating continued storage and compute operations in surviving availability zones. vSphere HA can be tested by deliberately failing hosts to observe VM restart behavior and confirm admission control policies. VMware HCX facilitates test workload migrations between sites, allowing organizations to validate mobility procedures. Management component backup and restore procedures for SDDC Manager, vCenter, NSX, and VCF Operations can be tested. VCF Operations capacity planning scenarios further support the planning phase of test exercises.
+
+VMware Live Site Recovery offers non-disruptive testing of disaster recovery plans as a core operational capability, allowing recovery plans to be tested without impacting production. These plans organize protected workloads into sequenced, dependency-aware execution groups, supporting both test recovery (simulating unplanned failures to verify RTO/RPO) and planned migration (validating orderly site evacuation). Testing has no lasting effects, enabling frequent repetition, and progress is tracked via the Recent Tasks panel. Automation of recovery plan testing is supported through the VMware Live Site Recovery API and PowerCLI, with the Initiate Test Recovery Plan workflow ensuring plan readiness. VMware vSphere Replication maintains current replica copies at the recovery site, supporting tighter RPO targets during test exercises.
+
+While the platform provides robust technical capabilities for executing and validating contingency plan tests, the implementation of formal procedures for periodic testing and revision remains an organizational responsibility. This includes defining exercise scheduling, designing test scenarios, establishing evaluation criteria, conducting after-action reviews, and integrating test outcomes into a formal plan revision process. The platform serves as the critical infrastructure and toolset that organizations leverage to fulfill these procedural requirements.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(7)(ii)(E),"AST-01, AST-01.1, BCD-02, TPM-02","Implementation specifications: 
+Applications and data criticality analysis (Addressable). Assess the relative criticality of specific applications and data in support of other contingency plan components.",Contributes,"VMware Cloud Foundation (VCF) provides comprehensive capabilities for identifying and documenting critical infrastructure assets and their relationships. vCenter maintains a real-time inventory of all managed objects, supporting native export for documentation.
+
+VCF Operations extends this by allowing administrators to group related infrastructure objects into Business Applications and tag them with metadata, including business criticality, environment, and ownership. Service Discovery automatically detects running services and their relationships to underlying infrastructure. VCF Automation further organizes resources through projects and tagging, while blueprints model complex IT services and their dependencies.
+
+VMware vDefend complements these capabilities by organizing inventory assets into a defined hierarchy and classifying applications as critical or regular. Its Security Intelligence traffic flow analysis and visualization provide visibility into asset interdependencies and communication patterns at the network layer, aiding identification of service dependencies.
+
+VMware Live Recovery (VLR) explicitly identifies critical assets through its protection model, where workloads placed in protection groups are classified as essential to business operations for disaster recovery. VLR's inventory mappings and configuration export tools document the infrastructure supporting these critical workloads and their recovery configurations.
+
+While these platforms provide robust technical tools for asset inventory, discovery, classification, and dependency mapping, the organization remains responsible for establishing the overarching asset governance policies, defining the criteria for criticality, assigning ownership lifecycles, and maintaining organizational accountability for the comprehensive criticality analysis of all applications and data.",,,,,,,,,,,,,,,,,,,,,
+164.308(a)(8),"CPL-03.2, IAO-01.1, IAO-02","Standard: Evaluation. Perform a periodic technical and nontechnical evaluation, based initially upon the standards implemented under this rule and, subsequently, in response to environmental or operational changes affecting the security of electronic protected health information, that establishes the extent to which a covered entity's or business associate's security policies and procedures meet the requirements of this subpart.",Contributes,"VMware Cloud Foundation (VCF) provides robust mechanisms for periodic technical evaluation of infrastructure configuration states. VCF Operations includes continuous compliance management, monitoring the infrastructure against industry-standard security benchmarks and custom organizational policies. It calculates a compliance score for managed objects, highlighting assets requiring attention. At the host layer, vSphere Configuration Profiles and vSphere Lifecycle Manager assess ESX host configurations against approved baselines, detecting and optionally remediating drift from desired states. NSX also provides its own compliance status reporting, identifying non-compliant configurations. These capabilities verify that infrastructure configurations align with desired baselines and meet defined compliance benchmarks.
+
+VMware vDefend extends these capabilities by contributing to the functional review of cybersecurity controls, specifically for network security. Security Services Platform offers a Security Segmentation score and report generation, providing a quantitative measure of microsegmentation policy enforcement and adherence to network security best practices. The platform's policy recommendation analysis compares recommended rules and services against the current NSX inventory, identifying gaps between desired and actual security policy. The Threat Event Monitoring dashboard provides consolidated visibility into detected threats and policy violations, creating an evidence trail for compliance reviews. Furthermore, Security Services Platform implements an Auditor role, enabling dedicated personnel to perform security and compliance reviews without requiring administrative privileges.
+
+While the platform provides extensive technical tools for both configuration-state and network security functional evaluations, the comprehensive functional testing of *all* security controls to verify active operation as intended requires additional organizational processes. Organizations must define and manage their overarching security policies and procedures, and conduct nontechnical evaluations that extend beyond the platform's automated assessments to ensure full compliance with regulatory requirements.",,,,,,,,,,,,,,,,,,,,,
+164.308(b)(1),"TPM-01, TPM-04, TPM-05, TPM-05.2, TPM-05.4","Business associate contracts and other arrangements. A covered entity may permit a business associate to create, receive, maintain, or transmit electronic protected health information on the covered entity's behalf only if the covered entity obtains satisfactory assurances, in accordance with § 164.314(a), that the business associate will appropriately safeguard the information. A covered entity is not required to obtain such satisfactory assurances from a business associate that is a subcontractor.\",Contributes,"VMware Cloud Foundation provides robust technical controls that establish a secure environment for third-party access, contributing to the ability to safeguard electronic protected health information (ePHI). The platform integrates with federated identity providers, extending existing identity governance and enforcing least-privilege principles through role-based access control, such as the CloudAdmin model.
+
+For Kubernetes workloads, vSphere Namespaces scope third-party access to specific workload boundaries. VCF Automation Organizations provide tenant isolation with separate quotas, permissions, and network boundaries, restricting third-party visibility to only what is needed.
+
+Network isolation is enforced at the NSX segment level, and data-in-transit communications default to TLS 1.3 encryption. VCF Operations monitors resource usage and policy compliance, and Service Discovery identifies active services to detect unauthorized third-party introductions.
+
+VMware vDefend further enhances this security posture by enforcing network-level access controls and providing threat detection.
+
+The Distributed Firewall implements microsegmentation policies at the vNIC level, defining granular network access rules that restrict third-party workloads or user sessions to only the specific application tiers and services required. This network enforcement layer complements identity-based access control by limiting network reach even for valid credentials.
+
+Gateway Firewall provides north-south traffic filtering, URL filtering, and TLS inspection to control inbound and outbound access from third-party networks.
+
+vDefend IDS/IPS monitors traffic for malicious activity, detecting exploitation attempts from compromised third-party connections with signature-based and behavioral detection.
+
+Security Intelligence identifies risky protocols, flagging third-party workloads that transport data in clear text, and the Security Services Platform measures workload security posture and identifies at-risk workloads to contain the blast radius of potential third-party compromises.
+
+While VMware Cloud Foundation and vDefend provide the technical infrastructure to safeguard ePHI when business associates interact with the platform, the core requirement of obtaining satisfactory assurances, as specified in § 164.314(a), remains the responsibility of the covered entity. This includes establishing and managing formal business associate contracts and other arrangements that legally bind the business associate to appropriately safeguard the information. The platform does not automate or manage these contractual or policy-level assurances.",,,,,,,,,,,,,,,,,,,,,
+164.308(b)(2),"TPM-05, TPM-05.2, TPM-05.6","A business associate may permit a business associate that is a subcontractor to create, receive, maintain, or transmit electronic protected health information on its behalf only if the business associate obtains satisfactory assurances, in accordance with § 164.314(a), that the subcontractor will appropriately safeguard the information.\",Not Applicable,"VMware Cloud Foundation provides a secure, validated infrastructure for hosting workloads, including those that process electronic protected health information. The platform implements robust technical controls for data encryption, access management, network segmentation, and operational security, which contribute to the overall safeguarding of ePHI within the VCF environment.
+
+The responsibility for establishing and managing contractual agreements with business associate subcontractors, including obtaining satisfactory assurances that those subcontractors will appropriately safeguard ePHI, resides entirely with the customer. VMware Cloud Foundation does not provide capabilities for third-party vendor management, due diligence, or the negotiation and enforcement of business associate agreements between a customer and its subcontractors.",,,,,,,,,,,,,,,,,,,,,
+164.308(b)(3),"IAO-03.2, TPM-05",Implementation specifications: Written contract or other arrangement (Required). Document the satisfactory assurances required by paragraph (b)(1) or (b)(2) of this section through a written contract or other arrangement with the business associate that meets the applicable requirements of § 164.314(a).,Contributes,"VMware Cloud Foundation secures sensitive and regulated data through comprehensive encryption, access controls, and sensitive data handling mechanisms across its component stack. This includes vSphere virtual machine encryption, vSAN data-at-rest and data-in-transit encryption, and TLS encryption for management plane communications and API calls. VCF Automation encrypts sensitive data in provisioning requests, and VCF Operations protects sensitive information within HTTP-REST plug-in objects, enforcing privilege-based access control. Platform documentation explicitly advises against storing sensitive data in plain text. VMware vDefend further contributes by enabling microsegmentation through the Distributed Firewall, enforcing least-privilege network access controls around workloads handling contract data. The Security Services Platform application inventory guidance supports prioritizing critical applications, and the Gateway Firewall extends protection to north-south traffic flows. These capabilities establish a secure operational environment consistent with contractual data protection requirements.
+
+The establishment, documentation, and management of written contracts or other arrangements with business associates, including the satisfactory assurances required by regulatory mandates such as HIPAA § 164.314(a), remain an organizational responsibility. This encompasses the definition of contractual data handling requirements, access agreements, and overall regulatory compliance documentation, which fall outside the technical scope of the VCF and vDefend platforms.",,,,,,,,,,,,,,,,,,,,,
+164.310(a)(1),"GOV-02, PES-01","Standard: Facility access controls. Implement policies and procedures to limit physical access to its electronic information systems and the facility or facilities in which they are housed, while ensuring that properly authorized access is allowed.",Not Applicable,"VMware Cloud Foundation is a software-defined data center platform that virtualizes compute, storage, and networking resources. It operates entirely within a physical data center environment. The platform's capabilities are focused on logical access controls, data encryption, network segmentation, and secure configuration of virtual infrastructure components.
+
+The control specifically addresses the implementation of policies and procedures to limit *physical access* to facilities and the electronic information systems housed within them.
+
+VCF does not provide any functionality related to physical security measures such as access card systems, biometric authentication, surveillance, physical security personnel management, or physical access logging. These are entirely outside the scope of a software-defined infrastructure platform. The customer is solely responsible for establishing and enforcing all physical security controls for their data center facilities and the underlying hardware that hosts the VCF deployment.",,,,,,,,,,,,,,,,,,,,,
+164.310(a)(2)(i),"BCD-09.2, HRS-03, PES-02, PES-02.1","Implementation specifications: 
+Contingency operations (Addressable). Establish (and implement as needed) procedures that allow facility access in support of restoration of lost data under the disaster recovery plan and emergency mode operations plan in the event of an emergency.",Contributes,"VMware Cloud Foundation provides robust architectural options for establishing and maintaining alternate processing sites, ensuring data and workload accessibility during emergencies. vSAN stretched clusters extend storage across availability zones, maintaining data accessibility even with a full site failure and enabling local component repairs. NSX Federation supports multisite networking deployments, allowing stretched Tier-0 and Tier-1 gateways to move between sites via network recovery workflows, thereby preserving network connectivity for recovered workloads. VMware HCX facilitates workload mobility to remote targets with minimal disruption. VCF Operations includes what-if analysis and committed scenarios for capacity planning at recovery sites, proactively identifying potential accessibility issues. The platform's monitoring and multi-site architecture are instrumental in identifying and mitigating accessibility problems at alternate processing sites.
+
+VMware Live Recovery further enhances these capabilities by providing mechanisms to identify and mitigate accessibility problems at alternate sites both before and during area-wide disruptions. Planned migration capabilities enable regular testing of the recovery path, validating recovery site accessibility, replication infrastructure functionality, and successful execution of recovery plans, thus identifying issues proactively. VLR's failover continues even if the protected site experiences errors during a disaster recovery operation. The platform supports multiple replication methods, including vSphere Replication and array-based replication, offering flexibility to mitigate accessibility risks based on infrastructure. Recovery sites must have adequate hardware, network, and storage resources to support workloads, and shared recovery site configurations require users with appropriate permissions to access the site for creating, testing, and executing recovery plans. Bidirectional protection offers an additional mitigation path if one recovery direction becomes inaccessible.
+
+While the platform provides the technical foundation and tools to ensure logical access to resources at alternate sites for data restoration, the organization remains responsible for establishing and implementing the formal procedures, defining the disaster recovery plan, and creating the emergency mode operations plan. This includes defining specific access controls and permissions for users to interact with the recovery site and its resources, as well as broader accessibility planning, network path redundancy, and comprehensive capacity modeling for recovery site resources.",,,,,,,,,,,,,,,,,,,,,
+164.310(a)(2)(ii),"GOV-02, PES-01, PES-03","Implementation specifications: 
+Facility security plan (Addressable). Implement policies and procedures to safeguard the facility and the equipment therein from unauthorized physical access, tampering, and theft.",Not Applicable,"The VCF platform delivers a software-defined data center architecture, providing capabilities for securing virtual infrastructure, data within the virtual environment, and the management plane. Its technical scope is limited to the software layer, including hypervisors, virtual machines, virtual networks, and storage.
+
+The control's requirements pertain exclusively to the physical security of facilities and the equipment contained therein, specifically addressing unauthorized physical access, tampering, and theft. These aspects are entirely outside the operational domain and technical capabilities of the VCF platform. The customer is responsible for all physical security measures, including facility access controls, environmental safeguards, and the implementation of organizational policies and procedures governing physical security.",,,,,,,,,,,,,,,,,,,,,
+164.310(a)(2)(iii),"IAC-01, PES-02, PES-03, PES-06","Implementation specifications: 
+Access control and validation procedures (Addressable). Implement procedures to control and validate a person's access to facilities based on their role or function, including visitor control, and control of access to software programs for testing and revision.",Contributes,"VMware Cloud Foundation (VCF) establishes a robust, layered identity and access management architecture, leveraging VCF SSO as the centralized authentication service. This architecture supports identity federation with enterprise identity providers such as Microsoft Entra ID, ADFS, and Okta, enabling multifactor authentication and automatic user synchronization.
+
+Role-based access control (RBAC) is enforced consistently across all VCF components, including vCenter, SDDC Manager, NSX Manager, VCF Operations, and VCF Automation. Predefined roles cover common administrative functions, and custom roles can be created to enforce the principle of least privilege.
+
+VCF Automation extends these controls with organization-level and project-level access management, allowing for granular distribution of infrastructure and group-level access. VMware Kubernetes Service integrates with VCF SSO and external OpenID Connect providers, applying namespace permission roles that map to Kubernetes ClusterRoles. NSX integrates with LDAP and external identity management services for administrative access to networking configurations, complemented by network access policies. Service-to-service communications between VCF components are secured through certificate-based authentication.
+
+VMware vDefend further contributes by providing identity-aware network enforcement through its Identity Firewall, which integrates with Active Directory to apply firewall policies based on authenticated user identity. Within its own management plane, vDefend's Security Services Platform and Security Intelligence implement RBAC with defined roles to control access to specific security functions.
+
+While the platform provides comprehensive technical capabilities for logical access control and validation based on role or function, including access to software programs for testing and revision within the VCF environment, it does not provide capabilities for physical access control to facilities or visitor management. The organization is responsible for implementing the necessary procedures, policies, and external solutions to address physical access control, visitor control, and the overall governance of access validation.",,,,,,,,,,,,,,,,,,,,,
+164.310(a)(2)(iv),"GOV-02, MNT-01, MNT-02, PES-01","Implementation specifications: 
+Maintenance records (Addressable). Implement policies and procedures to document repairs and modifications to the physical components of a facility which are related to security (for example, hardware, walls, doors, and locks).",Contributes,"VMware Cloud Foundation (VCF) provides integrated lifecycle management capabilities for conducting controlled maintenance across the infrastructure stack. The VCF Operations UI centralizes update and patch deployment for all VCF components, and ESX hosts support a formal maintenance mode with dedicated API methods, allowing hosts to be taken offline for servicing in a controlled manner. VCF Operations provides maintenance scheduling capabilities, enabling administrators to define recurring maintenance windows and automate transitions into maintenance mode, suppressing misleading alerts during these periods. NSX appliance maintenance tasks, including license management, certificate rotation, password changes, and backups, are documented and can be planned as part of regular maintenance cycles, with VCF Operations supporting automation of these jobs.
+
+VMware vDefend components include maintenance and lifecycle management capabilities that support controlled maintenance activities for the security infrastructure within VCF. The Security Services Platform (SSP), the management plane for vDefend, provides deployment lifecycle controls that allow maintenance operations to be halted, resumed, or cleaned up, enabling controlled, incremental maintenance. SSP enforces prerequisite checks, requiring a healthy state before backup and restore operations.
+
+For monitoring, SSP provides inventory status visibility across environments, regions, and zones, identifying success, timeout, or out-of-sync conditions, and displays granular details of refresh operations for Bare Metal servers, NDR Sensors, and Service VMs. Security Intelligence reports its own health status, and SSP Config Sync provides a time-series metric for configuration updates, creating an audit trail of configuration changes that may result from maintenance activities. The Bare Metal Orchestrator (BMO) maintains and synchronizes agent packages, and the ""get bms health"" CLI command provides a verification mechanism for service health before and after maintenance. SSP also documents sequencing constraints to prevent conflicting maintenance activities.
+
+While VCF and vDefend provide robust technical mechanisms for managing, tracking, and auditing maintenance and modifications to the underlying physical IT hardware and virtual security components, the control's scope extends to physical facility components such as walls, doors, and locks. The customer is responsible for implementing comprehensive policies and procedures to document repairs and modifications for these broader physical security elements, as well as for defining the overall organizational processes for maintenance record-keeping across all relevant physical assets.",,,,,,,,,,,,,,,,,,,,,
+164.310(b),"GOV-02, END-01, HRS-05, HRS-05.1, HRS-05.3, PES-03.4, PES-04, OPS-01.1, OPS-03","Standard: Workstation use. Implement policies and procedures that specify the proper functions to be performed, the manner in which those functions are to be performed, and the physical attributes of the surroundings of a specific workstation or class of workstation that can access electronic protected health information.",Not Applicable,"The platform provides a robust, secure, and compliant foundation for virtualized infrastructure, including the potential hosting of virtual desktop infrastructure (VDI) that could serve as workstations. This includes capabilities for secure hypervisor operations, network micro-segmentation, and infrastructure-level access controls and logging.
+
+However, the control mandates the implementation of organizational policies and procedures that specify proper functions, the manner of performance, and the physical attributes of the surroundings for workstations accessing electronic protected health information. These are governance, operational, and physical security responsibilities of the customer. The platform does not define, implement, or enforce customer-specific policies regarding end-user workstation functions, user behavior, or the physical security of the end-user's workstation environment.",,,,,,,,,,,,,,,,,,,,,
+164.310(c),"END-02, PES-03, PES-03.4, PES-04, PES-04.1","Standard: Workstation security. Implement physical safeguards for all workstations that access electronic protected health information, to restrict access to authorized users.",Not Applicable,"VMware Cloud Foundation establishes a secure foundation for virtualized workloads, encompassing hardware trust through Secure Boot and Trusted Platform Modules for ESX hosts, hypervisor integrity, and robust workload isolation. It ensures data integrity and availability within the virtualized storage layer via vSAN's checksums and erasure coding, and maintains configuration compliance through vSphere Configuration Profiles and Lifecycle Manager. VMware vDefend extends this protection by securing the network layer, implementing distributed firewalls for microsegmentation, intrusion detection and prevention, and advanced malware prevention for virtualized workloads and their network communications. These capabilities collectively safeguard the confidentiality, integrity, and availability of electronic protected health information within the virtual environment and during network transit.
+
+The control, however, specifically requires the implementation of physical safeguards for workstations that access electronic protected health information. This pertains to the physical security of end-user client devices, such as physical access controls, environmental protection, and device hardening at the physical layer. VMware Cloud Foundation and VMware vDefend do not provide capabilities for securing the physical attributes of end-user workstations.",,,,,,,,,,,,,,,,,,,,,
+164.310(d)(1),"GOV-02, AST-01, AST-11, DCH-01, DCH-03, DCH-07, DCH-07.1, DCH-13.2, MNT-01, MNT-04.3","Standard: Device and media controls. Implement policies and procedures that govern the receipt and removal of hardware and electronic media that contain electronic protected health information into and out of a facility, and the movement of these items within the facility.
+
+",Contributes,"VMware Cloud Foundation (VCF) provides a robust technical foundation for managing and securing hardware and electronic media containing electronic protected health information. VCF Operations offers built-in inventory and discovery capabilities, providing detailed lists of compute, storage, and networking resources. It automatically discovers applications and services, and integrates with external asset tracking systems like ServiceNow CMDB to populate discovered resources, thereby supporting IT asset management programs.
+
+VCF Automation further enhances governance through projects, policies, and tags that control provisioned resources.
+
+The platform implements multiple layers of data protection, including vSAN data-at-rest encryption and VM Encryption, which render data unreadable if storage devices are physically removed. Data in transit is protected by TLS, encrypted vSphere vMotion, and vSAN data-in-transit encryption. VCF also includes secure disk wipe capabilities, aligned with NIST 800-88, for sanitizing storage devices prior to physical removal.
+
+Role-based access controls (RBAC) across all VCF components, including VCF SSO, restrict access to digital resources and management interfaces, while privilege-based and scope-based access controls within VCF Operations limit visibility to specific objects and data.
+
+VMware Live Site Recovery protects replicated data during transport between sites through encryption and network isolation, and restricts access to recovery operations via RBAC.
+
+VMware vDefend enhances security by enforcing microsegmentation policies at the vNIC level, restricting network access to systems and storage resources that host digital data, and identifying risky application protocols that transport data in clear text.
+
+VCF also contributes to preventing unauthorized removal of equipment through virtual device controls that restrict hot-add/remove operations on virtual machines, and lifecycle management workflows for host decommissioning.
+
+While VCF provides extensive technical controls for the security and management of electronic media and the data residing on underlying hardware, the overarching responsibility for establishing formal policies and procedures remains with the organization. This includes defining asset governance policies, ownership lifecycles, and maintaining organizational accountability. Furthermore, the platform does not directly address non-digital media handling, such as physical storage media management, printed materials, chain-of-custody tracking, approved physical transport methods, or physical access controls for hardware and equipment removal authorization processes. These aspects require organizational policies, procedures, and physical security solutions to complement the platform's capabilities.",,,,,,,,,,,,,,,,,,,,,
+164.310(d)(2)(i),"GOV-02, AST-01, AST-09","Implementation specifications: 
+Disposal (Required). Implement policies and procedures to address the final disposition of electronic protected health information, and/or the hardware or electronic media on which it is stored.",Contributes,"VMware Cloud Foundation contributes to secure disposal through robust cryptographic erasure and data wiping capabilities, preventing information recovery from decommissioned storage. vSAN data-at-rest encryption leverages a two-tier key architecture with Key Encryption Keys (KEK) and Data Encryption Keys (DEK), managed via an external Key Management Server (KMS) or vSphere Native Key Provider. Destroying these encryption keys renders data unrecoverable without requiring a full disk wipe. vSAN also offers an ""Erase disks before use"" option during encryption configuration to wipe existing data from storage devices. For devices added to or removed from vSAN disk groups, residual data and partition information can be cleaned before reclamation or release, with administrators able to wipe ineligible disks via the vSAN Management API. vSphere provides API methods for cryptographic key lifecycle management, including `removeKey` and `removeKeys` operations with a `force` parameter for definitive key removal from host caches. VCF also recommends securely deleting decrypted backup files after restore operations for SDDC Manager, vCenter, and NSX components. VCF Operations can disable virtual disk wiper and disk shrink operations on virtual machines through the `isolation.tools.diskWiper.disable` setting, preventing unauthorized data recovery attempts from within guest operating systems.
+
+VCF further contributes to IT Asset Management programs through built-in inventory, discovery, and integration capabilities that provide the technical foundation for asset tracking and governance. VCF Operations groups discovered objects logically, providing detailed inventory lists across compute, storage, and networking resources. The Service Discovery adapter automatically discovers applications, services, and their associated metrics running on managed infrastructure, with discovered applications exportable in CSV format for external asset tracking systems. For organizations using ServiceNow, VCF provides integration paths via the Management Pack for ServiceNow in VCF Operations to populate the ServiceNow CMDB, and VCF Automation integrates with ServiceNow for ITSM and CMDB synchronization through extensibility action scripts and a dedicated ServiceNow ITSM Plug-in. VCF Automation adds governance through projects that link users, catalog items, and IaaS resources, along with policies that govern provisioned resources such as VMs and Kubernetes clusters, and tags support governance within VCF Automation.
+
+Establishing comprehensive asset governance policies, defining ownership lifecycles, maintaining organizational accountability, implementing physical chain-of-custody procedures, verifying media sanitization, and tracking equipment through the entire disposal lifecycle are organizational processes and policy responsibilities that remain with the customer.",,,,,,,,,,,,,,,,,,,,,
+164.310(d)(2)(ii),"AST-09, DCH-09","Implementation specifications: 
+Media re-use (Required). Implement procedures for removal of electronic protected health information from electronic media before the media are made available for re-use.",Contributes,"VMware Cloud Foundation provides significant technical capabilities for the secure removal of electronic protected health information from electronic media prior to reuse. vSAN data-at-rest encryption supports cryptographic erasure, where the destruction of encryption keys renders the associated data unrecoverable without requiring a full disk wipe. vSAN also includes explicit disk wiping features, such as the ""Erase disks before use"" option during encryption configuration and the ""Wipe residual data"" feature, which securely cleans storage devices. Devices added to vSAN disk groups are automatically cleaned of residual data and partition information before they can be claimed.
+
+vSphere APIs facilitate cryptographic key lifecycle management, including operations for definitive key removal from host caches. ESX host decommissioning can leverage TPM 2.0 to clear encrypted configuration data, rendering stored configurations unrecoverable. VCF further directs administrators to securely delete decrypted backup files after restore operations for its management components, and the No Cryptography Administrator role helps prevent unauthorized changes to encryption settings during media lifecycle activities.
+
+While VCF offers robust technical mechanisms for data sanitization, the establishment and enforcement of comprehensive media reuse procedures, including physical chain-of-custody, media sanitization verification, equipment tracking, and dedicated media sanitization workflow tools, are organizational responsibilities. These aspects require the customer to define and implement enterprise asset management and data governance programs that extend beyond the platform's technical scope.",,,,,,,,,,,,,,,,,,,,,
+164.310(d)(2)(iii),"AST-02, AST-02.1, AST-02.9, AST-03, AST-03.1","Implementation specifications: 
+Accountability (Addressable). Maintain a record of the movements of hardware and electronic media and any person responsible therefore.",Contributes,"VMware Cloud Foundation (VCF) provides comprehensive asset inventory and configuration management capabilities for the virtual infrastructure and its underlying physical components. VCF maintains a detailed, real-time inventory of technology assets across compute, storage, and networking layers, with vCenter serving as the authoritative source for managed objects such as ESX hosts, clusters, virtual machines, datastores, and networking constructs. VCF Operations retrieves and logically groups these inventory details, tracking configuration items, their properties, and relationships, and capturing historical metrics to record how assets evolve. VCF Automation tracks provisioned resources, linking users to catalog items and IaaS resources, and providing role-appropriate visibility for audit and review of virtual asset provisioning. For enterprise-wide asset management, VCF integrates with external asset registries and CMDBs, such as ServiceNow, populating them with discovered resources and supporting CMDB reconciliation to maintain current configuration items. VMware vDefend further contributes by maintaining an inventory of network-visible workloads, organized into asset collections, which supports granular tracking of application-layer assets.
+
+While VCF and vDefend provide robust inventory and configuration management for virtual and underlying physical infrastructure, the platforms do not inherently track the physical movement of hardware or portable electronic media. The recording of physical movements for hardware assets (e.g., ESX hosts, storage arrays) and physical electronic media (e.g., backup tapes, USB drives), along with the assignment of human accountability for these physical movements, remains an organizational responsibility. Enterprise asset classification, business justification tracking, property accountability processes, and CMDB governance decisions, including which assets to track, how to classify configuration items, and how to maintain data quality for physical assets, are outside the scope of VCF and vDefend.",,,,,,,,,,,,,,,,,,,,,
+164.310(d)(2)(iv),BCD-11,"Implementation specifications: 
+Data backup and storage (Addressable). Create a retrievable, exact copy of electronic protected health information, when needed, before movement of equipment.",Contributes,"VMware Cloud Foundation (VCF) provides comprehensive data protection capabilities across its management and workload layers, enabling the creation of retrievable, exact copies of electronic protected health information (ePHI). This includes robust snapshot, replication, and backup mechanisms designed to meet stringent Recovery Time Objectives (RTOs) and Recovery Point Objectives (RPOs). For workload-level data, vSAN Data Protection facilitates snapshots that can be replicated and stored externally with automated scheduling and retention, while vSAN Express Storage Architecture (ESA) delivers high-performance, metadata-based snapshots for point-in-time recovery. VMware vStorage APIs for Data Protection (VADP) offer a standardized interface for seamless integration with third-party backup providers, allowing for comprehensive backup of virtual machine data, including ePHI. VMware vSphere Replication maintains continuous host-based replicas of protected virtual machines at a recovery site, supporting configurable RPO intervals and the creation of multiple point-in-time snapshots. VMware Kubernetes Service (VKS) further extends these capabilities to cluster management workloads and CSI volume snapshots. On-demand manual backups and snapshots are supported across the platform, providing flexibility for specific operational requirements. VMware Live Recovery (VLR) enhances these capabilities through vSAN Data Protection protection groups, enabling scheduled management of vSAN snapshots and supporting extensive recovery point retention. VMware vDefend contributes by providing backup and restore capabilities for its own control plane, protecting critical security policies and configurations.
+
+While the platform provides the technical mechanisms to create these exact, retrievable copies, the organization is responsible for establishing the specific policies and procedures that dictate *when* such backups are needed, particularly in the context of equipment movement. This includes defining the operational triggers, ensuring the appropriate data (ePHI) is identified for backup, and implementing the processes to initiate these backups or snapshots prior to any equipment relocation. The integrity and recoverability of the data are verified through recovery plan testing, confirming that replicated data is usable and RPO targets are met.",,,,,,,,,,,,,,,,,,,,,
+164.312(a)(1),"GOV-02, HRS-02, HRS-03, IAC-01, IAC-08, IAC-21",Standard: Access control. Implement technical policies and procedures for electronic information systems that maintain electronic protected health information to allow access only to those persons or software programs that have been granted access rights as specified in § 164.308(a)(4).,Parse Error,"VMware Cloud Foundation (VCF) establishes a robust, layered identity and access management architecture, leveraging VCF SSO for centralized authentication and supporting federation with enterprise identity providers such as Microsoft Entra ID, ADFS, and Okta, which enables multifactor authentication and automatic user synchronization.
+
+Granular role-based access control (RBAC) is enforced consistently across all VCF components, including vCenter, SDDC Manager, NSX Manager, VCF Operations, and VCF Automation. This RBAC model allows for the creation of custom roles with the minimum required privileges, ensuring least privilege access scoped by both function and inventory location.
+
+VMware Live Recovery (VLR) extends this capability by enforcing RBAC through purpose-built roles and supporting custom role creation, alongside dual-site permission checks for cross-site operations.
+
+VMware vDefend further enhances access control by implementing RBAC across its components, such as the Distributed Firewall, Security Services Platform, and Security Intelligence, ensuring that only authorized personnel can manage security policies. vDefend also provides identity-aware network enforcement through Identity Firewall, integrating with Active Directory to apply firewall policies based on authenticated user identity, and enforces least privilege at the network layer through microsegmentation and default-deny rule bases.
+
+Service-to-service communications within VCF components are secured using certificates.
+
+While the platform provides comprehensive technical mechanisms for enforcing access control, the organization is responsible for defining and implementing the specific technical policies and procedures that govern access rights. This includes establishing the roles, assigning users and software programs to those roles, managing the lifecycle of user accounts, and ensuring that access rights are granted and revoked in accordance with organizational security policies and regulatory requirements. The customer must also define the specific privileges associated with custom roles and regularly review access assignments to maintain a least privilege posture.",,,,,,,,,,,,,,,,,,,,,
+164.312(a)(2)(i),"IAC-02, IAC-09","Implementation specifications: 
+Unique user identification (Required). Assign a unique name and/or number for identifying and tracking user identity.",Contributes,"VMware Cloud Foundation provides a robust, centralized identity and access management framework through VCF SSO, which acts as the authoritative identity broker for all VCF components including vCenter, ESX, NSX, SDDC Manager, VCF Operations, and VCF Automation. All user and service authentication flows through VCF SSO, ensuring unique identification and tracking of user identities across the entire environment.
+
+VCF SSO supports federation with enterprise identity providers via SAML or OIDC, enabling organizations to leverage existing AAA infrastructure for user lifecycle management, including provisioning and deprovisioning, and to extend multifactor authentication capabilities. Authorization is enforced through role-based access control across all VCF components, mapping unique user identities to specific roles and permissions. Service-to-service authentication within VCF utilizes certificate-based Principal Identity users, each uniquely registered with VCF SSO as a solution user.
+
+VMware vDefend further contributes by supporting unique local user accounts (admin, audit) or directory-managed accounts for its management plane, ensuring distinct identification for access to its security functions.
+
+While VMware Cloud Foundation delivers the comprehensive technical capabilities for unique user identification and tracking, the organization remains responsible for establishing and enforcing identity governance policies, managing the integrated enterprise identity provider infrastructure, and defining the procedures for role assignment and user lifecycle management to fully operationalize this control.",,,,,,,,,,,,,,,,,,,,,
+164.312(a)(2)(ii),"IAC-15, IAC-15.2, IAC-15.9","Implementation specifications: 
+Emergency access procedure (Required). Establish (and implement as needed) procedures for obtaining necessary electronic protected health information during an emergency.",Contributes,"VMware Cloud Foundation provides robust technical mechanisms to facilitate emergency access to the infrastructure platform. NSX Manager includes non-deletable root and admin accounts, ensuring a guaranteed break-glass path for network management. ESX hosts offer Direct Console User Interface (DCUI) access via the root account, enabling emergency network configuration and password recovery at the hypervisor level. VCF Operations supports single-use temporary passphrases that expire after one use, providing a controlled and inherently time-limited method for emergency access. Administrator password resets within VCF Operations require root account credentials, establishing a clear chain of accountability for such events. All emergency access activity, including authentication events for admin and root accounts, is captured in component-level audit logs, providing a comprehensive audit trail. VCF Automation further supports the activation and deactivation of accounts, allowing emergency accounts to be maintained in a deactivated state until required and subsequently deactivated after use.
+
+While the platform delivers the essential technical capabilities and controls for secure emergency access, the establishment and implementation of the overarching organizational procedures for obtaining necessary electronic protected health information during an emergency remain the customer's responsibility. This includes defining the specific conditions that constitute an emergency, the authorization process for invoking emergency access, the roles and responsibilities of personnel involved, the documentation requirements for emergency events, and the post-event review and remediation processes.
+
+The identification and retrieval of specific electronic protected health information (ePHI) from applications and data stores running on the platform also fall outside the scope of the infrastructure's emergency access mechanisms.",,,,,,,,,,,,,,,,,,,,,
+164.312(a)(2)(iii),"CFG-02, IAC-25","Implementation specifications: 
+Automatic logoff (Addressable). Implement electronic procedures that terminate an electronic session after a predetermined time of inactivity.",Meets,"VMware Cloud Foundation implements robust electronic procedures for automatic session termination across its management interfaces.
+
+vCenter automatically terminates idle sessions after a default of 30 minutes, a setting that administrators can adjust to meet specific organizational policies. The vCenter SessionManager actively tracks session lifetimes and enforces these timeouts for both interactive UI sessions and API connections, ensuring that associated authentication tokens are invalidated upon termination.
+
+NSX Manager similarly supports configurable session timeouts and automatically logs out users after periods of inactivity, immediately destroying session identifiers to prevent reuse.
+
+VCF Automation enforces a 25-minute inactivity timeout on the Provider Management Portal, while VCF Operations for Networks provides configurable user session timeouts ranging from 15 minutes to 24 hours.
+
+Additionally, the platform offers API-level controls, such as explicit logout methods within the vSphere Web Services API and the `closeSession` method in the VCF Operations PowerShell plug-in, enabling programmatic session termination.
+
+Organizations are responsible for defining and configuring the specific predetermined inactivity timeout periods across VCF components to align with their internal security policies and compliance requirements.",,,,,,,,,,,,,,,,,,,,,
+164.312(a)(2)(iv),CRY-01,"Implementation specifications: 
+Encryption and decryption (Addressable). Implement a mechanism to encrypt and decrypt electronic protected health information.",Meets,"VMware Cloud Foundation provides a comprehensive and validated mechanism for encrypting and decrypting electronic protected health information across its entire stack. All VCF components leverage FIPS 140-3 validated cryptographic modules, including those within NSX, ensuring adherence to stringent security standards.
+
+Data-at-rest encryption is implemented through vSAN cluster-based encryption or VM Encryption, supporting both external KMIP 1.1-compatible Key Management Servers and the vSphere Native Key Provider. This includes a robust three-element domain of trust, key wrapping capabilities for efficient key management, and automatic key rotation.
+
+For data-in-transit, VCF defaults to TLS 1.3 for internal communications, with TLS 1.2 as a fallback, and encrypts all system management network communications. Encrypted vSphere vMotion secures VM migrations, and vSAN offers Data-in-Transit encryption options.
+
+Guest-level encryption is supported via virtual Trusted Platform Module (vTPM) 2.0, enabling in-guest encryption features like Windows BitLocker. ESX stores configuration data in encrypted form, leveraging TPM 2.0 for key protection.
+
+VMware Live Recovery extends these protections to disaster recovery workflows, mandating TLS 1.2 encryption for all replication traffic and preserving data-at-rest encryption for replicated virtual machines, utilizing shared or common key management infrastructure.
+
+VMware vDefend further contributes by securing its inter-component communications with TLS 1.2 and approved cipher suites, encrypting its stored data using AES 256-bit, and providing TLS Inspection capabilities to decrypt, inspect, and re-encrypt network traffic for enhanced threat detection.
+
+The platform fully implements the technical mechanisms required for encryption and decryption. The control's ""Addressable"" nature indicates that an organization determines the applicability of this control; however, if implemented, the VCF platform provides the complete technical solution.",,,,,,,,,,,,,,,,,,,,,
+164.312(b),"MON-01, MON-01.4, MON-01.8, MON-01.16, MON-03, MON-03.2, MON-16","Standard: Audit controls. Implement hardware, software, and/or procedural mechanisms that record and examine activity in information systems that contain or use electronic protected health information.",Contributes,"VMware Cloud Foundation (VCF) implements robust technical mechanisms for recording and examining activity across the infrastructure stack. VCF Operations provides enterprise-wide monitoring, centralized log collection and analysis through VCF Operations for Logs, and an integrated alert generation and response framework. It continuously monitors operational state, collects metrics, ingests logs from all VCF components, and offers dashboards, analytics, and anomaly detection capabilities. Detailed audit events capture user logins, configuration changes, and system interactions, including event type, timestamps, source, outcome, and user identity. VMware Live Recovery (VLR) extends these capabilities to disaster recovery operations, providing event logging, configurable alarms for replication events, and audit trails for DR-specific actions. VMware vDefend contributes network-level security monitoring, generating security event logs from Distributed Firewall, IDS/IPS, and Malware Prevention services, and offering real-time analysis of network traffic flows, suspicious traffic detection, and SIEM integration. These platforms collectively provide comprehensive technical instrumentation for recording and examining activity within information systems.
+
+While the platform provides extensive technical capabilities for recording and examining activity, the customer is responsible for defining and implementing the organizational processes and procedures for ongoing log review, incident escalation, and response. This includes establishing specific alert thresholds, defining incident management workflows, and determining how to prioritize monitoring based on asset criticality and data sensitivity. Furthermore, vDefend, while providing network-level behavioral analytics, does not encompass comprehensive user behavior analytics (UEBA) or user activity monitoring (UAM) across identity, endpoint, or application layers, nor does it correlate user activity across systems to detect account compromise. Organizations must implement dedicated UEBA/UAM tooling to fully address the examination of user behavior.",,,,,,,,,,,,,,,,,,,,,
+164.312(c)(1),"GOV-02, DCH-01, DCH-01.2","Standard: Integrity. Implement policies and procedures to protect electronic protected health information from improper alteration or destruction.
+",Contributes,"The platform provides comprehensive data integrity protection for electronic protected health information through layered encryption, robust data protection mechanisms, and granular access controls. Data at rest is secured via vSAN encryption and VM Encryption, both leveraging FIPS 140-3 validated cryptographic modules and integrating with external key management systems. Data in transit is protected by TLS across VCF components, vSAN data-in-transit encryption, and Encrypted vMotion, ensuring sensitive information remains encrypted during live migrations and inter-host communication.
+
+For resilience against destruction and rapid recovery from alteration, vSAN data protection offers virtual machine replication, and VMware Live Site Recovery extends this with orchestrated disaster recovery, configurable recovery point objectives, and retention rules across sites. VMware Kubernetes Service includes Velero-based data protection for backup and restore operations, providing visibility into backup and restore operations. Access to collected operational data is controlled through privilege-based access controls, restricting visibility based on user roles.
+
+VMware vDefend enhances data integrity by enforcing microsegmentation with the Distributed Firewall, restricting unauthorized network access to sensitive data stores, databases, and application tiers, thereby limiting the blast radius of a compromise and preventing lateral movement. Security Intelligence identifies risky unencrypted application protocols and highlights unusual communication patterns that may indicate data exfiltration or unauthorized alteration attempts. vDefend IDS/IPS inspects east-west network traffic for signatures and behaviors associated with data theft and exploitation, while Malware Prevention analyzes files traversing the network to detect malicious payloads targeting data integrity. These network security controls complement the platform's data-at-rest encryption, backup, replication, and access management capabilities by protecting the network paths and access patterns through which data is stored, replicated, and retrieved.
+
+The organization is responsible for defining and implementing the specific policies and procedures that govern data integrity, including data classification, encryption key management policies, backup and recovery strategies, access control matrices, and network segmentation rules. This includes establishing acceptable data loss thresholds, defining retention rules, and ensuring that all components are configured in accordance with organizational security policies to protect ePHI from improper alteration or destruction.",,,,,,,,,,,,,,,,,,,,,
+164.312(c)(2),"CFG-08, CFG-08.1, MON-01.7, MON-01.15, MON-16","Implementation specification: Mechanism to authenticate electronic protected health information (Addressable). Implement electronic mechanisms to corroborate that electronic protected health information has not been altered or destroyed in an unauthorized manner.
+
+",Contributes,"VMware Cloud Foundation provides a robust security posture through layered access controls, encryption, and platform integrity mechanisms. VCF SSO centralizes authentication with support for multi-factor authentication and identity federation. Role-based access control (RBAC) spans all VCF components, enabling granular permissions and restricting platform-level operations.
+
+Sensitive data can be stored in encrypted form, and vCenter provides fine-grained cryptographic operation privileges.
+
+VCF Operations continuously monitors vCenter and vSphere cluster settings for configuration drifts, notifying administrators of deviations from desired states. vSphere Lifecycle Manager performs compliance checks and remediation for ESX hosts, while Secure Boot and Trusted Platform Module (TPM) attestation detect unauthorized modifications to firmware and boot components.
+
+VCF also provides enhanced activity monitoring for privileged users through audit logging, privilege tracking, and anomaly detection, forwarding these logs to external SIEM platforms for correlation and forensic investigation.
+
+VMware Live Recovery extends these capabilities by providing role-based access control for disaster recovery operations and protecting sensitive data during replication through network encryption.
+
+VMware vDefend contributes to restricting access at the network layer through microsegmentation and firewall policy, identifying at-risk workloads, and generating audit logs for network-level access events and suspicious traffic patterns.
+
+While VMware Cloud Foundation offers comprehensive preventative controls and platform-level integrity verification, it does not include a native File Integrity Monitor (FIM) to watch for unauthorized changes to individual files on disk within guest operating systems or VCF management appliances. Organizations are responsible for deploying a dedicated FIM product alongside VCF to corroborate that electronic protected health information has not been altered or destroyed at the guest or application file level.",,,,,,,,,,,,,,,,,,,,,
+164.312(d),"HRS-01, HRS-04, IAC-28, IAC-28.2, IAC-28.3, TPM-01",Standard: Person or entity authentication. Implement procedures to verify that a person or entity seeking access to electronic protected health information is the one claimed.,Contributes,"VMware Cloud Foundation (VCF) implements robust technical procedures to verify the identity of persons or entities seeking access to electronic protected health information. All user authentication flows through VCF SSO, which validates identities against configured identity sources, ensuring proper certificate validation and trusted source verification before issuing session tokens or granting access.
+
+VCF supports federation with external identity providers using SAML through the VCF Identity Broker and OIDC via the vSphere Supervisor platform. This delegation allows VCF to consume identities verified by the organization's external identity management system, which can enforce multifactor authentication and credential validation as prerequisites for VCF access.
+
+Trust between VCF and these identity providers is rigorously established through certificate validation, requiring administrators to verify thumbprints or provide metadata for non-public CAs. The vSphere Supervisor platform further inspects upstream ID token claims, validating username claims to maintain a secure chain of trust from the identity provider's verification process to the VCF session. Account creation within VCF is restricted to System Administrators, and role mappings from federated identity providers require exact matches to prevent unauthorized privilege escalation.
+
+All authentication events are meticulously captured in VCF Operations audit reports, providing comprehensive traceability of identity validation actions for audit review.
+
+While VCF provides the secure framework for authentication and identity consumption, the formal identity proofing process, where an individual presents evidence of their identity to a registration authority, remains an organizational responsibility.
+
+This foundational identity verification, including the issuance of initial credentials and the definition of specific identity verification policies, is managed by the customer's HR and identity management teams through their external identity provider.
+
+VCF's role is to enforce that only users authenticated by these trusted and verified providers can access the platform.",,,,,,,,,,,,,,,,,,,,,
+164.312(e)(1),"CFG-02, CRY-03, NET-01",Standard: Transmission security. Implement technical security measures to guard against unauthorized access to electronic protected health information that is being transmitted over an electronic communications network.,Meets,"VMware Cloud Foundation provides robust cryptographic protection for data in transit across management, compute, and storage networks, leveraging FIPS 140-3 validated modules and standardized protocols. VCF management communications utilize TLS by default, with TLS 1.3 as the standard and TLS 1.2 for compatibility, supported by centralized certificate lifecycle management and FIPS mode enforcement through VCF Operations for Networks.
+
+vSAN data-in-transit encryption secures data moving between hosts, while encrypted vSphere vMotion protects VM data during live migrations, employing one-time keys for each session. VM Encryption provides comprehensive confidentiality for data both at rest and in transit to storage backends, as encryption occurs before data reaches the storage layer.
+
+VMware Live Site Recovery further extends this protection to disaster recovery operations, mandating TLS 1.2 encryption for all replication traffic between source ESX hosts and target sites, with mutual certificate-based authentication. VLR also ensures all communications with vCenter instances occur over configurable TLS connections and supports the replication of encrypted virtual machines.
+
+VMware vDefend complements these capabilities by providing TLS inspection for policy enforcement on encrypted traffic flows and identifying risky cleartext application protocols such as HTTP, Telnet, FTP, TFTP, and LDAP. This allows for the detection of unprotected traffic and at-risk workloads, enabling security teams to address gaps in encryption coverage.
+
+The platform's comprehensive suite of features directly implements the technical security measures required to guard against unauthorized access to electronic protected health information during transmission over electronic communication networks.",,,,,,,,,,,,,,,,,,,,,
+164.312(e)(2)(i),"CFG-02, CRY-04, NET-01","Implementation specifications: 
+Integrity controls (Addressable). Implement security measures to ensure that electronically transmitted electronic protected health information is not improperly modified without detection until disposed of.",Meets,"VMware Cloud Foundation (VCF) and VMware Live Recovery (VLR) implement robust security measures to ensure the integrity of electronically transmitted data.
+
+VCF protects data in transit across management, compute, and storage communication paths through cryptographic mechanisms. All VCF management communications utilize TLS, providing integrity verification via message authentication codes (MACs), with TLS 1.3 as the default protocol and TLS 1.2 for compatibility, both inherently including integrity protection. Cryptographic operations leverage FIPS 140-3 validated modules, and VCF Operations for Networks can enforce FIPS mode. vSAN data-in-transit (DIT) encryption provides integrity protection for storage traffic between hosts, preventing packet manipulation and replay attacks. VCF Operations monitors transmission integrity by tracking frames with bad checksums, which are dropped to prevent corrupted data propagation. Encrypted vSphere vMotion protects the integrity and authenticity of data during VM migrations using one-time keys to prevent replay attacks. NFS 4.1 supports Kerberos-based integrity verification (krb5i) and encryption (krb5p).
+
+VLR and vSphere Replication (VSR) apply cryptographic mechanisms to both management communications and replication data flows. VLR management communications use TLS with MACs and require SSL/TLS certificates. Replication traffic utilizes TLS 1.2 with mutual certificate-based authentication, and network encryption of replication data is mandatory for all new and existing replications from vSphere Replication 9.0.3, ensuring integrity protection by default. The encryption agent on the source ESX host encrypts data before transmission. NSX supports the Wrapped Encapsulating Security Payload (WESP) protocol for network traffic integrity and authentication.
+
+While VCF and VLR provide comprehensive cryptographic integrity controls, VMware vDefend contributes to transmission integrity monitoring through IDS/IPS signature rules that detect protocol anomalies and tampering indicators, and Security Intelligence and NDR sensors track TCP reassembly gaps. However, vDefend does not provide cryptographic integrity mechanisms for data in transit; these protections are inherent to the underlying transport protocols and applications. Customers are responsible for configuring and enabling optional integrity features, such as vSAN DIT encryption or specific encrypted vMotion settings, and ensuring that applications transmitting electronic protected health information (ePHI) leverage the platform's secure transport mechanisms and cryptographic capabilities.",,,,,,,,,,,,,,,,,,,,,
+164.312(e)(2)(ii),"CFG-02, CRY-01, OPS-03","Implementation specifications: 
+Encryption (Addressable). Implement a mechanism to encrypt electronic protected health information whenever deemed appropriate.",Contributes,"VMware Cloud Foundation implements extensive cryptographic protections using FIPS 140-3 validated modules, TLS 1.3/1.2 for internal communications, and default encryption for system management networks. It provides comprehensive data-at-rest encryption via vSAN cluster-based encryption or VM Encryption, supporting external KMIP 1.1-compatible Key Management Servers or vSphere Native Key Provider. Key management includes a three-element domain of trust, KEK/DEK wrapping, a three-tier key hierarchy with automatic key rotation, and fine-grained vCenter privileges to control cryptographic operations.
+
+Guest-level encryption is supported through vTPM 2.0 and Secure Boot. Data-in-transit encryption is provided for vSAN (DIT encryption), vSphere vMotion, Memory Tiering, and various storage protocols like iSCSI, Fibre Channel Gen 7, and NFS 4.1 (krb5p). ESX stores configuration data encrypted, leveraging TPM 2.0.
+
+VMware Live Recovery mandates TLS 1.2 encryption for all replication traffic between protected and recovery sites in vSphere Replication 9.0.3 and later, and supports the replication of encrypted virtual machines, requiring shared KMS or vSphere Native Key Provider for key management across sites.
+
+VMware vDefend secures inter-component communications using TLS 1.2 with approved cipher suites and robust certificate management, encrypts its stored data using AES 256-bit, and provides TLS Inspection capabilities via the Gateway Firewall to decrypt, inspect, and re-encrypt network traffic for enhanced security enforcement.
+
+The platform provides the necessary technical mechanisms for encryption. The customer is responsible for defining and implementing organizational policies and procedures to determine when encryption is deemed appropriate for electronic protected health information (ePHI). This includes identifying ePHI, configuring and enabling the available encryption features (such as VM Encryption, vSAN encryption, TLS inspection, and specific network encryption settings) based on their risk assessment, and managing the associated cryptographic keys and certificates in accordance with their security policies.",,,,,,,,,,,,,,,,,,,,,
+164.314(a)(1),CPL-01,"Standard: Business associate contracts or other arrangements. The contract or other arrangement required by § 164.308(b)(3) must meet the requirements of paragraph (a)(2)(i), (a)(2)(ii), or (a)(2)(iii) of this section, as applicable.",Not Applicable,"VCF delivers a robust, secure infrastructure foundation, encompassing capabilities for access control, data encryption, network segmentation, and comprehensive logging and auditing. These technical controls are fundamental to establishing a secure environment for sensitive workloads. The platform's operational scope is confined to the technical aspects of infrastructure management and data protection within its boundaries.
+
+The requirement for business associate contracts or other formal arrangements is a legal and administrative mandate. VCF does not possess the functionality to generate, manage, or enforce these contractual agreements, nor does it participate in the legal review or negotiation processes associated with such arrangements. The establishment, maintenance, and oversight of all business associate agreements remain solely within the purview of the customer's legal and compliance functions.",,,,,,,,,,,,,,,,,,,,,
+164.314(a)(2)(i)(B),TPM-05.2,"Implementation specifications (Required) 
+Report to the covered entity any security incident of which it becomes aware, including breaches of unsecured protected health information as required by § 164.410.",Not Applicable,"VCF provides a secure, hardened infrastructure foundation with extensive logging and monitoring capabilities across its compute, storage, and network layers. These foundational elements are critical for detecting potential security incidents and collecting relevant data for analysis.
+
+The platform does not, however, automate or directly perform the reporting of security incidents or breaches to a covered entity. The establishment of incident response procedures, the definition of reporting workflows, and the execution of timely communication regarding security incidents and breaches remain the sole responsibility of the customer. This encompasses the implementation of organizational policies, processes, and human accountability for incident awareness, assessment, and formal reporting as mandated by regulatory requirements.",,,,,,,,,,,,,,,,,,,,,
+164.314(a)(2)(i)(C),TPM-05.1,"Report to the covered entity any security incident of which it becomes aware, including breaches of unsecured protected health information as required by § 164.410.",Not Applicable,"VCF delivers a secure, enterprise-grade cloud infrastructure that generates comprehensive logs and audit trails across its compute, storage, and networking components. These logs are critical inputs for a customer's security operations center to detect and analyze security incidents occurring within the VCF environment.
+
+The establishment and execution of formal processes for reporting security incidents, including breaches of unsecured protected health information, to the covered entity are entirely the customer's responsibility. This encompasses defining incident response policies, establishing communication protocols, assigning personnel accountability, and implementing procedures for timely and accurate reporting as mandated by regulatory requirements.
+
+VCF does not provide capabilities for incident reporting to external entities.",,,,,,,,,,,,,,,,,,,,,
+164.314(a)(2)(ii),CPL-01,"Other arrangements. The covered entity is in compliance with paragraph (a)(1) of this section if it has another arrangement in place that meets the requirements of § 164.504(e)(3).
+
+",Not Applicable,"VCF delivers a highly secure and compliant infrastructure foundation, providing robust controls for data isolation, encryption, access management, and audit logging. The platform is designed to support customer workloads requiring stringent regulatory adherence by offering a hardened environment that meets various industry standards.
+
+This control specifically addresses the requirement for a covered entity to establish and maintain formal contractual arrangements, such as Business Associate Agreements, that meet the detailed stipulations of § 164.504(e)(3). These are legal and policy-driven agreements between the covered entity and its partners or other entities.
+
+VCF's technical capabilities are focused on securing the underlying infrastructure and data processing environment, not on the creation, management, or enforcement of a customer's external legal contracts or business arrangements. The platform does not provide functionality to define, store, or validate the content of these external agreements.",,,,,,,,,,,,,,,,,,,,,
+164.314(a)(2)(iii),"TPM-05, TPM-05.2",Business associate contracts with subcontractors. The requirements of paragraphs (a)(2)(i) and (a)(2)(ii) of this section apply to the contract or other arrangement between a business associate and a subcontractor required by § 164.308(b)(4) in the same manner as such requirements apply to contracts or other arrangements between a covered entity and business associate.,Not Applicable,"The control mandates the application of specific contractual requirements to agreements between business associates and their subcontractors, ensuring the flow-down of obligations consistent with those between covered entities and business associates.
+
+VMware Cloud Foundation (VCF) provides a robust, secure, and compliant infrastructure for compute, storage, and networking. The platform's technical capabilities are focused on the underlying infrastructure, including virtualization, software-defined networking, and storage management.
+
+VCF does not possess functionality to manage, enforce, or audit legal contracts, business associate agreements, or the specific terms and conditions governing third-party relationships and their subcontractors. The establishment, review, and enforcement of these contractual obligations remain entirely outside the scope of the platform's technical domain.",,,,,,,,,,,,,,,,,,,,,
+164.314(b)(1),TPM-05,"Standard: Requirements for group health plans. Except when the only electronic protected health information disclosed to a plan sponsor is disclosed pursuant to § 164.504(f)(1)(ii) or (iii), or as authorized under § 164.508, a group health plan must ensure that its plan documents provide that the plan sponsor will reasonably and appropriately safeguard electronic protected health information created, received, maintained, or transmitted to or by the plan sponsor on behalf of the group health plan.",Not Applicable,"The VCF platform provides comprehensive technical safeguards for electronic protected health information (ePHI) processed and stored within its managed environment. This includes robust encryption at rest and in transit, stringent access controls, continuous monitoring, and audit logging capabilities designed to protect the confidentiality, integrity, and availability of sensitive data.
+
+This control specifically mandates that a group health plan ensure its plan documents contain provisions requiring the plan sponsor to safeguard ePHI.
+
+The VCF platform does not manage or enforce contractual agreements, plan documents, or the policy requirements between a group health plan and its plan sponsor. The responsibility for establishing and verifying these contractual safeguarding obligations rests entirely with the customer, as it pertains to policy and legal documentation rather than direct technical implementation by the platform.",,,,,,,,,,,,,,,,,,,,,
+164.314(b)(2)(i),TPM-05,"Implementation specifications (Required). The plan documents of the group health plan must be amended to incorporate provisions to require the plan sponsor to-
+Implement administrative, physical, and technical safeguards that reasonably and appropriately protect the confidentiality, integrity, and availability of the electronic protected health information that it creates, receives, maintains, or transmits on behalf of the group health plan;",Not Applicable,"The VCF platform does not provide direct capabilities for amending group health plan documents or for the implementation of administrative, physical, and technical safeguards by a plan sponsor. The platform's technical controls are foundational, but they do not extend to the policy-level documentation or the comprehensive administrative and physical security measures required of a plan sponsor.
+
+The responsibility for establishing and amending plan documents, as well as defining and implementing administrative, physical, and technical safeguards to protect electronic protected health information, rests entirely with the plan sponsor.
+
+This includes ensuring such safeguards reasonably and appropriately protect confidentiality, integrity, and availability.",,,,,,,,,,,,,,,,,,,,,
+164.314(b)(2)(ii),TPM-05,"Implementation specifications (Required). The plan documents of the group health plan must be amended to incorporate provisions to require the plan sponsor to-
+Ensure that the adequate separation required by § 164.504(f)(2)(iii) is supported by reasonable and appropriate security measures;",Not Applicable,"The VCF platform does not provide capabilities for the creation, amendment, or enforcement of legal plan documents, nor does it directly manage the organizational separation policies between a group health plan and its sponsor.
+
+This control specifically mandates the amendment of plan documents to incorporate provisions requiring the plan sponsor to ensure adequate separation, as defined by § 164.504(f)(2)(iii), is supported by reasonable and appropriate security measures. This is fundamentally a policy, governance, and documentation requirement pertaining to the organizational structure and contractual agreements of a group health plan and its sponsor.
+
+The platform's technical security controls are designed to protect data and infrastructure within its operational scope, but it does not extend to the administrative and legal requirements of defining and documenting organizational separation within a healthcare entity's plan documents.",,,,,,,,,,,,,,,,,,,,,
+164.314(b)(2)(iii),TPM-05,"Implementation specifications (Required). The plan documents of the group health plan must be amended to incorporate provisions to require the plan sponsor to-
+Ensure that any agent to whom it provides this information agrees to implement reasonable and appropriate security measures to protect the information; and",Not Applicable,"The VCF platform delivers a highly secure and compliant infrastructure, providing robust technical controls for data protection, access management, network security, and operational logging within its managed boundaries. This foundational security ensures that customer data and applications hosted on the platform benefit from enterprise-grade safeguards.
+
+This control mandates the amendment of group health plan documents to incorporate provisions requiring the plan sponsor to ensure agents agree to implement security measures. This requirement pertains to the establishment and enforcement of contractual agreements and policy definitions between the customer (plan sponsor) and their third-party agents. The VCF platform does not manage customer legal documents, contractual relationships, or the oversight of third-party agent agreements. These activities remain the direct responsibility of the customer.",,,,,,,,,,,,,,,,,,,,,
+164.314(b)(2)(iv),TPM-05.1,"Implementation specifications (Required). The plan documents of the group health plan must be amended to incorporate provisions to require the plan sponsor to-
+Report to the group health plan any security incident of which it becomes aware.",Not Applicable,"VCF provides comprehensive security monitoring, logging, and incident detection capabilities across its compute, storage, and networking layers. This includes real-time threat detection, anomaly analysis, and centralized log management to identify potential security incidents within the virtualized infrastructure.
+
+The platform's technical capabilities are distinct from the requirement to amend group health plan documents to mandate incident reporting from a plan sponsor to the group health plan. This control pertains to organizational policy, contractual obligations, and governance processes that fall outside the scope of VCF's infrastructure and security management functions.",,,,,,,,,,,,,,,,,,,,,
+164.316(a),"GOV-01, GOV-02","Standard: Policies and procedures. Implement reasonable and appropriate policies and procedures to comply with the standards, implementation specifications, or other requirements of this subpart, taking into account those factors specified in § 164.306(b)(2)(i), (ii), (iii), and (iv). This standard is not to be construed to permit or excuse an action that violates any other standard, implementation specification, or other requirements of this subpart. A covered entity or business associate may change its policies and procedures at any time, provided that the changes are documented and are implemented in accordance with this subpart.",Not Applicable,"VCF is an infrastructure platform designed to provide a secure and compliant foundation for workloads. The platform's capabilities are focused on delivering a robust, validated, and consistent operational environment.
+
+VCF does not provide functionality for the creation, documentation, or management of organizational policies and procedures.
+
+The responsibility for defining, documenting, and implementing reasonable and appropriate policies and procedures, including their changes and adherence to regulatory requirements, rests entirely with the customer. This encompasses all aspects of policy lifecycle management, from initial drafting and approval to ongoing review, updates, and enforcement within the customer's operational context.",,,,,,,,,,,,,,,,,,,,,
+164.316(b)(1)(i),GOV-02,"Standard: Documentation. 
+Maintain the policies and procedures implemented to comply with this subpart in written (which may be electronic) form; and",Not Applicable,"VMware Cloud Foundation delivers a comprehensive, software-defined data center platform, providing the foundational infrastructure for compute, storage, networking, and management. It ensures a secure and resilient environment for hosting workloads, with capabilities for consistent operations, automated lifecycle management, and infrastructure-level compliance hardening.
+
+The requirement to maintain organizational policies and procedures in written or electronic form is a governance and documentation responsibility. This falls squarely within the customer's purview, necessitating the establishment and management of their own compliance policies, operational procedures, and documentation repositories. VCF does not provide functionality for the creation, storage, or management of these high-level organizational policy documents.",,,,,,,,,,,,,,,,,,,,,
+164.316(b)(1)(ii),"GOV-03, CPL-03","Standard: Documentation. 
+If an action, activity or assessment is required by this subpart to be documented, maintain a written (which may be electronic) record of the action, activity, or assessment.",Not Applicable,"VMware Cloud Foundation provides the foundational infrastructure for compute, storage, and networking resources. The platform generates comprehensive logs and audit trails for its own operational activities and configuration changes, which are essential for technical accountability and troubleshooting.
+
+This control addresses a general organizational requirement to maintain written or electronic records for any action, activity, or assessment mandated by a regulatory subpart. VMware Cloud Foundation does not directly implement or manage these broad documentation standards, nor does it function as a general record-keeping system for such organizational requirements. The responsibility for defining, creating, and maintaining these specific documentation artifacts, as well as the systems used for their management, rests entirely with the customer.",,,,,,,,,,,,,,,,,,,,,
+164.316(b)(2)(i),DCH-18,"Implementation specifications: 
+Time limit (Required). Retain the documentation required by paragraph (b)(1) of this section for 6 years from the date of its creation or the date when it last was in effect, whichever is later.",Contributes,"VMware Cloud Foundation (VCF) provides configurable data retention capabilities across its components. VCF Operations allows administrators to define historical data retention periods for various data categories, while VCF Operations for Networks offers granular controls for entity, configuration, metrics, and flow data. VMware Live Recovery (VLR) provides configurable retention policies for disaster recovery data, enabling administrators to specify the number of point-in-time recovery instances for replicated virtual machines. VMware vDefend offers configurable data retention for security telemetry, flow data, and event data, allowing organizations to manage the lifecycle of security-relevant information. VCF Operations also supports regular backups of custom and out-of-the-box content, providing a mechanism to preserve operational data for archival purposes.
+
+While these platforms offer robust technical controls for data retention, the responsibility for configuring and managing these settings to meet the specific 6-year retention period for all required documentation, including policies, procedures, and audit records, rests with the customer. This necessitates leveraging the platform's backup and archival capabilities, potentially integrating with external long-term storage solutions, to ensure documentation is preserved for the mandated duration, extending beyond the typical operational retention limits of individual components.",,,,,,,,,,,,,,,,,,,,,
+164.316(b)(2)(ii),"OPS-01.1, OPS-03","Implementation specifications: 
+Availability (Required). Make documentation available to those persons responsible for implementing the procedures to which the documentation pertains.",Not Applicable,"VMware Cloud Foundation provides a robust, secure, and highly available infrastructure for hosting customer workloads.
+
+The platform delivers its own comprehensive product documentation, including deployment guides, API references, and operational procedures, through standard documentation channels. However, the platform's technical scope does not extend to managing or providing mechanisms for the availability of customer-specific operational procedures or their associated documentation.
+
+Establishing and maintaining documentation for organizational procedures, defining the personnel responsible for implementing those procedures, and ensuring the availability of that documentation to the appropriate individuals are entirely customer responsibilities.",,,,,,,,,,,,,,,,,,,,,
+164.316(b)(2)(iii),"GOV-03, CPL-02","Implementation specifications: 
+Updates (Required). Review documentation periodically, and update as needed, in response to environmental or operational changes affecting the security of the electronic protected health information.",Not Applicable,"VCF delivers a highly automated and secure infrastructure platform, providing the foundational compute, storage, and networking layers for workloads. The platform ensures the integrity and currency of its own components through integrated lifecycle management, automating updates and patches for ESXi, vCenter, NSX, and vSAN. This automation maintains the operational security posture of the underlying infrastructure.
+
+This control specifically mandates the periodic review and update of organizational documentation, policies, and procedures in response to environmental or operational changes affecting the security of electronic protected health information. VCF does not provide capabilities for managing, storing, or automating the review and update processes for customer-specific security documentation or policies. The responsibility for defining, maintaining, and updating all organizational security documentation, as well as establishing processes to respond to broader environmental or operational changes, remains with the customer.",,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,

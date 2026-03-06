@@ -1,0 +1,1419 @@
+Control ID,SCF ID,Description,Control Coverage,Response
+DE,"THR-01, THR-02, THR-03, THR-07, THR-09, THR-10","[Withdrawn: Incorporated into PR.DS-01, DE.CM-09]
+
+[Withdrawn: Incorporated into ID.RA-09, DE.CM-09]
+
+Networks and network services are monitored to find potentially adverse events
+
+The physical environment is monitored to find potentially adverse events
+
+Personnel activity and technology usage are monitored to find potentially adverse events
+
+[Withdrawn: Incorporated into DE.CM-01, DE.CM-09]
+
+External service provider activities and services are monitored to find potentially adverse events
+
+[Withdrawn: Incorporated into DE.CM-01, DE.CM-03, DE.CM-06, DE.CM-09]
+
+[Withdrawn: Incorporated into ID.RA-01]
+
+Computing hardware and software, runtime environments, and their data are monitored to find potentially adverse events
+
+[Withdrawn: Incorporated into ID.AM-03]
+
+Potentially adverse events are analyzed to better understand associated activities
+
+Information is correlated from multiple sources
+
+The estimated impact and scope of adverse events are understood
+
+[Withdrawn: Moved to DE.AE-08]
+
+Information on adverse events is provided to authorized staff and tools
+
+Cyber threat intelligence and other contextual information are integrated into the analysis
+
+Incidents are declared when adverse events meet the defined incident criteria
+
+[Withdrawn: Incorporated into GV.RR-02]
+
+[Withdrawn: Incorporated into DE.AE]
+
+[Withdrawn: Incorporated into ID.IM-02]
+
+[Withdrawn: Incorporated into DE.AE-06]
+
+[Withdrawn: Incorporated into ID.IM, ID.IM-03]",Contributes ,"VMware vDefend provides advanced detection technologies, including IDS/IPS, Network Traffic Analysis (NTA), and Malware Prevention, which monitor network traffic and services for potentially adverse events. The vDefend Threat Intelligence Service delivers continuously updated feeds and signatures to detect known and emerging threats at the network layer. Its Network Detection and Response (NDR) capability uses machine learning to automatically correlate these signals into threat campaigns, helping security analysts understand the impact and scope of adverse events and support threat-hunting workflows.
+
+The control's full scope requires customer-defined policies for incident declaration criteria, monitoring of the physical environment, and personnel activity. vDefend provides network-layer visibility and correlation, but broader threat intelligence program management, endpoint telemetry, and organizational incident response processes remain the responsibility of the customer."
+DE.AE,"MON-01, MON-01.8, MON-01.12, MON-01.16, IRO-01, IRO-02, IRO-02.4","[Withdrawn: Incorporated into ID.AM-03]
+
+Potentially adverse events are analyzed to better understand associated activities
+
+Information is correlated from multiple sources
+
+The estimated impact and scope of adverse events are understood
+
+[Withdrawn: Moved to DE.AE-08]
+
+Information on adverse events is provided to authorized staff and tools
+
+Cyber threat intelligence and other contextual information are integrated into the analysis
+
+Incidents are declared when adverse events meet the defined incident criteria
+
+[Withdrawn: Incorporated into DE.AE]
+
+[Withdrawn: Incorporated into DE.AE-06]",Contributes ,"VMware Cloud Foundation (VCF), VMware vDefend, and VMware Live Recovery (VLR) provide an integrated technical framework for detecting, correlating, and analyzing potentially adverse events. VCF Operations and VCF Operations for Logs provide centralized monitoring and log analysis across the infrastructure stack, utilizing pre-built content packs to identify security-relevant events like authentication failures and unauthorized configuration changes. vDefend enhances this through Network Detection and Response (NDR), which uses machine learning to correlate network signals into threat campaigns and integrates cyber threat intelligence to detect emerging threats. VLR contributes by monitoring and alerting on replication and disaster recovery health. These tools support understanding the impact and scope of events through severity ranking, impact scores, and automated alerting via email, SNMP, and webhook integrations to authorized staff and incident management tools like ServiceNow.
+
+The platform provides the necessary instrumentation for analysis and correlation, but the full control requires the customer to define the specific incident criteria for declaring incidents and manage the organizational processes for ongoing log review, incident response documentation, and manual incident intake. Additionally, while the platform supports asset prioritization through business criticality tags, the initial assessment of asset sensitivity and data classification remains an organizational responsibility."
+DE.AE-02,"IRO-02, IRO-02.4",Potentially adverse events are analyzed to better understand associated activities,Contributes ,"VMware Cloud Foundation (VCF) provides technical analysis capabilities through VCF Operations, which correlates infrastructure events into faults and offers a dedicated Troubleshooting Incidents page for managing incidents and identifying root causes.
+
+Diagnostic Findings and Log Assist further support analysis by matching log patterns against known rules and automating log collection.
+
+VMware vDefend enhances this analysis through Security Intelligence and Network Detection and Response (NDR), which categorize and prioritize suspicious traffic events by impact type and campaign scores.
+
+Additionally, IDS/IPS and Malware Prevention alerts provide contextual data that informs the analysis of potentially adverse network activities.
+
+The broader incident management process, including the definition of analysis procedures, organizational governance, and final determination of event significance, remains the responsibility of the customer. The platform supports the technical analysis of events, but the human accountability and policy-driven categorization elements fall outside the technical scope of the software."
+DE.AE-03,"MON-02, MON-02.1, IRO-02, IRO-02.5",Information is correlated from multiple sources,Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide automated correlation of security-relevant information across multiple technical infrastructure sources. VCF Operations for Logs serves as a centralized platform that aggregates logs from vCenter, ESX hosts, NSX, and other VCF components, allowing for cross-source queries and dashboards. VCF Operations supports metric correlation analysis to identify behavioral patterns across different objects and layers. vDefend Network Detection and Response (NDR) correlates distributed firewall events and intrusion detections into unified threat campaigns to provide broader situational awareness. Both platforms support integration with external SIEM systems via syslog, enabling organizations to correlate VCF and vDefend telemetry with data from non-VMware sources.
+
+The control requirement to correlate information from multiple sources implies a broader scope than just technical infrastructure logs. While the platform automates technical correlation, customers remain responsible for defining the correlation logic, alert thresholds, and integrating non-technical or external data sources into a centralized security monitoring and incident response program. Additionally, vDefend correlates only network-layer security data; full enterprise-wide correlation requires a SIEM or similar platform."
+DE.AE-04,"GOV-16, IRO-02, IRO-02.4",The estimated impact and scope of adverse events are understood,Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide technical capabilities to assist in understanding the impact and scope of adverse events. VCF Operations correlates infrastructure events, ranks them by severity (Info to Immediate), and provides a Troubleshooting Incidents page for root cause analysis and tracking. VMware vDefend’s Security Intelligence and Network Detection and Response (NDR) categorize suspicious traffic by impact levels (Critical, High, Medium, Low) and assign impact scores to campaigns to prioritize triage. VCF also integrates with ServiceNow to flow these events into structured ITSM workflows for analysis.
+
+While the platform provides automated severity ranking and impact scoring, the final determination of ""understanding"" the impact and scope is a human-led process. The platform lacks the organizational context to fully assess business impact, and the broader incident management framework, including the definition of incident criteria and final impact assessment, remains the responsibility of the customer's organizational processes."
+DE.AE-06,"MON-01.8, MON-01.12, MON-02, MON-02.1, IRO-02, IRO-02.4, IRO-04, IRO-07, IRO-09, IRO-10","Information on adverse events is provided to authorized staff and tools
+
+[Withdrawn: Incorporated into DE.AE-06]",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide the technical infrastructure to collect, analyze, and distribute information on adverse events to authorized staff and tools. VCF Operations and VCF Operations for Logs centralize log data and metrics across the infrastructure stack, providing visibility into security-relevant events such as authentication failures and configuration changes. The platform supports automated alert generation with configurable impact levels and outbound notification via email, SNMP traps, webhooks, and Slack. vDefend adds specialized network security telemetry, using Security Intelligence and Network Detection and Response (NDR) to correlate events into campaigns and prioritize them by severity.
+
+Integration with external SIEM and ITSM platforms, like ServiceNow, ensures that event data can be incorporated into broader organizational workflows. VMware Live Recovery (VLR) further supports this by generating audit events and alarms for disaster recovery operations.
+
+The control requires that information be provided to authorized staff, which necessitates customer-defined policies for access control, incident declaration criteria, and escalation procedures. While the software facilitates the delivery of information, the organization is responsible for managing the personnel who receive it, defining the response timelines, and maintaining the overall incident management program."
+DE.AE-07,"THR-01, THR-03, THR-10",Cyber threat intelligence and other contextual information are integrated into the analysis,Contributes ,"VMware vDefend integrates cyber threat intelligence through its vDefend Threat Intelligence Service, which provides continuously updated feeds of IDS signatures and threat indicators. These are consumed by IDS/IPS and Advanced Threat Prevention components to detect network-layer threats. Additionally, NDR uses machine learning and analytics to correlate events into threat campaigns, while Security Intelligence visualizes event data with granular details.
+
+The control requires broader threat intelligence program management and dissemination across the organization, which necessitates complementary processes and tooling beyond vDefend's operational consumption and application. Management of non-network-layer threat intelligence and organizational dissemination remains a customer responsibility."
+DE.AE-08,"IRO-02, IRO-02.4","[Withdrawn: Moved to DE.AE-08]
+
+Incidents are declared when adverse events meet the defined incident criteria",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide technical mechanisms to automate the detection and prioritization of adverse events, which are essential prerequisites for incident declaration.
+
+VCF Operations correlates events and delivers them as faults ranked by severity, while vCenter Server alarms trigger notifications based on defined infrastructure thresholds. vDefend further enhances this through Security Intelligence, which categorizes suspicious traffic by impact type (Critical, High, Medium, Low) and assigns impact scores to campaigns via NDR. Additionally, VMware Live Recovery supports incident handling for disaster scenarios through structured recovery plans.
+
+While these tools provide the necessary telemetry and severity signaling to inform declaration, they rely on the customer to define the specific incident criteria and govern the formal declaration process.
+
+The platform provides the technical detection and classification capabilities, but the ""defined incident criteria"" and the actual act of declaring an incident remain organizational responsibilities.
+
+There is a gap in automated policy-driven declaration, as the process still requires human intervention or integration with external ITSM workflows like ServiceNow to formalize the transition from an adverse event to a declared incident."
+DE.CM,"MON-11.3, MON-16, IRO-03, THR-02","[Withdrawn: Incorporated into PR.DS-01, DE.CM-09]
+
+[Withdrawn: Incorporated into ID.RA-09, DE.CM-09]
+
+Networks and network services are monitored to find potentially adverse events
+
+The physical environment is monitored to find potentially adverse events
+
+Personnel activity and technology usage are monitored to find potentially adverse events
+
+[Withdrawn: Incorporated into DE.CM-01, DE.CM-09]
+
+External service provider activities and services are monitored to find potentially adverse events
+
+[Withdrawn: Incorporated into DE.CM-01, DE.CM-03, DE.CM-06, DE.CM-09]
+
+[Withdrawn: Incorporated into ID.RA-01]
+
+Computing hardware and software, runtime environments, and their data are monitored to find potentially adverse events",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide comprehensive technical monitoring across network services, computing hardware, and software environments. VCF Operations offers automated alerting, anomaly detection using dynamic thresholds, and extensive event auditing across categories such as access, network, and configuration. Configuration drift detection identifies unauthorized changes to the infrastructure. VCF Operations for Networks and vDefend provide deep network-layer visibility, including IDS/IPS, network traffic analysis (NTA), and malicious IP feeds to identify adverse events. vDefend’s NDR capability correlates security signals into threat campaigns to assist in impact analysis. These tools collectively satisfy the technical requirements for monitoring networks, hardware, and runtime environments.
+
+The platform does not provide technical monitoring for the physical environment or personnel activity (UAM/UEBA) at the identity or application layer. Customers are responsible for defining the specific policies, alert thresholds, and incident declaration criteria that drive these monitoring tools. Additionally, monitoring external service provider activities requires customer-configured integrations and organizational processes that fall outside the automated scope of the VCF infrastructure."
+DE.CM-01,"MON-01, MON-01.1, MON-01.3, MON-01.4, MON-01.8, MON-01.16","Networks and network services are monitored to find potentially adverse events
+
+[Withdrawn: Incorporated into DE.CM-01, DE.CM-09]
+
+[Withdrawn: Incorporated into DE.CM-01, DE.CM-03, DE.CM-06, DE.CM-09]",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide a comprehensive technical framework for monitoring networks and network services to detect adverse events. VCF Operations for Networks periodically verifies network intents and monitors SDDC entities, while NSX provides traffic analysis tools like traceflow, VPC Flow Logs, and stateful connection tracking. VMware vDefend extends these capabilities with Distributed and Gateway IDS/IPS for signature-based threat detection, and Network Traffic Analysis (NTA) which uses machine learning to baseline normal behavior and detect anomalies or port scans. Security Intelligence provides continuous visibility into network flows, alerting on unapproved or unauthorized traffic patterns. VCF Operations for Logs centralizes log collection from all components, enabling automated alerting based on specific log patterns or performance thresholds.
+
+The control requirement to monitor networks for potentially adverse events implies an ongoing operational process and the definition of what constitutes an ""adverse event"" for a specific organization. While the platform provides the necessary instrumentation (IDS/IPS, NTA, flow logs, and alerting), the customer is responsible for defining the specific alert thresholds, tuning detection sensitivity to reduce false positives, and maintaining the organizational incident response procedures required to act upon detected events. Monitoring of the physical environment and personnel activity mentioned in the reasoning is also a customer responsibility."
+DE.CM-02,"PES-01, PES-03, PES-03.3, PES-05",The physical environment is monitored to find potentially adverse events,Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+DE.CM-03,"MON-01, MON-01.16, MON-16, MON-16.1, MON-16.3, NET-18","Personnel activity and technology usage are monitored to find potentially adverse events
+
+[Withdrawn: Incorporated into DE.CM-01, DE.CM-03, DE.CM-06, DE.CM-09]",Contributes,"VMware Cloud Foundation (VCF) and vDefend provide comprehensive technical instrumentation for monitoring personnel activity and technology usage. VCF Operations provides centralized log analysis and user activity auditing, tracking logins, password changes, and administrative actions across vSphere and NSX. VCF Operations for Logs enables centralized log collection and alerting based on specific patterns. VMware vDefend enhances this with Security Intelligence and Network Detection and Response (NDR), providing network-level behavioral analytics, suspicious traffic detection, and lateral movement analysis mapped to the MITRE ATT&CK framework. These tools collectively detect unauthorized activities, connections, and potential insider threats through real-time alerting and anomaly detection.
+
+While the platforms provide the necessary monitoring tools and audit logging, the control implies significant organizational responsibility. Customers must define monitoring policies, establish incident declaration criteria, categorize personnel by risk level, and manage the overall insider threat program. Additionally, vDefend functions primarily at the network layer and does not provide full User and Entity Behavior Analytics (UEBA) at the identity or endpoint application layer, requiring customers to integrate these technical signals into a broader organizational security process."
+DE.CM-06,"MON-01, MON-01.16, MON-16.2, MON-16.4","External service provider activities and services are monitored to find potentially adverse events
+
+[Withdrawn: Incorporated into DE.CM-01, DE.CM-03, DE.CM-06, DE.CM-09]",Contributes ,"VMware Cloud Foundation (VCF) contributes to monitoring external service provider activities through comprehensive auditing and logging frameworks. VCF Operations tracks administrative actions, login/logout events, and configuration changes, providing detailed context for forensic analysis. VCF Operations for Logs centralizes these logs from vCenter, ESX hosts, and other components, allowing for real-time alerting based on specific log patterns or policy violations. For network-level monitoring, vDefend Security Intelligence maintains visibility into traffic flows and correlates suspicious events into threat campaigns using the MITRE ATT&CK framework. Additionally, VCF and VMware Live Recovery (VLR) automatically log all permission changes on privileged accounts, ensuring traceability of access modifications. While VCF treats all accounts (internal or third-party) under the same audit framework, it provides the instrumentation to monitor any entity with access to the platform.
+
+The primary gap is the organizational requirement to define third-party access policies, establish acceptable use boundaries, and conduct periodic reviews of external provider activity. The platform cannot natively distinguish between internal personnel and third-party service providers without customer-defined identity tagging or organizational context. Implementation of monitoring priorities based on asset criticality and the governance of third-party risk management remain the responsibility of the customer."
+DE.CM-09,"MON-01, MON-01.7, MON-01.16, END-01, END-04, END-06","[Withdrawn: Incorporated into PR.DS-01, DE.CM-09]
+
+[Withdrawn: Incorporated into ID.RA-09, DE.CM-09]
+
+[Withdrawn: Incorporated into DE.CM-01, DE.CM-09]
+
+[Withdrawn: Incorporated into DE.CM-01, DE.CM-03, DE.CM-06, DE.CM-09]
+
+Computing hardware and software, runtime environments, and their data are monitored to find potentially adverse events",Contributes ,"VMware Cloud Foundation (VCF) provides a comprehensive monitoring framework for infrastructure health, performance, and security. VCF Operations continuously monitors compute, storage, and networking resources, using customizable alert policies and log analysis to detect adverse events. vSphere contributes real-time alerting via alarms on performance metrics and events, while vDefend adds network-layer visibility through Security Intelligence and Malware Prevention, which detects both known and zero-day threats. VLR integrates into this ecosystem by providing health and replication status monitoring for disaster recovery. The combined platform enables prioritized monitoring through business criticality assignments and impact-level alerting.
+
+The platform provides the necessary monitoring instrumentation, but the customer is responsible for defining the operational policies, alert thresholds, and incident declaration criteria. Additionally, while VCF monitors infrastructure drift and platform integrity (TPM, Secure Boot), comprehensive guest-level file integrity monitoring (FIM) and endpoint-level eradication of malicious code require the deployment of third-party tools or separate security agents."
+GV,"GOV-01, GOV-05, PRM-01.1, RSK-01","The organizational mission is understood and informs cybersecurity risk management
+
+Internal and external stakeholders are understood, and their needs and expectations regarding cybersecurity risk management are understood and considered
+
+Legal, regulatory, and contractual requirements regarding cybersecurity - including privacy and civil liberties obligations - are understood and managed
+
+Critical objectives, capabilities, and services that external stakeholders depend on or expect from the organization are understood and communicated
+
+Outcomes, capabilities, and services that the organization depends on are understood and communicated
+
+Risk management objectives are established and agreed to by organizational stakeholders
+
+Risk appetite and risk tolerance statements are established, communicated, and maintained
+
+Cybersecurity risk management activities and outcomes are included in enterprise risk management processes
+
+Strategic direction that describes appropriate risk response options is established and communicated
+
+Lines of communication across the organization are established for cybersecurity risks, including risks from suppliers and other third parties
+
+A standardized method for calculating, documenting, categorizing, and prioritizing cybersecurity risks is established and communicated
+
+Strategic opportunities (i.e., positive risks) are characterized and are included in organizational cybersecurity risk discussions
+
+Organizational leadership is responsible and accountable for cybersecurity risk and fosters a culture that is risk-aware, ethical, and continually improving
+
+Roles, responsibilities, and authorities related to cybersecurity risk management are established, communicated, understood, and enforced
+
+Adequate resources are allocated commensurate with the cybersecurity risk strategy, roles, responsibilities, and policies
+
+Cybersecurity is included in human resources practices
+
+Policy for managing cybersecurity risks is established based on organizational context, cybersecurity strategy, and priorities and is communicated and enforced
+
+Policy for managing cybersecurity risks is reviewed, updated, communicated, and enforced to reflect changes in requirements, threats, technology, and organizational mission
+
+Cybersecurity risk management strategy outcomes are reviewed to inform and adjust strategy and direction
+
+The cybersecurity risk management strategy is reviewed and adjusted to ensure coverage of organizational requirements and risks
+
+Organizational cybersecurity risk management performance is evaluated and reviewed for adjustments needed
+
+A cybersecurity supply chain risk management program, strategy, objectives, policies, and processes are established and agreed to by organizational stakeholders
+
+Cybersecurity roles and responsibilities for suppliers, customers, and partners are established, communicated, and coordinated internally and externally
+
+Cybersecurity supply chain risk management is integrated into cybersecurity and enterprise risk management, risk assessment, and improvement processes
+
+Suppliers are known and prioritized by criticality
+
+Requirements to address cybersecurity risks in supply chains are established, prioritized, and integrated into contracts and other types of agreements with suppliers and other relevant third parties
+
+Planning and due diligence are performed to reduce risks before entering into formal supplier or other third-party relationships
+
+The risks posed by a supplier, their products and services, and other third parties are understood, recorded, prioritized, assessed, responded to, and monitored over the course of the relationship
+
+Relevant suppliers and other third parties are included in incident planning, response, and recovery activities
+
+Supply chain security practices are integrated into cybersecurity and enterprise risk management programs, and their performance is monitored throughout the technology product and service life cycle
+
+Cybersecurity supply chain risk management plans include provisions for activities that occur after the conclusion of a partnership or service agreement
+
+[Withdrawn: Incorporated into GV.RR-02, GV.SC-02]
+
+[Withdrawn: Incorporated into GV.OC-05]
+
+[Withdrawn: Incorporated into GV.OC-01]
+
+[Withdrawn: Incorporated into GV.OC-04, GV.OC-05]
+
+[Withdrawn: Incorporated into GV.OC-04]
+
+[Withdrawn: Incorporated into GV.PO, GV.PO-01, GV.PO-02]
+
+[Withdrawn: Incorporated into GV.OC-02, GV.RR, GV.RR-02]
+
+[Withdrawn: Moved to GV.OC-03]
+
+[Withdrawn: Moved to GV.RM-04]
+
+[Withdrawn: Incorporated into GV.RM-01, GV.RM-06, GV.RR-03]
+
+[Withdrawn: Incorporated into GV.RM-02, GV.RM-04]
+
+[Withdrawn: Moved into GV.RM-02]
+
+[Withdrawn: Incorporated into GV.RM-05, GV.SC-01, GV.SC-06, GV.SC-09, GV.SC-10]
+
+[Withdrawn: Incorporated into GV.OC-02, GV.SC-03, GV.SC-04, GV.SC-07, ID.RA-10]
+
+[Withdrawn: Moved to GV.SC-05]
+
+[Withdrawn: Incorporated into GV.SC-07, ID.RA-10]
+
+[Withdrawn: Incorporated into GV.SC-08, ID.IM-02]
+
+[Withdrawn: Moved to GV.RR-04]
+
+[Withdrawn: Incorporated into GV.RR-02]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.OC,"GOV-08, AST-01.1, AST-01.2, CPL-01, TPM-05.4","The organizational mission is understood and informs cybersecurity risk management
+
+Internal and external stakeholders are understood, and their needs and expectations regarding cybersecurity risk management are understood and considered
+
+Legal, regulatory, and contractual requirements regarding cybersecurity - including privacy and civil liberties obligations - are understood and managed
+
+Critical objectives, capabilities, and services that external stakeholders depend on or expect from the organization are understood and communicated
+
+Outcomes, capabilities, and services that the organization depends on are understood and communicated
+
+[Withdrawn: Incorporated into GV.OC-05]
+
+[Withdrawn: Incorporated into GV.OC-01]
+
+[Withdrawn: Incorporated into GV.OC-04, GV.OC-05]
+
+[Withdrawn: Incorporated into GV.OC-04]
+
+[Withdrawn: Incorporated into GV.OC-02, GV.RR, GV.RR-02]
+
+[Withdrawn: Moved to GV.OC-03]
+
+[Withdrawn: Incorporated into GV.OC-02, GV.SC-03, GV.SC-04, GV.SC-07, ID.RA-10]",Contributes ,"VMware vDefend's Security Services Platform provides network-layer asset inventory by organizing assets into hierarchies and classifying them as infrastructure or applications. Security Intelligence further aids in identifying service dependencies through traffic flow analysis and visualization. These technical capabilities contribute to understanding critical objectives and services by mapping dependencies and interdependencies at the network layer.
+
+The control primarily focuses on organizational governance, stakeholder management, and legal understanding, which are human-driven processes. vDefend provides technical visibility but does not manage the broader mission, stakeholder needs, or regulatory obligations, which remain the responsibility of the organization. Additionally, it does not replace a full enterprise asset management system."
+GV.OC-01,"GOV-08, RSK-01.1, TDA-06.2","The organizational mission is understood and informs cybersecurity risk management
+
+[Withdrawn: Incorporated into GV.OC-01]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.OC-02,"AST-01.2, TPM-05, TPM-05.4","Internal and external stakeholders are understood, and their needs and expectations regarding cybersecurity risk management are understood and considered
+
+[Withdrawn: Incorporated into GV.OC-02, GV.RR, GV.RR-02]
+
+[Withdrawn: Incorporated into GV.OC-02, GV.SC-03, GV.SC-04, GV.SC-07, ID.RA-10]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.OC-03,"CPL-01, CPL-02, PRI-01, TPM-05, TPM-05.2","Legal, regulatory, and contractual requirements regarding cybersecurity - including privacy and civil liberties obligations - are understood and managed
+
+[Withdrawn: Moved to GV.OC-03]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.OC-04,"GOV-08, BCD-02, PRM-01.1, TPM-02","Critical objectives, capabilities, and services that external stakeholders depend on or expect from the organization are understood and communicated
+
+[Withdrawn: Incorporated into GV.OC-04, GV.OC-05]
+
+[Withdrawn: Incorporated into GV.OC-04]",Contributes ,"VMware Cloud Foundation, VMware Live Recovery, and VMware vDefend provide technical capabilities for identifying, classifying, and documenting critical technology assets and their dependencies. VCF Operations enables grouping assets into Business Applications tagged by criticality and mission impact, while VCF Automation models service relationships through blueprints. VMware Live Recovery requires the explicit declaration of critical assets via protection groups and inventory mappings, and its Configuration Import/Export Tool provides a structured record of these configurations. VMware vDefend identifies and classifies mission-critical applications and maps infrastructure to operational contexts through Security Intelligence Asset Collections. Together, these tools provide the visibility and documentation necessary for an organization to understand the technology services that stakeholders depend on.
+
+The platform provides the inventory and classification tools, but the control requires the organization to understand and communicate the objectives and expectations of external stakeholders. This involves human accountability, policy definition, and business-level communication processes that occur outside of the technical environment. Additionally, while the tools document the technology assets supporting these services, the initial determination of stakeholder needs and the resulting organizational objectives remains a customer responsibility."
+GV.OC-05,"BCD-02, TDA-04.2, TPM-02","Outcomes, capabilities, and services that the organization depends on are understood and communicated
+
+[Withdrawn: Incorporated into GV.OC-05]
+
+[Withdrawn: Incorporated into GV.OC-04, GV.OC-05]",Contributes ,"VMware Cloud Foundation (VCF) provides a suite of tools to identify and document critical assets, including vCenter for real-time inventory and topology views, and VCF Operations for defining business applications with criticality metadata. VCF Operations Service Discovery and VCF Automation's project-based tagging further support mapping infrastructure to business outcomes.
+
+VMware Live Recovery (VLR) facilitates the identification of critical assets through protection groups and inventory mappings, while VMware vDefend adds security-focused asset collections and flow-based discovery. These integrated capabilities provide the technical visibility necessary to understand and communicate the outcomes, capabilities, and services the organization depends on.
+
+The control requires that these dependencies are understood and communicated as part of an organizational risk management process. While the platform provides extensive inventory, discovery, and documentation tools, the customer is responsible for defining the specific business outcomes, declaring which assets are critical, and establishing the communication workflows across stakeholders to satisfy the governance requirements."
+GV.OV,"GOV-01.1, GOV-01.2, GOV-03, GOV-05","Cybersecurity risk management strategy outcomes are reviewed to inform and adjust strategy and direction
+
+The cybersecurity risk management strategy is reviewed and adjusted to ensure coverage of organizational requirements and risks
+
+Organizational cybersecurity risk management performance is evaluated and reviewed for adjustments needed",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.OV-01,"GOV-01.1, GOV-01.2, GOV-03, GOV-05, GOV-08, PRM-01.1",Cybersecurity risk management strategy outcomes are reviewed to inform and adjust strategy and direction,Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.OV-02,"GOV-01.1, GOV-03, RSK-01",The cybersecurity risk management strategy is reviewed and adjusted to ensure coverage of organizational requirements and risks,Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.OV-03,"GOV-01.1, GOV-01.2, GOV-05, RSK-01",Organizational cybersecurity risk management performance is evaluated and reviewed for adjustments needed,Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.PO,"GOV-02, HRS-05.7, HRS-07","Policy for managing cybersecurity risks is established based on organizational context, cybersecurity strategy, and priorities and is communicated and enforced
+
+Policy for managing cybersecurity risks is reviewed, updated, communicated, and enforced to reflect changes in requirements, threats, technology, and organizational mission
+
+[Withdrawn: Incorporated into GV.PO, GV.PO-01, GV.PO-02]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.PO-01,"GOV-02, HRS-05.7, HRS-07","Policy for managing cybersecurity risks is established based on organizational context, cybersecurity strategy, and priorities and is communicated and enforced
+
+[Withdrawn: Incorporated into GV.PO, GV.PO-01, GV.PO-02]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.PO-02,"GOV-03, HRS-05.7, HRS-07","Policy for managing cybersecurity risks is reviewed, updated, communicated, and enforced to reflect changes in requirements, threats, technology, and organizational mission
+
+[Withdrawn: Incorporated into GV.PO, GV.PO-01, GV.PO-02]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.RM,"GOV-04, PRM-01, PRM-01.1, RSK-01, RSK-01.1, RSK-01.3, RSK-01.5","Risk management objectives are established and agreed to by organizational stakeholders
+
+Risk appetite and risk tolerance statements are established, communicated, and maintained
+
+Cybersecurity risk management activities and outcomes are included in enterprise risk management processes
+
+Strategic direction that describes appropriate risk response options is established and communicated
+
+Lines of communication across the organization are established for cybersecurity risks, including risks from suppliers and other third parties
+
+A standardized method for calculating, documenting, categorizing, and prioritizing cybersecurity risks is established and communicated
+
+Strategic opportunities (i.e., positive risks) are characterized and are included in organizational cybersecurity risk discussions
+
+[Withdrawn: Moved to GV.RM-04]
+
+[Withdrawn: Incorporated into GV.RM-01, GV.RM-06, GV.RR-03]
+
+[Withdrawn: Incorporated into GV.RM-02, GV.RM-04]
+
+[Withdrawn: Moved into GV.RM-02]
+
+[Withdrawn: Incorporated into GV.RM-05, GV.SC-01, GV.SC-06, GV.SC-09, GV.SC-10]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.RM-01,"GOV-01, GOV-01.1, GOV-05.2, RSK-01","Risk management objectives are established and agreed to by organizational stakeholders
+
+[Withdrawn: Incorporated into GV.RM-01, GV.RM-06, GV.RR-03]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.RM-02,"RSK-01.3, RSK-01.5","Risk appetite and risk tolerance statements are established, communicated, and maintained
+
+[Withdrawn: Incorporated into GV.RM-02, GV.RM-04]
+
+[Withdrawn: Moved into GV.RM-02]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.RM-03,"GOV-01, GOV-01.1, RSK-01",Cybersecurity risk management activities and outcomes are included in enterprise risk management processes,Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.RM-04,"RSK-01, RSK-01.1, RSK-06, RSK-06.1, RSK-06.2","Strategic direction that describes appropriate risk response options is established and communicated
+
+[Withdrawn: Moved to GV.RM-04]
+
+[Withdrawn: Incorporated into GV.RM-02, GV.RM-04]",Contributes ,"VMware vDefend supports risk response options by providing the technical infrastructure to implement compensating countermeasures at the network layer. Features such as Distributed Firewall microsegmentation, IDS/IPS, malware prevention, and TLS inspection provide concrete options for mitigating identified risks. Additionally, Intelligent Assist guides security analysts by recommending remediation policies and providing context-driven explanations of attack chains, which directly informs and facilitates the selection of appropriate technical response actions.
+
+The control requires the establishment and communication of a high-level strategic direction for risk response, which is a governance and policy-making function performed by the customer. While vDefend provides the tools to execute and communicate technical response options, the formal definition of the risk management strategy and the administrative oversight required to approve and document these options remain the responsibility of the customer."
+GV.RM-05,"GOV-04, GOV-04.1, HRS-03, TPM-05.4","Lines of communication across the organization are established for cybersecurity risks, including risks from suppliers and other third parties
+
+[Withdrawn: Incorporated into GV.RM-05, GV.SC-01, GV.SC-06, GV.SC-09, GV.SC-10]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.RM-06,"RSK-01, RSK-01.1, RSK-04, RSK-04.1","A standardized method for calculating, documenting, categorizing, and prioritizing cybersecurity risks is established and communicated
+
+[Withdrawn: Incorporated into GV.RM-01, GV.RM-06, GV.RR-03]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.RM-07,RSK-01.1,"Strategic opportunities (i.e., positive risks) are characterized and are included in organizational cybersecurity risk discussions",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.RR,"HRS-03, TPM-05.4","Organizational leadership is responsible and accountable for cybersecurity risk and fosters a culture that is risk-aware, ethical, and continually improving
+
+Roles, responsibilities, and authorities related to cybersecurity risk management are established, communicated, understood, and enforced
+
+Adequate resources are allocated commensurate with the cybersecurity risk strategy, roles, responsibilities, and policies
+
+Cybersecurity is included in human resources practices
+
+[Withdrawn: Incorporated into GV.RR-02, GV.SC-02]
+
+[Withdrawn: Incorporated into GV.OC-02, GV.RR, GV.RR-02]
+
+[Withdrawn: Incorporated into GV.RM-01, GV.RM-06, GV.RR-03]
+
+[Withdrawn: Moved to GV.RR-04]
+
+[Withdrawn: Incorporated into GV.RR-02]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.RR-01,"GOV-01, GOV-01.1, GOV-04, GOV-04.1, RSK-01, RSK-01.3, RSK-01.4, RSK-01.5, RSK-12","Organizational leadership is responsible and accountable for cybersecurity risk and fosters a culture that is risk-aware, ethical, and continually improving",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.RR-02,"GOV-04, HRS-02, HRS-03, TPM-05.4","Roles, responsibilities, and authorities related to cybersecurity risk management are established, communicated, understood, and enforced
+
+[Withdrawn: Incorporated into GV.RR-02, GV.SC-02]
+
+[Withdrawn: Incorporated into GV.OC-02, GV.RR, GV.RR-02]
+
+[Withdrawn: Incorporated into GV.RR-02]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.RR-03,"PRM-01, PRM-02, PRM-03","Adequate resources are allocated commensurate with the cybersecurity risk strategy, roles, responsibilities, and policies
+
+[Withdrawn: Incorporated into GV.RM-01, GV.RM-06, GV.RR-03]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.RR-04,"HRS-01, HRS-03.1","Cybersecurity is included in human resources practices
+
+[Withdrawn: Moved to GV.RR-04]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.SC,"GOV-01, GOV-01.1, GOV-01.2, GOV-05, RSK-01, RSK-09, RSK-09.1, TPM-03","A cybersecurity supply chain risk management program, strategy, objectives, policies, and processes are established and agreed to by organizational stakeholders
+
+Cybersecurity roles and responsibilities for suppliers, customers, and partners are established, communicated, and coordinated internally and externally
+
+Cybersecurity supply chain risk management is integrated into cybersecurity and enterprise risk management, risk assessment, and improvement processes
+
+Suppliers are known and prioritized by criticality
+
+Requirements to address cybersecurity risks in supply chains are established, prioritized, and integrated into contracts and other types of agreements with suppliers and other relevant third parties
+
+Planning and due diligence are performed to reduce risks before entering into formal supplier or other third-party relationships
+
+The risks posed by a supplier, their products and services, and other third parties are understood, recorded, prioritized, assessed, responded to, and monitored over the course of the relationship
+
+Relevant suppliers and other third parties are included in incident planning, response, and recovery activities
+
+Supply chain security practices are integrated into cybersecurity and enterprise risk management programs, and their performance is monitored throughout the technology product and service life cycle
+
+Cybersecurity supply chain risk management plans include provisions for activities that occur after the conclusion of a partnership or service agreement
+
+[Withdrawn: Incorporated into GV.RR-02, GV.SC-02]
+
+[Withdrawn: Incorporated into GV.RM-05, GV.SC-01, GV.SC-06, GV.SC-09, GV.SC-10]
+
+[Withdrawn: Incorporated into GV.OC-02, GV.SC-03, GV.SC-04, GV.SC-07, ID.RA-10]
+
+[Withdrawn: Moved to GV.SC-05]
+
+[Withdrawn: Incorporated into GV.SC-07, ID.RA-10]
+
+[Withdrawn: Incorporated into GV.SC-08, ID.IM-02]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.SC-01,"GOV-01, GOV-01.1, GOV-02, RSK-01, RSK-09","A cybersecurity supply chain risk management program, strategy, objectives, policies, and processes are established and agreed to by organizational stakeholders
+
+[Withdrawn: Incorporated into GV.RM-05, GV.SC-01, GV.SC-06, GV.SC-09, GV.SC-10]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.SC-02,"TPM-05, TPM-05.2, TPM-05.4","Cybersecurity roles and responsibilities for suppliers, customers, and partners are established, communicated, and coordinated internally and externally
+
+[Withdrawn: Incorporated into GV.RR-02, GV.SC-02]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.SC-03,"GOV-01, GOV-01.1, GOV-02, GOV-08, GOV-09, RSK-01, RSK-09","Cybersecurity supply chain risk management is integrated into cybersecurity and enterprise risk management, risk assessment, and improvement processes
+
+[Withdrawn: Incorporated into GV.OC-02, GV.SC-03, GV.SC-04, GV.SC-07, ID.RA-10]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+GV.SC-04,"AST-01, AST-01.1, TPM-01, TPM-01.1, TPM-02","Suppliers are known and prioritized by criticality
+
+[Withdrawn: Incorporated into GV.OC-02, GV.SC-03, GV.SC-04, GV.SC-07, ID.RA-10]",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide technical instrumentation for asset discovery, inventory, and dependency mapping, which are fundamental to identifying the technical services provided by suppliers. VCF Operations and VCF Automation integrate with external CMDBs like ServiceNow to populate asset data and maintain configuration item accuracy. vDefend’s Security Services Platform classifies infrastructure and application assets by criticality and visualizes network-layer interdependencies, assisting in the prioritization of technical assets based on their business function. These tools provide the necessary visibility into the technical ecosystem to support a broader supplier risk management program.
+
+The control requires knowing and prioritizing suppliers by criticality, which is a supply chain and organizational governance process. While VCF and vDefend provide technical inventory and dependency data, they do not manage a formal list of third-party suppliers, contractual obligations, or the organizational policies required to prioritize those suppliers based on business risk. The establishment of a supplier management program and the assignment of human accountability for supplier criticality remain the responsibility of the customer."
+GV.SC-05,"CPL-01, CPL-01.2, IAO-03.2, PRI-07.1, RSK-01, RSK-09, TPM-05, TPM-05.2","Requirements to address cybersecurity risks in supply chains are established, prioritized, and integrated into contracts and other types of agreements with suppliers and other relevant third parties
+
+[Withdrawn: Moved to GV.SC-05]",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide technical mechanisms to protect sensitive data that may be subject to contractual supply chain requirements. VCF offers comprehensive encryption for data at rest through vSphere and vSAN, including virtual TPM support, and ensures data in transit is protected via TLS encryption for management and API communications. Additionally, VCF Operations and Automation provide features to identify, encrypt, and restrict access to sensitive data within workflows. VMware vDefend supports these requirements by enabling micro-segmentation through the Distributed Firewall and Gateway Firewall, enforcing least-privilege network access to workloads processing contract-related data.
+
+The control primarily focuses on the organizational and legal processes of establishing, prioritizing, and integrating cybersecurity requirements into third-party contracts and agreements. While the platforms provide the technical infrastructure to enforce data protection standards, the creation of supply chain risk management policies, the definition of contractual language, and the legal oversight of supplier agreements are administrative responsibilities that fall outside the technical scope of the provided solutions."
+GV.SC-06,"TPM-01, TPM-02, TPM-03, TPM-03.2, TPM-03.3, TPM-04, TPM-04.1, TPM-04.3, TPM-04.4, TPM-05, TPM-05.2, TPM-05.3, TPM-05.4, TPM-05.5, TPM-05.6, TPM-05.7, TPM-06, TPM-09","Planning and due diligence are performed to reduce risks before entering into formal supplier or other third-party relationships
+
+[Withdrawn: Incorporated into GV.RM-05, GV.SC-01, GV.SC-06, GV.SC-09, GV.SC-10]",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide technical mechanisms that support the reduction of third-party risk through granular access control and network isolation. VCF integrates with federated identity providers and enforces role-based access control (RBAC) to restrict third-party access to specific infrastructure boundaries. VCF Automation provides tenant isolation via separate quotas and network segments, while VCF Operations monitors resource usage and service discovery to identify unauthorized activities. vDefend complements these capabilities by enforcing microsegmentation through the Distributed Firewall, which constrains the network reach of third parties even if they possess valid credentials. Additionally, vDefend IDS/IPS and Security Intelligence provide threat detection and visibility into insecure protocols used by third-party workloads, helping to contain potential lateral movement from compromised components.
+
+The control requires planning and due diligence processes prior to entering into formal relationships, which are organizational governance and business procedures. While VCF and vDefend provide the technical infrastructure to enforce security boundaries and monitor third-party activity once established, they do not perform the initial risk assessment, financial due diligence, or legal reviews required for supplier selection and onboarding. Customer-led administrative processes are necessary to fulfill the pre-relationship planning and due diligence requirements."
+GV.SC-07,"TPM-01, TPM-01.1, TPM-02, TPM-03, TPM-03.2, TPM-03.3, TPM-04, TPM-04.1, TPM-08, TPM-09","The risks posed by a supplier, their products and services, and other third parties are understood, recorded, prioritized, assessed, responded to, and monitored over the course of the relationship
+
+[Withdrawn: Incorporated into GV.OC-02, GV.SC-03, GV.SC-04, GV.SC-07, ID.RA-10]
+
+[Withdrawn: Incorporated into GV.SC-07, ID.RA-10]",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide a technical framework to identify, monitor, and mitigate risks from third parties within the infrastructure. VCF Operations provides visibility into third-party activity by monitoring resource usage and policy compliance, while Service Discovery identifies active services and listening ports to detect unauthorized third-party introductions. vDefend enforces network security boundaries through Distributed Firewall microsegmentation and Gateway Firewall filtering, restricting third-party access to specific application tiers. Furthermore, vDefend IDS/IPS and Security Intelligence provide continuous monitoring to detect and respond to malicious activity or risky protocols introduced by third-party connections. VCF also integrates with federated identity providers to extend organizational identity governance and uses role-based access control to enforce least-privilege for third-party operators.
+
+The control requires comprehensive understanding, recording, prioritization, and assessment of supplier risks throughout the relationship lifecycle, which are largely administrative and governance functions. While the platform provides technical monitoring and enforcement tools, the customer is responsible for establishing the broader supply chain risk management program, conducting due diligence before engagement, and defining the risk prioritization and response policies that the tools support."
+GV.SC-08,"BCD-01, BCD-01.2, IRO-01, IRO-02, IRO-02.5, TPM-01, TPM-01.1, TPM-02, TPM-09, TPM-10, TPM-11","Relevant suppliers and other third parties are included in incident planning, response, and recovery activities
+
+[Withdrawn: Incorporated into GV.SC-08, ID.IM-02]",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide the technical infrastructure and integration points necessary to include suppliers and third parties in incident planning, response, and recovery. VCF supports coordination with external backup partners through vSphere Storage APIs for Data Protection (VADP) and enables incident data sharing via outbound notification plugins for ServiceNow, Slack, and Syslog. VLR facilitates technical coordination with external recovery site providers through site pairing, REST APIs for status monitoring, and non-disruptive recovery plan testing that serves as a joint validation exercise. Additionally, vDefend ensures security posture is maintained during cross-site workload migrations, supporting the technical security layer of a coordinated response.
+
+The control requires the active inclusion of relevant suppliers and third parties in planning and response activities, which is an organizational and process-driven requirement. While the platforms provide the technical mechanisms for data sharing and recovery orchestration, the customer is responsible for establishing the underlying business continuity management system (BCMS), defining joint recovery procedures, aligning RTO/RPO targets with providers, and managing the human accountability aspects of third-party coordination."
+GV.SC-09,"GOV-01, GOV-01.1, GOV-01.2, GOV-05, PRM-07, RSK-01, RSK-09, RSK-09.1, SEA-07.1, TDA-01.1","Supply chain security practices are integrated into cybersecurity and enterprise risk management programs, and their performance is monitored throughout the technology product and service life cycle
+
+[Withdrawn: Incorporated into GV.RM-05, GV.SC-01, GV.SC-06, GV.SC-09, GV.SC-10]",Contributes ,"VMware Cloud Foundation (VCF) provides a robust technical framework for managing the technology lifecycle through tools like vSphere Lifecycle Manager (vLCM) and SDDC Manager. These tools facilitate a desired-state image model for ESXi hosts, ensuring that software, firmware, and third-party components remain compliant with approved versions. SDDC Manager and the VCF Operations UI automate the planning and execution of updates and upgrades across the infrastructure stack—including vCenter, NSX, and vSAN—while providing pre-upgrade validation to monitor environment readiness and version compatibility throughout the product life cycle.
+
+The control requires the integration of supply chain security practices into organizational cybersecurity and enterprise risk management programs. While VCF provides the technical instrumentation to manage and monitor the lifecycle of infrastructure assets, the creation of the underlying supply chain security policies, the definition of performance monitoring metrics for the program, and the integration into broader corporate risk frameworks are organizational responsibilities that must be managed by the customer."
+GV.SC-10,"RSK-09, TPM-01, TPM-05.2, TPM-05.3","Cybersecurity supply chain risk management plans include provisions for activities that occur after the conclusion of a partnership or service agreement
+
+[Withdrawn: Incorporated into GV.RM-05, GV.SC-01, GV.SC-06, GV.SC-09, GV.SC-10]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+ID,"GOV-01.1, GOV-01.2, RSK-01, RSK-01.1, RSK-03, RSK-03.1, RSK-04, RSK-04.1, RSK-05, RSK-09","Inventories of hardware managed by the organization are maintained
+
+Inventories of software, services, and systems managed by the organization are maintained
+
+Representations of the organization's authorized network communication and internal and external network data flows are maintained
+
+Inventories of services provided by suppliers are maintained
+
+Assets are prioritized based on classification, criticality, resources, and impact on the mission
+
+[Withdrawn: Incorporated into GV.RR-02, GV.SC-02]
+
+Inventories of data and corresponding metadata for designated data types are maintained
+
+Systems, hardware, software, services, and data are managed throughout their life cycles
+
+Vulnerabilities in assets are identified, validated, and recorded
+
+Cyber threat intelligence is received from information sharing forums and sources
+
+Internal and external threats to the organization are identified and recorded
+
+Potential impacts and likelihoods of threats exploiting vulnerabilities are identified and recorded
+
+Threats, vulnerabilities, likelihoods, and impacts are used to understand inherent risk and inform risk response prioritization
+
+Risk responses are chosen, prioritized, planned, tracked, and communicated
+
+Changes and exceptions are managed, assessed for risk impact, recorded, and tracked
+
+Processes for receiving, analyzing, and responding to vulnerability disclosures are established
+
+The authenticity and integrity of hardware and software are assessed prior to acquisition and use
+
+Critical suppliers are assessed prior to acquisition
+
+Improvements are identified from evaluations
+
+Improvements are identified from security tests and exercises, including those done in coordination with suppliers and relevant third parties
+
+Improvements are identified from execution of operational processes, procedures, and activities
+
+Incident response plans and other cybersecurity plans that affect operations are established, communicated, maintained, and improved
+
+[Withdrawn: Incorporated into GV.OC-05]
+
+[Withdrawn: Incorporated into GV.OC-01]
+
+[Withdrawn: Incorporated into GV.OC-04, GV.OC-05]
+
+[Withdrawn: Incorporated into GV.OC-04]
+
+[Withdrawn: Incorporated into GV.PO, GV.PO-01, GV.PO-02]
+
+[Withdrawn: Incorporated into GV.OC-02, GV.RR, GV.RR-02]
+
+[Withdrawn: Moved to GV.OC-03]
+
+[Withdrawn: Moved to GV.RM-04]
+
+[Withdrawn: Incorporated into GV.RM-01, GV.RM-06, GV.RR-03]
+
+[Withdrawn: Incorporated into GV.RM-02, GV.RM-04]
+
+[Withdrawn: Moved into GV.RM-02]
+
+[Withdrawn: Incorporated into GV.RM-05, GV.SC-01, GV.SC-06, GV.SC-09, GV.SC-10]
+
+[Withdrawn: Incorporated into GV.OC-02, GV.SC-03, GV.SC-04, GV.SC-07, ID.RA-10]
+
+[Withdrawn: Moved to GV.SC-05]
+
+[Withdrawn: Incorporated into GV.SC-07, ID.RA-10]
+
+[Withdrawn: Incorporated into GV.SC-08, ID.IM-02]
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-03]
+
+[Withdrawn: Incorporated into ID.RA-09, DE.CM-09]
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-06]
+
+[Withdrawn: Incorporated into PR.PS-01, ID.RA-07]
+
+[Withdrawn: Incorporated into ID.AM-08]
+
+[Withdrawn: Incorporated into ID.IM, ID.IM-03]
+
+[Withdrawn: Moved to ID.IM-03]
+
+[Withdrawn: Moved to ID.IM-04]
+
+[Withdrawn: Incorporated into ID.IM-02, ID.IM-04]
+
+[Withdrawn: Incorporated into ID.RA-01, PR.PS-02]
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-02]
+
+[Withdrawn: Incorporated into ID.RA-01]
+
+[Withdrawn: Incorporated into ID.AM-03]
+
+[Withdrawn: Incorporated into ID.IM-02]
+
+[Withdrawn: Moved to ID.RA-08]
+
+[Withdrawn: Incorporated into ID.RA-06]
+
+[Withdrawn: Incorporated into ID.IM-03, ID.IM-04]
+
+[Withdrawn: Incorporated into ID.IM-03]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+ID.AM,"AST-01, AST-01.1, AST-01.2, AST-02, AST-03, AST-03.1, HRS-01, HRS-03, HRS-05, HRS-05.1, PES-01, RSK-02, TPM-01, TPM-01.1, TPM-05.4, TPM-06","Inventories of hardware managed by the organization are maintained
+
+Inventories of software, services, and systems managed by the organization are maintained
+
+Representations of the organization's authorized network communication and internal and external network data flows are maintained
+
+Inventories of services provided by suppliers are maintained
+
+Assets are prioritized based on classification, criticality, resources, and impact on the mission
+
+[Withdrawn: Incorporated into GV.RR-02, GV.SC-02]
+
+Inventories of data and corresponding metadata for designated data types are maintained
+
+Systems, hardware, software, services, and data are managed throughout their life cycles
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-03]
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-06]
+
+[Withdrawn: Incorporated into ID.AM-08]
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-02]
+
+[Withdrawn: Incorporated into ID.AM-03]",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide the technical foundation for asset management by maintaining real-time inventories of hardware, software, and network flows within the software-defined data center. VCF Operations and vCenter maintain authoritative lists of compute, storage, and networking resources, while the Service Discovery adapter identifies running applications and services. vDefend Security Intelligence provides visibility into authorized network communications and data flows through traffic analysis and visualization. Both platforms support integration with external enterprise asset management systems like ServiceNow to synchronize discovered resources with a central CMDB. Additionally, vSphere Lifecycle Manager and VCF Lifecycle Management track software versions and components across the environment to manage assets throughout their lifecycles.
+
+The platforms’ inventory scope is limited to managed virtualized infrastructure and network-visible workloads. The broader organizational responsibilities of establishing asset governance policies, defining ownership and property accountability, prioritizing assets based on mission impact, and maintaining inventories for physical hardware, data/metadata, and supplier services remain the responsibility of the customer."
+ID.AM-01,"AST-02, TPM-01.1",Inventories of hardware managed by the organization are maintained,Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide technical capabilities for maintaining real-time inventories of technology assets across compute, storage, and networking layers. VCF, through vCenter and VCF Operations, maintains an authoritative inventory of managed objects, including ESX hosts and clusters, and offers programmatic access via APIs. VCF Automation tracks provisioned resources, while VCF Operations for Networks and the Management Pack for ServiceNow support integration with external CMDBs. vDefend Security Intelligence maintains an inventory of network-visible workloads organized into asset collections.
+
+The control requires comprehensive hardware inventory management. While the platforms automate the discovery and tracking of virtualized and network-visible infrastructure, they do not manage physical hardware assets outside the software-defined data center (SDDC) environment. The customer remains responsible for enterprise-wide hardware asset classification, business justification tracking, property accountability processes, and maintaining inventories for physical devices not managed by the VMware stack."
+ID.AM-02,"AST-02, TPM-01.1","Inventories of software, services, and systems managed by the organization are maintained",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide technical capabilities to maintain real-time inventories of managed software, services, and systems within the virtualized environment. VCF, through vCenter and VCF Operations, maintains an authoritative inventory of all managed objects, including hosts, VMs, and networking constructs, and uses a Service Discovery adapter to identify running applications and services. VCF Automation further tracks provisioned resources through a project-based model. Integration with external registries like ServiceNow is supported for centralized CMDB management. vSphere Lifecycle Manager tracks software versions and updates, while vDefend maintains an inventory of network-visible workloads and application-layer assets.
+
+The control requires an organization-wide inventory of all software, services, and systems. VCF and vDefend provide deep visibility into the software-defined data center, but they do not account for assets outside the virtualized infrastructure (e.g., physical hardware not managed by VCF, user endpoints, or SaaS applications). The customer remains responsible for enterprise-wide asset classification, business justification tracking, and the overall property accountability processes required for full compliance."
+ID.AM-03,"AST-04, AST-04.2, DCH-19","Representations of the organization's authorized network communication and internal and external network data flows are maintained
+
+[Withdrawn: Incorporated into ID.AM-03]",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide automated technical capabilities to visualize, map, and document authorized network communications and data flows.
+
+VCF Operations for Networks generates interactive, end-to-end network maps reflecting current topology and analyzes 5-tuple flow data to visualize application-tier traffic.
+
+VLR (Site Recovery and Replication) maintains network mappings between protected and recovery sites, exporting structured data (CSV/XML) on VM network configurations and documenting replication data paths.
+
+VMware vDefend Security Intelligence provides live graphical visualizations of traffic patterns, security group relationships, and firewall rules, categorizing flows as external, east-west, or intra-application. Additionally, VCF and vDefend support geographic mapping of infrastructure and data flows through GEO Location tagging and GeoIP monitoring, while NSX Federation manages policy scope across distributed regions.
+
+The platform provides technical topology and flow visualizations, but the maintenance of formal, authoritative network architecture diagrams and the definition of authorized communication paths remain organizational responsibilities. The tools provide a current-state view that supports but does not replace human-managed documentation.
+
+Furthermore, these solutions do not inventory or document data flows within external third-party systems or track application-layer data residency obligations outside the managed infrastructure."
+ID.AM-04,TPM-01.1,Inventories of services provided by suppliers are maintained,Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+ID.AM-05,"AST-04.1, BCD-02, DCH-02, TPM-02","Assets are prioritized based on classification, criticality, resources, and impact on the mission",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide a comprehensive technical framework for identifying, classifying, and documenting critical technology assets. VCF Operations enables administrators to group objects into Business Applications and tag them with business criticality and impact metadata, while vCenter maintains a real-time inventory of managed objects. VLR explicitly identifies critical assets through protection groups and inventory mappings that document recovery requirements for essential workloads. vDefend supplements this by classifying discovered application assets and organizing them into Environment Asset Collections (e.g., Production, DMZ, PCI) based on their operational context. Together, these tools provide the technical mechanisms to prioritize infrastructure based on its importance to business functions.
+
+The control requires assets to be prioritized based on classification and impact on the mission, which is an organizational and administrative process. While the VMware stack provides the technical fields, metadata tagging, and inventory views to support prioritization, the responsibility for defining the classification schema, determining mission impact, and establishing the actual prioritization policies remains with the customer."
+ID.AM-07,"DCH-06, DCH-06.2, DCH-06.3, PRI-05, PRI-05.5",Inventories of data and corresponding metadata for designated data types are maintained,Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+ID.AM-08,"AST-01, AST-01.2, DCH-01, DCH-01.1, PRM-07, SEA-07, SEA-07.1","Systems, hardware, software, services, and data are managed throughout their life cycles
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-03]
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-06]
+
+[Withdrawn: Incorporated into ID.AM-08]
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-02]",Contributes ,"VMware Cloud Foundation (VCF) provides a comprehensive technical framework for managing the lifecycle of systems, hardware, software, and data. vSphere Lifecycle Manager (vLCM) and the VCF 9 unified lifecycle management interface automate the deployment, patching, and upgrading of infrastructure components using desired-state images and validated upgrade paths. VCF Operations and Service Discovery provide continuous inventory and discovery of compute, storage, and network resources, with integration paths to external CMDBs like ServiceNow for asset tracking. Data lifecycle management is supported through vSAN encryption, replication, and backup extensions like Velero, while vDefend provides network-level security and visibility into data flow protocols. Additionally, VCF Operations and vSAN Proactive Health Management provide trending and failure analysis to manage components toward the end of their operational life.
+
+The control requires broad management across the entire organizational lifecycle, which includes establishing asset governance policies, defining ownership, and maintaining organizational accountability. While VCF provides the instrumentation and automation for technical management, the creation of formal IT Asset Management (ITAM) programs, the definition of disposal policies, and the manual entry of asset metadata remain the responsibility of the customer. VCF also provides the raw data for reliability engineering but does not calculate discrete Mean Time to Failure (MTTF) metrics."
+ID.IM,"RSK-01, RSK-09, OPS-01, OPS-01.1","Improvements are identified from evaluations
+
+Improvements are identified from security tests and exercises, including those done in coordination with suppliers and relevant third parties
+
+Improvements are identified from execution of operational processes, procedures, and activities
+
+Incident response plans and other cybersecurity plans that affect operations are established, communicated, maintained, and improved
+
+[Withdrawn: Incorporated into GV.SC-08, ID.IM-02]
+
+[Withdrawn: Incorporated into ID.IM, ID.IM-03]
+
+[Withdrawn: Moved to ID.IM-03]
+
+[Withdrawn: Moved to ID.IM-04]
+
+[Withdrawn: Incorporated into ID.IM-02, ID.IM-04]
+
+[Withdrawn: Incorporated into ID.IM-02]
+
+[Withdrawn: Incorporated into ID.IM-03, ID.IM-04]
+
+[Withdrawn: Incorporated into ID.IM-03]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+ID.IM-01,"CPL-03, CPL-03.2, IAO-02, IAO-02.4, IAO-05, TDA-09, TDA-09.1, TPM-04.1, TPM-08",Improvements are identified from evaluations,Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide technical instrumentation to identify necessary improvements through continuous compliance monitoring and security analysis. VCF Operations utilizes automated compliance benchmarks and custom policy scores to discover non-compliant objects and identify assets requiring remediation. At the host level, vSphere Configuration Profiles detect configuration drift, while NSX provides detailed compliance reporting. vDefend supplements this with Security Intelligence policy recommendations that highlight gaps between desired and actual firewall rules based on communication patterns, and a Threat Event Monitoring dashboard that consolidates security issues to inform posture refinements. These tools create the evidence trail and technical feedback loop necessary to identify where infrastructure and security controls require updates.
+
+The control requires an organizational process to translate technical evaluations into formal improvement actions. While VCF and vDefend identify technical gaps and non-compliance, the responsibility for declaring improvements, managing the change lifecycle, and conducting broader functional validation (e.g., security assessments or controlled testing) lies with the customer's management and incident response programs."
+ID.IM-02,"BCD-05, CPL-03, CPL-03.2, IRO-13, IAO-02, IAO-02.4, IAO-05, TDA-09, TDA-09.1, TPM-04.1, TPM-08","Improvements are identified from security tests and exercises, including those done in coordination with suppliers and relevant third parties
+
+[Withdrawn: Incorporated into GV.SC-08, ID.IM-02]
+
+[Withdrawn: Incorporated into ID.IM-02, ID.IM-04]
+
+[Withdrawn: Incorporated into ID.IM-02]",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide technical monitoring, compliance assessment, and configuration review capabilities that generate data necessary to identify security improvements.
+
+VCF Operations provides continuous compliance monitoring against industry benchmarks and custom policies, while vSphere Lifecycle Manager and Configuration Profiles detect drift from established baselines. VMware vDefend adds network-specific validation through security segmentation scoring and Security Intelligence policy recommendation analysis, which highlights gaps between desired and actual security postures based on traffic patterns. These tools create an evidence trail through automated reporting and dedicated auditor roles, supporting iterative review cycles and the identification of necessary enhancements.
+
+The control requires identifying improvements from security tests and exercises, which are organizational processes. VCF and vDefend provide the technical telemetry and compliance data for these reviews, but they do not perform the tests themselves or manage coordination with suppliers and third parties. Responsibility for defining improvement workflows and conducting functional security assessments remains with the customer."
+ID.IM-03,"GOV-05, BCD-05, IRO-13","Improvements are identified from execution of operational processes, procedures, and activities
+
+[Withdrawn: Incorporated into ID.IM, ID.IM-03]
+
+[Withdrawn: Moved to ID.IM-03]
+
+[Withdrawn: Incorporated into ID.IM-03, ID.IM-04]
+
+[Withdrawn: Incorporated into ID.IM-03]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+ID.IM-04,"BCD-01, BCD-06, IRO-04, IRO-04.2","Incident response plans and other cybersecurity plans that affect operations are established, communicated, maintained, and improved
+
+[Withdrawn: Moved to ID.IM-04]
+
+[Withdrawn: Incorporated into ID.IM-02, ID.IM-04]
+
+[Withdrawn: Incorporated into ID.IM-03, ID.IM-04]",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide the technical framework and automated execution capabilities required to support incident response and cybersecurity plans. VLR facilitates contingency planning through executable recovery plans that define failover sequences, support non-disruptive testing, and automate network reconfiguration via the DR IP Customizer. VCF contributes through vSphere High Availability for automated VM restarts, vSAN stretched clusters for cross-zone resilience, and comprehensive backup/replication services via HCX and vSAN Data Protection. Additionally, vDefend ensures security posture is maintained during recovery by preserving firewall policies through its Global Manager deployment.
+
+The control requires that plans are established, communicated, and improved, which involves organizational governance, policy definition, and human processes that are outside the scope of the technical platforms. While the software provides the tools for plan execution and testing, the customer is responsible for the formal creation, management, and strategic improvement of the overarching cybersecurity and incident response programs."
+ID.RA,"GOV-01, GOV-01.1, GOV-02, RSK-01, RSK-09","Vulnerabilities in assets are identified, validated, and recorded
+
+Cyber threat intelligence is received from information sharing forums and sources
+
+Internal and external threats to the organization are identified and recorded
+
+Potential impacts and likelihoods of threats exploiting vulnerabilities are identified and recorded
+
+Threats, vulnerabilities, likelihoods, and impacts are used to understand inherent risk and inform risk response prioritization
+
+Risk responses are chosen, prioritized, planned, tracked, and communicated
+
+Changes and exceptions are managed, assessed for risk impact, recorded, and tracked
+
+Processes for receiving, analyzing, and responding to vulnerability disclosures are established
+
+The authenticity and integrity of hardware and software are assessed prior to acquisition and use
+
+Critical suppliers are assessed prior to acquisition
+
+[Withdrawn: Incorporated into GV.OC-02, GV.SC-03, GV.SC-04, GV.SC-07, ID.RA-10]
+
+[Withdrawn: Incorporated into GV.SC-07, ID.RA-10]
+
+[Withdrawn: Incorporated into ID.RA-09, DE.CM-09]
+
+[Withdrawn: Incorporated into PR.PS-01, ID.RA-07]
+
+[Withdrawn: Incorporated into ID.RA-01, PR.PS-02]
+
+[Withdrawn: Incorporated into ID.RA-01]
+
+[Withdrawn: Moved to ID.RA-08]
+
+[Withdrawn: Incorporated into ID.RA-06]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+ID.RA-01,"IAO-01, IAO-02, IAO-05, RSK-04, RSK-04.1, TDA-09, VPM-01, VPM-06","Vulnerabilities in assets are identified, validated, and recorded
+
+[Withdrawn: Incorporated into ID.RA-01, PR.PS-02]
+
+[Withdrawn: Incorporated into ID.RA-01]",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide technical capabilities to identify, validate, and record vulnerabilities within the SDDC infrastructure. VCF Operations Diagnostics automatically detects known issues and vulnerabilities in the VCF software stack, providing root cause insights and remediation steps. vSphere Lifecycle Manager (vLCM) scans hosts against desired-state images to identify configuration drift and missing patches. vDefend Distributed IDS/IPS identifies vulnerability exploitation attempts and provides ""virtual patching"" to protect systems before official updates are applied. The Security Operations dashboard and Security Intelligence provide visibility into the environment's security posture and vulnerable workloads.
+
+The control requires the recording and validation of all asset vulnerabilities, which includes guest operating systems and third-party applications. VCF and vDefend focus on the infrastructure layer; therefore, customers must integrate third-party vulnerability scanners to cover the full scope of their assets and establish organizational processes for vulnerability lifecycle management."
+ID.RA-02,"GOV-07, THR-03",Cyber threat intelligence is received from information sharing forums and sources,Contributes ,"VMware vDefend consumes technical threat intelligence through the vDefend Threat Intelligence Service, which provides continuously updated feeds of IDS signatures and URL/threat indicators. These feeds are used operationally by IDS/IPS and Advanced Threat Prevention components to detect and respond to threats at the network layer. Additionally, Network Detection and Response (NDR) uses machine learning to correlate these signals into threat campaigns, while Security Intelligence visualizes granular event data.
+
+While vDefend automates the consumption and application of technical threat intelligence, it does not manage the organizational process of participating in information-sharing forums or broader threat intelligence program management. The customer remains responsible for establishing memberships with external sources and managing the dissemination of intelligence across the organization."
+ID.RA-03,"SAT-03.6, THR-01, THR-02, THR-03, THR-04, THR-05, THR-07, THR-09",Internal and external threats to the organization are identified and recorded,Contributes ,"VMware vDefend identifies and records network-layer threats through its Threat Intelligence Service, which provides updated IDS signatures and threat indicators to detect known and emerging threats. Security Intelligence and Network Detection and Response (NDR) further record these threats by correlating detection events—such as IDS/IPS alerts and malicious file transfers—into visualized threat campaigns.
+
+NDR utilizes machine learning to automatically correlate related events, while the Security Services Platform assigns impact scores to prioritize recorded threats for analyst review and hunting workflows.
+
+The platform is limited to identifying and recording threats at the network layer. Broader organizational threat intelligence program management, dissemination of threat data, endpoint telemetry, and the identification of non-network-based threats remain the responsibility of the customer."
+ID.RA-04,"THR-09, THR-10",Potential impacts and likelihoods of threats exploiting vulnerabilities are identified and recorded,Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+ID.RA-05,"RSK-01.1, RSK-02.1, RSK-04, RSK-05, RSK-06, RSK-06.1, THR-02, THR-09, THR-10","Threats, vulnerabilities, likelihoods, and impacts are used to understand inherent risk and inform risk response prioritization",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+ID.RA-06,"RSK-01.1, RSK-02.1, RSK-05, RSK-06, RSK-06.1, RSK-06.2","Risk responses are chosen, prioritized, planned, tracked, and communicated
+
+[Withdrawn: Incorporated into ID.RA-06]",Contributes ,"VMware vDefend provides technical mechanisms to implement and manage risk responses within the network security domain. It facilitates the implementation of technical compensating countermeasures through Distributed Firewall microsegmentation, IDS/IPS, malware prevention, URL filtering, and TLS inspection.
+
+Its Intelligent Assist feature supports the planning and prioritization of risk responses by recommending targeted remediation policies, such as those to prevent lateral threat propagation. These tools allow administrators to manually enable and track the status of specific technical risk responses based on situational due diligence.
+
+The control requirement for choosing, prioritizing, planning, and communicating risk responses is a high-level governance and organizational process that extends beyond technical implementation. While vDefend provides the tools for network-layer responses, the formal risk management framework, documentation of risk responses, and the communication of these plans across the organization remain the responsibility of the customer's governance and risk management teams."
+ID.RA-07,"GOV-02.1, CHG-01, CHG-02, CHG-02.1, CHG-02.2, CHG-03, CHG-04","Changes and exceptions are managed, assessed for risk impact, recorded, and tracked
+
+[Withdrawn: Incorporated into PR.PS-01, ID.RA-07]",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide a technical framework to manage, record, track, and restrict changes within the software-defined data center. VCF Automation implements approval policies and workflow gates for deployments, while VCF Operations and vSphere Lifecycle Manager (vLCM) provide configuration drift detection and desired-state enforcement to maintain consistency against approved baselines. VLR supports change management for disaster recovery through granular role-based access controls (RBAC) and audit logging of configuration events. vDefend contributes through its draft-based firewall configuration workflow, which allows for validation and comparison of rules before publication, and policy locking to prevent unauthorized concurrent edits. Audit logs across all components provide a record of who initiated changes and when, supporting the tracking and recording requirements of the control.
+
+The control requires changes to be managed and assessed for risk impact, which necessitates an organizational change management process, risk assessment framework, and human accountability. While the platforms provide tools for technical enforcement (RBAC, drift detection) and documentation (audit logs), the customer remains responsible for defining the change management policies, conducting risk impact assessments, and managing the lifecycle of exceptions."
+ID.RA-08,"THR-01, THR-02, THR-03, VPM-01, VPM-02, VPM-03","Processes for receiving, analyzing, and responding to vulnerability disclosures are established
+
+[Withdrawn: Moved to ID.RA-08]",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide the technical capabilities to detect, analyze, and remediate vulnerabilities disclosed through official channels. VCF Operations Diagnostics automatically detects known issues and vulnerabilities within the VCF software stack, providing root cause insights and actionable remediation steps. VCF also orchestrates patch deployment and lifecycle management across the infrastructure. VMware vDefend contributes through Distributed IDS/IPS, which uses signature-based detection (including CVE identifiers and CVSS scores) to identify and block vulnerability exploitation attempts in real-time—a capability known as virtual patching. Additionally, the Security Services Platform provides a structured remediation workflow for security events, and the vDefend Threat Intelligence Service delivers continuously updated feeds to detect emerging threats.
+
+The control requires that ""processes... are established,"" which implies organizational governance, policy definition, and human-led workflows for receiving and responding to external disclosures. While VCF and vDefend provide the instrumentation to operationalize threat intelligence and automate remediation, the overarching management of a vulnerability disclosure program and the formal integration of external vulnerability databases into organizational risk-ranking methodologies remain the responsibility of the customer."
+ID.RA-09,"AST-15, AST-18, TDA-01, TDA-01.2, TDA-14, TDA-14.1, TDA-14.2","The authenticity and integrity of hardware and software are assessed prior to acquisition and use
+
+[Withdrawn: Incorporated into ID.RA-09, DE.CM-09]",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide a technical framework for assessing the logical integrity and authenticity of hardware and software through hardware-rooted chains of trust, cryptographic validation, and continuous configuration monitoring. VCF supports Secure Boot, Trusted Platform Modules (TPM), and Intel TXT to verify host boot state, with vCenter monitoring attestation to ensure hosts enter known-good configurations. The hypervisor enforces code signing to prevent unauthorized execution, while vSphere Lifecycle Manager and VCF Operations provide drift detection and image compliance checking against defined specifications. SDDC Manager and vCenter patching APIs verify file size, checksums, and digital signatures for all upgrade bundles and management packs before installation. For storage, vSAN uses end-to-end checksums to detect and repair data tampering. vDefend complements this by verifying its own upgrade bundles and signatures for IDS/IPS updates.
+
+The control's full scope includes ""acquisition and use,"" which implies organizational procurement processes, physical hardware inspections, and supply chain risk management policies that are the responsibility of the customer. While VCF provides the technical instrumentation to verify integrity once deployed, the initial assessment of authenticity prior to acquisition is an administrative and physical process outside the platform's functional scope. Physical security of the facility and hardware also remains a customer gap."
+ID.RA-10,"TPM-01.1, TPM-02, TPM-04.1","Critical suppliers are assessed prior to acquisition
+
+[Withdrawn: Incorporated into GV.OC-02, GV.SC-03, GV.SC-04, GV.SC-07, ID.RA-10]
+
+[Withdrawn: Incorporated into GV.SC-07, ID.RA-10]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+PR,"GOV-01, GOV-01.1, CPL-01, RSK-01, RSK-09","Identities and credentials for authorized users, services, and hardware are managed by the organization
+
+Identities are proofed and bound to credentials based on the context of interactions
+
+Users, services, and hardware are authenticated
+
+Identity assertions are protected, conveyed, and verified
+
+Access permissions, entitlements, and authorizations are defined in a policy, managed, enforced, and reviewed, and incorporate the principles of least privilege and separation of duties
+
+Physical access to assets is managed, monitored, and enforced commensurate with risk
+
+Personnel are provided with awareness and training so that they possess the knowledge and skills to perform general tasks with cybersecurity risks in mind
+
+Individuals in specialized roles are provided with awareness and training so that they possess the knowledge and skills to perform relevant tasks with cybersecurity risks in mind
+
+[Withdrawn: Incorporated into PR.AT-01, PR.AT-02]
+
+[Withdrawn: Incorporated into PR.AT-02]
+
+The confidentiality, integrity, and availability of data-at-rest are protected
+
+The confidentiality, integrity, and availability of data-in-transit are protected
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-03]
+
+[Withdrawn: Moved to PR.IR-04]
+
+[Withdrawn: Incorporated into PR.DS-01, PR.DS-02, PR.DS-10]
+
+[Withdrawn: Incorporated into PR.DS-01, DE.CM-09]
+
+[Withdrawn: Incorporated into PR.IR-01]
+
+[Withdrawn: Incorporated into ID.RA-09, DE.CM-09]
+
+The confidentiality, integrity, and availability of data-in-use are protected
+
+Backups of data are created, protected, maintained, and tested
+
+Configuration management practices are established and applied
+
+Software is maintained, replaced, and removed commensurate with risk
+
+Hardware is maintained, replaced, and removed commensurate with risk
+
+Log records are generated and made available for continuous monitoring
+
+Installation and execution of unauthorized software are prevented
+
+Secure software development practices are integrated, and their performance is monitored throughout the software development life cycle
+
+Networks and environments are protected from unauthorized logical access and usage
+
+The organization's technology assets are protected from environmental threats
+
+Mechanisms are implemented to achieve resilience requirements in normal and adverse situations
+
+Adequate resource capacity to ensure availability is maintained
+
+[Withdrawn: Incorporated into PR.AA-01, PR.AA-05]
+
+[Withdrawn: Moved to PR.AA-06]
+
+[Withdrawn: Incorporated into PR.AA-03, PR.AA-05, PR.IR-01]
+
+[Withdrawn: Moved to PR.AA-05]
+
+[Withdrawn: Moved to PR.AA-02]
+
+[Withdrawn: Moved to PR.AA-03]
+
+[Withdrawn: Incorporated into PR.PS-01]
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-06]
+
+[Withdrawn: Incorporated into PR.PS-01, ID.RA-07]
+
+[Withdrawn: Moved to PR.DS-11]
+
+[Withdrawn: Moved to PR.IR-02]
+
+[Withdrawn: Incorporated into ID.AM-08]
+
+[Withdrawn: Incorporated into ID.IM, ID.IM-03]
+
+[Withdrawn: Moved to ID.IM-03]
+
+[Withdrawn: Moved to ID.IM-04]
+
+[Withdrawn: Incorporated into ID.IM-02, ID.IM-04]
+
+[Withdrawn: Moved to GV.RR-04]
+
+[Withdrawn: Incorporated into ID.RA-01, PR.PS-02]
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-02]
+
+[Withdrawn: Incorporated into PR.PS-04]
+
+[Withdrawn: Incorporated into PR.DS-01, PR.PS-01]
+
+[Withdrawn: Incorporated into PR.AA-06, PR.IR-01]
+
+[Withdrawn: Moved to PR.IR-03]
+
+[Withdrawn: Incorporated into PR.AT-01]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+PR.AA,"IAC-01, IAC-01.2, PES-01, PES-02, PES-03","Identities and credentials for authorized users, services, and hardware are managed by the organization
+
+Identities are proofed and bound to credentials based on the context of interactions
+
+Users, services, and hardware are authenticated
+
+Identity assertions are protected, conveyed, and verified
+
+Access permissions, entitlements, and authorizations are defined in a policy, managed, enforced, and reviewed, and incorporate the principles of least privilege and separation of duties
+
+Physical access to assets is managed, monitored, and enforced commensurate with risk
+
+[Withdrawn: Incorporated into PR.AA-01, PR.AA-05]
+
+[Withdrawn: Moved to PR.AA-06]
+
+[Withdrawn: Incorporated into PR.AA-03, PR.AA-05, PR.IR-01]
+
+[Withdrawn: Moved to PR.AA-05]
+
+[Withdrawn: Moved to PR.AA-02]
+
+[Withdrawn: Moved to PR.AA-03]
+
+[Withdrawn: Incorporated into PR.AA-06, PR.IR-01]",Contributes ,"VMware Cloud Foundation (VCF), vDefend, and VMware Live Recovery (VLR) provide a multi-layered technical architecture for managing identities, credentials, and access permissions. VCF SSO serves as a centralized identity broker, supporting federation with external providers (e.g., Entra ID, Okta) for multifactor authentication and automated user synchronization. Role-Based Access Control (RBAC) is enforced across all components, allowing for the definition of granular permissions and the principle of least privilege for users, services, and Kubernetes workloads. vDefend enhances this with identity-aware network enforcement via its Identity Firewall and microsegmentation policies that protect AAA infrastructure. Additionally, all platforms provide automated auditing of administrative actions and authentication events to verify compliance.
+
+The control requires the organization to manage physical access to assets and define overarching policies for identity proofing and account management, which are administrative and physical security functions outside the scope of the software platforms. While the technical solutions provide the enforcement layer for AAA, the customer is responsible for establishing the governance policies, managing the lifecycle of identities in external directories, and ensuring physical data center security."
+PR.AA-01,"IAC-02, IAC-03, IAC-04, IAC-05","Identities and credentials for authorized users, services, and hardware are managed by the organization
+
+[Withdrawn: Incorporated into PR.AA-01, PR.AA-05]",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide a centralized, standards-based technical framework for managing identities and credentials across users, services, and hardware. VCF SSO acts as a central identity broker, facilitating authentication for all components and supporting federation with enterprise identity providers via SAML and OIDC. This enables multi-factor authentication and automated user lifecycle management. Authorization is enforced through granular role-based access control (RBAC) across vCenter, NSX, and VCF Automation. For services, VCF utilizes certificate-based Principal Identities and solution user accounts to secure inter-component communication. Hardware-level management is supported through mutual TLS between vCenter and ESX hosts, TPM integration for host integrity, and mutual CHAP for storage targets. vDefend further contributes with mTLS-authenticated NDR sensors and certificate-based trust for third-party service integration.
+
+The control requires that identities and credentials be managed by the organization, which necessitates customer-defined governance policies, identity provider infrastructure management, and the establishment of specific role assignment procedures. While the VMware stack provides the technical mechanisms to enforce these controls, the overarching lifecycle management and policy definition remain the responsibility of the customer."
+PR.AA-02,IAC-28,"Identities are proofed and bound to credentials based on the context of interactions
+
+[Withdrawn: Moved to PR.AA-02]",Contributes ,"VMware Cloud Foundation (VCF) provides the technical framework for identity verification and credential binding through VCF SSO and the VCF Identity Broker. VCF SSO centralizes authentication by validating identities against configured sources using certificate validation before issuing session tokens. The Identity Broker supports federation with external identity providers via SAML, enabling multifactor authentication (MFA) and automatic account synchronization to strengthen identity proofing.
+
+Furthermore, the AuthorizationManager and UserDirectory services ensure that access permissions are bound to authenticated principals through role-based access control (RBAC), and VCF Operations audit reports provide traceability for identity validation events.
+
+While VCF provides the technical mechanisms to proof and bind identities, the control implies an organizational requirement to define the ""context of interactions"" and manage the lifecycle of identity proofing. The customer is responsible for configuring trusted identity sources, defining federation policies, and establishing the criteria for identity proofing within their external identity providers. VCF facilitates the technical enforcement, but the procedural governance of identity proofing remains a customer responsibility."
+PR.AA-03,"IAC-01.2, IAC-02, IAC-03, IAC-04, IAC-05","Users, services, and hardware are authenticated
+
+[Withdrawn: Incorporated into PR.AA-03, PR.AA-05, PR.IR-01]
+
+[Withdrawn: Moved to PR.AA-03]",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide comprehensive technical mechanisms to uniquely identify and authenticate users, services, and hardware. VCF SSO serves as the centralized identity broker, supporting federation with enterprise identity providers via SAML or OIDC for multifactor authentication and automated lifecycle management. Service-to-service authentication is achieved through certificate-based principal identities and solution user registrations. For hardware and devices, VCF utilizes mutual TLS with machine SSL certificates for ESX-to-vCenter communication, while VCF Operations supports authenticated discovery of network and storage devices using SSH, SNMPv3, and mutual CHAP.
+
+VLR extends these capabilities through certificate-based site pairing for disaster recovery operations, and vDefend provides mTLS-based authentication for its distributed NDR sensors and management plane.
+
+The control requires that all users, services, and hardware be authenticated, which necessitates organizational policies and governance procedures that fall outside the scope of the technical platforms. Customers are responsible for defining identity governance policies, managing the lifecycle of accounts in external directory services, and establishing the criteria for hardware and service approval. While the software provides the enforcement layer and cryptographic building blocks, the broader program for managing authentication across all organizational assets remains a customer responsibility."
+PR.AA-04,"IAC-01.2, IAC-02.2, IAC-03.5","Identity assertions are protected, conveyed, and verified",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide a technical framework to protect, convey, and verify identity assertions through integrated Authentication, Authorization, and Auditing (AAA) mechanisms.
+
+VCF SSO serves as a centralized identity broker supporting SAML and OIDC federation, while VCF employs replay-resistant techniques such as time-limited tokens, holder-of-key assertions, and HMAC-based message authentication for API calls.
+
+VLR enforces these assertions across site boundaries for disaster recovery operations, and vDefend’s Security Services Platform (SSP) provides centralized credential validation and role-based access control. Additionally, vDefend microsegmentation and IDS/IPS protect the underlying AAA infrastructure from network-layer exploits.
+
+The platform provides the necessary technical enforcement and transport-layer protections (TLS/HTTPS), but the overall control involves organizational governance. Customers are responsible for defining AAA policies, selecting and managing external identity providers, configuring identity federation, and ensuring the implementation of multifactor authentication and appropriate replay protections within their broader enterprise identity strategy."
+PR.AA-05,"HRS-02, HRS-11, IAC-01, IAC-01.2, IAC-02, IAC-03, IAC-04, IAC-05, IAC-08, IAC-21","Access permissions, entitlements, and authorizations are defined in a policy, managed, enforced, and reviewed, and incorporate the principles of least privilege and separation of duties
+
+[Withdrawn: Incorporated into PR.AA-01, PR.AA-05]
+
+[Withdrawn: Incorporated into PR.AA-03, PR.AA-05, PR.IR-01]
+
+[Withdrawn: Moved to PR.AA-05]",Contributes,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend collectively contribute to this control by providing the technical enforcement mechanisms for identity management, role-based access control (RBAC), least privilege, and separation of duties (SoD).
+
+VCF leverages VCF SSO as a centralized identity broker, supporting federation with enterprise identity providers via SAML/OIDC. It enforces granular RBAC across vCenter, SDDC Manager, VCF Operations, and VCF Automation, allowing for the creation of custom roles restricted to minimum required privileges using privilege check recording.
+
+VLR enforces SoD for disaster recovery through tiered roles (e.g., Administrator, Protection Groups Admin, VRM Admin) and mandates dual-site authorization for cross-site operations.
+
+vDefend enforces least privilege at the network layer via default-deny microsegmentation and Identity Firewall, while its management plane utilizes strict RBAC (e.g., separating Enterprise Admin from Auditor) and policy locking to prevent unauthorized changes.
+
+While the VMware suite provides comprehensive technical controls to manage and enforce access permissions, least privilege, and SoD, the control fundamentally requires that these permissions be ""defined in a policy"" and ""reviewed."" The organization retains full responsibility for creating the access control policies, defining the specific segregation of duties requirements for its business context, conducting periodic access reviews, and governing the broader lifecycle of user identities and role assignments."
+PR.AA-06,"PES-01, PES-02, PES-02.1, PES-03","Physical access to assets is managed, monitored, and enforced commensurate with risk
+
+[Withdrawn: Moved to PR.AA-06]
+
+[Withdrawn: Incorporated into PR.AA-06, PR.IR-01]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+PR.AT,"HRS-04.2, SAT-01, SAT-02, SAT-03","Personnel are provided with awareness and training so that they possess the knowledge and skills to perform general tasks with cybersecurity risks in mind
+
+Individuals in specialized roles are provided with awareness and training so that they possess the knowledge and skills to perform relevant tasks with cybersecurity risks in mind
+
+[Withdrawn: Incorporated into PR.AT-01, PR.AT-02]
+
+[Withdrawn: Incorporated into PR.AT-02]
+
+[Withdrawn: Incorporated into PR.AT-01]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+PR.AT-01,"HRS-04.2, SAT-02, SAT-03","Personnel are provided with awareness and training so that they possess the knowledge and skills to perform general tasks with cybersecurity risks in mind
+
+[Withdrawn: Incorporated into PR.AT-01, PR.AT-02]
+
+[Withdrawn: Incorporated into PR.AT-01]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+PR.AT-02,"SAT-03, SAT-03.5, SAT-03.7","Individuals in specialized roles are provided with awareness and training so that they possess the knowledge and skills to perform relevant tasks with cybersecurity risks in mind
+
+[Withdrawn: Incorporated into PR.AT-01, PR.AT-02]
+
+[Withdrawn: Incorporated into PR.AT-02]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+PR.DS,"DCH-01, DCH-01.1, DCH-01.2, DCH-01.3, DCH-01.4, DCH-02, DCH-03","The confidentiality, integrity, and availability of data-at-rest are protected
+
+The confidentiality, integrity, and availability of data-in-transit are protected
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-03]
+
+[Withdrawn: Moved to PR.IR-04]
+
+[Withdrawn: Incorporated into PR.DS-01, PR.DS-02, PR.DS-10]
+
+[Withdrawn: Incorporated into PR.DS-01, DE.CM-09]
+
+[Withdrawn: Incorporated into PR.IR-01]
+
+[Withdrawn: Incorporated into ID.RA-09, DE.CM-09]
+
+The confidentiality, integrity, and availability of data-in-use are protected
+
+Backups of data are created, protected, maintained, and tested
+
+[Withdrawn: Moved to PR.DS-11]
+
+[Withdrawn: Incorporated into PR.DS-01, PR.PS-01]",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide a multi-layered technical architecture to protect data confidentiality, integrity, and availability. VCF provides native encryption for data-at-rest through vSAN and VM-level encryption, while protecting data-in-transit with TLS and encrypted vMotion. VLR enables data availability through automated replication, snapshots, and orchestrated disaster recovery. vDefend contributes network-layer security by using microsegmentation to restrict access to data repositories and identifying unencrypted or risky protocols that could expose data. Together, these tools provide the cryptographic, resiliency, and access control mechanisms necessary to secure data throughout its lifecycle.
+
+The control requires the customer to implement organizational policies for data classification, backup retention, and recovery testing. While the platform provides technical capabilities like encryption and replication, the customer is responsible for managing external key management systems (KMS), defining specific recovery point objectives (RPOs), and establishing human processes for incident response and physical media handling."
+PR.DS-01,"CRY-01, CRY-01.1, CRY-05, DCH-01","The confidentiality, integrity, and availability of data-at-rest are protected
+
+[Withdrawn: Incorporated into PR.DS-01, PR.DS-02, PR.DS-10]
+
+[Withdrawn: Incorporated into PR.DS-01, DE.CM-09]
+
+[Withdrawn: Incorporated into PR.DS-01, PR.PS-01]",Meets ,"VMware Cloud Foundation (VCF) and VMware Live Recovery (VLR) provide comprehensive technical mechanisms to protect the confidentiality, integrity, and availability of data-at-rest using FIPS 140-3 validated cryptographic modules. VCF implements data-at-rest encryption through vSAN cluster-based encryption and VM Encryption, which secures virtual machine files and disks across all datastore types (vSAN, iSCSI, NFS, Fibre Channel) using AES-NI CPU offloading. Integrity and availability are further supported by vSAN’s secure disk wipe (NIST 800-88), virtual Trusted Platform Module (vTPM) 2.0, and automated replication/backup orchestration via VLR and VMware Live Site Recovery. These technologies address the purely technical requirements of the control by providing native encryption, key management (Native Key Provider or external KMS integration), and data resilience features that operate independently of manual process requirements.
+
+While the platform provides the necessary cryptographic and protection mechanisms, the final effectiveness of the control depends on the customer correctly configuring and assigning appropriate storage policies and encryption settings to relevant workloads. Additionally, while VCF and VLR provide the infrastructure for protection, the customer remains responsible for managing the lifecycle and security of external Key Management Servers (KMS) if the Native Key Provider is not utilized."
+PR.DS-02,"CRY-01, CRY-03, CRY-04, DCH-01","The confidentiality, integrity, and availability of data-in-transit are protected
+
+[Withdrawn: Incorporated into PR.DS-01, PR.DS-02, PR.DS-10]",Meets ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide a comprehensive technical framework to protect the confidentiality, integrity, and availability of data-in-transit using validated cryptographic standards. VCF implements FIPS 140-3 validated cryptographic modules and enforces TLS 1.3 (with TLS 1.2 fallback) for all internal management and system communications. Storage traffic is secured through vSAN Data-in-Transit (DIT) encryption and encrypted vSphere vMotion, which uses unique session nonces to prevent replay attacks. VMware Live Recovery mandates TLS 1.2 encryption for all replication traffic and uses mutual certificate-based authentication between sites to ensure session integrity and authenticity. VMware vDefend further contributes by providing TLS inspection capabilities and identifying cleartext protocols to ensure that all sensitive traffic remains protected by the infrastructure's cryptographic controls.
+
+The control is technically satisfied by the platform's enforcement of encryption for management, migration, and replication data; however, customers must ensure that optional features, such as vMotion encryption for unencrypted VMs or DIT encryption in specific vSAN architectures, are configured to meet their specific risk tolerance and compliance requirements."
+PR.DS-10,"CFG-02, CRY-01, DCH-01, IAC-21","[Withdrawn: Incorporated into PR.DS-01, PR.DS-02, PR.DS-10]
+
+The confidentiality, integrity, and availability of data-in-use are protected",Meets ,"VMware Cloud Foundation (VCF) and VMware Live Recovery (VLR) provide comprehensive technical protections for the confidentiality, integrity, and availability of data-in-use. VCF implements memory tiering encryption using random 256-bit AES-XTS keys generated at the kernel level during VM power-on to protect data residing in system memory. Cryptographic integrity is further maintained through the use of FIPS 140-3 validated modules across all components and secure boot processes that ensure only signed, trusted code executes. vSphere vMotion preserves the confidentiality and integrity of data-in-use during migration by using one-time keys (nonces) to encrypt the transfer session. VLR and vDefend support these protections by maintaining secure baseline configurations, using TLS 1.2/1.3 for all inter-component communications, and providing granular role-based access controls to restrict cryptographic operations to authorized personnel.
+
+The technical capabilities provided by VCF and VLR satisfy the requirements for protecting data-in-use; however, the customer remains responsible for enabling these features, such as configuring Encrypted vMotion to Required and ensuring the appropriate hardware-level protections like TPM 2.0 are active and integrated with the platform's key management systems."
+PR.DS-11,"BCD-11, BCD-11.1, BCD-11.5, BCD-11.6","Backups of data are created, protected, maintained, and tested
+
+[Withdrawn: Moved to PR.DS-11]",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide a comprehensive suite of technical tools for data backup, protection, maintenance, and testing. VCF supports file-based and image-based backups for management components (SDDC Manager, vCenter, NSX), utilizes Changed Block Tracking (CBT) for efficient workload backups, and integrates with third-party providers via VADP. VLR enables high-frequency replication (down to 1-minute RPO) and non-disruptive recovery plan testing, which serves as a critical integrity verification mechanism. vDefend contributes automated, encrypted backups of security policies and configurations. Together, these platforms facilitate recurring schedules, point-in-time snapshots, and data transfer to alternate sites to meet RPO/RTO targets.
+
+The control requires that backups are not only ""created"" but also ""maintained and tested."" While the platforms provide the mechanical capabilities for scheduling, replication, and test-recovery execution, the customer is responsible for defining the organizational policies, determining backup frequency based on business needs, performing the actual sampling and validation of restored data, and managing the physical or logical security of the backup storage targets."
+PR.IR,"GOV-01, GOV-01.1, RSK-01, SEA-01, SEA-01.1, SEA-01.2, SEA-02","[Withdrawn: Moved to PR.IR-04]
+
+[Withdrawn: Incorporated into PR.IR-01]
+
+Networks and environments are protected from unauthorized logical access and usage
+
+The organization's technology assets are protected from environmental threats
+
+Mechanisms are implemented to achieve resilience requirements in normal and adverse situations
+
+Adequate resource capacity to ensure availability is maintained
+
+[Withdrawn: Incorporated into PR.AA-03, PR.AA-05, PR.IR-01]
+
+[Withdrawn: Moved to PR.IR-02]
+
+[Withdrawn: Incorporated into PR.AA-06, PR.IR-01]
+
+[Withdrawn: Moved to PR.IR-03]",Contributes ,"VMware Cloud Foundation (VCF), VMware vDefend, and VMware Live Recovery (VLR) provide a robust technical framework for protecting environments and ensuring resilience.
+
+VCF ensures logical protection through centralized identity management, RBAC, and network segmentation via NSX. Resilience is maintained through vSphere HA for automated restarts, vMotion for live migrations, and vSAN for data redundancy across availability zones. VMware Live Recovery further orchestrates disaster recovery with automated recovery plans and non-disruptive testing. vDefend contributes by maintaining continuous network security enforcement (firewall and IDS/IPS) during both normal operations and failover events, ensuring security policies follow workloads automatically.
+
+The control requires the organization to define specific resilience requirements, manage resource capacity, and protect assets from physical environmental threats, which are outside the scope of the software platform.
+
+Customer-side governance is necessary to integrate these technical capabilities into broader organizational business continuity and risk management programs."
+PR.IR-01,"NET-01, NET-02, SEA-01, SEA-02","[Withdrawn: Incorporated into PR.IR-01]
+
+Networks and environments are protected from unauthorized logical access and usage
+
+[Withdrawn: Incorporated into PR.AA-03, PR.AA-05, PR.IR-01]
+
+[Withdrawn: Incorporated into PR.AA-06, PR.IR-01]",Contributes ,"VMware Cloud Foundation (VCF) and VMware vDefend provide a comprehensive technical framework for protecting networks and environments from unauthorized logical access. VCF delivers centralized network policy management through NSX, utilizing role-based access control (RBAC), tiered gateway architectures (Tier-0 and Tier-1), and virtual segmentation with vSphere Distributed Switches. It further enforces security through hardening baselines and automated drift remediation. VMware vDefend enhances this by providing a software-defined Distributed Firewall for Layer 2 through Layer 7 microsegmentation, Gateway Firewalls, and advanced threat prevention (IDS/IPS). These tools allow for granular least-privilege access enforcement and automated security policy generation based on observed traffic patterns.
+
+While the platform provides the necessary technical enforcement and monitoring mechanisms, the control's full requirement includes the development and governance of organizational network security procedures and the manual definition of specific access policies. The customer remains responsible for defining the governance framework, procedural updates, and high-level architectural design that these technical capabilities support."
+PR.IR-02,"BCD-01, PES-01, PES-07, PES-07.5, PES-08, PES-09, SEA-01.2, THR-09","The organization's technology assets are protected from environmental threats
+
+[Withdrawn: Moved to PR.IR-02]",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide a multi-layered technical framework to maintain the availability and protection of technology assets during environmental or site-level threats.
+
+VCF enables workload resilience through vSphere High Availability (HA) for automated restarts, vSAN stretched clusters for cross-availability zone operations, and NIC teaming for network redundancy. VLR orchestrates site-level disaster recovery through automated recovery plans, non-disruptive testing, and configurable RPO/RTO targets via vSphere Replication. vDefend ensures security posture continuity by maintaining distributed firewall policies during migrations and failovers through NSX Federation and Global Manager.
+
+Collectively, these tools provide the automated orchestration and infrastructure resilience necessary to protect virtualized assets from site-wide disruptions.
+
+While the platform provides robust technical mechanisms for resilience and recovery, the control's focus on environmental threats implies physical site protections (e.g., HVAC, fire suppression, power redundancy) and the definition of organizational BC/DR policies which remain the responsibility of the customer. The technical solution facilitates the recovery of assets but does not monitor or control the physical environment itself."
+PR.IR-03,"BCD-01, SEA-01, SEA-01.2, SEA-02","Mechanisms are implemented to achieve resilience requirements in normal and adverse situations
+
+[Withdrawn: Moved to PR.IR-03]",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide a comprehensive technical framework for infrastructure and security resilience. VCF delivers high availability through vSphere HA, which automatically restarts VMs on surviving hosts, and vSphere Fault Tolerance for continuous availability. Storage resilience is managed via vSAN stretched clusters and configurable storage policies. VMware Live Recovery orchestrates disaster recovery through automated recovery plans, non-disruptive testing, and multi-site replication (vSphere Replication and array-based). vDefend ensures security posture resilience by enforcing Distributed Firewall policies that follow workloads during migrations and restarts, while NSX Federation maintains consistent security across sites. Management plane resilience is supported through integrated backup/restore capabilities and proactive monitoring in VCF Operations.
+
+The control requires the implementation of mechanisms to achieve organizational resilience requirements. While the platform provides the necessary technical automation and orchestration tools, the customer is responsible for defining the specific resilience requirements (RPO/RTO), establishing Business Continuity Management Systems (BCMS), creating Continuity of Operations (COOP) playbooks, and performing the business impact analyses that govern how these technical mechanisms are utilized."
+PR.IR-04,"CAP-01, CAP-02, CAP-03, CAP-04, CAP-05","[Withdrawn: Moved to PR.IR-04]
+
+Adequate resource capacity to ensure availability is maintained",Meets ,"VMware Cloud Foundation (VCF) provides a comprehensive, automated capacity management lifecycle through VCF Operations, which includes capabilities to assess current and forecasted demand, optimize workload placement, and plan for future expansion using historical data and predictive analytics. VCF ensures resource availability through hardware-enforced reservations, limits, and shares within resource pools, while the Distributed Resource Scheduler (DRS) automatically balances workloads to prevent resource contention.
+
+Additionally, vSphere High Availability (HA) admission control reserves specific cluster capacity to ensure virtual machines can restart after host failures. VMware Live Recovery (VLR) further supports this by providing resource mappings and priority groups to guarantee that critical workloads receive necessary resources at a recovery site. Within the security domain, VMware vDefend manages its own infrastructure capacity through the Security Services Platform, which tracks flow processing demand and recommends scaling actions when thresholds are reached.
+
+The control's technical requirements for maintaining adequate capacity are fully addressed by the automated assessment, optimization, and prioritization mechanisms across the VCF, VLR, and vDefend platforms. No significant gaps are identified as the solution provides the automated tools necessary to ensure availability without a requirement for manual policy or process definition outside the technical configuration."
+PR.PS,"CFG-01, CFG-02, CFG-02.1, CFG-02.5, CFG-02.9, MNT-01, MNT-02","[Withdrawn: Incorporated into ID.AM-08, PR.PS-03]
+
+Configuration management practices are established and applied
+
+Software is maintained, replaced, and removed commensurate with risk
+
+Hardware is maintained, replaced, and removed commensurate with risk
+
+Log records are generated and made available for continuous monitoring
+
+Installation and execution of unauthorized software are prevented
+
+Secure software development practices are integrated, and their performance is monitored throughout the software development life cycle
+
+[Withdrawn: Incorporated into PR.PS-01]
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-06]
+
+[Withdrawn: Incorporated into PR.PS-01, ID.RA-07]
+
+[Withdrawn: Incorporated into ID.RA-01, PR.PS-02]
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-02]
+
+[Withdrawn: Incorporated into PR.PS-04]
+
+[Withdrawn: Incorporated into PR.DS-01, PR.PS-01]",Contributes ,"VMware Cloud Foundation (VCF), VMware vDefend, and VMware Live Recovery (VLR) provide a comprehensive technical framework for infrastructure configuration management and maintenance. VCF Operations facilitates configuration management through Configuration Templates, source control integration for change control, and drift detection to enforce standards. vSphere Lifecycle Manager (vLCM) ensures host consistency via image-based management and Configuration Profiles, while VCF Automation enables automated enforcement through integration with tools like Ansible and Puppet. VLR supports configuration versioning and auditable changes for disaster recovery through import/export tools and the DR IP Customizer. vDefend contributes network-specific configuration controls via draft management for firewalls, federated policy distribution, and structured policy organization. For secure baselines, VCF provides validated Security Baselines, component-specific hardening guides, and compliance scanning to detect deviations. Controlled maintenance is supported by VCF’s integrated lifecycle management, host maintenance modes, and scheduled maintenance windows that suppress alerts during servicing.
+
+While the platform provides extensive technical capabilities for enforcing and monitoring configurations, the control requirements for establishing configuration management practices, determining risk-commensurate maintenance, and integrating secure software development practices (SSDL) are primarily organizational responsibilities. Customers must define the underlying policies, risk thresholds, and development life cycle processes that these technical tools then support and enforce. Hardware maintenance and disposal commensurate with risk also remain manual, customer-managed operational processes."
+PR.PS-01,CFG-01,"Configuration management practices are established and applied
+
+[Withdrawn: Incorporated into PR.PS-01]
+
+[Withdrawn: Incorporated into PR.PS-01, ID.RA-07]
+
+[Withdrawn: Incorporated into PR.DS-01, PR.PS-01]",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide a comprehensive suite of technical tools to establish and apply configuration management practices. VCF Operations enables the creation of configuration templates with source control integration for versioning and automated validation, while Configuration Drift Templates detect and remediate deviations from the desired state. vSphere Lifecycle Manager (vLCM) enforces image-based consistency across ESX hosts. For disaster recovery, VLR offers configuration import/export tools and structured IP management to ensure repeatable, auditable configurations. vDefend contributes through draft management for firewall policies, allowing for review and validation before activation, and uses a federated architecture to maintain consistent security baselines across multi-site deployments.
+
+While the platform provides extensive technical mechanisms for configuration enforcement and drift detection, the control requires that configuration management ""practices are established."" This necessitates that the customer define the underlying governance policies, change management workflows, and organizational standards that these technical tools are configured to enforce. vDefend and VLR provide point-solution configuration management, but the overarching programmatic establishment and application of these practices remain the responsibility of the customer."
+PR.PS-02,"MNT-01, MNT-02, MNT-03, MNT-03.1, PRM-07, SEA-07.1, TDA-17, VPM-01, VPM-01.1, VPM-02, VPM-05","Software is maintained, replaced, and removed commensurate with risk
+
+[Withdrawn: Incorporated into ID.RA-01, PR.PS-02]
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-02]",Contributes ,"VMware Cloud Foundation (VCF) provides an integrated technical framework for the lifecycle management of software and firmware across the infrastructure stack. SDDC Manager and vSphere Lifecycle Manager (vLCM) enable a desired-state model for ESX hosts, ensuring they remain at validated, supported versions by remediating configuration drift and managing patches, drivers, and firmware through Hardware Support Manager (HSM) plugins.
+
+VCF Operations facilitates centralized update planning and deployment for core components, including pre-checks for compatibility and readiness. Additionally, VMware vDefend contributes network-layer compensating controls, such as Distributed IDS/IPS for virtual patching and micro-segmentation to isolate vulnerable workloads, protecting unpatched systems until formal updates can be applied. The platform identifies incompatible or unsupported technology through SDDC Manager’s version tracking and reporting.
+
+The control requires that software maintenance and replacement be performed ""commensurate with risk,"" which necessitates organizational policies to define risk thresholds, retirement schedules, and documented justifications for the continued use of end-of-life technology. While VCF provides the technical mechanisms for identification, patching, and removal, the governance processes for risk assessment and the human accountability for authorizing system decommissioning remain the responsibility of the customer."
+PR.PS-03,"MNT-01, MNT-02, MNT-03, MNT-03.1, PRM-07, SEA-07.1, TDA-17","[Withdrawn: Incorporated into ID.AM-08, PR.PS-03]
+
+Hardware is maintained, replaced, and removed commensurate with risk",Contributes ,"VMware Cloud Foundation (VCF) and vDefend provide a technical framework for the maintenance and lifecycle management of infrastructure assets. VCF facilitates hardware maintenance through Proactive HA, which monitors physical components (fans, power supplies, storage) and triggers proactive evacuations to healthy hosts upon detecting degradation. Integrated lifecycle management is provided through SDDC Manager and vSphere Lifecycle Manager (vLCM), which use desired-state specifications and Hardware Support Manager (HSM) plugins to keep software, firmware, and drivers at validated versions. VCF Operations enables the scheduling of maintenance windows to automate transitions into maintenance mode and suppress alerts during servicing. vDefend adds management plane controls through the Security Services Platform (SSP) to manage the rollout and health of security sensors and bare metal agents.
+
+The control requirements for hardware replacement and removal commensurate with risk involve organizational policy decisions, risk assessment processes, and physical handling procedures that are outside the scope of the technical platform. While the platform identifies incompatible or unsupported hardware through compatibility checks, the actual procurement, physical replacement, and decommissioning processes remain the responsibility of the customer."
+PR.PS-04,"MON-01, MON-01.4, MON-01.16, MON-03","Log records are generated and made available for continuous monitoring
+
+[Withdrawn: Incorporated into PR.PS-04]",Contributes ,"VMware Cloud Foundation (VCF), VMware vDefend, and VMware Live Recovery (VLR) provide a comprehensive technical framework for generating and making log records available for continuous monitoring. VCF Operations for Logs serves as a centralized platform that ingests logs from vCenter, ESX hosts, and other VCF components, providing dashboards and analytics for security investigation and real-time alerting. VCF Operations further supports this by monitoring the operational state of components, correlating metrics over time, and allowing administrators to define alert policies based on performance or log events.
+
+VMware vDefend adds network-layer visibility through Security Intelligence and NDR, generating firewall, IDS/IPS, and malware detection logs that can be forwarded to SIEM endpoints. VMware Live Recovery contributes by providing event logging and alarms for disaster recovery and replication events, ensuring DR readiness is monitored. Collectively, these tools ensure that event types, timestamps, sources, outcomes, and user identities are captured and accessible for continuous monitoring.
+
+The control requires that log records are not only generated but also actively monitored. While VMware provides the necessary instrumentation and centralized visibility, the responsibility for defining specific alert thresholds, establishing continuous monitoring workflows, and responding to generated logs and alerts rests with the customer's organizational processes. Management of physical security logs and organizational-level policy definitions are also outside the scope of the software components."
+PR.PS-05,"CFG-01, CFG-02, CFG-03, CFG-03.2, CFG-05, END-03",Installation and execution of unauthorized software are prevented,Meets ,"VMware Cloud Foundation (VCF) and vDefend provide a comprehensive technical architecture to prevent the installation and execution of unauthorized software across the infrastructure, virtual machine, and container layers. At the hypervisor level, ESX enforces UEFI Secure Boot and hardware-rooted attestation via TPMs to verify the boot chain, while mandatory code signing for vSphere Installation Bundles (VIBs) prevents the installation of unapproved host software. vSphere Lifecycle Manager (vLCM) enforces these approved software baselines through image-based management and automated drift remediation.
+
+Within guest workloads, vDefend’s Malware Prevention Service provides hypervisor-level detection and prevention of malicious executables and fileless attacks, operating independently of guest OS security. For containerized workloads, VCF integrates with Harbor for image signing and content trust, while VMware Kubernetes Service (VKS) admission controllers block non-compliant images.
+
+These technical controls are reinforced by granular Role-Based Access Control (RBAC) that restricts software installation privileges to authorized administrators and prevents non-privileged users from introducing unapproved packages or modifying system configurations.
+
+None. The platform provides comprehensive, automated technical enforcement mechanisms to satisfy the control requirements across all managed layers."
+PR.PS-06,"TDA-01, TDA-01.1, TDA-06, TDA-06.1, TDA-06.2, TDA-06.3, TDA-09","Secure software development practices are integrated, and their performance is monitored throughout the software development life cycle
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-06]",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+RC,"BCD-01, BCD-12","The recovery portion of the incident response plan is executed once initiated from the incident response process
+
+Recovery actions are selected, scoped, prioritized, and performed
+
+The integrity of backups and other restoration assets is verified before using them for restoration
+
+Critical mission functions and cybersecurity risk management are considered to establish post-incident operational norms
+
+The integrity of restored assets is verified, systems and services are restored, and normal operating status is confirmed
+
+The end of incident recovery is declared based on criteria, and incident-related documentation is completed
+
+[Withdrawn: Incorporated into RC.CO-04]
+
+Recovery activities and progress in restoring operational capabilities are communicated to designated internal and external stakeholders
+
+Public updates on incident recovery are shared using approved methods and messaging
+
+[Withdrawn: Incorporated into ID.IM-03, ID.IM-04]
+
+[Withdrawn: Incorporated into ID.IM-03]",Contributes ,"VMware Cloud Foundation (VCF) and VMware Live Recovery (VLR) provide the technical framework and automated orchestration required to execute recovery actions, restore systems, and confirm operational status. VLR facilitates the selection and prioritization of recovery actions through executable recovery plans and protection groups, supporting both planned migrations and disaster recovery modes. VCF components, including vSphere High Availability, vSAN stretched clusters, and vCenter/NSX backup and restore services, provide the underlying mechanisms for workload resilience and infrastructure reconstitution. vSphere Replication and array-based replication enable granular Recovery Point Objectives (RPO) down to 60 seconds. VLR also supports non-disruptive testing to validate the integrity of recovery procedures and restoration assets before actual use. VMware vDefend ensures security posture continuity during recovery via NSX Federation, maintaining firewall policies as workloads fail over.
+
+The control's full scope requires customer-defined incident response plans, documented criteria for initiating recovery and declaring its end, and organizational processes for communicating progress to stakeholders. While VCF and VLR provide the execution and verification tools, the selection of ""critical mission functions,"" the establishment of ""post-incident operational norms,"" and the manual completion of incident-related documentation are human-driven governance activities that remain the responsibility of the customer."
+RC.CO,"BCD-01.1, BCD-01.2","[Withdrawn: Incorporated into RC.CO-04]
+
+Recovery activities and progress in restoring operational capabilities are communicated to designated internal and external stakeholders
+
+Public updates on incident recovery are shared using approved methods and messaging",Contributes ,"VMware Cloud Foundation (VCF) and VMware Live Recovery (VLR) provide technical mechanisms to track and share the state of recovery activities, though the actual communication to stakeholders and public messaging remains an organizational responsibility. VCF Operations provides dependency mapping and relationship visualization that allow teams to identify affected services and communicate impact accurately. VLR exposes recovery plan states through external APIs and reports, enabling stakeholders or third-party orchestration tools to monitor progress in real-time. Additionally, VLR's testing capabilities provide a validated baseline for recovery procedures that can be shared with internal and external partners.
+
+The control requires the communication of recovery progress to designated stakeholders and the sharing of public updates using approved messaging. While VCF and VLR provide the technical status data, the establishment of communication protocols, the identification of stakeholders, and the execution of public relations or notification workflows are procedural tasks that must be managed by the customer."
+RC.CO-03,BCD-01.6,Recovery activities and progress in restoring operational capabilities are communicated to designated internal and external stakeholders,Contributes ,"VMware Cloud Foundation (VCF) and VMware Live Recovery (VLR) provide technical mechanisms to track and communicate recovery progress. VCF components report detailed status for restore jobs via management APIs and REST endpoints. VCF Operations supports outbound notifications through email, webhooks, SNMP traps, and Slack to forward recovery-related alerts to external systems and dashboards. VLR offers real-time visibility into recovery plan states, including protection group transitions and detailed error reporting during failover operations. Both platforms expose status programmatically via REST APIs for integration with third-party incident management and communication tools.
+
+The control requires the communication of recovery activities to designated internal and external stakeholders, which involves organizational policies, defined communication plans, and human accountability. While VCF and VLR provide the status data and delivery channels, the customer is responsible for defining the list of stakeholders, establishing communication procedures for external parties like customers and regulators, and managing the personnel responsible for these communications."
+RC.CO-04,IRO-16,"[Withdrawn: Incorporated into RC.CO-04]
+
+Public updates on incident recovery are shared using approved methods and messaging",Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+RC.RP,"BCD-01, BCD-01.4, BCD-02, BCD-02.1","The recovery portion of the incident response plan is executed once initiated from the incident response process
+
+Recovery actions are selected, scoped, prioritized, and performed
+
+The integrity of backups and other restoration assets is verified before using them for restoration
+
+Critical mission functions and cybersecurity risk management are considered to establish post-incident operational norms
+
+The integrity of restored assets is verified, systems and services are restored, and normal operating status is confirmed
+
+The end of incident recovery is declared based on criteria, and incident-related documentation is completed",Contributes ,"VMware Cloud Foundation (VCF) and VMware Live Recovery (VLR) provide an integrated technical framework for executing recovery actions as part of an incident response process. VLR serves as the primary orchestration engine, utilizing recovery plans that act as executable playbooks to define the sequence, priority, and configuration for failover operations. VCF supports this through infrastructure-level resilience including vSphere High Availability for automatic VM restarts, vSAN stretched clusters for zero-RPO site failures, and scheduled backup/restore workflows for management components (SDDC Manager, vCenter, NSX). VLR also facilitates non-disruptive testing to validate procedures and automated configuration exports to ensure recovery site readiness.
+
+VMware vDefend contributes by maintaining consistent security policies (distributed and gateway firewalls) during failover through its Global Manager, ensuring workloads remain protected upon restoration. The platform provides quantified recovery time expectations (10-15 minutes) for network security infrastructure, supporting the organization's ability to meet overall Recovery Time Objectives (RTO).
+
+The control's full scope requires human-centric and organizational processes that the technology facilitates but cannot fulfill independently. This includes the initiation of the recovery plan from the incident response process, the selection and prioritization of specific recovery actions, the definition of post-incident operational norms based on risk management, the formal declaration of the end of recovery based on criteria, and the completion of related documentation. While the system automates technical restoration and verification, the overall governance and execution of the Incident Response Plan remain the responsibility of the customer."
+RC.RP-01,"BCD-01.5, BCD-12",The recovery portion of the incident response plan is executed once initiated from the incident response process,Contributes ,"VMware Cloud Foundation (VCF) and VMware Live Recovery (VLR) provide an integrated technical framework for executing recovery actions as part of an incident response process. VLR serves as the primary orchestration engine, utilizing recovery plans that act as executable playbooks to define the sequence, priority, and configuration for failover operations. VCF supports this through infrastructure-level resilience including vSphere High Availability for automatic VM restarts, vSAN stretched clusters for zero-RPO site failures, and scheduled backup/restore workflows for management components (SDDC Manager, vCenter, NSX). VLR also facilitates non-disruptive testing to validate procedures and automated configuration exports to ensure recovery site readiness. VMware vDefend contributes by maintaining consistent security policies across sites via NSX Federation, ensuring security posture continuity during failover.
+
+The control requires the execution of a recovery plan ""once initiated from the incident response process,"" which implies a broader organizational workflow. While VCF and VLR provide the technical automation and orchestration for recovery, the governance decisions, the criteria for declaring a disaster, and the manual initiation of the incident response process remain the responsibility of the customer. VCF and VLR provide the mechanisms for recovery but do not define or manage the overarching organizational incident response policy."
+RC.RP-02,"BCD-01, BCD-01.4, BCD-02, BCD-02.1","Recovery actions are selected, scoped, prioritized, and performed",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide a comprehensive technical suite for selecting, scoping, and executing recovery actions.
+
+VLR facilitates the selection and scoping of recovery actions through ""Protection Groups"" and ""Recovery Plans,"" which serve as executable playbooks defining the sequence and priority of failover operations. VCF supports performance of these actions through vSphere High Availability (HA) for automated restarts, vSAN stretched clusters for site-level resilience, and VMware HCX for workload mobility. vDefend ensures security posture is maintained during recovery via Global Manager policy preservation.
+
+The integrated framework supports granular RPO/RTO configurations, non-disruptive testing, and automated network reconfiguration, fulfilling the technical requirements for executing prioritized recovery workflows.
+
+The control requires that recovery actions are selected and prioritized, which are administrative and governance-driven tasks.
+
+While the VMware suite provides the orchestration tools (Recovery Plans and Protection Groups) to execute these decisions, the customer remains responsible for defining the organizational priorities, determining the scope of recovery based on business impact analyses, and establishing the formal contingency policies that guide the selection of specific recovery actions."
+RC.RP-03,"BCD-13, BCD-13.1",The integrity of backups and other restoration assets is verified before using them for restoration,Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide technical mechanisms to verify the integrity and consistency of restoration assets.
+
+VCF ensures logical consistency through simultaneous multi-node backups, reconciliation APIs for post-restore topology verification, and strict version/configuration constraints on restore targets. VLR facilitates non-disruptive test failovers to validate that recovery plans and virtual machine snapshots produce functional outcomes before an actual disaster recovery event. Additionally, vDefend enforces pre-restoration compatibility checks for environment structural integrity.
+
+These features collectively enable technical verification that restoration assets are valid and usable.
+
+The control requires procedural verification and the implementation of organizational policies for test restores.
+
+The platform does not perform automatic cryptographic hash or digital signature validation of backup files, and physical protection of backup hardware remains the responsibility of the customer."
+RC.RP-04,"BCD-01, BCD-01.4, BCD-02, BCD-02.1",Critical mission functions and cybersecurity risk management are considered to establish post-incident operational norms,Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide the technical framework necessary to establish post-incident operational norms by aligning infrastructure recovery with critical business functions. VCF Operations allows administrators to group infrastructure objects into Business Applications and tag them with criticality metadata, ensuring that the most vital services are identified for prioritized recovery. VLR formalizes these priorities through protection groups and recovery plans, which act as executable playbooks to automate the resumption of missions within defined Recovery Time Objectives (RTO). vDefend contributes by maintaining security posture during failover via Global Manager, ensuring that distributed firewall and gateway policies remain active as workloads migrate. Furthermore, VLR supports non-disruptive testing, allowing organizations to validate that their established operational norms can be met under various failure scenarios.
+
+The control requires that critical mission functions and cybersecurity risk management are ""considered"" to establish these norms, which is an organizational and governance process. While the VMware stack provides the tools to identify assets, define recovery sequences, and automate technical execution, the customer is responsible for performing the business impact analysis (BIA), defining what constitutes a ""post-incident operational norm,"" and documenting these expectations within a broader Business Continuity Management System (BCMS). The platform facilitates the implementation of these norms but does not define the business or risk-management criteria used to establish them."
+RC.RP-05,BCD-12,"The integrity of restored assets is verified, systems and services are restored, and normal operating status is confirmed",Meets ,"VMware Cloud Foundation (VCF) and VMware Live Recovery (VLR) provide automated technical mechanisms to restore assets, verify their integrity through non-disruptive testing, and confirm normal operating status. VCF utilizes vSphere HA and Fault Tolerance for automated workload restoration, while vSAN Data Protection and stretched clusters provide point-in-time recovery and site-level resilience. VLR (Live Site Recovery) orchestrates the end-to-end recovery process through automated recovery plans that include built-in testing capabilities to validate that protected VMs are successfully restored and the recovery site is correctly configured. Additionally, the reconciliation API and platform-level restore operations for vCenter and VCF Operations ensure the management layer is returned to a known, functional state.
+
+The technical platform provides the necessary automation for restoration and verification; however, the customer is responsible for defining the specific recovery point objectives (RPO) and recovery time objectives (RTO) within the recovery plans to meet organizational requirements."
+RC.RP-06,"IRO-02, IRO-09","The end of incident recovery is declared based on criteria, and incident-related documentation is completed",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide technical mechanisms to support the incident recovery lifecycle and facilitate documentation. VCF Operations includes a Troubleshooting Incidents page where operators can track resolution status (Resolved vs. Unresolved) and integrate with ServiceNow to synchronize incident states and resolution notes into structured ITSM workflows. VLR orchestrates disaster recovery via recovery plans and provides visibility into recovery readiness and execution status. vDefend contributes through Intelligent Assist, which automates remediation strategies and maintains records of IDS/IPS events for post-incident investigation. Together, these tools provide the technical foundation for monitoring recovery progress and capturing incident-related data.
+
+The control requires that the end of recovery be declared based on specific criteria and that all documentation be completed. While VMware tools provide tracking statuses and logging, the definition of recovery criteria, the formal declaration of incident closure, and the verification of complete organizational documentation are procedural activities that must be managed by the customer."
+RS,"IRO-01, IRO-02, IRO-04, IRO-07, IRO-09, IRO-10","The incident response plan is executed in coordination with relevant third parties once an incident is declared
+
+Incident reports are triaged and validated
+
+Incidents are categorized and prioritized
+
+Incidents are escalated or elevated as needed
+
+The criteria for initiating incident recovery are applied
+
+[Withdrawn: Incorporated into RS.MA-02]
+
+[Withdrawn: Incorporated into RS.MA-02, RS.MA-03, RS.MA-04]
+
+Analysis is performed to establish what has taken place during an incident and the root cause of the incident
+
+[Withdrawn: Moved to RS.MA-03]
+
+[Withdrawn: Moved to ID.RA-08]
+
+Actions performed during an investigation are recorded, and the records' integrity and provenance are preserved
+
+Incident data and metadata are collected, and their integrity and provenance are preserved
+
+An incident's magnitude is estimated and validated
+
+[Withdrawn: Incorporated into PR.AT-01]
+
+Internal and external stakeholders are notified of incidents
+
+Information is shared with designated internal and external stakeholders
+
+[Withdrawn: Incorporated into RS.MA-01, RS.MA-04]
+
+[Withdrawn: Incorporated into RS.CO-03]
+
+Incidents are contained
+
+Incidents are eradicated
+
+[Withdrawn: Incorporated into ID.RA-06]
+
+[Withdrawn: Incorporated into RS.MA-01]
+
+[Withdrawn: Incorporated into ID.IM-03, ID.IM-04]
+
+[Withdrawn: Incorporated into ID.IM-03]",Contributes ,"VMware Cloud Foundation (VCF), VMware vDefend, and VMware Live Recovery (VLR) provide an integrated technical framework to support the detection, analysis, containment, and recovery phases of the incident response lifecycle. VCF Operations provides a Troubleshooting Incidents page for managing metadata, root cause analysis, and tracking, while its integration with ServiceNow allows incident data to flow into established ITSM workflows. VMware vDefend adds automated threat detection through IDS/IPS and Network Detection and Response (NDR), correlating events into campaigns and providing AI-guided remediation and network-level containment via quarantine policies. For recovery, VLR orchestrates disaster recovery through structured recovery plans, automated failover, and non-disruptive testing, while vSphere HA and Proactive HA provide automated workload restarts and evacuations. Together, these tools provide the technical instrumentation for documenting, monitoring, and responding to incidents as they occur.
+
+The control's full scope requires customer-defined incident response plans, policies for incident declaration, and coordination with relevant third parties. While the platform provides technical capabilities for triage, containment, and recovery, the governance of organization-wide processes, notification of stakeholders, and the assignment of human accountability remain the responsibility of the customer. vDefend and VLR facilitate response actions, but the final criteria for initiating recovery and the management of organizational incident metadata are process-dependent."
+RS.AN,"IRO-02, IRO-08","[Withdrawn: Incorporated into RS.MA-02]
+
+[Withdrawn: Incorporated into RS.MA-02, RS.MA-03, RS.MA-04]
+
+Analysis is performed to establish what has taken place during an incident and the root cause of the incident
+
+[Withdrawn: Moved to RS.MA-03]
+
+[Withdrawn: Moved to ID.RA-08]
+
+Actions performed during an investigation are recorded, and the records' integrity and provenance are preserved
+
+Incident data and metadata are collected, and their integrity and provenance are preserved
+
+An incident's magnitude is estimated and validated",Contributes ,"VMware Cloud Foundation (VCF), VMware vDefend, and VMware Live Recovery (VLR) provide technical capabilities to analyze incidents, capture forensic evidence, and record investigation metadata. VCF Operations features a Troubleshooting Incidents page to track root causes and resolution status, while Diagnostic Findings automates log pattern analysis. For evidence preservation, vCenter and vSAN support snapshots—including immutable versions—to record system states, and VCF components forward encrypted audit logs and syslog data to external SIEMs to ensure integrity and provenance. vDefend captures network-level evidence such as PCAP files from IDS/IPS events and NDR sensors, and generates detailed malware analysis reports. VLR provides chronological audit events of disaster recovery operations and generates support bundles for diagnostic review. Collectively, these tools enable the collection of incident data and metadata while supporting the estimation of incident magnitude through impact-based prioritization in Security Intelligence.
+
+The control requires establishing organizational policies for incident analysis, defining criteria for validating an incident's magnitude, and maintaining legal chain-of-custody procedures. While the platform provides the technical artifacts and audit trails, the customer is responsible for the manual intake, governance, and legal handling of evidence. Specific recovery activities and the final declaration of incident magnitude rely on human intervention and organizational processes outside the technical scope of the software."
+RS.AN-03,IRO-13,Analysis is performed to establish what has taken place during an incident and the root cause of the incident,Not Applicable ,"End user activity or process, design decision, or activity out of scope."
+RS.AN-06,"IRO-02, IRO-08, IRO-09","Actions performed during an investigation are recorded, and the records' integrity and provenance are preserved",Contributes ,"VMware Cloud Foundation (VCF), VMware vDefend, and VMware Live Recovery (VLR) provide technical mechanisms to record investigative actions and preserve evidence integrity. VCF maintains detailed audit trails across its components, including VCF Operations for platform interactions and NSX for network modifications, which provide timestamped evidence of administrative actions. For evidence preservation, vCenter supports VM snapshots, while vSAN offers immutable snapshots that are read-only and cannot be deleted, ensuring data integrity. VCF components also support encrypted syslog forwarding (via TLS) to external SIEM platforms, maintaining a tamper-resistant record independent of the local environment. VMware vDefend specifically contributes by capturing and exporting packet capture (PCAP) files and malware analysis reports, while providing a dedicated Auditor role to ensure separation of duties during forensic review. VLR adds to this by generating audit events for disaster recovery operations and providing support bundle generation for diagnostic data.
+
+The platform provides the technical artifacts and secure logging necessary for an investigation, but it does not manage the organizational processes required for a full investigation lifecycle. Customers are responsible for establishing legal chain-of-custody procedures, defining evidentiary handling requirements, and managing the human-driven aspects of incident documentation and reporting outside of the automated technical logs."
+RS.AN-07,IRO-08,"Incident data and metadata are collected, and their integrity and provenance are preserved",Contributes ,"VMware Cloud Foundation (VCF), VMware vDefend, and VMware Live Recovery (VLR) provide technical capabilities to collect and preserve incident data and metadata.
+
+VCF supports point-in-time evidence capture through VM snapshots and vSAN immutable snapshots, while VCF Operations and NSX generate detailed, timestamped audit logs of administrative and security events.
+
+vDefend captures network-level evidence including PCAP files from IDS/IPS and NDR, as well as malware analysis reports documenting fileless and file-based threats.
+
+For integrity and provenance, VCF supports encrypted log forwarding to external SIEMs via TLS with certificate verification, and the platform provides a dedicated Auditor role to ensure separation of duties during investigations.
+
+VLR further contributes by logging DR operations and generating diagnostic support bundles for forensic review.
+
+The platform provides the technical artifacts and secure transport mechanisms required for forensics, but the customer is responsible for establishing organizational policies, legal chain-of-custody procedures, and evidentiary handling requirements to ensure the long-term integrity and legal admissibility of the collected data."
+RS.AN-08,IRO-02.4,An incident's magnitude is estimated and validated,Contributes ,"VMware vDefend's Security Intelligence and Network Detection and Response (NDR) provide technical capabilities to estimate the magnitude of incidents by categorizing suspicious traffic events and assigning impact scores to threat campaigns. These tools utilize impact levels (Critical, High, Medium, Low) and numerical scoring to help security teams prioritize triage and validate the severity of network-layer detections based on contextual signals from IDS/IPS and Malware Prevention.
+
+The control requirement to validate and estimate incident magnitude extends to broader organizational incident management procedures that are not fully automated by vDefend. vDefend provides the technical evidence and scoring for network incidents, but the final validation and integrated magnitude estimation across all asset types remain the responsibility of the customer's security operations and governed procedures."
+RS.CO,"IRO-02, IRO-02.5, IRO-06.1, IRO-09, IRO-10, IRO-10.2, IRO-10.4","[Withdrawn: Incorporated into PR.AT-01]
+
+Internal and external stakeholders are notified of incidents
+
+Information is shared with designated internal and external stakeholders
+
+[Withdrawn: Incorporated into RS.MA-01, RS.MA-04]
+
+[Withdrawn: Incorporated into RS.CO-03]",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide the technical infrastructure and outbound integration mechanisms necessary to notify stakeholders and share incident information. VCF Operations includes configurable notification plugins for Email, SNMP Traps, Webhooks, Slack, and ServiceNow, allowing alert data to be forwarded to external ticketing systems and communication platforms. VCF components also support encrypted syslog forwarding to SIEM platforms for centralized data correlation. vDefend’s Security Intelligence and NDR further enhance situational awareness by mapping network events to attack frameworks and visualizing the blast radius of incidents, which provides the technical content for reporting. VLR contributes through recovery plan status monitoring and replication health tracking, ensuring readiness information is available for stakeholders.
+
+The control requires notifying specific designated internal and external stakeholders, which is an organizational process. While the platform provides the technical delivery channels (Email, Slack, ServiceNow, Webhooks), the customer is responsible for defining the notification policies, identifying the appropriate stakeholders, and managing the human and organizational workflows for incident communication and regulatory reporting."
+RS.CO-02,"IRO-02, IRO-10, IRO-10.2, IRO-10.4",Internal and external stakeholders are notified of incidents,Contributes ,"VMware Cloud Foundation (VCF), VMware vDefend, and VMware Live Recovery (VLR) provide the technical infrastructure and notification mechanisms required to alert stakeholders of incidents. VCF Operations and vCenter Server support automated alerting via email, SNMP traps, webhooks, and direct integration with ITSM platforms like ServiceNow and Slack.
+
+vDefend’s Security Intelligence provides visibility into suspicious traffic events, while VLR supports incident handling for disaster recovery scenarios. These tools enable the automated delivery of technical alerts to the teams and systems responsible for incident response.
+
+The control requires the actual notification of internal and external stakeholders, which is an organizational process involving policy definition, legal requirements, and human accountability. While the VMware stack provides the detection and notification delivery channels, the customer is responsible for defining the incident criteria, identifying the appropriate stakeholders (e.g., regulators, individuals, or partners), and executing the final communication workflows."
+RS.CO-03,"IRO-02, IRO-10, IRO-10.2, IRO-10.4","Information is shared with designated internal and external stakeholders
+
+[Withdrawn: Incorporated into RS.CO-03]",Contributes ,"VMware Cloud Foundation (VCF), VMware vDefend, and VMware Live Recovery (VLR) provide technical mechanisms to facilitate the sharing of incident-related information with internal and external stakeholders. VCF Operations provides continuous monitoring and alerting, with outbound notification channels including SNMP traps, webhooks, a ServiceNow plug-in for ITSM integration, and email to route alerts to designated response teams. All VCF components support syslog forwarding to external SIEM platforms for centralized visibility. VCF Operations also features a Troubleshooting Incidents page and investigation workflows that allow operators to flag metrics and track status, helping to assemble necessary information for reporting. VMware vDefend’s Security Intelligence and Intelligent Assist support the detection and remediation phases by identifying and automating responses to suspicious traffic, while VLR provides structured recovery plans and failover orchestration for disaster recovery scenarios.
+
+The control requires information to be shared with designated stakeholders, which is an organizational process. While VMware products provide the technical infrastructure for detection, alerting, and data forwarding, the customer is responsible for defining notification policies, designating the specific internal and external stakeholders (such as regulators or legal counsel), and executing the final reporting and communication workflows. vDefend's Intelligent Assist may also require manual cleanup for objects that encounter errors, indicating a need for human intervention."
+RS.MA,"IRO-02, IRO-04, IRO-07","The incident response plan is executed in coordination with relevant third parties once an incident is declared
+
+Incident reports are triaged and validated
+
+Incidents are categorized and prioritized
+
+Incidents are escalated or elevated as needed
+
+The criteria for initiating incident recovery are applied
+
+[Withdrawn: Incorporated into RS.MA-02]
+
+[Withdrawn: Incorporated into RS.MA-02, RS.MA-03, RS.MA-04]
+
+[Withdrawn: Moved to RS.MA-03]
+
+[Withdrawn: Incorporated into RS.MA-01, RS.MA-04]
+
+[Withdrawn: Incorporated into RS.MA-01]",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide technical capabilities to support the execution, triage, categorization, and recovery phases of an incident response plan. VCF Operations facilitates automated event detection and prioritization through severity ranking (Info to Immediate) and offers a Troubleshooting Incidents page for managing and tracking resolution status. Integration with ServiceNow allows incidents to flow into structured ITSM workflows for triage. VMware vDefend’s Security Intelligence prioritizes suspicious traffic by impact type, while Intelligent Assist automates remediation strategies. For recovery, VLR orchestrates disaster recovery via predefined recovery plans and automated failover, and VCF provides high-availability features like vSphere HA and Fault Tolerance to apply recovery criteria for workloads.
+
+The control requires the execution of an incident response plan in coordination with third parties and the application of recovery criteria, which are primarily organizational processes.
+
+While the platforms provide the technical infrastructure for detection, analysis, and recovery orchestration, the customer is responsible for defining the incident response plan, establishing coordination protocols with third parties, and determining the specific criteria for declaring incidents and initiating recovery. Customer-led configuration of notification rules, recovery plan steps, and ITSM integration is required to align the technical tools with organizational policy."
+RS.MA-01,"IRO-02, IRO-02.5, IRO-04, IRO-07, IRO-10","The incident response plan is executed in coordination with relevant third parties once an incident is declared
+
+[Withdrawn: Incorporated into RS.MA-01, RS.MA-04]
+
+[Withdrawn: Incorporated into RS.MA-01]",Contributes ,"VMware Cloud Foundation (VCF), VMware Live Recovery (VLR), and VMware vDefend provide the technical infrastructure and integration mechanisms required to execute incident response activities in coordination with third parties. VCF Operations facilitates this through outbound notification plug-ins for email, SNMP traps, Webhooks, Slack, and ServiceNow, allowing alert data to be forwarded to external ticketing systems or managed service providers. VCF Operations for Networks further extends this with Slack and PagerDuty integrations. For log-level coordination, VCF components support syslog forwarding to external SIEM platforms and log aggregators. VLR enables coordinated recovery through automated failover orchestration and recovery plans that can include custom scripts for multi-site coordination. vDefend provides technical containment and remediation capabilities, such as quarantine policies and Intelligent Assist, to support the response lifecycle.
+
+The control requires the execution of an incident response plan and coordination with third parties, which are inherently process-driven activities. While VMware provides the technical integration points (APIs, webhooks, and connectors) to facilitate communication and automated actions, the customer is responsible for defining the incident response plan, establishing formal agreements with third parties, and managing the human and organizational workflows necessary to declare incidents and initiate coordinated responses. vDefend's recovery activities and preparation phases also rely on organizational processes outside the product's automated capabilities."
+RS.MA-02,"IRO-02, IRO-04","Incident reports are triaged and validated
+
+[Withdrawn: Incorporated into RS.MA-02]
+
+[Withdrawn: Incorporated into RS.MA-02, RS.MA-03, RS.MA-04]",Contributes ,"VMware Cloud Foundation (VCF), VMware vDefend, and VMware Live Recovery (VLR) provide technical capabilities that automate the collection and analysis of event data to facilitate triage and validation.
+
+VCF Operations correlates events from monitored components into faults, while vCenter Server alarms trigger notifications based on defined thresholds. For structured triage, VCF Operations provides a Troubleshooting Incidents page for root cause analysis and integrates with ServiceNow to flow incidents into ITSM workflows. VMware vDefend’s Security Intelligence further supports validation by prioritizing suspicious traffic by impact type, and VLR enables structured handling and testing of disaster recovery incidents through orchestrated recovery plans.
+
+The control requires the triage and validation of incident reports, which involves organizational processes, manual intake, and human decision-making. While the platform provides automated detection and analysis tools, the customer is responsible for defining the criteria for validation, establishing incident response governance, and assigning the human roles necessary to manage the end-to-end triage process."
+RS.MA-03,IRO-02.4,"Incidents are categorized and prioritized
+
+[Withdrawn: Incorporated into RS.MA-02, RS.MA-03, RS.MA-04]
+
+[Withdrawn: Moved to RS.MA-03]",Contributes ,"VMware vDefend provides technical capabilities to automate the categorization and prioritization of security events within the software-defined data center. Security Intelligence classifies detected suspicious traffic into impact levels—Critical, High, Medium, and Low—while Network Detection and Response (NDR) assigns numerical impact scores to consolidated threat campaigns. Additionally, IDS/IPS and Malware Prevention alerts provide contextual signals that support incident classification by security analysts.
+
+The control's requirement to categorize and prioritize incidents implies an overarching organizational incident management process. While vDefend provides automated technical categorization for network-based events, the customer is responsible for defining the broader incident criteria, response policies, and human workflows for non-network incidents."
+RS.MA-04,"IRO-02, IRO-04, IRO-07","Incidents are escalated or elevated as needed
+
+[Withdrawn: Incorporated into RS.MA-02, RS.MA-03, RS.MA-04]
+
+[Withdrawn: Incorporated into RS.MA-01, RS.MA-04]",Contributes ,"VMware Cloud Foundation (VCF), VMware vDefend, and VMware Live Recovery (VLR) provide technical mechanisms to automate the detection, notification, and escalation of incidents.
+
+VCF Operations correlates infrastructure events and ranks them by severity (Info to Immediate), while vCenter Server alarms trigger automated notifications via email, SNMP traps, or API calls when thresholds are exceeded. VCF also integrates with ServiceNow to flow technical alerts into formal ITSM workflows. vDefend’s Security Intelligence prioritizes network traffic events by impact level, and VLR provides structured orchestration for disaster recovery through automated recovery plans and failover testing. These tools ensure that infrastructure issues and security events are technically elevated to the appropriate monitoring interfaces and integrated tools.
+
+The control requires that incidents are escalated as needed, which is an organizational process requiring defined policies, communication chains, and human decision-making. While the platforms provide the notification and integration hooks, the customer is responsible for defining the escalation criteria, assigning personnel to roles, and establishing the governance framework to ensure manual escalation occurs when automated triggers are insufficient."
+RS.MA-05,"BCD-01, BCD-01.5",The criteria for initiating incident recovery are applied,Contributes ,"VMware Cloud Foundation (VCF) and VMware Live Recovery (VLR) provide the technical framework and operational preconditions for applying incident recovery criteria. VLR enforces technical state management where recovery plans validate readiness before execution, and specific workflows like Initiate Failover and Initiate Reprotect gate operations based on current system states. VCF supports automated recovery through vSphere HA, which restarts VMs based on heartbeat monitoring and admission control policies, and vSAN stretched clusters that provide site-level failover. VCF Operations provides monitoring and alerts with configurable criticality to inform initiation decisions. Additionally, vDefend maintains security posture during failover via Global Manager deployment.
+
+The control requires the application of criteria for initiating recovery, which involves organizational governance to define specific thresholds, disaster declaration policies, and decision-making processes. While the platforms enforce technical preconditions and provide monitoring data, the definition of business-level recovery criteria and the ultimate authority to initiate plans remain the customer's responsibility."
+RS.MI,"IRO-01, IRO-02, IRO-04","Incidents are contained
+
+Incidents are eradicated
+
+[Withdrawn: Incorporated into ID.RA-06]",Contributes ,"VMware Cloud Foundation (VCF), VMware vDefend, and VMware Live Recovery (VLR) provide technical capabilities to support incident containment and eradication phases.
+
+VCF Operations facilitates incident management through a Troubleshooting Incidents page and integrates with ITSM tools like ServiceNow for structured workflows. VMware vDefend enables automated containment via quarantine policies that isolate VMs during security events and utilizes Intelligent Assist for AI-guided remediation and emergency firewall rule creation. VMware Live Recovery supports incident response for data protection scenarios through automated failover orchestration and recovery plans.
+
+The solution does not govern organization-wide incident response processes, maintain official incident documentation, or define the criteria for incident declaration.
+
+Customers remain responsible for the organizational preparation, process governance, and human review/approval of remediation policies. Additionally, certain recovery activities and the cleanup of failed remediation objects require manual human intervention."
+RS.MI-01,IRO-02,Incidents are contained,Contributes ,"VMware Cloud Foundation (VCF), VMware vDefend, and VMware Live Recovery (VLR) provide technical mechanisms to contain incidents across infrastructure and network layers. VCF supports containment via vCenter Server through VM power state changes and network reconfiguration, while vDefend provides advanced containment using quarantine policies that automatically isolate virtual machines based on security events while maintaining forensic access. For disaster-level incidents, VLR facilitates containment through structured recovery plans and automated failover orchestration to isolated environments. Additionally, vDefend’s Intelligent Assist supports containment by automating the creation of emergency policies and rules for non-native IDS/IPS events.
+
+The control requires that incidents are contained, which necessitates organizational policies, incident response procedures, and human decision-making to determine when and how to apply these technical containment measures. While the platforms provide the necessary tools for isolation and quarantine, the definition of containment strategies, the declaration of incidents, and the overall governance of the incident response lifecycle remain the responsibility of the customer."
+RS.MI-02,IRO-02,Incidents are eradicated,Contributes ,"VMware Cloud Foundation (VCF), VMware vDefend, and VMware Live Recovery (VLR) provide technical mechanisms to support the eradication of incidents within a virtualized environment. VCF Operations facilitates analysis and root cause identification through its Troubleshooting Incidents page and Diagnostic Findings, while VMware vDefend’s Intelligent Assist automates remediation by creating targeted or comprehensive security policies and rules to eliminate non-native IDS/IPS threats. For large-scale service disruptions, VLR enables structured eradication and recovery through automated failover orchestration and reprotect operations.
+
+The control’s requirement to ""eradicate"" incidents is primarily a process-driven activity that relies on these technical tools to execute human-led decisions. VCF and its integrated components provide the execution framework, but the definition of eradication criteria, the selection of remediation strategies (Targeted vs. Comprehensive), and the overarching incident management governance remain the responsibility of the customer's organizational processes."
