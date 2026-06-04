@@ -87,7 +87,7 @@ Function Accept-EULA() {
 }
 
 Function Do-Pause() {
-    Write-Output "[WAIT]  Check the vSphere Client to make sure all tasks have completed, then press a key." 
+    Write-Host "[WAIT]  Check the vSphere Client to make sure all tasks have completed, then press a key." -ForegroundColor Yellow
     $null = $host.UI.RawUI.FlushInputBuffer()
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 }
@@ -101,20 +101,14 @@ Function Check-PowerCLI() {
 #####################
 # Check to see if we are attached to a supported vCenter Server
 Function Check-vCenter() {
-    if ($global:DefaultVIServers.Count -lt 1) {
-        Write-Output "[ERROR] Please connect to a vCenter Server (use Connect-VIServer) prior to running this script. Thank you." 
-        Exit
-    }
-
-    # Cannot override these, they're important.
-    if (($global:DefaultVIServers.Count -lt 1) -or ($global:DefaultVIServers.Count -gt 1)) {
-        Write-Output "[ERROR] Connect to a single vCenter Server (use Connect-VIServer) prior to running this script." 
+    if ($global:DefaultVIServers.Count -ne 1) {
+        Write-Output "[ERROR] Connect to a single vCenter Server (use Connect-VIServer) prior to running this script."
         Exit
     }
 
     $vcVersion = $global:DefaultVIServers.Version
     if ($vcVersion -lt '7.0.0') {
-        Write-Output "[ERROR] vCenter Server is not the correct version for this script." 
+        Write-Output "[ERROR] vCenter Server is not the correct version for this script."
         Exit
     }
 }
@@ -141,15 +135,42 @@ Check-PowerCLI
 Check-vCenter
 Check-Hosts
 
-$date = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-
-Write-Output ""
-
 $keyprovider = Get-KeyProvider -Name $NewKeyProviderName -ErrorAction SilentlyContinue
 if ($null -eq $keyprovider) {
-    Write-Output "[ERROR] $NewKeyProviderName is not a valid key provider. Exiting." 
+    Write-Output "[ERROR] $NewKeyProviderName is not a valid key provider. Exiting."
     Exit
 }
+
+# Pre-flight: check vSAN health and resync status
+Write-Output "`n[INFO]  Checking vSAN cluster health."
+foreach ($cluster in Get-Cluster) {
+    $clusterinfo = Get-VsanClusterConfiguration -Cluster $cluster
+    if ($clusterinfo.EncryptionEnabled) {
+        try {
+            $health = Test-VsanClusterHealth -Cluster $cluster -ErrorAction Stop
+            if ($health.OverallHealth -eq 'red') {
+                Write-Host "[ERROR] Cluster $($cluster.Name) vSAN health is RED. Cannot safely rekey. Exiting." -ForegroundColor Red
+                Exit
+            } elseif ($health.OverallHealth -eq 'yellow') {
+                Write-Host "[WARN]  Cluster $($cluster.Name) vSAN health is YELLOW. Proceeding with caution." -ForegroundColor Yellow
+            } else {
+                Write-Output "[INFO]  Cluster $($cluster.Name) vSAN health is GREEN."
+            }
+        } catch {
+            Write-Host "[WARN]  Unable to check vSAN health for $($cluster.Name): $_" -ForegroundColor Yellow
+        }
+
+        $resync = Get-VsanResyncingComponent -Cluster $cluster -ErrorAction SilentlyContinue
+        if ($resync) {
+            $count = @($resync).Count
+            Write-Host "[ERROR] Cluster $($cluster.Name) has $count active vSAN resync component(s). Cannot safely rekey." -ForegroundColor Red
+            Write-Host "[ERROR] Wait for resync to complete before running this script. Exiting." -ForegroundColor Red
+            Exit
+        }
+    }
+}
+
+$errors = @()
 
 # Set the specified key provider as the default
 Write-Output "`n[REKEY] Setting $keyprovider as the default key provider for vCenter."
@@ -159,34 +180,122 @@ Set-KeyProvider -KeyProvider $keyprovider -DefaultForSystem -Confirm:$false -Err
 # This is a little ugly but you don't want to have something still using the old key provider
 Write-Output "`n[INFO]  Removing custom key providers from clusters to prefer vCenter defaults."
 foreach ($cluster in Get-Cluster) {
-    Write-Output "[REKEY] Setting cluster $cluster to the vCenter default key provider."
-    Remove-EntityDefaultKeyProvider -Entity $cluster -Confirm:$false -ErrorAction Stop | Out-Null
+    try {
+        Write-Output "[REKEY] Setting cluster $cluster to the vCenter default key provider."
+        Remove-EntityDefaultKeyProvider -Entity $cluster -Confirm:$false -ErrorAction Stop | Out-Null
+    } catch {
+        Write-Output "[ERROR] Failed to remove custom key provider from cluster $($cluster.Name): $_"
+        $errors += "Cluster-$($cluster.Name)"
+    }
 }
 
 Do-Pause
 
 # All VMs to the new key provider, shallow rekey
-Write-Output "`n[INFO]  Shallow rekeying virtual machines."
-foreach ($vm in Get-VM) {
+Write-Output "`n[INFO]  Rekeying virtual machines."
+$allVMs = Get-VM
+$rekeyVMs = @()
+
+foreach ($vm in $allVMs) {
     $vmview = Get-View $vm
     if ($vmview.Config.KeyId) {
-        Write-Output "[REKEY] Rekeying $vm to $keyprovider"
-        Set-VM -VM $vm -KeyProvider $keyprovider -SkipHardDisks -Confirm:$false -ErrorAction Stop | Out-Null
+        $rekeyVMs += [PSCustomObject]@{ VM = $vm; View = $vmview }
     } else {
-        Write-Output "[SKIP]  $vm is not encrypted, skipping"
+        Write-Output "[SKIP]  $vm is not encrypted"
+    }
+}
+
+foreach ($entry in $rekeyVMs) {
+    $vm = $entry.VM
+    $vmview = $entry.View
+
+    # Check if any hard disks are encrypted, or if this is vTPM-only
+    $hasEncryptedDisks = $false
+    foreach ($device in $vmview.Config.Hardware.Device) {
+        if ($device -is [VMware.Vim.VirtualDisk] -and $device.Backing.KeyId) {
+            $hasEncryptedDisks = $true
+            break
+        }
+    }
+
+    try {
+        if ($hasEncryptedDisks) {
+            Write-Output "[REKEY] Rekeying $vm to $keyprovider"
+            Set-VM -VM $vm -KeyProvider $keyprovider -Confirm:$false -ErrorAction Stop | Out-Null
+        } else {
+            Write-Output "[REKEY] Rekeying $vm to $keyprovider (vTPM only)"
+            Set-VM -VM $vm -KeyProvider $keyprovider -SkipHardDisks -Confirm:$false -ErrorAction Stop | Out-Null
+        }
+    } catch {
+        Write-Output "[ERROR] Failed to rekey VM $($vm.Name): $_"
+        $errors += "VM-$($vm.Name)"
+    }
+}
+
+# Templates - must convert to VM, rekey, then convert back
+Write-Output "`n[INFO]  Rekeying templates."
+$allTemplates = Get-Template
+$rekeyTemplates = @()
+
+foreach ($template in $allTemplates) {
+    $templateView = Get-View $template
+    if ($templateView.Config.KeyId) {
+        $rekeyTemplates += [PSCustomObject]@{ Template = $template; View = $templateView }
+    } else {
+        Write-Output "[SKIP]  Template $($template.Name) is not encrypted"
+    }
+}
+
+foreach ($entry in $rekeyTemplates) {
+    $template = $entry.Template
+    $templateView = $entry.View
+
+    $hasEncryptedDisks = $false
+    foreach ($device in $templateView.Config.Hardware.Device) {
+        if ($device -is [VMware.Vim.VirtualDisk] -and $device.Backing.KeyId) {
+            $hasEncryptedDisks = $true
+            break
+        }
+    }
+
+    try {
+        Write-Output "[REKEY] Converting template $($template.Name) to VM for rekey"
+        Set-Template -Template $template -ToVM -Confirm:$false -ErrorAction Stop | Out-Null
+        $vm = Get-VM -Name $template.Name -ErrorAction Stop
+
+        if ($hasEncryptedDisks) {
+            Write-Output "[REKEY] Rekeying $($template.Name) to $keyprovider"
+            Set-VM -VM $vm -KeyProvider $keyprovider -Confirm:$false -ErrorAction Stop | Out-Null
+        } else {
+            Write-Output "[REKEY] Rekeying $($template.Name) to $keyprovider (vTPM only)"
+            Set-VM -VM $vm -KeyProvider $keyprovider -SkipHardDisks -Confirm:$false -ErrorAction Stop | Out-Null
+        }
+
+        Write-Output "[REKEY] Converting $($template.Name) back to template"
+        Set-VM -VM $vm -ToTemplate -Confirm:$false -ErrorAction Stop | Out-Null
+    } catch {
+        Write-Output "[ERROR] Failed to rekey template $($template.Name): $_"
+        Write-Output "[WARN]  Template $($template.Name) may have been left as a VM -- check the vSphere Client"
+        $errors += "Template-$($template.Name)"
     }
 }
 
 Do-Pause
 
 # All vSAN datastores to the new key provider
-Write-Output "`n[INFO]  Shallow rekeying vSAN datastores"
+Write-Output "`n[INFO]  Shallow rekeying vSAN datastores."
 foreach ($cluster in Get-Cluster) {
     $clusterinfo = Get-VsanClusterConfiguration -Cluster $cluster
     if ($clusterinfo.EncryptionEnabled) {
-        Write-Output "[REKEY] Rekeying vSAN datastores in $cluster to $keyprovider"
-        Start-VsanEncryptionConfiguration -Cluster $cluster -KeyProvider $keyprovider -Confirm:$false -ErrorAction Stop | Out-Null
-        Start-VsanEncryptionConfiguration -Cluster $cluster -ShallowRekey -Confirm:$false -ErrorAction Stop | Out-Null
+        try {
+            Write-Output "[REKEY] Setting vSAN key provider in $cluster to $keyprovider"
+            Start-VsanEncryptionConfiguration -Cluster $cluster -KeyProvider $keyprovider -Confirm:$false -ErrorAction Stop | Out-Null
+            Write-Output "[REKEY] Shallow rekeying vSAN in $cluster"
+            Start-VsanEncryptionConfiguration -Cluster $cluster -ShallowRekey -Confirm:$false -ErrorAction Stop | Out-Null
+        } catch {
+            Write-Output "[ERROR] Failed to rekey vSAN in $($cluster.Name): $_"
+            $errors += "vSAN-$($cluster.Name)"
+        }
     } else {
         Write-Output "[SKIP]  $cluster does not have an encrypted vSAN datastore"
     }
@@ -198,14 +307,87 @@ Do-Pause
 Write-Output "`n[INFO]  Rekeying ESXi hosts."
 foreach ($vmhost in Get-VMHost) {
     if ($vmhost.ConnectionState -ne 'Connected') {
-        Write-Output "[WARN]  $vmhost is not connected or in maintenance mode" 
+        Write-Output "[WARN]  $vmhost is not connected or in maintenance mode"
     } else {
         $vmhostview = Get-View $vmhost
         if ($vmhostview.Runtime.CryptoKeyId) {
-            Write-Output "[REKEY] Rekeying $vmhost to $keyprovider"
-            Set-VMHost -VMHost $vmhost -KeyProvider $keyprovider -Confirm:$false -ErrorAction Stop | Out-Null
+            try {
+                Write-Output "[REKEY] Rekeying $vmhost to $keyprovider"
+                Set-VMHost -VMHost $vmhost -KeyProvider $keyprovider -Confirm:$false -ErrorAction Stop | Out-Null
+            } catch {
+                Write-Output "[ERROR] Failed to rekey host $($vmhost.Name): $_"
+                $errors += "Host-$($vmhost.Name)"
+            }
         } else {
             Write-Output "[SKIP]  $vmhost is not participating in encryption"
         }
     }
+}
+
+# Check for encrypted First Class Disks (FCDs)
+Write-Output "`n[INFO]  Checking for encrypted First Class Disks."
+try {
+    foreach ($datastore in Get-Datastore) {
+        $fcds = Get-VDisk -Datastore $datastore -ErrorAction SilentlyContinue
+        foreach ($fcd in $fcds) {
+            if ($fcd.ExtensionData.Config.Backing.KeyId) {
+                Write-Output "[WARN]  FCD $($fcd.Name) on $($datastore.Name) is encrypted and requires manual rekey via storage policy"
+            }
+        }
+    }
+} catch {
+    Write-Output "[WARN]  Unable to enumerate First Class Disks (Get-VDisk may not be available): $_"
+}
+
+# Verification
+Write-Output "`n[INFO]  Verifying key provider changes."
+foreach ($vm in Get-VM) {
+    $vmview = Get-View $vm
+    if ($vmview.Config.KeyId) {
+        $vmProvider = $vmview.Config.KeyId.ProviderId | Select-Object -ExpandProperty Id
+        if ($vmProvider -ne $NewKeyProviderName) {
+            Write-Output "[WARN]  VM $($vm.Name) is still using key provider $vmProvider"
+        }
+    }
+}
+
+foreach ($template in Get-Template) {
+    $templateView = Get-View $template
+    if ($templateView.Config.KeyId) {
+        $templateProvider = $templateView.Config.KeyId.ProviderId | Select-Object -ExpandProperty Id
+        if ($templateProvider -ne $NewKeyProviderName) {
+            Write-Output "[WARN]  Template $($template.Name) is still using key provider $templateProvider"
+        }
+    }
+}
+
+foreach ($cluster in Get-Cluster) {
+    $clusterinfo = Get-VsanClusterConfiguration -Cluster $cluster
+    if ($clusterinfo.EncryptionEnabled -and $clusterinfo.KeyProvider) {
+        $vsanProvider = $clusterinfo.KeyProvider | Select-Object -ExpandProperty Name
+        if ($vsanProvider -ne $NewKeyProviderName) {
+            Write-Output "[WARN]  vSAN cluster $($cluster.Name) is still using key provider $vsanProvider"
+        }
+    }
+}
+
+foreach ($vmhost in Get-VMHost) {
+    if ($vmhost.ConnectionState -eq 'Connected') {
+        $vmhostview = Get-View $vmhost
+        if ($vmhostview.Runtime.CryptoKeyId) {
+            $hostProvider = $vmhostview.Runtime.CryptoKeyId.ProviderId | Select-Object -ExpandProperty Id
+            if ($hostProvider -ne $NewKeyProviderName) {
+                Write-Output "[WARN]  Host $($vmhost.Name) is still using key provider $hostProvider"
+            }
+        }
+    }
+}
+
+if ($errors.Count -gt 0) {
+    Write-Output "`n[WARN]  The following objects had errors during rekey:"
+    foreach ($e in $errors) {
+        Write-Output "[WARN]  $e"
+    }
+} else {
+    Write-Output "`n[INFO]  All rekey operations completed successfully."
 }

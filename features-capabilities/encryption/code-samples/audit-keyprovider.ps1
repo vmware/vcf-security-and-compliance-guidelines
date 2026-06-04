@@ -106,16 +106,34 @@ Check-Hosts
 
 $date = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
+# Build a lookup of which key providers are Native Key Provider
+$providerTypes = @{}
 foreach ($kp in Get-KeyProvider) {
+    $providerTypes[$kp.Name] = $kp.Type
     Write-Output "[PROVIDER] $($kp.name) is $($kp.Type) and DefaultForSystem is $($kp.DefaultForSystem)"
 }
 
 Write-Output ""
 
 foreach ($VM in Get-VM) {
-    if ($vm.ExtensionData.Config.KeyId) { 
+    if ($vm.ExtensionData.Config.KeyId) {
         $provider = $vm.ExtensionData.Config.KeyId.ProviderID | Select-Object -ExpandProperty Id
-        Write-Output "[VM] $($vm.name) is using key provider $provider"
+
+        $hasEncryptedDisks = $false
+        foreach ($device in $vm.ExtensionData.Config.Hardware.Device) {
+            if ($device -is [VMware.Vim.VirtualDisk] -and $device.Backing.KeyId) {
+                $hasEncryptedDisks = $true
+                break
+            }
+        }
+
+        $type = if ($hasEncryptedDisks) { "" } else { " (vTPM only)" }
+        if ($providerTypes[$provider] -eq 'NativeKeyProvider') {
+            Write-Output "[VM] $($vm.name) is using key provider $provider (NKP)$type"
+        } else {
+            $keyId = $vm.ExtensionData.Config.KeyId.KeyId
+            Write-Output "[VM] $($vm.name) is using key provider $provider with key ID $keyId$type"
+        }
     } else {
         Write-Output "[VM] $($vm.name) does not have encryption enabled"
     }
@@ -123,12 +141,78 @@ foreach ($VM in Get-VM) {
 
 Write-Output ""
 
+foreach ($template in Get-Template) {
+    $templateView = Get-View $template
+    if ($templateView.Config.KeyId) {
+        $provider = $templateView.Config.KeyId.ProviderId | Select-Object -ExpandProperty Id
+
+        $hasEncryptedDisks = $false
+        foreach ($device in $templateView.Config.Hardware.Device) {
+            if ($device -is [VMware.Vim.VirtualDisk] -and $device.Backing.KeyId) {
+                $hasEncryptedDisks = $true
+                break
+            }
+        }
+
+        $type = if ($hasEncryptedDisks) { "" } else { " (vTPM only)" }
+        if ($providerTypes[$provider] -eq 'NativeKeyProvider') {
+            Write-Output "[TEMPLATE] $($template.Name) is using key provider $provider (NKP)$type"
+        } else {
+            $keyId = $templateView.Config.KeyId.KeyId
+            Write-Output "[TEMPLATE] $($template.Name) is using key provider $provider with key ID $keyId$type"
+        }
+    } else {
+        Write-Output "[TEMPLATE] $($template.Name) does not have encryption enabled"
+    }
+}
+
+Write-Output ""
+
 foreach ($cluster in Get-Cluster) {
     $clusterinfo = Get-VsanClusterConfiguration -Cluster $cluster
-    $provider = $clusterinfo.KeyProvider | Select-Object -ExpandProperty Name
+
+    if ($clusterinfo.KeyProvider) {
+        $provider = $clusterinfo.KeyProvider | Select-Object -ExpandProperty Name
+    } else {
+        $provider = "(none)"
+    }
 
     if ($clusterinfo.EncryptionEnabled) {
-        Write-Output "[VSAN] Cluster $($clusterinfo.Name) is using key provider $provider"
+        $clusterView = Get-View $cluster
+        $vsanConfig = $clusterView.ConfigurationEx.VsanConfigInfo
+        $encConfig = $vsanConfig.DataEncryptionConfig
+
+        # Detect OSA vs ESA
+        $esaEnabled = $false
+        if ($vsanConfig.PSObject.Properties.Name -contains 'VsanEsaEnabled') {
+            $esaEnabled = $vsanConfig.VsanEsaEnabled
+        }
+
+        $arch = if ($esaEnabled) { "ESA" } else { "OSA" }
+
+        # Cluster-level KEK
+        $isNKP = ($providerTypes[$provider] -eq 'NativeKeyProvider')
+        if ($encConfig -and $encConfig.KekId -and -not $isNKP) {
+            Write-Output "[VSAN] Cluster $($clusterinfo.Name) ($arch) is using key provider $provider with KEK ID $($encConfig.KekId)"
+        } else {
+            Write-Output "[VSAN] Cluster $($clusterinfo.Name) ($arch) has encryption enabled via key provider $provider"
+        }
+
+        if (-not $esaEnabled) {
+            # OSA: enumerate disk groups per host
+            foreach ($vmhost in ($cluster | Get-VMHost | Where-Object { $_.ConnectionState -eq 'Connected' })) {
+                try {
+                    $diskGroups = Get-VsanDiskGroup -VMHost $vmhost
+                    foreach ($dg in $diskGroups) {
+                        $dgUuid = $dg.ExtensionData.Config.BackingDiskGroup.Uuid
+                        $capCount = ($dg.ExtensionData.Config.BackingDiskGroup.CapacityDisk | Measure-Object).Count
+                        Write-Output "[VSAN] $($vmhost.Name) disk group $dgUuid capacity disks: $capCount"
+                    }
+                } catch {
+                    Write-Output "[WARN] Host $($vmhost.Name): unable to enumerate vSAN disk groups"
+                }
+            }
+        }
     } else {
         Write-Output "[VSAN] Cluster $($clusterinfo.Name) does not have encryption enabled"
     }
@@ -143,9 +227,35 @@ foreach ($vmhost in Get-VMHost) {
         $vmhostview = Get-View $vmhost
         if ($vmhostview.Runtime.CryptoKeyId) {
             $provider = $vmhostview.Runtime.CryptoKeyId.ProviderId | Select-Object -ExpandProperty Id
-            Write-Output "[HOST] Host $vmhost is using key provider $provider"
+            if ($providerTypes[$provider] -eq 'NativeKeyProvider') {
+                Write-Output "[HOST] Host $vmhost is using key provider $provider (NKP)"
+            } else {
+                $keyId = $vmhostview.Runtime.CryptoKeyId.KeyId
+                Write-Output "[HOST] Host $vmhost is using key provider $provider with key ID $keyId"
+            }
         } else {
             Write-Output "[HOST] Host $vmhost is not participating in encryption"
         }
     }
+}
+
+Write-Output ""
+
+try {
+    foreach ($datastore in Get-Datastore) {
+        $fcds = Get-VDisk -Datastore $datastore -ErrorAction SilentlyContinue
+        foreach ($fcd in $fcds) {
+            if ($fcd.ExtensionData.Config.Backing.KeyId) {
+                $fcdProvider = $fcd.ExtensionData.Config.Backing.KeyId.ProviderId | Select-Object -ExpandProperty Id
+                if ($providerTypes[$fcdProvider] -eq 'NativeKeyProvider') {
+                    Write-Output "[FCD] $($fcd.Name) on $($datastore.Name) is using key provider $fcdProvider (NKP)"
+                } else {
+                    $fcdKeyId = $fcd.ExtensionData.Config.Backing.KeyId.KeyId
+                    Write-Output "[FCD] $($fcd.Name) on $($datastore.Name) is using key provider $fcdProvider with key ID $fcdKeyId"
+                }
+            }
+        }
+    }
+} catch {
+    Write-Output "[WARN] Unable to enumerate First Class Disks (Get-VDisk may not be available)"
 }
