@@ -1,5 +1,5 @@
 ## Current Security & Compliance Landing Pages
-As VMware documentation and resources are assimilated into Broadcom links will change. The current best landing page for these resources is:
+The best landing pages for these resources are:
 
 * [https://brcm.tech/vcf-security](https://brcm.tech/vcf-security)
 * [https://brcm.tech/vcf-scg](https://brcm.tech/vcf-scg)
@@ -17,8 +17,8 @@ respectively. There are older bit.ly links that are being phased out in favor of
 We have quite a number of tactical and strategic resources available to users of VMware products, answering many questions.
 
 * [vSphere Security & Compliance Playlist on YouTube](https://www.youtube.com/playlist?list=PLymLY4xJSThr22Po9uj6KTcVE6W_Xso4K)
-* [Glossary of Security Terms](https://github.com/vmware/cloud-infrastructure-security-and-compliance-guidelines/blob/main/security-design/Glossary.md)
-* [Compliance & Vulnerability Scanner FAQ](https://github.com/vmware/cloud-infrastructure-security-and-compliance-guidelines/blob/main/regulatory-compliance/compliance-vulnerability-scanning-faq.md)
+* [Glossary of Security Terms](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Glossary.md)
+* [Compliance & Vulnerability Scanner FAQ](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/regulatory-compliance/compliance-vulnerability-scanning-faq.md)
 * [Best Practices for Patching vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)
 
 ## Broadcom Support Policies Applicable to Security Hardening
@@ -28,12 +28,12 @@ Put simply, Broadcom does not support modifications to appliances or the product
 * [Support for Security Technical Implementation Guides (STIGs)](https://knowledge.broadcom.com/external/article?legacyId=94398)
 
 ## Security Configuration & Hardening Guides
-The Security Configuration and Hardening Guide (SCG) provides a baseline security hardening recommendation. It offers detailed instructions and best practices for configuring various vSphere components to enhance security and ensure compliance with industry standards. That said, it is a guideline, and your organization may have good reason to deviate from it. Good reasons often include specific workload requirements (especially clustered applications which may need specific network port group security settings), and controls being superseded by regulatory requirements.
+The Security Configuration and Hardening Guide (SCG) provides a baseline security hardening recommendation. It offers detailed instructions and best practices for configuring various vSphere components to improve security and support compliance with industry standards. That said, it is a guideline, and your organization may have good reason to deviate from it. Good reasons often include specific workload requirements (especially clustered applications which may need specific network port group security settings), and controls being superseded by regulatory requirements.
 
 * Permanent Link: [https://brcm.tech/vcf-scg](https://brcm.tech/vcf-scg)
 * Redirect Target: [https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide)
 
-There is a CIS Benchmark for ESX 8.0, but does not include components or features enabled with vCenter or vSAN. When in doubt, or if there is a conflict, use the guidance published by Broadcom.
+There is a CIS Benchmark for ESX 8.0, but it does not include components or features enabled with vCenter or vSAN. When in doubt, or if there is a conflict, use the guidance published by Broadcom.
 
 ## Product Documentation
 The product documentation is the reference for how a feature or component works. This repository is meant to augment the product documentation. If the docs answer the question "how?" this repository tries to answer the "why?" or "when?" or "so what?" questions you might have.
@@ -41,7 +41,7 @@ The product documentation is the reference for how a feature or component works.
 * [vSphere 8 Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0.html)
 * [vSphere 7 Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-security-7-0.html)
 
-Documentation is not always flawless. If you encounter an issue with documentation, please use the feedback mechanism for the documenation, which opens a ticket with the documentation team.
+Documentation is not always flawless. If you encounter an issue with documentation, please use the feedback mechanism for the documentation, which opens a ticket with the documentation team.
 
 ## VMware Product Security
 VMware has a defined Secure Software Development Lifecycle and policies for how issues are assessed and managed.
@@ -61,7 +61,7 @@ There are no automated vulnerability feeds (RSS or otherwise) available at this 
 ## DISA STIG and STIG Readiness Guides
 STIGs are comprehensive hardening guides for US Department of Defense (DOD) systems, based on DOD and NIST requirements.
 
-* [Security Technical Implementation Guides (STIGs)](https://www.vmware.com/solutions/security/certifications/stigs)
+* [Security Technical Implementation Guides (STIGs)](https://www.vmware.com/resources/certifications/stigs)
 * [Support Policy for Security Technical Implementation Guides (STIGs)](https://knowledge.broadcom.com/external/article?legacyId=94398)
 
 There is considerable overlap between the STIGs and the SCG, intentionally. The STIG goes much further in certain areas in order to comply with DOD requirements. If you are not directly subject to the DOD requirements you might consider either using the SCG, or using the STIGs but without editing configurations inside the appliances.
@@ -74,23 +74,19 @@ Broadcom maintains certifications and validations for VMware products that help 
 * [VMware Cloud Trust Center](https://www.vmware.com/info/trust-center#compliance)
 
 ## Secure System Design and Architecture
-This section is growing as we update whitepapers and other resources as part of the merger with Broadcom.
+This section grows as we update whitepapers and other resources.
 
 * [Best Practices for Patching vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)
-* [Practical Ideas for Ransomware Resilience](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/ransomware-resources/Practical-Ideas-for-Ransomware-Resilience.md)
-* [Designing Infrastructure to Defend Against Ransomware](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/ransomware-resources/Designing%20Infrastructure%20to%20Defeat%20Ransomware%20-%2020221024.pdf)
-* [Ransomware Defense and Recovery Strategies](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/ransomware-resources/Ransomware%20Defense%20and%20Recovery%20Strategies%20-%2020230425.pdf)
+* [Practical Ideas for Ransomware Resilience](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/threat-resources/Ransomware/Practical-Ideas-for-Ransomware-Resilience.md)
+* [Designing Infrastructure to Defeat Ransomware](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/designing-infrastructure-to-defeat-ransomware.pdf)
+* [Ransomware Defense and Recovery Strategies](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/ransomware-defense-and-recovery-strategies.pdf)
 
-On the surface this doesn't look like secure system design, per se, but less is more when it comes to security. Using VCF means less first-order objects to secure (servers, software, etc.) which, in turn, means less second- and third-order objects to secure (network switches, etc.). That means less staff time used, less money spent, and less risk taken.
-
-* [Run More VMs and Get Better Performance with VMware vSphere 8](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Density/vSphere-8-U3-VM-density-comparison-1024.pdf)
-* [Run More VMs and Get Better Performance with VMware vSphere 8: The Science](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Density/vSphere-8-U3-VM-density-comparison-science-1024-v2.pdf)
+On the surface this doesn't look like secure system design, per se, but less is more when it comes to security. Using VCF means fewer first-order objects to secure (servers, software, etc.) which, in turn, means fewer second- and third-order objects to secure (network switches, etc.). That means less staff time used, less money spent, and less risk taken.
 
 ## Firewalling and Perimeter Defenses
 VMware documents the ports, protocols, and requirements for network connectivity so that enterprise firewall admins have an easier time being specific about rule sets.
 
 * [Ports and Protocols](https://ports.broadcom.com/)
-* [vSphere Firewalling Helper](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide/vsphere/8.0): An Excel spreadsheet that has additional information about network communications and firewalling.
 
 ## Cryptography, TLS, and Data-in-Transit Security
 We have a fair amount of information at the following links:
