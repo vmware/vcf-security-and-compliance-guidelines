@@ -16,7 +16,7 @@ There will not be a regular update schedule for this document.
 Questions & Answers
 -------------------
 
-We add new questions and answers to the end of this document to preserve links into the subsections here. Please use the index on the left side to scan the questions -- the question you have might be near the end!
+We add new questions and answers to the end of this document to preserve links into the subsections here.
 
 ### Who is affected?
 
@@ -24,13 +24,13 @@ Customers who have deployed a product listed in the VMSA. Please note that this 
 
 ### When do I need to act?
 
-This critical vulnerability should be patched or mitigated immediately per the instructions in VMSA-2021-0011. The ramifications of this vulnerability are serious.
+This critical vulnerability should be patched or mitigated immediately per the instructions in VMSA-2022-0011. The ramifications of this vulnerability are serious.
 
 Organizations that practice change management using the ITIL definitions of change types would consider this an “emergency change.” All environments are different, have different tolerance for risk, and have different security controls and defense-in-depth to mitigate risk, so customers must make their own decisions on how to proceed. However, given the severity of the vulnerability, we strongly recommend immediate action. 
 
 ### What should I do to protect myself?
 
-To fully protect yourself and your organization please install one of the patch versions listed in the VMware Security Advisory, or use the workarounds listed in the VMSA.
+The most reliable way to remove the vulnerabilities is to install one of the patch versions listed in the VMware Security Advisory; the workarounds listed in the VMSA are also available.
 
 There may be other protections available in your organization, depending on your security posture, defense-in-depth strategies, and configurations of virtual machines. All organizations must decide for themselves whether to rely on those protections.
 
@@ -74,7 +74,7 @@ Please follow the extended support process to request patches and other informat
 
 ### Are there any downsides to using the workaround?
 
-The only way to remove the vulnerabilities from your environment is to apply patches provided in VMSA-2021-0011. Workarounds, while convenient, do not remove the vulnerabilities, and may introduce additional complexities that patching would not.
+The only way to remove the vulnerabilities from your environment is to apply patches provided in VMSA-2022-0011. Workarounds, while convenient, do not remove the vulnerabilities, and may introduce additional complexities that patching would not.
 
 While the decision to patch or use the workaround is yours, VMware always strongly recommends patching as the simplest and most reliable way to resolve this issue.
 

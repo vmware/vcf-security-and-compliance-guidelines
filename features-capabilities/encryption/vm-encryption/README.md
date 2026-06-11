@@ -1,5 +1,5 @@
 # VM Encryption
-VM Encryption provides comprehensive data protection at rest and in transit on storage fabrics by encrypting virtual machines, including VM files, virtual disks, and snapshots. VM Encryption uses AES-256 encryption and leverages Standard or Native Key Providers. VM Encryption operates transparently to guest operating systems and applications, requiring no modifications to VMs while protecting sensitive data from unauthorized access at the storage level. The encryption is policy-driven, allowing administrators to apply encryption requirements through storage policies, and includes support for encrypted vMotion to ensure data remains protected during live migrations between hosts.
+VM Encryption protects data at rest and in transit on storage fabrics by encrypting virtual machines, including VM files, virtual disks, and snapshots. VM Encryption uses AES-256 encryption and leverages Standard or Native Key Providers. VM Encryption operates transparently to guest operating systems and applications, requiring no modifications to VMs while protecting sensitive data from unauthorized access at the storage level. The encryption is policy-driven, allowing administrators to apply encryption requirements through storage policies, and includes support for encrypted vMotion to help protect data during live migrations between hosts.
 
 ## How to Get Started
 
@@ -236,7 +236,7 @@ Immediately recreate the key provider with the same name. For Native Key Provide
 ### What is a safe way to delete a key provider?
 All environments are different, but here are some general thoughts:
 
-Audit the environment to ensure that no VMs are using the key provider before deleting it. You can do this with PowerCLI, see the Code Samples section above. You could also do a shallow rekey of all VMs, ESX keys, and vSAN datastores to ensure they are on the key provider you expect (this also causes a key roation, which is often a good thing).
+Audit the environment to ensure that no VMs are using the key provider before deleting it. You can do this with PowerCLI, see the Code Samples section above. You could also do a shallow rekey of all VMs, ESX keys, and vSAN datastores to ensure they are on the key provider you expect (this also causes a key rotation, which is often a good thing).
 
 Audit the environment to ensure that no storage-level or array snapshots may require the key provider if the snapshot is restored.
 
@@ -297,8 +297,8 @@ Linked clones of encrypted parent VMs inherit the encryption. However, consider 
 ### Can I script encryption operations?
 Yes, all encryption operations are available through PowerCLI and vSphere APIs. You can automate VM encryption, key provider management, and rekey operations. This is especially useful for large environments or when integrating encryption into existing automation workflows.
 
-### How does encryption work with vRealize Automation?
-vRealize Automation can deploy encrypted VMs through blueprints that specify encryption storage policies.
+### How does encryption work with VCF Automation?
+VCF Automation (formerly vRealize Automation) can deploy encrypted VMs through blueprints that specify encryption storage policies.
 
 ### What are the FIPS compliance considerations?
 vSphere uses FIPS-validated cryptographic modules. Native Key Provider meets FIPS 140-3 Level 1 requirements (which is the limit for any software implementation). For higher FIPS levels requiring hardware security modules, use Standard Key Provider with a compliant external KMS/HSM.
@@ -310,7 +310,7 @@ This depends on your security policies and what data these VMs might access. Con
 Instant clones of encrypted parent VMs are also encrypted. The encryption adds minimal overhead to the instant clone creation process. However, consider the cumulative CPU impact when creating many instant clones simultaneously, such as in VDI desktop pools.
 
 ### How do I track encryption compliance across my environment?
-Use vRealize Operations or PowerCLI scripts to report on encryption status across your VMs. Create custom alarms for non-encrypted VMs that should be encrypted according to policy. Regular compliance reporting helps ensure encryption policies are consistently applied.
+Use VCF Operations (formerly vRealize Operations) or PowerCLI scripts to report on encryption status across your VMs. Create custom alarms for non-encrypted VMs that should be encrypted according to policy. Regular compliance reporting helps ensure encryption policies are consistently applied.
 
 ### Can VMs using VM Encryption be backed up?
 Yes. VM Encryption is supported for backup and restore operations, however, if your backup software uses the VDDK (standard APIs for backups and restores) the data will be decrypted before being sent to the backup system. This lets your backup software do its own deduplication and compression, and operate independently of VM Encryption and vSphere key providers.

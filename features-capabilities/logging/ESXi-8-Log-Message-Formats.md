@@ -81,7 +81,7 @@ Since RFC 3164 does not provide an ABNF, an RFC 3164 ABNF is specified below. ES
 ```
 
 
-Event Traceability is facilitated via an opID. When available/appropriate, the opID must be part of the an SD-ELEMENT where the PARAM-NAME is "opID" and "opID" string is the PARAM\_VALUE.
+Event Traceability is facilitated via an opID. When available/appropriate, the opID must be part of an SD-ELEMENT where the PARAM-NAME is "opID" and "opID" string is the PARAM\_VALUE.
 
 ## RFC 5424 Transmission Message Format
 
@@ -128,7 +128,7 @@ The ABNF of RFC 5424 messages can be found in section 6, pages 8 and 9. The gram
 
 ESXi _never_ has a TIME-OFFSET as part of a TIMESTAMP.
 
-Event Traceability is facilitated via an opID. When available/appropriate, the opID must be part of the an SD-ELEMENT where the PARAM-NAME is "opID" and "opID" string is the PARAM\_VALUE.
+Event Traceability is facilitated via an opID. When available/appropriate, the opID must be part of an SD-ELEMENT where the PARAM-NAME is "opID" and "opID" string is the PARAM\_VALUE.
 
 ## Audit Record Transmission Format
 
@@ -215,7 +215,7 @@ The SEVERITY-STRING is an abbreviated expression of the 8 severity levels specif
 
 The SEVERITY-VALUE is an optional expression of the numeric value associated with the SEVERITY-STRING. This allows levels supported by a logger to be collapsed into the 8 required strings with no loss of information (e.g. Db(5) - debug, level 5).
 
-The LINE-MARKER is added to each subsequent line generated from a multi-line submission. It clearly identifies multiline submissions and prevents a log injection security attack.
+The LINE-MARKER is added to each subsequent line generated from a multi-line submission. It clearly identifies multiline submissions and helps prevent log injection security attacks.
 
 A single threaded program may not have a thread name, hence NILVALUE being acceptable.
 
@@ -223,7 +223,7 @@ The component (APP-NAME) is implied - the single program that is writing the fil
 
 ## Indirectly Written File Format (vmsyslogd)
 
-The ABNF for log files written written by vmsyslogd is specified here:
+The ABNF for log files written by vmsyslogd is specified here:
 
 ```
       LOG-MSG         = HEADER SP MSG
@@ -233,7 +233,7 @@ The ABNF for log files written written by vmsyslogd is specified here:
       APP-NAME        = 1*32PRINTUSASCII
       PROC-IDENTIFIER = "[" *DIGITS "]" ; the PID associated with APP-NAME
 
-      TIMESTAMP       = FULL-DATE "T" FULL TIME
+      TIMESTAMP       = FULL-DATE "T" FULL-TIME
 
       FULL-DATE       = DATE-FULLYEAR "-" DATE-MONTH "-" DATE-MDAY
       DATE-FULLYEAR   = 4DIGIT
@@ -266,7 +266,7 @@ The ABNF for log files written written by vmsyslogd is specified here:
 ```
 
 
-Event Traceability is facilitated via an opID. When available/appropriate, the opID must be part of the an SD-ELEMENT where the PARAM-NAME is "opID" and "opID" string is the PARAM\_VALUE.
+Event Traceability is facilitated via an opID. When available/appropriate, the opID must be part of an SD-ELEMENT where the PARAM-NAME is "opID" and "opID" string is the PARAM\_VALUE.
 
 The SEVERITY-STRING is an abbreviated expression of the 8 severity levels specified in RFC 5424, section 6.2.1, pages 9 and 10.
 
@@ -288,7 +288,7 @@ The SEVERITY-STRING is an abbreviated expression of the 8 severity levels specif
 
 The PRIVAL contains the bits from the message "PRI". This allows one to see the Facility of the message, as well as the severity bits themselves.
 
-The LINE-MARKER is added to each subsequent line generated from a multi-line submission. It clearly identifies multiline submissions and prevents a log injection security attack.
+The LINE-MARKER is added to each subsequent line generated from a multi-line submission. It clearly identifies multiline submissions and helps prevent log injection security attacks.
 
 ## Audit Record Storage Format
 

@@ -35,6 +35,10 @@ Param (
     [Parameter(Mandatory=$false)]
     [ValidateNotNullOrEmpty()]
     [string]$OutputFileName,
+    # CSV Output File Name
+    [Parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+    [string]$CSVOutputFileName,
     # Accept-EULA
     [Parameter(Mandatory=$false)]
     [switch]$AcceptEULA,
@@ -55,7 +59,7 @@ function Log-Message {
         [Parameter(Mandatory=$false)][AllowEmptyString()][AllowNull()][string]$Message = "",
         [Parameter(Mandatory=$false)][ValidateSet("INFO", "WARNING", "ERROR", "EULA", "PASS", "FAIL", "UPDATE")][string]$Level = "INFO"
     )
-    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName
+    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName -CSVOutputFileName $CSVOutputFileName
 }
 
 Function Accept-EULA() { Show-EULA -OutputFileName $OutputFileName }
@@ -66,7 +70,7 @@ Function Check-Hosts() { if (-not (Test-HostsExist -OutputFileName $OutputFileNa
 #######################################################################################################
 
 $currentDateTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-Log-Message "VMware Virtual Machine Security Settings Audit Utility 9.0.1" -Level "INFO"
+Log-Message "VMware Virtual Machine Security Settings Audit Utility 9.0.2" -Level "INFO"
 Log-Message "Audit of $name started at $currentDateTime from $env:COMPUTERNAME by $env:USERNAME" -Level "INFO"
 
 # Accept EULA and terms to continue
@@ -78,7 +82,7 @@ if ($false -eq $AcceptEULA) {
 }
 
 # Safety checks
-if ($false -eq $NoSafetyChecks) {
+if (($false -eq $NoSafetyChecks) -and ($false -eq $NoSafetyChecksExceptAppliances)) {
     Check-vCenter
     Check-Hosts
 } else {
@@ -103,8 +107,8 @@ if (($NoSafetyChecks -eq $false) -or ($NoSafetyChecksExceptAppliances -eq $true)
         Log-Message "$name`: The specified object may be a VMware virtual appliance or vCLS container." -Level "ERROR"
         Log-Message "$name`: Altering these types of objects is not supported and may result in operational issues." -Level "ERROR"
         Log-Message "$name`: vCLS Containers are managed by the vSphere Cluster Service and cannot be altered." -Level "ERROR"
-        Log-Message "$name`: If you wish to audit this component anyhow consider the -NoSafetyChecks" -Level "ERROR"
-        Log-Message "$name`: or the -NoSafetyChecksExceptAppliances flag." -Level "ERROR"
+        Log-Message "$name`: If you wish to audit this component anyhow, use the -NoSafetyChecks flag." -Level "ERROR"
+        Log-Message "$name`: (-NoSafetyChecksExceptAppliances keeps this appliance check enabled.)" -Level "ERROR"
         Exit
     }
 }
@@ -121,11 +125,10 @@ if ($value -eq $true) {
 #####################
 # Test for VM Hardware version
 $value = $view.Config.Version
-switch ($value) {
-    'vmx-19' { Log-Message "$name`: VM is VM Hardware 19 (vSphere 7) ($value)" -Level "PASS"  }
-    'vmx-20' { Log-Message "$name`: VM is VM Hardware 20 (vSphere 8) ($value)" -Level "PASS"  }
-    'vmx-21' { Log-Message "$name`: VM is VM Hardware 21 (vSphere 8) ($value)" -Level "PASS"  }
-    Default { Log-Message "$name`: VM Hardware version should be version 19 or later ($value)" -Level "FAIL"  }
+if ($value -match '^vmx-(\d+)$' -and [int]$Matches[1] -ge 17) {
+    Log-Message "$name`: VM is VM Hardware $($Matches[1]) ($value)" -Level "PASS"
+} else {
+    Log-Message "$name`: VM Hardware version should be version 17 or later ($value)" -Level "FAIL"
 } 
 
 #####################
@@ -222,10 +225,16 @@ foreach ($param in $scg_num.GetEnumerator()) {
             Log-Message "$name`: $($param.Name) not configured" -Level "FAIL"
         }
     } else {
-        $pass = switch ($comparator) {
-            'eq' { $vmval -eq $expected }
-            'ge' { $vmval -ge $expected }
-            'le' { $vmval -le $expected }
+        # Advanced setting values come back as strings; compare numerically, not lexicographically
+        $numval = [int64]0
+        if ([int64]::TryParse([string]$vmval, [ref]$numval)) {
+            $pass = switch ($comparator) {
+                'eq' { $numval -eq $expected }
+                'ge' { $numval -ge $expected }
+                'le' { $numval -le $expected }
+            }
+        } else {
+            $pass = $false
         }
 
         if ($pass) {

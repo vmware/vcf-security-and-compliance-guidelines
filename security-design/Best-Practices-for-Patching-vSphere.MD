@@ -14,7 +14,7 @@ Preparation
 
 ### Ensure Access to VCSA Root and SSO Administrator Accounts
 
-**Ensure that the VCSA root and administrator@vsphere.local accounts work**. By default, the VCSA root account locks after 90 days of inactivity, which may pose issues in emergencies. Note that password recovery may need a vCenter Server restart. Update passwords after maintenance.
+**Ensure that the VCSA root and administrator@vsphere.local accounts work**. By default, the VCSA root account password expires 90 days after it was last set, which may pose issues in emergencies. Note that password recovery may need a vCenter Server restart. Update passwords after maintenance.
 
 ### Ensure Access to ESXi
 
@@ -79,7 +79,7 @@ An example is an environment that has ten vCenter Servers and ten corresponding 
 
 **Complex Environments Should Take Multiple Snapshots Throughout Patching.** Environments with many linked vCenter Servers and/or Platform Service Controllers should take additional powered-off snapshots at intervals during the upgrade, to avoid having to revert everything if a failure occurs.
 
-In the example above, if a new set of snapshots was taken after the seventh vCenter Server was patched, the failure on the ninth vCenter Server would only result in having to redo two updates (the eight and ninth vCenter Servers), not nine.
+In the example above, if a new set of snapshots was taken after the seventh vCenter Server was patched, the failure on the ninth vCenter Server would only result in having to redo two updates (the eighth and ninth vCenter Servers), not nine.
 
 ### DRS to Partially Automated Mode
 
@@ -135,7 +135,7 @@ vSphere Administrators know that patching vCenter Server doesn't affect workload
 
 ### Establish Maintenance Windows for Predictability
 
-Establish and communicate regular maintenance windows for your virtualization infrastructure. This allows administrators of downstream applications and other stakeholders anticipate and plan for these periods.
+Establish and communicate regular maintenance windows for your virtualization infrastructure. This allows administrators of downstream applications and other stakeholders to anticipate and plan for these periods.
 
 ### Reduce Resistance to vMotion
 
@@ -173,7 +173,3 @@ PowerCLI is a very straightforward way to do management of virtual environments 
 ### Ensure N+1 Cluster Resources
 
 vMotion and DRS work best when there are enough free cluster resources to migrate workloads to. Ensure that the vSphere cluster contains an appropriate amount of resources to absorb workloads stemming from the loss of a host (from patching or otherwise), without causing memory overcommitment or excessive CPU contention.
-
-#### Filter Tags
-
-Security ESXi ESXi 6.5 ESXi 6.7 ESXi 7 ESXi 8 vCenter Server vCenter Server 6.5 vCenter Server 6.7 vCenter Server 7 vCenter Server 8 vSphere vSphere 6.5 vSphere 6.7 vSphere 7 vSphere 8 Document Intermediate

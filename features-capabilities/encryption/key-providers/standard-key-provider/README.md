@@ -51,7 +51,7 @@ If you have 5 VMs with a vTPM, 995 VMs that do NOT have a vTPM, 32 hosts each wi
 
 If you have 5 VMs with a vTPM, 995 VMs that do NOT have a vTPM, 32 hosts each with vSAN data-at-rest encryption disabled, you will have 37 keys stored (5 + 32).
 
-After VCF 9.0, if "Use a single KMS wrapping key" is checked, there will be one wrapping key stored in the KMS. If you have configured the rotation interval additional old wrapping keys will also be stored. For example, if you configured key rotation intervals of 30 days, after a year you will have 11 additional keys, for a total of 12.
+After VCF 9.0, if "Use a single KMS wrapping key" is checked, there will be one wrapping key stored in the KMS. If you have configured the rotation interval additional old wrapping keys will also be stored. For example, if you configured key rotation intervals of 30 days, after a year you will have 12 additional keys, for a total of 13.
 
 ### If the wrapping key is the only thing in the KMS, where did the KEK go?
 
@@ -115,7 +115,7 @@ For other encryption operations, Standard Key Providers proxy connections to the
 
 When vCenter or the KMS are not available, and the cluster is otherwise operational (not rebooting due to a power outage, patching, etc.), all registered VMs will continue to operate, and can be powered on, powered off, and rebooted at will. You cannot rekey the VM, as that requires interaction with the KMS, nor can you create new encrypted VMs.
 
-The ESX encryption key cache is memory only, and by default is never written to disk or into memory dumps. If you desire, you can enable the ESX Key Persistence feature, which will store the encryption keys in the TPM-protected encrypted host configuration data. However, by doing this you make the Standard Key Provider susceptible to physical theft, just like the Native Key Provider. Someone who steals or otherwises gains access to a host with Key Persistence enabled will be able to decrypt the encrypted VMs and vSAN datastores on that host because the keys are already stored there.
+The ESX encryption key cache is memory only, and by default is never written to disk or into memory dumps. If you desire, you can enable the ESX Key Persistence feature, which will store the encryption keys in the TPM-protected encrypted host configuration data. However, by doing this you make the Standard Key Provider susceptible to physical theft, just like the Native Key Provider. Someone who steals or otherwise gains access to a host with Key Persistence enabled will be able to decrypt the encrypted VMs and vSAN datastores on that host because the keys are already stored there.
 
 ### If ESX caches encryption keys, how do I clear the cache?
 
@@ -325,11 +325,11 @@ $keyprovider = Get-KeyProvider -Name $keyprovidername
 foreach ($cluster in Get-Cluster) {
     $clusterinfo = Get-VsanClusterConfiguration -Cluster $cluster
     if ($clusterinfo.EncryptionEnabled) {
-        Write-Host "[REKEY] Rekeying vSAN datastores in $cluster to $keyprovider ($date)" -ForegroundColor Green
+        Write-Host "[REKEY] Rekeying vSAN datastores in $cluster to $keyprovider" -ForegroundColor Green
         Start-VsanEncryptionConfiguration -Cluster $cluster -KeyProvider $keyprovider -Confirm:$false -ErrorAction Stop | Out-Null
         Start-VsanEncryptionConfiguration -Cluster $cluster -ShallowRekey -Confirm:$false -ErrorAction Stop | Out-Null
     } else {
-        Write-Host "[SKIP]  $cluster does not have an encrypted vSAN datastore ($date)" -ForegroundColor White
+        Write-Host "[SKIP]  $cluster does not have an encrypted vSAN datastore" -ForegroundColor White
     }
 }
 
@@ -362,9 +362,9 @@ If encrypted virtual machines are not running, they will become locked, and alar
 
 After this move, we suggest re-encrypting/re-keying virtual machines to your preferred key provider to ensure consistency.
 
-### I use VMware Live Site Recovery. What considerations are there to ensure encrypted virtual machines can run on the DR site?
+### I use VCF Protection and Recovery. What considerations are there to ensure encrypted virtual machines can run on the DR site?
 
-When using Site Recovery Manager, you must configure both vCenter instances with the same Key Provider. For more information see [VMware Live Site Recovery and Virtual Machine Encryption](https://techdocs.broadcom.com/us/en/vmware-cis/live-recovery/live-site-recovery/9-0/how-do-i-protect-my-environment/interoperability-of-srm-with-other-software/site-recovery-manager-and-virtual-machine-encryption.html).
+When using VCF Protection and Recovery (formerly VMware Live Site Recovery and Site Recovery Manager), you must configure both vCenter instances with the same Key Provider. For more information see [VMware Live Site Recovery and Virtual Machine Encryption](https://techdocs.broadcom.com/us/en/vmware-cis/live-recovery/live-site-recovery/9-0/how-do-i-protect-my-environment/interoperability-of-srm-with-other-software/site-recovery-manager-and-virtual-machine-encryption.html).
 
 ### Does VMware vCenter HA support the Standard Key Provider?
 
@@ -392,7 +392,7 @@ An example of how to automate this process with PowerCLI is provided in the [cod
 
 ### How do I tell which virtual machines are using a key provider?
 
-This information is visible in the virutal machine summary tab in vCenter. You can also use PowerCLI to retrieve this information. An example of this process is provided in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory.
+This information is visible in the virtual machine summary tab in vCenter. You can also use PowerCLI to retrieve this information. An example of this process is provided in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory.
 
 ### What FIPS 140-3 levels does the Standard Key Provider support?
 
@@ -402,7 +402,7 @@ The Standard Key Provider does not generate keys itself, so FIPS 140-3 levels ar
 
 The easy answer is "yes" but the more correct answer is "it can be part of a compliant system design, which VCF supports."
 
-The Standard Key Provider is often used to meet data-at-rest requirements found in a variety of regulatory compliance frameworks. Compliance certification happens against implementations of software, not the software itself, and will depend on the design and implementation decisions you make when building your environment. That said, numerous environments that are subject to regulatory compliance have been built using the Standard Key Provider, to great and continuing success.
+The Standard Key Provider is often used to meet data-at-rest requirements found in a variety of regulatory compliance frameworks. Compliance certification happens against implementations of software, not the software itself, and will depend on the design and implementation decisions you make when building your environment. That said, numerous environments that are subject to regulatory compliance have been built using the Standard Key Provider.
 
 Please consult your compliance auditors for more information about how system design choices may affect your compliance goals.
 

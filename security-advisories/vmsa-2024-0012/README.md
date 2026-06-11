@@ -8,7 +8,7 @@ Introduction
 
 On June 17, 2024 VMware released a critical security advisory, VMSA-2024-0012, addressing security vulnerabilities found and resolved in VMware vCenter Server, which is present in VMware vSphere and VMware Cloud Foundation products.
 
-The VMSA will always be the source of truth for what products & versions are aﬀected, the workarounds, and proper patches to keep your organization secure. This document is a corollary to the advisory and includes self-service information to help you and your organization decide how to respond.
+The VMSA will always be the source of truth for what products & versions are affected, the workarounds, and proper patches to keep your organization secure. This document is a corollary to the advisory and includes self-service information to help you and your organization decide how to respond.
 
 These vulnerabilities are memory management and corruption issues which can be used against VMware vCenter Server services, potentially allowing remote code execution.
 
@@ -35,9 +35,9 @@ All security response depends on context. Please consult with your organization�
 
 ### What should I do to protect myself?
 
-To fully protect yourself and your organization, install one of the patch versions listed in the VMware Security Advisory. Follow the VMware documentation for patching procedures and considerations when using vCenter Server High Availability (not vSphere High Availability).
+The most reliable way to remove the vulnerability is to install one of the patch versions listed in the VMware Security Advisory. Follow the VMware documentation for patching procedures and considerations when using vCenter Server High Availability (not vSphere High Availability).
 
-There may be other protections available in your organization depending on your security posture, defense-in-depth strategies, and conﬁgurations of perimeter firewalls and appliance firewalls. All organizations must decide for themselves whether to rely on those protections.
+There may be other protections available in your organization depending on your security posture, defense-in-depth strategies, and configurations of perimeter firewalls and appliance firewalls. All organizations must decide for themselves whether to rely on those protections.
 
 ### What products are affected?
 
@@ -61,7 +61,7 @@ VMware is not currently aware of exploitation “in the wild.” If this changes
 
 ### Are there workarounds for these vulnerabilities?
 
-Not as part of this advisory. There may be other mitigations and compensating controls available in your organization, depending on your security posture, defense-in-depth strategies, and conﬁgurations of perimeter firewalls and appliance firewalls. All organizations must decide for themselves whether to rely on those protections.
+Not as part of this advisory. There may be other mitigations and compensating controls available in your organization, depending on your security posture, defense-in-depth strategies, and configurations of perimeter firewalls and appliance firewalls. All organizations must decide for themselves whether to rely on those protections.
 
 Many appliances, such as the vCenter Server Appliance (VCSA), have firewalling capabilities accessible through the Virtual Appliance Management Interface (VAMI). This firewall can be used to help restrict access and potentially help mitigate vulnerabilities.
 
@@ -79,7 +79,7 @@ Yes, there is an asynchronous patch for VMware Cloud Foundation. Please follow t
 
 ### Are there any known patching issues when applying these updates?
 
-There was an issue introduced in 7.0 U3q that impacts vCenter Server patching when custom ciphers are enabled. This issue will carry forward in the 7.0 U3r patch as well, though with a precheck that will catch this issue. There is a Knowledge Base article on this issue, "[An error occurred while starting service 'vpxd-svcs,' vCenter Server patching to 7.0 U3q fails due to upsupported TLS Ciphers in Envoy Configuration](https://knowledge.broadcom.com/external/article/369485)."
+There was an issue introduced in 7.0 U3q that impacts vCenter Server patching when custom ciphers are enabled. This issue will carry forward in the 7.0 U3r patch as well, though with a precheck that will catch this issue. There is a Knowledge Base article on this issue, "[An error occurred while starting service 'vpxd-svcs,' vCenter Server patching to 7.0 U3q fails due to unsupported TLS Ciphers in Envoy Configuration](https://knowledge.broadcom.com/external/article/369485)."
 
 ### What versions of vCenter Server are affected?
 
@@ -101,7 +101,7 @@ Products that are past their End of General Support dates are not evaluated as p
 
 VMware is proud of the robust partner ecosystem and community built around our products, but we cannot speak to our partners’ solutions. Nor would they want us to.
 
-Engineered and integrated solutions like HPE SimpliVity and Dell EMC VxRail control their patch levels and conﬁgurations as part of their qualiﬁcation and testing processes. Using security guidance that is not explicitly for that product and product version is never advised. If you use engineered and integrated solutions please contact those vendors directly for guidance.
+Engineered and integrated solutions like HPE SimpliVity and Dell EMC VxRail control their patch levels and configurations as part of their qualification and testing processes. Using security guidance that is not explicitly for that product and product version is never advised. If you use engineered and integrated solutions please contact those vendors directly for guidance.
 
 ### Are VMware Cloud and hosted products patched?
 
@@ -110,7 +110,7 @@ VMware delivers VMSA information as a message inside hosted, cloud, and software
 Changelog
 ---------
 
-2023-06-17, 2130 PDT (-0700): Initial publication.
+2024-06-17, 2130 PDT (-0700): Initial publication.
 
 Disclaimer
 ----------

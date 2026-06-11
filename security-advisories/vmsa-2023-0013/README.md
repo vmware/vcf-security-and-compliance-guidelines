@@ -84,7 +84,7 @@ Logging in VMware Tools is very customizable. Organizations should review the op
 
 ### Can I remove shell access for vpxuser?
 
-The vpxuser account is created by vCenter Server when the host is first attached, and is subseqently used for privileged authentication to ESXi. While the password is automatically rotated by vCenter Server on an interval governed by VirtualCenter.VimPasswordExpirationInDays, it also has shell access which can be deactivated in ESXi 8 to reduce attack surface.
+The vpxuser account is created by vCenter Server when the host is first attached, and is subsequently used for privileged authentication to ESXi. While the password is automatically rotated by vCenter Server on an interval governed by VirtualCenter.VimPasswordExpirationInDays, it also has shell access which can be deactivated in ESXi 8 to reduce attack surface.
 
 Users who do not have shell access cannot reconfigure other users' shell access, no matter their privilege levels. Since vCenter Server connects as vpxuser, once vpxuser has been stripped of shell access it will no longer be able to change those user settings for others. Further reconfiguration will need to happen on a host-by-host basis using an account that is authorized.
 

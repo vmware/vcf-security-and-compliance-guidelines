@@ -49,13 +49,13 @@ Foundation](https://github.com/vmware/vcf-security-and-compliance-guidelines/blo
 Data-in-Transit Encryption
 --------------------------
 
-In its default configuration, VMware vSphere encrypts all internal cluster management network traffic using TLS 1.2. This includes communications between the administrators and the vSphere Client, the vSphere Client and vCenter Server, communications between vCenter Server and ESXi hosts, and default communications between ESXi hosts for vSphere HA, DRS, Content Library, vSphere Replication, vSphere Trust Authority, and Lifecycle Manager. Customers cannot disable these types of secure communications without altering the product in unsupported ways.
+In its default configuration, VMware vSphere encrypts all internal cluster management network traffic using TLS (TLS 1.2, with TLS 1.3 also supported in vSphere 8.0 Update 3 and newer). This includes communications between the administrators and the vSphere Client, the vSphere Client and vCenter Server, communications between vCenter Server and ESXi hosts, and default communications between ESXi hosts for vSphere HA, DRS, Content Library, vSphere Replication, and Lifecycle Manager. Customers cannot disable these types of secure communications without altering the product in unsupported ways.
 
 vSphere can be configured to use communications protocols that are unencrypted, though not recommended unless needed. Examples of this include, but are not limited to:
 
 *   Use of LDAP, but not LDAPS, to communicate with an authentication source,
 *   Use of SNMP version 1 or 2 for monitoring ESXi,
-*   Use of Fibre Channel, iSCSI, or NFS to connect to storage resources without the simultanous use of VM Encryption,
+*   Use of Fibre Channel, iSCSI, or NFS to connect to storage resources without the simultaneous use of VM Encryption,
 *   Use of SMTP to send email alerts,
 *   Use of vSAN without enabling vSAN data-in-transit encryption,
 
@@ -70,4 +70,4 @@ The security of network communications to and from guest operating systems and w
 Data-in-Use Encryption
 ----------------------
 
-VMware vSphere supports both Intel Software Guard Extensions (SGX) and AMD Secure Encrypted Virtualization-Encrypted State (SEV-ES) as hardware-based security technologies for confidential computing. Through vSphere, Intel SGX enables applications to create secure enclaves, which are isolated regions of memory that protect sensitive code and data from unauthorized access, even from privileged system software. For AMD SEV-ES, vSphere provides support for encrypting virtual machine register state and memory contents, protecting guest data from the hypervisor itself. When deploying secure workloads, administrators can enable these features through vSphere's management interface, allowing VMs to leverage the underlying CPU security features. While both technologies serve similar purposes in protecting sensitive workloads, they use different architectural approaches - SGX operates at the application level with enclaves, while SEV-ES works at the VM level with encrypted memory pages and CPU state.
+VMware vSphere supports several hardware-based security technologies for confidential computing: Intel Software Guard Extensions (SGX), AMD Secure Encrypted Virtualization-Encrypted State (SEV-ES), and, in newer VMware Cloud Foundation releases (subject to version and licensing), Intel Trust Domain Extensions (TDX) and AMD SEV-SNP. Through vSphere, Intel SGX enables applications to create secure enclaves, which are isolated regions of memory that protect sensitive code and data from unauthorized access, even from privileged system software. For AMD SEV-ES, vSphere provides support for encrypting virtual machine register state and memory contents, protecting guest data from the hypervisor itself. Intel TDX and AMD SEV-SNP extend this model, isolating entire virtual machines with encrypted memory and CPU state plus additional integrity protections. When deploying secure workloads, administrators can enable these features through vSphere's management interface, allowing VMs to leverage the underlying CPU security features. The technologies use different architectural approaches: SGX operates at the application level with enclaves, while the AMD technologies and Intel TDX work at the VM level with encrypted memory pages and CPU state.

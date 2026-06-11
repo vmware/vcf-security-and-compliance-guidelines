@@ -36,7 +36,7 @@ Specifies the capacity of the audit record storage directory, in MiB. **You cann
 
 ## Syslog.global.auditRecord.storageEnable
 
-Enables the local storage of audit records, into the directory specified by **s**yslog.global.auditRecord.storageDirectory. For best results configure the storage directory and the storage capacity before enabling audit logging.
+Enables the local storage of audit records, into the directory specified by Syslog.global.auditRecord.storageDirectory. For best results configure the storage directory and the storage capacity before enabling audit logging.
 
 This value is Boolean, TRUE or FALSE.
 

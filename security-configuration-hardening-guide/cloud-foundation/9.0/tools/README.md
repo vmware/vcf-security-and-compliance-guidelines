@@ -1,8 +1,8 @@
-# VMware vSphere Security Configuration Guide - Sample Audit and Remediation Scripts
+# VMware Cloud Foundation Security Configuration Guide - Sample Audit and Remediation Scripts
 
-Starting with vSphere 8.0.2, the SCG introduced sample scripts to automate auditing. These scripts have been updated for VMware Cloud Foundation 9.0.1 and serve three main purposes:
+Starting with vSphere 8.0.2, the SCG introduced sample scripts to automate auditing. These scripts have been updated for VMware Cloud Foundation 9.0.2 and serve three main purposes:
 
-- **Ease of Use for Beginners**: These scripts act as a stepping stone for those new to scripting, while also having an important purpose. Using the readily available VMware PowerCLI cmdlets with PowerShell makes vSphere automation straightforward. The scripts prioritize readability over programmatic elegance to ensure they align closely with SCG examples and can be easily modified by administrators as needed.
+- **Ease of Use for Beginners**: These scripts act as a stepping stone for those new to scripting, while also having an important purpose. Using the readily available VMware PowerCLI cmdlets with PowerShell makes vSphere automation straightforward. The scripts prioritize readability over programmatic elegance to help ensure they align closely with SCG examples and can be easily modified by administrators as needed.
 
 - **Simplicity & Integration**: Adhering to the UNIX philosophy of doing one thing and doing it well, these scripts each have a single purpose, and can be used in conjunction with inherent features of PowerShell. For instance, use of the `Select-String` command for pattern matching, such as for finding audit lines containing the labels [PASS] and [FAIL].
 
@@ -28,7 +28,7 @@ While we are happy to accept constructive feedback about the code examples and t
 
 ## Usage Warning
 
-The audit scripts are set up to minimize the number of queries to a vCenter Server, to improve execution speed and to reduce overall load in a large environment.
+The audit scripts are set up to minimize the number of queries to a VMware vCenter instance, to improve execution speed and to reduce overall load in a large environment.
 
 The sample remediation scripts **will change environments in ways that cause operational issues, require restarts, and might otherwise impact a running environment**. As such, you need to edit the script to remove the "Exit" commands that end the script. If you are not comfortable with this, you should not proceed. You can always remediate manually.
 
@@ -51,13 +51,13 @@ Additionally, these tools cannot audit and remediate design decisions, such as e
 | File | Description |
 |------|-------------|
 | [`scg-common.psm1`](scg-common.psm1) | Shared module with common functions used by all scripts |
-| [`connect.ps1`](connect.ps1) | Establishes connection to vCenter Server |
+| [`connect.ps1`](connect.ps1) | Establishes connection to vCenter |
 | [`audit-all.ps1`](audit-all.ps1) | Recursively audits VMs, hosts, and vCenter |
 | [`audit-esx-9.ps1`](audit-esx-9.ps1) | Audits ESX hosts against SCG baseline |
-| [`audit-vcenter-9.ps1`](audit-vcenter-9.ps1) | Audits vCenter Server against SCG baseline |
+| [`audit-vcenter-9.ps1`](audit-vcenter-9.ps1) | Audits vCenter against SCG baseline |
 | [`audit-vm-9.ps1`](audit-vm-9.ps1) | Audits virtual machines against SCG baseline |
 | [`remediate-esx-9.ps1`](remediate-esx-9.ps1) | Remediates ESX hosts to SCG baseline |
-| [`remediate-vcenter-9.ps1`](remediate-vcenter-9.ps1) | Remediates vCenter Server to SCG baseline |
+| [`remediate-vcenter-9.ps1`](remediate-vcenter-9.ps1) | Remediates vCenter to SCG baseline |
 | [`remediate-vm-9.ps1`](remediate-vm-9.ps1) | Remediates virtual machines to SCG baseline |
 
 ## How to Use These Tools
@@ -72,11 +72,11 @@ Install-Module -Name VCF.PowerCLI -MinimumVersion 9.0.0 -Scope AllUsers
 Install-Module -Name VMware.vSphere.SsoAdmin -MinimumVersion 1.4.0 -Scope AllUsers
 ```
 
-These tools assume, and check for, VMware vCenter Server 9.0.1 and VMware ESX 9.0.1. Using these tools against a different environment will have untested results.
+These tools assume the versions of the products associated with this guide (VMware Cloud Foundation 9.0.2). Using these tools against a different environment will have untested results.
 
 ### Step 1: Connection Requirements
 
-These tools are built to connect to a VMware vCenter Server. There are two methods for connecting. First, you can use the following commands to do so:
+These tools are built to connect to VMware vCenter. There are two methods for connecting. First, you can use the following commands to do so:
 
 ```powershell
 Connect-VIServer -User username@vsphere.local -Server vc-mgmt-a.vcf.lab
@@ -158,7 +158,7 @@ This will return the lines that require further checking, labeled with `[FAIL]`.
 
 ### Step 6: Remediate
 
-There are three sample remediation scripts, for VMs, ESX, and vCenter Server. Each has different flags to help control some behavior that may be disruptive.
+There are three sample remediation scripts, for VMs, ESX, and vCenter. Each has different flags to help control some behavior that may be disruptive.
 
 To reiterate, these sample remediation scripts will change environments in ways that cause operational issues, require restarts, and might otherwise impact the running environment. As such, you need to edit the script to remove the "Exit" commands that end the script.
 
@@ -172,14 +172,15 @@ Every environment has audit findings that are not actionable but continue to app
 
 ### connect.ps1
 
-An example script for connecting to vCenter Server.
+An example script for connecting to vCenter.
 
 **Parameters:**
 
 | Parameter | Required | Description |
 |-----------|----------|-------------|
-| `-vCenter` | Yes | Name of the vCenter Server to connect to |
-| `-User` | Yes | Username to use when connecting to the named vCenter Server |
+| `-vCenter` | Yes | Name of the vCenter instance to connect to |
+| `-User` | Yes | Username to use when connecting to the named vCenter instance |
+| `-SkipCertificateCheck` | No | Skip TLS certificate validation for the SSO Admin connection. Use only when this system does not trust the vCenter certificate chain |
 
 ### audit-esx-9.ps1
 
@@ -191,21 +192,23 @@ Assesses a particular ESX host for compliance with the VMware Security Configura
 |-----------|----------|-------------|
 | `-Name` | Yes | Name of the host to be audited |
 | `-OutputFileName` | No | Name of a file to receive the logged output from the audit |
+| `-CSVOutputFileName` | No | Name of a file to receive the logged output in CSV format |
 | `-AcceptEULA` | No | Accepts the disclaimer and the license for this tool |
-| `-NoSafetyChecks` | No | Skip safety checks on software versions |
+| `-NoSafetyChecks` | No | Skip the connection safety checks (single vCenter connection, hosts attached) |
 
 ### audit-vcenter-9.ps1
 
-Assesses a particular vCenter Server for compliance with the VMware Security Configuration Guide. If no name is specified, the script uses the currently connected vCenter Server.
+Assesses a particular vCenter instance for compliance with the VMware Security Configuration Guide. If no name is specified, the script uses the currently connected vCenter.
 
 **Parameters:**
 
 | Parameter | Required | Description |
 |-----------|----------|-------------|
-| `-Name` | No | Name of the vCenter Server to be audited (defaults to current connection) |
+| `-Name` | No | Name of the vCenter instance to be audited (defaults to current connection) |
 | `-OutputFileName` | No | Name of a file to receive the logged output from the audit |
+| `-CSVOutputFileName` | No | Name of a file to receive the logged output in CSV format |
 | `-AcceptEULA` | No | Accepts the disclaimer and the license for this tool |
-| `-NoSafetyChecks` | No | Skip safety checks on software versions |
+| `-NoSafetyChecks` | No | Skip the connection safety checks (single vCenter connection, hosts attached) |
 
 ### audit-vm-9.ps1
 
@@ -217,9 +220,10 @@ Assesses a particular virtual machine for compliance with the VMware Security Co
 |-----------|----------|-------------|
 | `-Name` | Yes | Name of the virtual machine object to be audited |
 | `-OutputFileName` | No | Name of a file to receive the logged output from the audit |
+| `-CSVOutputFileName` | No | Name of a file to receive the logged output in CSV format |
 | `-AcceptEULA` | No | Accepts the disclaimer and the license for this tool |
-| `-NoSafetyChecks` | No | Skip safety checks on software versions and VMware appliances |
-| `-NoSafetyChecksExceptAppliances` | No | Skip software version safety checks but do not audit VMware appliances |
+| `-NoSafetyChecks` | No | Skip the connection safety checks and the VMware appliance check |
+| `-NoSafetyChecksExceptAppliances` | No | Skip the connection safety checks but keep the VMware appliance check enabled |
 
 ### audit-all.ps1
 
@@ -229,9 +233,10 @@ Recursively assesses VMs, hosts, and vCenter for compliance with the VMware Secu
 
 | Parameter | Required | Description |
 |-----------|----------|-------------|
-| `-OutputDirName` | Yes | Name of an empty directory to receive the logged output from the audit |
+| `-OutputDirName` | No | Name of an empty directory to receive the logged output from the audit (at least one of `-OutputDirName` or `-CSVOutputDirName` must be specified) |
+| `-CSVOutputDirName` | No | Name of an empty directory to receive the logged output in CSV format |
 | `-AcceptEULA` | No | Accepts the disclaimer and the license for this tool |
-| `-NoSafetyChecks` | No | Skip safety checks on software versions |
+| `-NoSafetyChecks` | No | Skip the connection safety checks (single vCenter connection, hosts attached) |
 
 ### remediate-esx-9.ps1
 
@@ -243,24 +248,26 @@ Remediate an ESX host against the VMware Security Configuration Guide.
 |-----------|----------|-------------|
 | `-Name` | Yes | Name of the ESX host to be remediated |
 | `-OutputFileName` | No | Name of a file to receive the logged output from the script |
+| `-CSVOutputFileName` | No | Name of a file to receive the logged output in CSV format |
 | `-AcceptEULA` | No | Accepts the disclaimer and the license for this tool |
-| `-NoSafetyChecks` | No | Skip safety checks on software versions |
+| `-NoSafetyChecks` | No | Skip the connection safety checks (single vCenter connection, hosts attached) |
 | `-RemediateStandardSwitches` | No | Update standard virtual switches and their port groups against the recommended settings. This may have negative effects on workload connectivity. |
 | `-EnableLockdownMode` | No | Enable ESX lockdown mode. This may have negative effects on the ability to connect directly to the host to manage it. |
 | `-RemediateTLSCiphers` | No | Enable TLS 1.3 and the NIST_2024 limited set of ciphers. This will require a host reboot. |
 
 ### remediate-vcenter-9.ps1
 
-Remediate a vCenter Server against the VMware Security Configuration Guide. If no name is specified, the script uses the currently connected vCenter Server.
+Remediate a vCenter instance against the VMware Security Configuration Guide. If no name is specified, the script uses the currently connected vCenter.
 
 **Parameters:**
 
 | Parameter | Required | Description |
 |-----------|----------|-------------|
-| `-Name` | No | Name of the vCenter Server to be remediated (defaults to current connection) |
+| `-Name` | No | Name of the vCenter instance to be remediated (defaults to current connection) |
 | `-OutputFileName` | No | Name of a file to receive the logged output from the audit |
+| `-CSVOutputFileName` | No | Name of a file to receive the logged output in CSV format |
 | `-AcceptEULA` | No | Accepts the disclaimer and the license for this tool |
-| `-NoSafetyChecks` | No | Skip safety checks on software versions |
+| `-NoSafetyChecks` | No | Skip the connection safety checks (single vCenter connection, hosts attached) |
 | `-RemediateDistributedSwitches` | No | Update distributed virtual switches and their port groups against the recommended settings. This may have negative effects on workload connectivity. |
 
 ### remediate-vm-9.ps1
@@ -273,9 +280,10 @@ Remediate a virtual machine against the VMware Security Configuration Guide.
 |-----------|----------|-------------|
 | `-Name` | Yes | Name of the virtual machine object to be remediated |
 | `-OutputFileName` | No | Name of a file to receive the logged output from the script |
+| `-CSVOutputFileName` | No | Name of a file to receive the logged output in CSV format |
 | `-AcceptEULA` | No | Accepts the disclaimer and the license for this tool |
-| `-NoSafetyChecks` | No | Skip safety checks on software versions and VMware appliances |
-| `-NoSafetyChecksExceptAppliances` | No | Skip software version safety checks but do not remediate VMware appliances |
+| `-NoSafetyChecks` | No | Skip the connection safety checks and the VMware appliance check |
+| `-NoSafetyChecksExceptAppliances` | No | Skip the connection safety checks but keep the VMware appliance check enabled |
 | `-RemoveExtraDevices` | No | Remove virtual CD/DVD, AHCI controller, USB & XHCI, parallel & serial port, floppy drive, and sound card devices. This may negatively impact the function of the VM. |
 | `-UpdateHardwareVersion` | No | Updates the virtual machine hardware version to 21. There may be compatibility considerations for your guest operating system. |
 | `-TakeSnapshot` | No | Take a snapshot prior to making changes to the virtual machine. The snapshot name will be "Security Configuration Guide Remediation." |

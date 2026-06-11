@@ -34,6 +34,10 @@ Param (
     [Parameter(Mandatory=$false)]
     [ValidateNotNullOrEmpty()]
     [string]$OutputFileName,
+    # CSV Output File Name
+    [Parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+    [string]$CSVOutputFileName,
     # Accept-EULA
     [Parameter(Mandatory=$false)]
     [switch]$AcceptEULA,
@@ -64,7 +68,7 @@ function Log-Message {
         [Parameter(Mandatory=$false)][AllowEmptyString()][AllowNull()][string]$Message = "",
         [Parameter(Mandatory=$false)][ValidateSet("INFO", "WARNING", "ERROR", "EULA", "PASS", "FAIL", "UPDATE")][string]$Level = "INFO"
     )
-    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName
+    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName -CSVOutputFileName $CSVOutputFileName
 }
 
 Function Accept-EULA() { Show-EULA -OutputFileName $OutputFileName }
@@ -75,7 +79,7 @@ Function Check-Hosts() { if (-not (Test-HostsExist -OutputFileName $OutputFileNa
 #######################################################################################################
 
 $currentDateTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-Log-Message "VMware vCenter Security Settings Remediation Utility 9.0.1" -Level "INFO"
+Log-Message "VMware vCenter Security Settings Remediation Utility 9.0.2" -Level "INFO"
 Log-Message "Remediation of $name started at $currentDateTime from $env:COMPUTERNAME by $env:USERNAME" -Level "INFO"
 
 # Accept EULA and terms to continue
@@ -155,7 +159,7 @@ $singleline = $value -replace '\r?\n', ' '
 if ($value -match $old_banner) {
     try {
         Get-AdvancedSetting -Entity $name -Name etc.issue | Set-AdvancedSetting -Value $sample_banner -Confirm:$false | Out-Null
-        Log-Message "etc.issue updated ($singleline -> $($sample_banner -replace '\r?\n', ' ')" -Level "UPDATE"
+        Log-Message "etc.issue updated ($singleline -> $($sample_banner -replace '\r?\n', ' '))" -Level "UPDATE"
     }
     catch {
         Log-Message "Failed to set etc.issue`: $_" -Level "ERROR"
@@ -361,7 +365,7 @@ if ($RemediateDistributedSwitches) {
             Log-Message "Distributed switch `'$switch`' is not configured to allow MAC address changes ($value)" -Level "PASS"
         } else {
             try {
-                $switch | Set-VDSecurityPolicy -MacChanges $false -Confirm:$false | Out-Null
+                $switch | Get-VDSecurityPolicy | Set-VDSecurityPolicy -MacChanges $false -Confirm:$false | Out-Null
                 Log-Message "Distributed switch `'$switch`' is updated to disallow MAC address changes ($value -> false)" -Level "UPDATE"
             }
             catch {
@@ -374,7 +378,7 @@ if ($RemediateDistributedSwitches) {
             Log-Message "Distributed switch `'$switch`' is not configured to allow forged transmits ($value)" -Level "PASS"
         } else {
             try {
-                $switch | Set-VDSecurityPolicy -ForgedTransmits $false -Confirm:$false | Out-Null
+                $switch | Get-VDSecurityPolicy | Set-VDSecurityPolicy -ForgedTransmits $false -Confirm:$false | Out-Null
                 Log-Message "Distributed switch `'$switch`' is updated to disallow forged transmits ($value -> false)" -Level "UPDATE"
             }
             catch {
@@ -534,9 +538,11 @@ if ($RemediateDistributedSwitches) {
                     $ConfigSpec.Policy.LivePortMovingAllowed = $false
                     $ConfigSpec.Policy.VlanOverrideAllowed = $false
                     $ConfigSpec.Policy.SecurityPolicyOverrideAllowed = $false
+                    $ConfigSpec.Policy.MacManagementOverrideAllowed = $false
                     $ConfigSpec.Policy.VendorConfigOverrideAllowed = $false
                     $ConfigSpec.Policy.ShapingOverrideAllowed = $false
                     $ConfigSpec.Policy.IpfixOverrideAllowed = $false
+                    $ConfigSpec.Policy.NetworkResourcePoolOverrideAllowed = $false
                     $ConfigSpec.Policy.TrafficFilterOverrideAllowed = $false
                     $ConfigSpec.ConfigVersion = $view.Config.ConfigVersion
                     $view.ReconfigureDVPortgroup_Task($ConfigSpec) | Out-Null
@@ -573,30 +579,38 @@ if ($RemediateDistributedSwitches) {
 
 #####################
 # Test VCSA Settings for SSH
-$value = (Get-CisService -Name "com.vmware.appliance.access.ssh").get()
-if ($value -eq $true) {
-    try {
-        (Get-CisService -Name "com.vmware.appliance.access.ssh").set($false) | Out-Null
-        Log-Message "vCenter Server Appliance SSH has been disabled ($value -> false)" -Level "UPDATE"
-    } catch {
-        Log-Message "vCenter Server Appliance SSH could not be updated ($value)" -Level "ERROR"
+try {
+    $value = (Get-CisService -Name "com.vmware.appliance.access.ssh" -ErrorAction Stop).get()
+    if ($value -eq $true) {
+        try {
+            (Get-CisService -Name "com.vmware.appliance.access.ssh").set($false) | Out-Null
+            Log-Message "vCenter Server Appliance SSH has been disabled ($value -> false)" -Level "UPDATE"
+        } catch {
+            Log-Message "vCenter Server Appliance SSH could not be updated ($value)" -Level "ERROR"
+        }
+    } else {
+        Log-Message "vCenter Server Appliance does not have SSH enabled ($value)" -Level "PASS"
     }
-} else {
-    Log-Message "vCenter Server Appliance does not have SSH enabled ($value)" -Level "PASS"
+} catch {
+    Log-Message "Unable to query vCenter Server Appliance SSH status; connect with Connect-CisServer first: $_" -Level "ERROR"
 }
 
 #####################
 # Test VCSA Settings for password policies
-$value = (Get-CisService -Name "com.vmware.appliance.local_accounts.policy").get() | Select-Object -ExpandProperty max_days
-if ($value -ne 9999) {
-    try {
-        (Get-CisService -Name "com.vmware.appliance.local_accounts.policy").set(@{max_days=9999}) | Out-Null
-        Log-Message "vCenter Server Appliance local accounts max_days has been updated ($value -> 9999)" -Level "UPDATE"
-    } catch {
-        Log-Message "vCenter Server Appliance local accounts max_days could not be updated ($value)" -Level "ERROR"
+try {
+    $value = (Get-CisService -Name "com.vmware.appliance.local_accounts.policy" -ErrorAction Stop).get() | Select-Object -ExpandProperty max_days
+    if ($value -ne 9999) {
+        try {
+            (Get-CisService -Name "com.vmware.appliance.local_accounts.policy").set(@{max_days=9999}) | Out-Null
+            Log-Message "vCenter Server Appliance local accounts max_days has been updated ($value -> 9999)" -Level "UPDATE"
+        } catch {
+            Log-Message "vCenter Server Appliance local accounts max_days could not be updated ($value)" -Level "ERROR"
+        }
+    } else {
+        Log-Message "vCenter Server Appliance local accounts max_days configured correctly ($value)" -Level "PASS"
     }
-} else {
-    Log-Message "vCenter Server Appliance local accounts max_days configured correctly ($value)" -Level "PASS"
+} catch {
+    Log-Message "Unable to query vCenter Server Appliance local accounts policy; connect with Connect-CisServer first: $_" -Level "ERROR"
 }
 
 Log-Message "Remediation of $name completed at $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")" -Level "INFO"

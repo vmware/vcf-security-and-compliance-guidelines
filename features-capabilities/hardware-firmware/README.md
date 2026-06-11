@@ -10,7 +10,7 @@ Security is defined by three pillars: confidentiality, integrity, and availabili
 
 ## CPU Vulnerabilities and ESX Schedulers
 
-Security flaws within CPUs pose risks to computing environments. These processor-level vulnerabilities are concerning because they can bypass existing security measures, and efforts to exploit them remain undetectable through standard security scanning tools. Unlike software patches, CPU hardware cannot be easily modified after manufacturing and deployment in servers or workstations.
+Security flaws within CPUs pose risks to computing environments. These processor-level vulnerabilities are concerning because they can bypass existing security measures, and exploitation attempts are difficult to detect with standard security scanning tools. Unlike software patches, CPU hardware cannot be easily modified after manufacturing and deployment in servers or workstations.
 
 While VMware ESX does not cause these vulnerabilities, its CPU scheduler can help protect against some exploits by helping to control the use of HyperThreading or Symmetric Multi-Threading (SMT). For example, the L1TF vulnerability showed that Intel CPU cores could leak data between threads. The ESX Side-Channel Aware Scheduler (SCAv1) addressed this by disabling Intel Hyper-Threading, which improved security but reduced CPU capacity. The MDS vulnerability presents similar data leakage risks between processes, making SCAv1 an effective mitigation choice. In environments with different security requirements, you may determine that using Hyper-Threading within virtual machines aligns with your security policy. For these cases, SCAv2 enables Hyper-Threading use, which helps recover some performance and capacity while maintaining appropriate security levels.
 
@@ -25,7 +25,7 @@ For example, if someone accessed your Chief Financial Officer's password-protect
 #### Does any VM have multiple users or processes where you do not want to leak secrets between those users or processes? This includes VBS, containers, terminal servers, etc.?
 When selecting a scheduler, consider whether processes within a VM require different security boundaries. L1TF and MDS vulnerabilities can allow information leakage between processes. If these processes belong to different users, customers, or applications, they share the same security context, which may present unacceptable risks for your organization.
 
-VMware ESXi supports VBS (also known as Microsoft Device Guard and Credential Guard) for Windows 10, Windows Server 2016, and Windows Server 2019 VMs since vSphere 6.7. VBS creates an isolated security environment using the Hyper-V subsystem to protect credentials and sensitive data. While VBS effectively prevents credential theft and malware attacks, both default and SCAv2 schedulers may allow information leakage. Though VBS remains beneficial even without SCAv1, factor this limitation into your security planning.
+VMware ESX supports VBS (also known as Microsoft Device Guard and Credential Guard) for Windows 10, Windows Server 2016, and Windows Server 2019 VMs since vSphere 6.7. VBS creates an isolated security environment using the Hyper-V subsystem to protect credentials and sensitive data. While VBS helps prevent credential theft and malware attacks, both default and SCAv2 schedulers may allow information leakage. Though VBS remains beneficial even without SCAv1, factor this limitation into your security planning.
 
 This consideration extends to terminal servers with multiple users and environments using containers or nested virtualization. For instance, a single large VM might run several distinct applications in containers, each requiring its own security boundary.
 
@@ -54,7 +54,7 @@ For more information on configuring these parameters, see [Implementing Hypervis
 ## Questions & Answers
 
 ### Q1: Are these types of vulnerabilities this specific to VMware software?
-No. They are hardware vulnerabilities in server and desktop processors. All major operating systems (VMware ESXi, Microsoft Windows, Linux distributions) implement software mitigations since hardware-level fixes are unavailable. CPU vulnerabilities affect physical hardware and virtual environments equally. Check your operating system vendor's documentation for specific mitigation approaches, performance impacts, and design considerations. Note that some operating systems omit vulnerability mitigations for privileged processes to maintain performance.
+No. They are hardware vulnerabilities in server and desktop processors. All major operating systems (VMware ESX, Microsoft Windows, Linux distributions) implement software mitigations since hardware-level fixes are unavailable. CPU vulnerabilities affect physical hardware and virtual environments equally. Check your operating system vendor's documentation for specific mitigation approaches, performance impacts, and design considerations. Note that some operating systems omit vulnerability mitigations for privileged processes to maintain performance.
 
 ### Q2: Will firewalls detect these vulnerabilities?
 No, but confirm with your security vendor.
@@ -66,7 +66,7 @@ No, but confirm with your security vendor.
 Possibly. Recent Intel processors include built-in mitigations. AMD processors have different vulnerability profiles. Review your processor and hardware vendor documentation for details.
 
 ### Q5: If my CPU has mitigations built-in and I use a scheduler, will I still see performance impacts?
-The SCAv1 and SCAv2 schedulers test for existing mitigations and will not apply mitigations that are already present. So no, you will not see performance impacts.
+The SCAv1 and SCAv2 schedulers test for existing mitigations and will not apply mitigations that are already present. In that case the scheduler does not add the mitigation, so it should not introduce additional performance impact.
 
 ### Q6: What additional steps are needed beyond CPU scheduler changes?
 After implementing new vSphere CPU scheduler settings per VMware Knowledge Base articles, enable guest operating system mitigations and restart VMs. Keep hardware firmware current to address other vulnerabilities and resolve compatibility issues with components like network interface cards.
@@ -84,14 +84,16 @@ Yes, including all changes in related Knowledge Base articles.
 No. Security needs vary by organisation. Evaluate business risk, cost, and potential legal implications. This decision requires input from key stakeholders (Chief Information Security Officer, Chief Financial Officer, Chief Information Officer, Chief Executive Officer).
 
 ### Q11: Why do virtual machines need a complete restart after guest OS remediation?
-The ESXi hypervisor runs virtual machines as processes called virtual machine monitors. These processes manage guest OS and hardware interactions. New CPU mitigations require restarting this process through a VM power cycle. Use PowerCLI for automation.
+The ESX hypervisor runs virtual machines as processes called virtual machine monitors. These processes manage guest OS and hardware interactions. New CPU mitigations require restarting this process through a VM power cycle. Use PowerCLI for automation.
 
-vSphere 6.7 and newer has the vmx.reboot.powerCycle parameter. When set to true, ESXi power-cycles VMs on next restart. Enable via PowerCLI:
-```Get-VM | New-AdvancedSetting -Name 'vmx.reboot.powerCycle' -value $true```
+vSphere 6.7 and newer has the vmx.reboot.powerCycle parameter. When set to true, ESX power-cycles VMs on next restart. Enable via PowerCLI:
+```powershell
+Get-VM | New-AdvancedSetting -Name 'vmx.reboot.powerCycle' -Value $true -Confirm:$false
+```
 This setting will be cleared when the VM is powered off. Note that this setting is also useful for changing EVC levels.
 
 ### Q12: What is the recommended remediation sequence?
-Update vCenter first, then ESXi hosts. This sequence ensures proper Enhanced vMotion Compatibility (EVC) and Distributed Resource Scheduler (DRS) coordination.
+Update vCenter first, then ESX hosts. This sequence supports proper Enhanced vMotion Compatibility (EVC) and Distributed Resource Scheduler (DRS) coordination.
 
 ### Q13: What are the performance impacts?
 Impact varies by workload. Expect up to 30% performance reduction with SCAv1 and 10% with SCAv2 in worst cases.

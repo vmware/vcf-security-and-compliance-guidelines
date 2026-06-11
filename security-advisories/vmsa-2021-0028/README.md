@@ -8,11 +8,11 @@ Introduction
 
 VMware has published & updated a security advisory, [VMSA-2021-0028](https://www.vmware.com/security/advisories/VMSA-2021-0028.html), in response to the open-source Java component Log4j vulnerabilities known as CVE-2021-44228, CVE-2021-45046, and CVE-2021-45105. The VMSA will always be the source of truth for what products & versions are affected, the workarounds, and appropriate patches. This document is a corollary to that advisory and contains regular updates, resources, and numerous questions that have been asked regarding this issue in an effort to communicate new information, reduce the need for support calls, and help keep organizations secure.
 
-Because of the ubiquity of the log4j component, the suddenness of these disclosures, and the trend to find more issues once one is discovered, the situation is still developing. Please subscribe to our Security Advisories mailing list ([[the VMSA page](https://go-vmware.broadcom.com/vmsa_email_alert)](https://go-vmware.broadcom.com/vmsa_email_alert)), subscribe to workaround Knowledge Base articles, and revisit this site for more information. New updates will be made on regular intervals as denoted below.
+Because of the ubiquity of the log4j component, the suddenness of these disclosures, and the trend to find more issues once one is discovered, the situation is still developing. Please subscribe to our Security Advisories mailing list ([the VMSA page](https://go-vmware.broadcom.com/vmsa_email_alert)), subscribe to workaround Knowledge Base articles, and revisit this site for more information. New updates will be made on regular intervals as denoted below.
 
 We also strongly recommend that organizations review the guidance in the context of all workloads and other systems. This issue affects billions of systems, software packages, and devices globally, and attackers are weaponizing these vulnerabilities to spread ransomware, cryptominers, and all manner of malware.
 
-Many questions are answered in the Q&A below. New questions are answered at the end, so please read through or scan the index on the left of the page. Thank you!
+Many questions are answered in the Q&A below. New questions are answered at the end. Thank you!
 
 Current Update
 --------------
@@ -29,7 +29,7 @@ Please subscribe to the VMSA mailing list and the relevant workaround Knowledge 
 Questions & Answers
 -------------------
 
-**This issue is a large one, and there are many questions. We are adding new questions and answers to the end of this document to preserve links into the subsections here. Please use the index on the left side to scan the questions -- the question you have might be near the end!**
+**This issue is a large one, and there are many questions. We are adding new questions and answers to the end of this document to preserve links into the subsections here.**
 
 ### Who is affected?
 
@@ -127,7 +127,7 @@ Embedded Platform Services Controllers are part of the vCenter Server appliance,
 
 ### I use vCenter Server HA. Do I need to update the witness node and secondary vCenter Server?
 
-If the VMSA lists vCenter Server as affected then additional HA nodes, which are based on vCenter Server, will need to be updated, either directly or through additional steps. In this case the workaround Knowledge Base article indicates that vCenter Server HA will need to be removed before the workaround steps are applied. The Knowledge Base articles are the source of truth for workarounds, please follow the instructions closely.
+If the VMSA lists vCenter Server as affected then additional HA nodes, which are based on vCenter Server, will need to be updated, either directly or through additional steps. In this case the workaround Knowledge Base article indicates that vCenter Server HA will need to be removed before the workaround steps are applied. The Knowledge Base articles are the source of truth for workarounds; please follow the instructions closely.
 
 ### If I patch VMware vCenter Server will that affect running workloads in my cluster?
 
@@ -139,7 +139,7 @@ Patching and restarting other components may have different impacts and should b
 
 ### I am running a specific build of a hot-patch for an affected product. Will I be able to get a new hot patch with the fixes?
 
-VMware strongly recommends patching to the release listed in the VMSA, and continue to check for newer releases because full patch releases are cumulative. If you are running a hot-patch and cannot update, it is recommended that you follow the workaround instructions in the VMSA.
+VMware strongly recommends patching to the release listed in the VMSA, and continuing to check for newer releases because full patch releases are cumulative. If you are running a hot-patch and cannot update, it is recommended that you follow the workaround instructions in the VMSA.
 
 ### Do I have to patch ESXi hosts?
 
@@ -199,7 +199,7 @@ If you are assembling an inventory of affected systems for your organization the
 
 ### Are signatures for Log4j attacks part of Carbon Black and NSX suites of tools?
 
-Yes. Customers with NSX IDS/IPS, NTA, NDR, Carbon Black suite of tools, or the NSX Advanced Firewall addon in VMware Cloud are seeing regular signature updates to detect and block attacks coming into their infrastructure and workloads. If you use these products ensure you are updating your signatures. There is also a new KB article on [Detecting & Preventing CVE-2021-44228 (Log4Shell) with the NSX Distributed IDS/IPS](https://kb.vmware.com/s/article/87156).
+Yes. Customers with NSX IDS/IPS, NTA, NDR, Carbon Black suite of tools, or the NSX Advanced Firewall addon in VMware Cloud are seeing regular signature updates to detect and block attacks coming into their infrastructure and workloads. If you use these products ensure you are updating your signatures. There is also a new KB article on [Detecting & Preventing CVE-2021-44228 (Log4Shell) with the NSX Distributed IDS/IPS](https://knowledge.broadcom.com/external/article?legacyId=87156).
 
 ### Can I manually replace log4j JAR files on product appliances?
 
@@ -269,7 +269,7 @@ There were overnight changes to the Apache Log4j security advisories. In short, 
 
 The good thing here is that the Apache Software Foundation got ahead of it on Tuesday, December 14 when they revised their workaround guidance. VMware is abiding the December 14 guidance, both with workarounds and in patches being developed and released.
 
-Among other updated workarounds, the [vCenter Server workaround Knowledge Base article has been updated](https://kb.vmware.com/s/article/87081), and there are new Python scripts that automate the workarounds. Please read the instructions. Right now you'll need to have run both scripts on all your vCenter Server instances. Work is going on to unify them, but don't wait. Run the first one, then the second one. Make sure you take a snapshot of vCenter Server, use DRS "should" rules to pin it to a particular ESXi host so you know where to find it to revert the snapshot, and ensure you can log into that ESXi host (root password isn't expired, etc.). We have some [tips on patching vSphere that include these ideas and more](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD).
+Among other updated workarounds, the [vCenter Server workaround Knowledge Base article has been updated](https://knowledge.broadcom.com/external/article?legacyId=87081), and there are new Python scripts that automate the workarounds. Please read the instructions. Right now you'll need to have run both scripts on all your vCenter Server instances. Work is going on to unify them, but don't wait. Run the first one, then the second one. Make sure you take a snapshot of vCenter Server, use DRS "should" rules to pin it to a particular ESXi host so you know where to find it to revert the snapshot, and ensure you can log into that ESXi host (root password isn't expired, etc.). We have some [tips on patching vSphere that include these ideas and more](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md).
 
 This has, and continues to be, a chaotic and evolving situation, for a couple of reasons. In most cases software vendors follow a process called "coordinated disclosure" (sometimes also known as "responsible disclosure") wherein they learn of a vulnerability, work with the security researcher or reporter to understand it, fix it, and release patches and a vulnerability disclosure at the same time the security researcher announces their work. This process can be fast, or it can take a few months, depending on a lot of things. It's nice because, in most cases, it is win/win for everyone. The vulnerability and the resolution appear simultaneously, organizations patch, and the researcher gets credit for their work.
 
@@ -283,11 +283,11 @@ Last, there are increasing concerns in the information security space about rans
 
 The upcoming holiday weeks will provide an opportunity for attackers to operate without being detected. The most common method of attack against infrastructure systems is through compromised credentials. The most common method of compromising infrastructure admin credentials is by compromising a centralized directory, like Active Directory, which is used by systems for both authentication AND authorization. Using groups to authorize people to log into infrastructure means that a rogue Domain Admin can simply add themselves to that group and log in, at which point they have dangerous levels of access to core infrastructure systems. What is especially tricky is that attackers who are using compromised credentials do not generate failed login messages, so to detect them you need to audit login successes, too.
 
-Your organization should be thinking about this and taking action to make the holiday season a secure one. Do this by auditing access to your systems, seriously restricting access to management interfaces, ensuring that systems like Active Directory are fully patched, and making sure backups are fully isolated and protected. You should also be preparing people and processes for the upcoming time off, so that if something bad happens you know who to call, what your business continuity processes are, and who your incident response team or provider is. We discuss many of these topics and offer practical steps you can take right now our “[Practical Ideas for Ransomware Resilience](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/ransomware-resources/Practical-Ideas-for-Ransomware-Resilience.md)” paper which is freely available on this site.
+Your organization should be thinking about this and taking action to make the holiday season a secure one. Do this by auditing access to your systems, seriously restricting access to management interfaces, ensuring that systems like Active Directory are fully patched, and making sure backups are fully isolated and protected. You should also be preparing people and processes for the upcoming time off, so that if something bad happens you know who to call, what your business continuity processes are, and who your incident response team or provider is. We discuss many of these topics and offer practical steps you can take right now our “[Practical Ideas for Ransomware Resilience](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/threat-resources/Ransomware/Practical-Ideas-for-Ransomware-Resilience.md)” paper which is freely available on this site.
 
-That is all for now. Key takeaways here: the change in CVSS score doesn’t change the mitigation strategies, we continue to work on workarounds to ensure they are clear and helpful, we continue to work on releasing product updates, and we urge you to be thinking about preparations for the holiday season.
+That is all for now. Key takeaways here: the change in CVSS score doesn’t change the mitigation strategies; we continue to work on workarounds to ensure they are clear and helpful; we continue to work on releasing product updates; and we urge you to be thinking about preparations for the holiday season.
 
-The Q&A was updated below with new information from previous updates here. The VMSA was updated for the change in CVSS score. Workarounds have been updated and are too numerous to note, please subscribe to the individual articles so you are notified when there is an update. Also note that you can leave feedback on Knowledge Base articles if there is something that concerns you or is unclear!
+The Q&A was updated below with new information from previous updates here. The VMSA was updated for the change in CVSS score. Workarounds have been updated and are too numerous to note; please subscribe to the individual articles so you are notified when there is an update. Also note that you can leave feedback on Knowledge Base articles if there is something that concerns you or is unclear!
 
 If you have feedback or questions we ask that you please direct them to your Technical Account Managers and/or account team first if they are not break/fix issues. We appreciate you and are working hard around the clock to help keep you and your environments safe and secure. Thank you.
 
@@ -400,7 +400,9 @@ Thank you! We appreciate you and hope you are safe and healthy no matter what yo
 VMSA-2021-0028.8 was published on December 24th, indicating updates to:
 
 VMware NSX-T Data Center  
-VMware Tanzu Greenplum Platform Extension Framework Greenplum Text VMware Tanzu Kubernetes Grid Integrated Edition
+VMware Tanzu Greenplum Platform Extension Framework  
+Greenplum Text  
+VMware Tanzu Kubernetes Grid Integrated Edition
 
 No updates to the blog posts or the Q&A. Please subscribe to the VMSA mailing list from the VMSA page itself (link is below in the Links section), and to the KB articles for products you run.
 
@@ -450,7 +452,7 @@ Updates were made to the VMSA and to the Q&A section here to reflect this news. 
 
 ### February 10, 2022 - 0900 PST
 
-Updates to the VMSA-2021-0028 were made to reflect the release of product updates that directly address the Log4j vulnerabilities. VMware recommends upgrading to the latest versions of the major release you are on in order to ensure that the Log4j issues are fully resolved.
+Updates to the VMSA-2021-0028 were made to reflect the release of product updates that directly address the Log4j vulnerabilities. VMware recommends upgrading to the latest versions of the major release you are on in order to resolve the Log4j issues.
 
 Not all product releases contain Log4j 2.17.1 or newer at the time of this update. Because VMware has found that our products are not susceptible to the lesser CVE-2021-45105 and CVE-2021-44832 issues we did not postpone the release cycles to include the newer Log4j binaries. The releases that are listed close the critical CVE-2021-44228 and CVE-2021-45046 vulnerabilities. Future releases of VMware products will bring Log4j binaries up to 2.17.1 or newer.
 

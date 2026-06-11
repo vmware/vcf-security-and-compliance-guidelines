@@ -18,7 +18,7 @@ There is not a regular update schedule for this document. This list of questions
 Questions & Answers
 -------------------
 
-NOTE: Please use the index on the left side to navigate, as the Q&A you need most may be near the bottom of the document. New information added after the original publication date is added to the end of the list to preserve links to the subsections.
+NOTE: New information added after the original publication date is added to the end of the list to preserve links to the subsections.
 
 ### Who is affected?
 
@@ -58,7 +58,7 @@ No, the VMware Side-Channel Aware Schedulers, SCAv1 and SCAv2, do not mitigate t
 
 ### Can I just firewall the affected products instead of patching or using the workaround?
 
-Hardware/CPU vulnerabilities are not subject to firewalls and other network-based controls. All organizations have diﬀerent environments, and whether there are system designs or other compensating controls available in your environment is best determined by you and your information security staﬀ.
+Hardware/CPU vulnerabilities are not subject to firewalls and other network-based controls. All organizations have different environments, and whether there are system designs or other compensating controls available in your environment is best determined by you and your information security staff.
 
 ### If I wait to patch will the mitigations be present in future updates to vSphere?
 
@@ -84,7 +84,7 @@ No, this is a vulnerability in computing hardware.
 
 This advisory is for ESXi hosts and will involve patching and restarting them. VMware always recommends applying the latest updates to installed products and system firmware as an essential part of defense-in-depth.
 
-VMSA-2022-0018, also released on July 12, 2022, is an advisory for vCenter Server. It is always recommended that vCenter Server be brought to current patch levels prior to applying current ESXi updates. See “[Tips for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD)” for more information about techniques for ensuring patching success.
+VMSA-2022-0018, also released on July 12, 2022, is an advisory for vCenter Server. It is always recommended that vCenter Server be brought to current patch levels prior to applying current ESXi updates. See “[Tips for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)” for more information about techniques for ensuring patching success.
 
 ### If I apply these ESXi updates, do I also need to update my system firmware?
 
@@ -106,7 +106,7 @@ CVE-2022-23816, CVE-2022-23825, CVE-2022-28693, CVE-2022-29901
 
 VMware is proud of the robust partner ecosystem and community built around our products, but we cannot speak to our partners’ solutions. Nor would they want us to.
 
-Engineered and integrated solutions like Dell EMC VxRail, HPE SimpliVity, and even VMware Cloud Foundation control their patch levels and conﬁgurations as part of their qualiﬁcation and testing processes. Using security guidance that is not explicitly for that product and product version is never advised. VMware covers VMware Cloud Foundation in our security advisory materials, but if you have additional engineered and integrated solutions in use, you should contact those vendors directly for guidance.
+Engineered and integrated solutions like Dell EMC VxRail, HPE SimpliVity, and even VMware Cloud Foundation control their patch levels and configurations as part of their qualification and testing processes. Using security guidance that is not explicitly for that product and product version is never advised. VMware covers VMware Cloud Foundation in our security advisory materials, but if you have additional engineered and integrated solutions in use, you should contact those vendors directly for guidance.
 
 ### I have feedback about the products and/or processes. How do I provide it to you?
 

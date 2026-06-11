@@ -31,6 +31,10 @@ Param (
     [Parameter(Mandatory=$false)]
     [ValidateNotNullOrEmpty()]
     [string]$OutputDirName,
+    # CSV Output Directory Name
+    [Parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+    [string]$CSVOutputDirName,
     # Accept-EULA
     [Parameter(Mandatory=$false)]
     [switch]$AcceptEULA,
@@ -38,6 +42,12 @@ Param (
     [Parameter(Mandatory=$false)]
     [switch]$NoSafetyChecks
 )
+
+# Validate that at least one output directory is specified
+if (-not $OutputDirName -and -not $CSVOutputDirName) {
+    Write-Host "ERROR: At least one of -OutputDirName or -CSVOutputDirName must be specified." -ForegroundColor Red
+    exit 1
+}
 
 # Import common functions
 Import-Module "$PSScriptRoot\scg-common.psm1" -Force
@@ -48,7 +58,7 @@ function Log-Message {
         [Parameter(Mandatory=$false)][AllowEmptyString()][AllowNull()][string]$Message = "",
         [Parameter(Mandatory=$false)][ValidateSet("INFO", "WARNING", "ERROR", "EULA", "PASS", "FAIL", "UPDATE")][string]$Level = "INFO"
     )
-    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName
+    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName -CSVOutputFileName $CSVOutputFileName
 }
 
 Function Accept-EULA() { Show-EULA -OutputFileName $OutputFileName }
@@ -79,17 +89,37 @@ if ($false -eq $NoSafetyChecks) {
 }
 
 #####################
-# Test to see if the output directory exists
-if (!(Test-Path -Path $OutputDirName -PathType Container)) {
-    Log-Message "The directory '$OutputDirName' does not exist. Please create it and try again." -Level "ERROR"
-    exit 1
+# Test to see if the output directories exist and are empty
+if ($OutputDirName) {
+    if (!(Test-Path -Path $OutputDirName -PathType Container)) {
+        Log-Message "The directory '$OutputDirName' does not exist. Please create it and try again." -Level "ERROR"
+        exit 1
+    }
+    if ((Get-ChildItem -Path $OutputDirName -Force | Measure-Object).Count -ne 0) {
+        Log-Message "The directory '$OutputDirName' is not empty. Please empty it and try again." -Level "ERROR"
+        exit 1
+    }
 }
 
-#####################
-# Test to see if the output directory is empty
-if ((Get-ChildItem -Path $OutputDirName -Force | Measure-Object).Count -ne 0) {
-    Log-Message "The directory '$OutputDirName' is not empty. Please empty it and try again." -Level "ERROR"
-    exit 1
+if ($CSVOutputDirName) {
+    if (!(Test-Path -Path $CSVOutputDirName -PathType Container)) {
+        Log-Message "The directory '$CSVOutputDirName' does not exist. Please create it and try again." -Level "ERROR"
+        exit 1
+    }
+    if ((Get-ChildItem -Path $CSVOutputDirName -Force | Measure-Object).Count -ne 0) {
+        Log-Message "The directory '$CSVOutputDirName' is not empty. Please empty it and try again." -Level "ERROR"
+        exit 1
+    }
+}
+
+# Wrapper messages from this point on are also written to their own file in the output directories
+$OutputFileName = if ($OutputDirName) { Join-Path $OutputDirName "audit-all.txt" } else { '' }
+$CSVOutputFileName = if ($CSVOutputDirName) { Join-Path $CSVOutputDirName "audit-all.csv" } else { '' }
+
+# Inventory object names can contain characters that are not valid in file names
+function Get-SafeFileName([string]$BaseName) {
+    $invalid = [regex]::Escape(-join [System.IO.Path]::GetInvalidFileNameChars())
+    return ($BaseName -replace "[$invalid]", '_')
 }
 
 #####################
@@ -116,7 +146,10 @@ catch {
 # Run the audits
 foreach ($vm in $vms) {
     try {
-        & "$PSScriptRoot\audit-vm-8.ps1" -name $vm -AcceptEULA -NoSafetyChecksExceptAppliances -OutputFileName "$OutputDirName\$($vm).txt" -ErrorAction Stop
+        $safeName = Get-SafeFileName "$vm"
+        $txtArgs = if ($OutputDirName) { @{OutputFileName = "$OutputDirName\$safeName.txt"} } else { @{} }
+        $csvArgs = if ($CSVOutputDirName) { @{CSVOutputFileName = "$CSVOutputDirName\$safeName.csv"} } else { @{} }
+        & "$PSScriptRoot\audit-vm-8.ps1" -name $vm -AcceptEULA -NoSafetyChecksExceptAppliances @txtArgs @csvArgs -ErrorAction Stop
     }
     catch {
         Log-Message "Failed to audit VM '$vm': $_" -Level "ERROR"
@@ -125,7 +158,10 @@ foreach ($vm in $vms) {
 
 foreach ($esxi in $hosts) {
     try {
-        & "$PSScriptRoot\audit-esxi-8.ps1" -name $esxi -AcceptEULA -NoSafetyChecks -OutputFileName "$OutputDirName\$($esxi).txt" -ErrorAction Stop
+        $safeName = Get-SafeFileName "$esxi"
+        $txtArgs = if ($OutputDirName) { @{OutputFileName = "$OutputDirName\$safeName.txt"} } else { @{} }
+        $csvArgs = if ($CSVOutputDirName) { @{CSVOutputFileName = "$CSVOutputDirName\$safeName.csv"} } else { @{} }
+        & "$PSScriptRoot\audit-esxi-8.ps1" -name $esxi -AcceptEULA -NoSafetyChecks @txtArgs @csvArgs -ErrorAction Stop
     }
     catch {
         Log-Message "Failed to audit ESX host '$esxi': $_" -Level "ERROR"
@@ -134,7 +170,10 @@ foreach ($esxi in $hosts) {
 
 $name = $global:DefaultVIServers.Name
 try {
-    & "$PSScriptRoot\audit-vcenter-8.ps1" -Name $name -AcceptEULA -NoSafetyChecks -OutputFileName "$OutputDirName\$($global:DefaultVIServers.Name).txt" -ErrorAction Stop
+    $safeName = Get-SafeFileName "$name"
+    $txtArgs = if ($OutputDirName) { @{OutputFileName = "$OutputDirName\$safeName.txt"} } else { @{} }
+    $csvArgs = if ($CSVOutputDirName) { @{CSVOutputFileName = "$CSVOutputDirName\$safeName.csv"} } else { @{} }
+    & "$PSScriptRoot\audit-vcenter-8.ps1" -Name $name -AcceptEULA -NoSafetyChecks @txtArgs @csvArgs -ErrorAction Stop
 }
 catch {
     Log-Message "Failed to audit vCenter '$name': $_" -Level "ERROR"

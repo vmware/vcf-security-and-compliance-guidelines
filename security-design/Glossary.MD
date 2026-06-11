@@ -1,10 +1,10 @@
-# Glossary of Security, Compliance, and Operational Resilience | VMware
+# Glossary of Security, Compliance, and Operational Resilience
 Access Control
 --------------
 
 The process of granting or denying users' access to specific resources based on their identity and permissions. It ensures that only authorized individuals can access sensitive data or perform certain actions within a system.
 
-VMware Cloud Foundation and VMware vSphere implement a robust role-based access control permission model inside VMware vCenter Server, which permits administrators granular control over user permissions and capabilities.
+VMware Cloud Foundation and VMware vSphere implement a robust role-based access control permission model inside VMware vCenter, which permits administrators granular control over user permissions and capabilities.
 
 Advanced Persistent Threat (APT)
 --------------------------------
@@ -42,14 +42,14 @@ Availability
 
 The assurance that a system or resource is accessible and functional when needed. Availability is one of the three core tenets of information security, alongside confidentiality and integrity.
 
-VMware Cloud Foundation and VMware vSphere have numerous availability features to ensure workloads and data remain available, including vMotion and Cross-vCenter vMotion, Distributed Resource Scheduler, vSphere High Availability, Reliable Memory, network and storage I/O control, customizable vSAN storage policies, vSAN stretched clusters, proactive health checks, and more.
+VMware Cloud Foundation and VMware vSphere have numerous availability features to help keep workloads and data available, including vMotion and Cross-vCenter vMotion, Distributed Resource Scheduler, vSphere High Availability, Reliable Memory, network and storage I/O control, customizable vSAN storage policies, vSAN stretched clusters, proactive health checks, and more.
 
 Backup
 ------
 
 The process of creating copies of data to enable recovery in case of data loss or corruption. A proper backup strategy helps organizations restore data and maintain business continuity in the event of a disaster, cyberattack, or system failure. It should include regular, scheduled data copies to separate storage media or systems, version control to maintain multiple historical copies, and a retention policy to ensure that backups are kept for a sufficient period to meet recovery requirements. Additionally, backups should be tested regularly to verify their integrity and the ability to restore data successfully.
 
-It's important to note that storing data on the same device or system as the original data does not qualify as a backup, as it does not protect against hardware failure, theft, or other localized risks. Similarly, using sync services or mirroring alone does not constitute a backup, as changes made to the original data, including deletions or corruptions, are immediately reflected in the synced or mirrored location. Proper backups should be independent of the original data location and protected against common risks**.**
+It's important to note that storing data on the same device or system as the original data does not qualify as a backup, as it does not protect against hardware failure, theft, or other localized risks. Similarly, using sync services or mirroring alone does not constitute a backup, as changes made to the original data, including deletions or corruptions, are immediately reflected in the synced or mirrored location. Proper backups should be independent of the original data location and protected against common risks.
 
 VMware Cloud Foundation and VMware vSphere provide standard APIs and access methods to a large ecosystem of partners specializing in backup and restore software and solutions.
 
@@ -58,7 +58,7 @@ Business Continuity
 
 The capability of an organization to maintain essential functions during and after a disruption, such as a natural disaster, cyberattack, or equipment failure. Business continuity planning involves identifying critical processes, developing strategies to minimize disruptions, and ensuring the organization can recover quickly.
 
-VMware Cloud Foundation enables customers to proactively protect their environments and quickly recover from incidents and disasters through VMware Live Recovery, which includes integrated ransomware recovery as well as runbook-based recovery methods for failover and subsequent failback of entire enterprise data centers.
+VMware Cloud Foundation enables customers to proactively protect their environments and quickly recover from incidents and disasters through VCF Protection and Recovery (formerly VMware Live Recovery), which includes integrated ransomware recovery as well as runbook-based recovery methods for failover and subsequent failback of entire enterprise data centers.
 
 CIA Triad
 ---------
@@ -107,7 +107,7 @@ An incident where data is accessed, copied, transmitted, viewed, or stolen by an
 Data Encryption
 ---------------
 
-The process of converting data into a code to prevent unauthorized access. Encryption uses mathematical algorithms to transform readable data into an unreadable format, ensuring that only authorized parties with the decryption key can access the original data**.**
+The process of converting data into a code to prevent unauthorized access. Encryption uses mathematical algorithms to transform readable data into an unreadable format, ensuring that only authorized parties with the decryption key can access the original data.
 
 Data Exfiltration
 -----------------
@@ -119,7 +119,7 @@ Data Leak
 
 The unintentional exposure of sensitive information to an unauthorized party, often due to misconfiguration, human error, or security vulnerabilities. Data leaks can occur through various channels, such as unsecured databases, cloud storage, or emails sent to the wrong recipient.
 
-Data Loss Protection (DLP)
+Data Loss Prevention (DLP)
 --------------------------
 
 Strategies and techniques used to ensure that sensitive data is not lost, misused, or accessed by unauthorized users. DLP solutions can identify, monitor, and protect sensitive data throughout its lifecycle, whether it's in use, in transit, or at rest.
@@ -152,7 +152,7 @@ Electronic documents that use digital signatures to bind a public key with an id
 Disaster Recovery
 -----------------
 
-The process of restoring normal operations after a disruptive event, such as a natural disaster or cyberattack. Disaster recovery planning involves identifying critical systems and data, developing backup and restoration procedures, and testing the plan regularly to ensure its effectiveness**.**
+The process of restoring normal operations after a disruptive event, such as a natural disaster or cyberattack. Disaster recovery planning involves identifying critical systems and data, developing backup and restoration procedures, and testing the plan regularly to ensure its effectiveness.
 
 Domain Name Service (DNS)
 -------------------------
@@ -322,7 +322,7 @@ The process of identifying, acquiring, installing, and verifying patches for sof
 Payment Card Industry Data Security Standard (PCI DSS)
 ------------------------------------------------------
 
-A set of security standards designed to ensure that all companies that accept, process, store, or transmit credit card information maintain a secure environment. PCI DSS applies to any organization that handles cardholder data, regardless of size or number of transactions, and requires them to implement a range of security controls to protect cardholder data
+A set of security standards designed to ensure that all companies that accept, process, store, or transmit credit card information maintain a secure environment. PCI DSS applies to any organization that handles cardholder data, regardless of size or number of transactions, and requires them to implement a range of security controls to protect cardholder data.
 
 Penetration Testing
 -------------------

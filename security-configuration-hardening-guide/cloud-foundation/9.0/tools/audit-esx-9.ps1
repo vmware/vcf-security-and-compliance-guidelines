@@ -35,6 +35,10 @@ Param (
     [Parameter(Mandatory=$false)]
     [ValidateNotNullOrEmpty()]
     [string]$OutputFileName,
+    # CSV Output File Name
+    [Parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+    [string]$CSVOutputFileName,
     # Accept-EULA
     [Parameter(Mandatory=$false)]
     [switch]$AcceptEULA,
@@ -52,7 +56,7 @@ function Log-Message {
         [Parameter(Mandatory=$false)][AllowEmptyString()][AllowNull()][string]$Message = "",
         [Parameter(Mandatory=$false)][ValidateSet("INFO", "WARNING", "ERROR", "EULA", "PASS", "FAIL", "UPDATE")][string]$Level = "INFO"
     )
-    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName
+    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName -CSVOutputFileName $CSVOutputFileName
 }
 
 Function Accept-EULA() { Show-EULA -OutputFileName $OutputFileName }
@@ -63,7 +67,7 @@ Function Check-Hosts() { if (-not (Test-HostsExist -OutputFileName $OutputFileNa
 #######################################################################################################
 
 $currentDateTime = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-Log-Message "VMware ESX Host Security Settings Audit Utility 9.0.1" -Level "INFO"
+Log-Message "VMware ESX Host Security Settings Audit Utility 9.0.2" -Level "INFO"
 Log-Message "Audit of $name started at $currentDateTime from $env:COMPUTERNAME by $env:USERNAME" -Level "INFO"
 
 # Accept EULA and terms to continue
@@ -98,14 +102,14 @@ $scg_adv = @{
     'Security.PasswordQualityControl' = @{ Expected = 'similar=deny retry=3 min=disabled,disabled,disabled,disabled,15'; Comparator = 'eq' }
     'Security.PasswordHistory' = @{ Expected = 5; Comparator = 'ge' }
     'Security.PasswordMaxDays' = @{ Expected = 99999; Comparator = 'eq' }
-    'Config.HostAgent.vmacore.soap.sessionTimeout' = @{ Expected = 10; Comparator = 'le' }
+    'Config.HostAgent.vmacore.soap.sessionTimeout' = @{ Expected = 10; Comparator = 'le-nonzero' }
     'Config.HostAgent.plugins.solo.enableMob' = @{ Expected = $false; Comparator = 'eq' }
     'Config.HostAgent.plugins.hostsvc.esxAdminsGroupAutoAdd' = @{ Expected = $false; Comparator = 'eq' }
     'Config.HostAgent.plugins.vimsvc.authValidateInterval' = @{ Expected = 90; Comparator = 'ge' }
-    'UserVars.DcuiTimeOut' = @{ Expected = 600; Comparator = 'le' }
+    'UserVars.DcuiTimeOut' = @{ Expected = 600; Comparator = 'le-nonzero' }
     'UserVars.SuppressHyperthreadWarning' = @{ Expected = 0; Comparator = 'eq' }
     'UserVars.SuppressShellWarning' = @{ Expected = 0; Comparator = 'eq' }
-    'UserVars.HostClientSessionTimeout' = @{ Expected = 900; Comparator = 'le' }
+    'UserVars.HostClientSessionTimeout' = @{ Expected = 900; Comparator = 'le-nonzero' }
     'Net.BMCNetworkEnable' = @{ Expected = 0; Comparator = 'eq' }
     'DCUI.Access' = @{ Expected = 'root'; Comparator = 'eq' }
     'Syslog.global.auditRecord.storageEnable' = @{ Expected = $true; Comparator = 'eq' }
@@ -117,8 +121,8 @@ $scg_adv = @{
     'Syslog.global.certificate.strictX509Compliance' = @{ Expected = $true; Comparator = 'eq' }
     'Net.BlockGuestBPDU' = @{ Expected = 1; Comparator = 'eq' }
     'Net.DVFilterBindIpAddress' = @{ Expected = ''; Comparator = 'eq' }
-    'UserVars.ESXiShellInteractiveTimeOut' = @{ Expected = 900; Comparator = 'le' }
-    'UserVars.ESXiShellTimeOut' = @{ Expected = 600; Comparator = 'le' }
+    'UserVars.ESXiShellInteractiveTimeOut' = @{ Expected = 900; Comparator = 'le-nonzero' }
+    'UserVars.ESXiShellTimeOut' = @{ Expected = 600; Comparator = 'le-nonzero' }
     'Mem.ShareForceSalting' = @{ Expected = 2; Comparator = 'eq' }
     'Mem.MemEagerZero' = @{ Expected = 1; Comparator = 'eq' }
     'Mem.EncryptTierNvme' = @{ Expected = 1; Comparator = 'eq' }
@@ -134,6 +138,8 @@ foreach ($param in $scg_adv.GetEnumerator()) {
         'eq' { $vmval -eq $expected }
         'ge' { $vmval -ge $expected }
         'le' { $vmval -le $expected }
+        # le-nonzero = less or equal but not zero (for timeouts where 0 disables the timeout entirely)
+        'le-nonzero' { ($vmval -gt 0) -and ($vmval -le $expected) }
     }
 
     if ($pass) {
@@ -147,7 +153,7 @@ foreach ($param in $scg_adv.GetEnumerator()) {
 # Tests for things that should not be set a certain way
 $scg_not = @{
     'Annotations.WelcomeMessage' = ''
-    'Config.Etc.Issue' = ''
+    'Config.Etc.issue' = ''
     'Syslog.global.logHost' = ''
     'Config.HostAgent.plugins.hostsvc.esxAdminsGroup' = 'ESX Admins'
 }

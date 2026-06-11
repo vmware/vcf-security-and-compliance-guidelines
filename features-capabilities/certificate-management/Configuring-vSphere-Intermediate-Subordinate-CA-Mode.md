@@ -3,7 +3,7 @@
 Introduction
 ------------
 
-With certificate lifetimes currently at 397 days, the replacement of SSL/TLS certificates on infrastructure components now requires significantly more staff time than before. To alleviate this burden on administrators, VMware vSphere includes a built-in feature known as the "VMware Certificate Authority." This feature, integrated into vCenter Server, issues certificates within a vSphere cluster. By default, this Certificate Authority (CA) uses a self-signed CA root created during the initial vCenter Server installation. However, this CA root can be replaced with an intermediate CA certificate, signed by a trusted CA, in a method VMware designates as "Intermediate CA" mode.
+With public certificate lifetimes dropping to 200 days in March 2026, and continuing to shorten after that, the replacement of SSL/TLS certificates on infrastructure components now requires significantly more staff time than before. To alleviate this burden on administrators, VMware vSphere includes a built-in feature known as the "VMware Certificate Authority." This feature, integrated into vCenter Server, issues certificates within a vSphere cluster. By default, this Certificate Authority (CA) uses a self-signed CA root created during the initial vCenter Server installation. However, this CA root can be replaced with an intermediate CA certificate, signed by a trusted CA, in a method VMware designates as "Intermediate CA" mode.
 
 Intermediate CA mode, also referred to as Subordinate CA mode, offers the advantage of automating the deployment of trusted certificates to vSphere infrastructure components. Nonetheless, some organizations express concerns about issuing signing certificates in this manner, primarily due to potential impersonation of the organization and the possible lifespan of CA certificates. Mitigation strategies include the use of intermediate CA roots, certificate revocation lists, and even the creation of separate CA roots which are not generally trusted by organizational systems. However, these mitigations are beyond the scope of this document.
 
@@ -12,7 +12,7 @@ This document is not a substitute for the product documentation. Instead, it aim
 Support
 -------
 
-VMware Global Support Services assists with certificate replacement in a break/fix capacity (contact them for issues). For proactive support, consult your Technical Account Manager or account team. While we welcome feedback on this document (use the icon above), the authors cannot provide direct support for these operations.
+VMware Global Support Services assists with certificate replacement in a break/fix capacity (contact them for issues). For proactive support, consult your Technical Account Manager or account team. While we welcome feedback on this document (use the repository issue tracker), the authors cannot provide direct support for these operations.
 
 Disclaimer
 ----------
@@ -78,7 +78,7 @@ vCenter Server has advanced parameters that set the issued certificate CN data:
 *   vpxd.certmgmt.certs.daysValid
 *   vpxd.certmgmt.certs.minutesBefore
 
-We recommend setting vpxd.certmgmt.certs.minutesBefore to 5 to prevent time synchronization issues documented in [KB 2123386](https://kb.vmware.com/s/article/2123386) (we encountered this issue in testing when updating the ESXi hosts, and while the workaround is to wait until the 24 hour timeout elapses it’s better to avoid the problem in the first place).
+We recommend setting vpxd.certmgmt.certs.minutesBefore to 5 to prevent time synchronization issues documented in [KB 2123386](https://knowledge.broadcom.com/external/article?legacyId=2123386) (we encountered this issue in testing when updating the ESXi hosts, and while the workaround is to wait until the 24 hour timeout elapses it’s better to avoid the problem in the first place).
 
 Set these in advance, using PowerCLI or through the vSphere Client. Sample commands are below, configured for our fictitious “Fibre Channel over Token Ring Alliance” organization. We have left our sample data here for illustration, but you’ll want to use valid information for your own organization, of course.
 
@@ -121,7 +121,7 @@ From here you will execute /usr/lib/vmware-vmca/bin/certificate-manager on one v
     *   “Please provide valid custom certificate for Root.” – (Specify the certificate chain you created, /root/chain.pem)
     *   “Please provide valid custom key for Root.” – (Specify the key file, /root/vsphere-key-nopw.pem)
 8.  You will be asked “You are going to replace Root Certificate with custom certificate and regenerate all other certificates” – (If you feel comfortable with your answers enter “Y”)
-9.  Certificate Manager will now replace all the certificates for vCenter Server services. Wait patiently until it is done. This may take some time as it will restart all vCenter Server services (same as if you’d rebooted the VCSA). An example of what it looks like while it works is.
+9.  Certificate Manager will now replace all the certificates for vCenter Server services. Wait patiently until it is done. This may take some time as it will restart all vCenter Server services (same as if you’d rebooted the VCSA).
 10.  If there are errors it will revert the certificates to the original, self-signed ones. You can look in /var/log/vmware/vmcad for the relevant log files (use the UNIX command “less” to view a file, like “less /var/log/vmware/vmcad/certificate-manager.log”).
 11.  When it completes you will be logged out of the web-based vSphere Client. Log back in and verify that the certificate is what you expect and no new alarms are present. If you did not disable vSphere HA you may want to wait for cluster elections to finish before proceeding with ESXi certificate replacements.
     *   As previously mentioned, you may encounter HSTS or caching issues with your browser, or issues with the trusted CA root if it wasn’t properly installed. Try restarting your browser, using a different one, and/or “forgetting” the site.

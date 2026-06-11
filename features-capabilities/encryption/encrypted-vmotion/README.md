@@ -4,17 +4,18 @@ VMware vSphere Encrypted vMotion protects VMs as they live-migrate between ESX h
 
 ## How to Get Started
 
-Each virtual machine has a setting for vMotion, controlling the encryption. By default it is set to 'Opportunistic' which means that it will encrypt the VM if the CPU on the host supports AES-NI (which all currently supported x64 CPUs do). You can configure it to 'Required' which will guarantee the use of encryption, or also 'Disabled' which will disable encryption.
+Each virtual machine has a setting for vMotion, controlling the encryption. By default it is set to 'Opportunistic' which means that it will encrypt the VM if the CPU on the host supports AES-NI (which all currently supported x64 CPUs do). You can configure it to 'Required' which requires encryption for every migration (the vMotion fails rather than proceeding unencrypted), or also 'Disabled' which will disable encryption.
 
 You can also configure vMotion encryption settings in bulk using PowerCLI:
 
+```powershell
 foreach ($VM in Get-VM) {
     $VMview = Get-View -VIObject $VM
     $ConfigSpec = New-Object VMware.Vim.VirtualMachineConfigSpec
-    $ConfigSpec.MigrateEncryption = New-Object VMware.Vim.VirtualMachineConfigSpecEncryptedVMotionModes
     $ConfigSpec.MigrateEncryption = "required"
     $VMview.ReconfigVM_Task($ConfigSpec)
 }
+```
 
 ## Documentation
 
@@ -58,7 +59,7 @@ Encrypted vMotion is a setting on each VM, but not at the cluster level. You can
 
 ### How do I use vSAN Encryption with Encrypted vMotion?
 
-In exactly the same way as you would with normal vMotion. It works perfectly.
+In exactly the same way as you would with normal vMotion. The two features operate independently of each other.
 
 ### Does Encrypted vMotion cause a VM to be slower?
 

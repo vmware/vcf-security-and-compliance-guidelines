@@ -8,7 +8,7 @@ Introduction
 
 On August 2, 2022 VMware released a critical security advisory, VMSA-2022-0021, that addresses security vulnerabilities found and resolved in VMware’s Workspace ONE Access, VMware Identity Manager (vIDM), vRealize Lifecycle Manager, vRealize Automation, and VMware Cloud Foundation products. VMware Identity Manager is also an optional external component that can provide authentication and authorization for other products, such as NSX, vRealize Operations, vRealize Log Insight, and vRealize Network Insight.
 
-[The VMSA](https://www.vmware.com/security/advisories/VMSA-2022-0021.html) will always be the source of truth for what products & versions are aﬀected, the workarounds, and proper patches to keep your organization secure. This document is a corollary to the advisory and includes self-service information to help you and your organization decide how to respond.
+[The VMSA](https://www.vmware.com/security/advisories/VMSA-2022-0021.html) will always be the source of truth for what products & versions are affected, the workarounds, and proper patches to keep your organization secure. This document is a corollary to the advisory and includes self-service information to help you and your organization decide how to respond.
 
 These vulnerabilities are authentication bypass, remote code execution, and privilege escalation vulnerabilities. An authentication bypass means that an attacker with network access to Workspace ONE Access, VMware Identity Manager, and vRealize Automation can obtain administrator access. Remote code execution (RCE) means that an attacker can trick the components into executing commands that aren’t authorized. Privilege escalation means that an attacker with local access can become root on the virtual appliance. It is extremely important that you quickly take steps to patch or mitigate these issues in on-premises deployments. If your organization uses ITIL methodologies for change management, this would be considered an “emergency” change. Information on patches and workarounds can be found in the VMware Security Advisory (link below).
 
@@ -20,23 +20,23 @@ There is not a regular update schedule for this document. This list of questions
 Questions & Answers
 -------------------
 
-NOTE: Please use the index on the left side to navigate, as the Q&A you need most may be near the bottom of the document. New information added after the original publication date is added to the end of the list to preserve links to the subsections.
+NOTE: New information added after the original publication date is added to the end of the list to preserve links to the subsections.
 
 ### Who is affected?
 
-Customers who have deployed a product listed in the VMSA. Please note that this might include products and suites that oﬀer Workspace ONE Access or VMware Identity Manager (vIDM) components as an optional installation.
+Customers who have deployed a product listed in the VMSA. Please note that this might include products and suites that offer Workspace ONE Access or VMware Identity Manager (vIDM) components as an optional installation.
 
 ### When do I need to act?
 
 This critical vulnerability **should be patched or mitigated immediately** per the instructions in VMSA.
 
-Organizations that practice change management using the ITIL deﬁnitions of change types would consider this an “emergency change.” All environments are diﬀerent, have diﬀerent tolerance for risk, and have diﬀerent security controls and defense-in-depth to mitigate risk, so customers must make their own decisions on how to proceed. However, given the severity of the vulnerability, we strongly recommend immediate action.
+Organizations that practice change management using the ITIL definitions of change types would consider this an “emergency change.” All environments are different, have different tolerance for risk, and have different security controls and defense-in-depth to mitigate risk, so customers must make their own decisions on how to proceed. However, given the severity of the vulnerability, we strongly recommend immediate action.
 
 ### What should I do to protect myself?
 
-To fully protect yourself and your organization, please install one of the patch versions listed in the VMware Security Advisory, or use the workarounds listed in the VMSA. These updates do not introduce new functionality or other changes beyond resolving these issues and should be a straightforward update in most environments.
+The most reliable way to remove the vulnerabilities is to install one of the patch versions listed in the VMware Security Advisory; the workarounds listed in the VMSA are also available. These updates do not introduce new functionality or other changes beyond resolving these issues and should be a straightforward update in most environments.
 
-There may be other protections available in your organization depending on your security posture, defense-in-depth strategies, and conﬁgurations of virtual machines. All organizations must decide for themselves whether to rely on those protections.
+There may be other protections available in your organization depending on your security posture, defense-in-depth strategies, and configurations of virtual machines. All organizations must decide for themselves whether to rely on those protections.
 
 ### Is this being exploited “in the wild?”
 
@@ -44,7 +44,7 @@ As of August 10, 2022 there is proof-of-concept exploit code available in the in
 
 ### Can I just firewall the affected products instead of patching or using the workaround?
 
-All organizations have diﬀerent environments and needs, and that type of context is important in security. Whether ﬁrewalls are an appropriate compensating control for this situation in your environment is for you and your information security staﬀ to assess.
+All organizations have different environments and needs, and that type of context is important in security. Whether firewalls are an appropriate compensating control for this situation in your environment is for you and your information security staff to assess.
 
 ### I already patched using the fixes in VMSA-2022-0014; do I have to patch this as well?
 
@@ -64,11 +64,11 @@ These updates do not introduce new functionality or other changes beyond resolvi
 
 ### If I have the workaround in place from VMSA-2022-0014 will that protect me here?
 
-The workarounds for VMSA-2022-0014 also protect against the critical vulnerability in VMSA-2022-0021, but not the additional less-severe vulnerabilties that are disclosed in VMSA-2022-0021. We urge patching of the Workspace ONE Access/Identity Manager components instead of relying on workarounds.
+The workarounds for VMSA-2022-0014 also protect against the critical vulnerability in VMSA-2022-0021, but not the additional less-severe vulnerabilities that are disclosed in VMSA-2022-0021. We urge patching of the Workspace ONE Access/Identity Manager components instead of relying on workarounds.
 
 ### When I patch do I need to perform the workaround?
 
-No. Patching fully resolves the issues disclosed in this VMSA.
+No. Patching resolves the issues disclosed in this VMSA.
 
 ### Are there any downsides to using the workaround?
 
@@ -102,11 +102,11 @@ ESXi is not affected by this VMSA.
 
 Yes, there is an asynchronous patch for VMware Cloud Foundation. Please follow the instructions linked in the VMSA itself for patching.
 
-### What are the CVE numbers involved in VMSA-2022-0021
+### What are the CVE numbers involved in VMSA-2022-0021?
 
 CVE-2022-31656, CVE-2022-31657, CVE-2022-31658, CVE-2022-31659, CVE-2022-31660, CVE-2022-31661, CVE-2022-31662, CVE-2022-31663, CVE-2022-31664, CVE-2022-31665
 
-### I have extended support on one or more of the aﬀected products. How can I get a patch for this?
+### I have extended support on one or more of the affected products. How can I get a patch for this?
 
 Please follow the extended support process to request patches and other information.
 
@@ -118,7 +118,7 @@ VMware only analyzes and publishes security advisories for products currently un
 
 VMware is proud of the robust partner ecosystem and community built around our products, but we cannot speak to our partners’ solutions. Nor would they want us to.
 
-Engineered and integrated solutions like Dell EMC VxRail, HPE SimpliVity, and even VMware Cloud Foundation control their patch levels and conﬁgurations as part of their qualiﬁcation and testing processes. Using security guidance that is not explicitly for that product and product version is never advised. VMware covers VMware Cloud Foundation in our security advisory materials, but if you have additional engineered and integrated solutions in use, you should contact those vendors directly for guidance.
+Engineered and integrated solutions like Dell EMC VxRail, HPE SimpliVity, and even VMware Cloud Foundation control their patch levels and configurations as part of their qualification and testing processes. Using security guidance that is not explicitly for that product and product version is never advised. VMware covers VMware Cloud Foundation in our security advisory materials, but if you have additional engineered and integrated solutions in use, you should contact those vendors directly for guidance.
 
 ### I have feedback about the products and/or processes. How do I provide it to you?
 

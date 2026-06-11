@@ -9,7 +9,10 @@ Param (
     [string]$vCenter,
     # Username
     [Parameter(Mandatory=$true)]
-    [string]$User
+    [string]$User,
+    # Skip TLS certificate validation for the SSO Admin connection
+    [Parameter(Mandatory=$false)]
+    [switch]$SkipCertificateCheck
 )
 
 $password = Read-Host -Prompt "Enter your password" -AsSecureString
@@ -31,8 +34,14 @@ try {
 }
 
 try {
-    Connect-SsoAdminServer -Server $vCenter -Credential $credential -SkipCertificateCheck -ErrorAction Stop
+    $ssoParams = @{ Server = $vCenter; Credential = $credential; ErrorAction = 'Stop' }
+    if ($SkipCertificateCheck) {
+        Write-Host "WARNING: Skipping TLS certificate validation for the SSO Admin connection." -ForegroundColor Yellow
+        $ssoParams.SkipCertificateCheck = $true
+    }
+    Connect-SsoAdminServer @ssoParams
     Write-Host "Connected to SSO Admin Server: $vCenter" -ForegroundColor Green
 } catch {
     Write-Host "Failed to connect to SSO Admin Server: $_" -ForegroundColor Red
+    Write-Host "If the failure is due to an untrusted certificate, trust the vCenter certificate chain on this system, or re-run with -SkipCertificateCheck." -ForegroundColor Yellow
 }

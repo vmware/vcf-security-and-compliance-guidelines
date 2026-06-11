@@ -1,6 +1,6 @@
 # Cloud Foundation Security Configuration & Hardening
 
-VMware, and now Broadcom, provides specific baseline guidance for hardening and auditing VMware products. Choose the version of the Security Configuration & Hardening Guide that is appropriate for your environment from the folder structure here.
+Broadcom provides specific baseline guidance for hardening and auditing VMware products. Choose the version of the Security Configuration & Hardening Guide that is appropriate for your environment from the folder structure here.
 
 Older versions of VMware Cloud Foundation hardening centered around regulatory compliance. To that end, please see the VCF Compliance Kits located at:
 

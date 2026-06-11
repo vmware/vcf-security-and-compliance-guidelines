@@ -26,8 +26,8 @@ Both XLSX and CSV formats are provided as a convenience for people working with 
 
 ## Broadcom Resources
 
-- [NIST 800-53r5 Companion Guide for VMware Cloud Foundation 9.0 (XLSX)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/9.0/nist-800-53-r5/vcf-90-companion-nist-800-53-rev-5.xlsx) -- direct download
-- [NIST 800-53r5 Companion Guide for VMware Cloud Foundation 9.0 (CSV)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/9.0/nist-800-53-r5/vcf-90-companion-nist-800-53-rev-5.csv) -- direct download
+- [NIST 800-53r5 Companion Guide for VMware Cloud Foundation 9.0 (XLSX)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/9.0/nist-800-53-r5/vcf-90-companion-nist-800-53-r5.xlsx) -- direct download
+- [NIST 800-53r5 Companion Guide for VMware Cloud Foundation 9.0 (CSV)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/9.0/nist-800-53-r5/vcf-90-companion-nist-800-53-r5.csv) -- direct download
 
 To download these files from the GitHub web interface, use the "Raw" or "Download raw file" button on the file's page. Right-clicking the links above and choosing "Save Link As" also works.
 

@@ -1,6 +1,7 @@
 # TLS and Cipher Suites in VMware vSphere and VMware Cloud Foundation
 
-> [!NOTE] This is a stub page for future content.
+> [!NOTE]
+> This is a stub page for future content.
 
 ## How to Get Started
 
@@ -12,8 +13,10 @@
 
 ### How can I control the TLS ciphers used by vSphere?
 
+Use TLS Profiles. vSphere 8.0 Update 3 and newer have selectable TLS profiles, such as COMPATIBLE and NIST_2024, that control the protocol versions and cipher suites used by vSphere management interfaces, with NIST_2024_TLS_13_ONLY available in VCF 9.0 and newer. The Security Configuration Guide tls-ciphers controls include audit and remediation examples for both ESX and vCenter.
+
 ### Several KB articles say that the default ciphers in vSphere are not considered insecure, but my infosec group says otherwise. Who is right?
-Both groups are. The default ciphers in vSphere are selected for backwards-compatibility. The concern about some of those ciphers, specifically static ciphers, is that there are a number of largely-theoretical attacks against them, and while they are not insecure, per se, with better options available we should all use those. VMware infrastructure products support this through the use of TLS Profiles, and you can choose the "NIST_2024" (in 8.0 and 9.0) and "NIST_2024_TLS_13_ONLY" (in 9.0) to satisfy these requirements.
+Both groups are. The default ciphers in vSphere are selected for backwards-compatibility. The concern about some of those ciphers, specifically static ciphers, is that there are a number of largely-theoretical attacks against them, and while they are not insecure, per se, with better options available we should all use those. VMware infrastructure products support this through the use of TLS Profiles, and you can choose the "NIST_2024" profile (in vSphere 8.0 Update 3 and newer) and "NIST_2024_TLS_13_ONLY" (in 9.0) to satisfy these requirements.
 
 ## Disclaimer
 

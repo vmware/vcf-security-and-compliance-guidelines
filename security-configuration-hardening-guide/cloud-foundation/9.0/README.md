@@ -1,10 +1,10 @@
-# VMware vSphere Security Configuration and Hardening Guide
+# VMware Cloud Foundation Security Configuration and Hardening Guide
 
-The VMware vSphere Security Configuration and Hardening Guide (SCG) is the baseline for hardening and auditing guidance for VMware Cloud Foundation and the components within. It has long served as guidance for virtualization administrators looking to protect their infrastructure.
+The VMware Cloud Foundation (VCF) Security Configuration and Hardening Guide (SCG) is the baseline for hardening and auditing guidance for VCF and the components within. It has long served as guidance for virtualization administrators looking to protect their infrastructure.
 
 Security is always a tradeoff, and turning on all security features, to their highest levels of security, often impedes day-to-day administration efforts. The goal of this guide is to be a core set of security best practices that inform administrators. It is not a catalogue of all available security controls, but instead a reasonable baseline on which to build.
 
-This guide was developed with VMware Cloud Foundation 9.0.1 and supersedes all earlier versions and guidance.
+This guide was developed with VMware Cloud Foundation 9.0.2 and supersedes all earlier versions and guidance.
 
 ## VMware ESXi versus VMware ESX
 
@@ -49,7 +49,7 @@ These links also contain numerous additional resources to help your security and
 
 ## Intended Audience
 
-The audience for the Security Configuration and Hardening Guide is VMware Cloud Foundation and vSphere Foundation customers who have implemented VMware Cloud Foundation 9.0.1 or VMware vSphere Foundation 9.0.1 directly. There are many engineered data center and hybrid cloud infrastructure products that implement VMware vSphere as part of their solutions. If this is how you consume vSphere you should check with those products' support before implementing these ideas.
+The audience for the Security Configuration and Hardening Guide is VMware Cloud Foundation and vSphere Foundation customers who have implemented VMware Cloud Foundation 9.0.2 or VMware vSphere Foundation 9.0.2 directly. There are many engineered data center and hybrid cloud infrastructure products that implement VMware vSphere as part of their solutions. If this is how you consume vSphere you should check with those products' support before implementing these ideas.
 
 ## Third Party Identifiers & Mappings
 
@@ -61,7 +61,7 @@ Control identifier numbers have been included from the [Secure Controls Framewor
 
 ## VMware Appliances
 
-VMware appliances, such as the vCenter Server Appliance (VCSA), are tested and qualified in known configurations. Altering the configuration of appliances may affect support. Avoid upgrading the appliance virtual hardware versions except under the guidance of VMware Global Support Services. If you do decide to upgrade an appliance, ensure that you have a backup and/or a snapshot.
+VMware appliances, such as the vCenter Appliance (VCSA), are tested and qualified in known configurations. Altering the configuration of appliances may affect support. Avoid upgrading the appliance virtual hardware versions except under the guidance of VMware Global Support Services. If you do decide to upgrade an appliance, ensure that you have a backup and/or a snapshot.
 
 The VMware vSphere Cluster Services VMs have been hardened with guidance present here and take advantage of vSphere default settings. If your security scanner identifies missing parameters check to ensure that they need to be set.
 
@@ -75,8 +75,8 @@ Note that a virtual machine snapshot will capture the virtual hardware version. 
 
 In general, Broadcom guidance is to:
 
-- Run the latest version you are able, ideally the latest version available in the major vSphere version you run.
-- Use VM Hardware 14 (vmx-14) or newer. Version 13 introduces important performance and security improvements for CPU vulnerability mitigations, and version 14 introduces support for vTPM.
+- Run the latest version you are able, ideally the latest version available in the version of VCF you run.
+- Use VM Hardware 17 (vmx-17) or newer. Version 13 introduced important performance and security improvements for CPU vulnerability mitigations, and version 14 introduced support for vTPM.
 - Take snapshots of virtual machines prior to upgrading, but do not forget to remove the snapshot later.
 - When scheduling virtual hardware compatibility upgrades use the "Only upgrade after normal guest OS shutdown" to help ensure that a compatibility update does not complicate an unplanned incident or HA event.
 
@@ -86,7 +86,7 @@ This guide may be updated as necessary to improve clarity, correct problems, and
 
 ## Power Off
 
-All guidance in the Security Configuration Guide is meant to be applied to virtual machines in a powered off state, or hosts which have been placed in maintenance mode and are able to restart. **Changes to vSphere have made it so that most advanced parameters cannot be set with virtual machines powered on.** This ensures that the running configuration of a virtual machine matches the reported configuration, but in practice may require organizational process changes. We encourage organizations to take advantage of product defaults to reduce the scope of work.
+All guidance in the Security Configuration Guide is meant to be applied to virtual machines in a powered off state, or hosts which have been placed in maintenance mode and are able to restart. **Changes to vSphere have made it so that most advanced parameters cannot be set with virtual machines powered on.** This helps ensure that the running configuration of a virtual machine matches the reported configuration, but in practice may require organizational process changes. We encourage organizations to take advantage of product defaults to reduce the scope of work.
 
 ## Code Examples & Tools
 
@@ -99,7 +99,7 @@ This Guide contains PowerCLI examples that standardize on formatting, such as:
 
 **These code snippets can make changes that deeply affect operations and the responsibility for the impact of these changes is yours.** Test these changes in a controlled, non-production environment first, and apply them to production environments using staged rollout techniques. One easy way to build a test environment is to run ESX inside a VM for non-production testing purposes, just as the [VMware Hands-on Labs](https://labs.hol.vmware.com/) do.
 
-This guide includes sample automation scripts for auditing and remediating environments. Please see Appendix B in the [guidance document](vmware-cloud-foundation-security-configuration-guide-90-guidance.pdf?raw=true), or the [`tools/`](tools/) directory.
+This guide includes sample automation scripts for auditing and remediating environments. Please see Appendix A in the [guidance document](vmware-cloud-foundation-security-configuration-guide-90-guidance.pdf?raw=true), or the [`tools/`](tools/) directory.
 
 We regret that while we are happy to accept constructive feedback about the code examples, we cannot supply scripting support. There are options for scripting and automation support through VMware Professional Services. Please contact your Account Executive for more information. You might also check out the thriving community at [developer.broadcom.com](https://developer.broadcom.com/).
 

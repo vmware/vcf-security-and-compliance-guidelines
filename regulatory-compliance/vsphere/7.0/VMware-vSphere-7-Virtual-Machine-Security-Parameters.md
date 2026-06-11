@@ -501,7 +501,7 @@ Default Value: 2
 
 Desired Value: 2
 
-This parameter controls Transparent Page Sharing (TPS), an approach to deduplicating memory between virtual machines. Security and performance concerns with TPS, coupled with TPS not operating on the large memory pages used by modern compute hardware, informs this default and recommendation. More information can be found at: [https://kb.vmware.com/s/article/2097593](https://kb.vmware.com/s/article/2097593)
+This parameter controls Transparent Page Sharing (TPS), an approach to deduplicating memory between virtual machines. Security and performance concerns with TPS, coupled with TPS not operating on the large memory pages used by modern compute hardware, informs this default and recommendation. More information can be found at: [https://knowledge.broadcom.com/external/article?legacyId=2097593](https://knowledge.broadcom.com/external/article?legacyId=2097593)
 
 Scans for this parameter should not generate findings if the parameter is found and set to 2, or the parameter is omitted and using the default for virtual machines which always run in vSphere 7 environments.
 

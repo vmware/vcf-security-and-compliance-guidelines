@@ -107,7 +107,9 @@ There may be mitigations and compensating controls that could be applicable with
 
 One approach to disable this authentication type directly on vCenter Server is to issue the following command:
 
-sso-config.sh -set\_authn\_policy -winAuthn false -t vsphere.local
+```
+sso-config.sh -set_authn_policy -winAuthn false -t vsphere.local
+```
 
 substituting your vSphere SSO domain for vsphere.local if applicable.
 
@@ -118,7 +120,7 @@ Changelog
 
 2024-02-20, 0830 PST (-0800): Initial publication.
 
-2024-02-22, 1430 PST (-0800): Updated the workarounds to indicate the use of sso-admin.sh.
+2024-02-22, 1430 PST (-0800): Updated the workarounds to indicate the use of sso-config.sh.
 
 Disclaimer
 ----------

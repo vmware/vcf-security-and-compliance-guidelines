@@ -1,10 +1,43 @@
-VMware vSphere Security Configuration Guide (SCG) 9.0.1 PowerCLI Toolkit
-=========================================================================
+VMware Cloud Foundation Security Configuration Guide (SCG) 9.0.2 PowerCLI Toolkit
+==================================================================================
 
 CHANGELOG
 ---------
 
+Version 902-20260612-01
+-----------------------
+
+Bug Fixes:
+- Fixed -NoSafetyChecksExceptAppliances not bypassing safety checks in audit-vm-9.ps1 and remediate-vm-9.ps1
+- Fixed Config.Etc.Issue casing to Config.Etc.issue in audit-esx-9.ps1 and remediate-esx-9.ps1
+- Fixed missing closing parenthesis in remediate-vcenter-9.ps1 etc.issue log message
+- Fixed missing MacManagementOverrideAllowed and NetworkResourcePoolOverrideAllowed in remediate-vcenter-9.ps1 portgroup policy remediation
+- Changed the VM hardware version check in audit-vm-9.ps1 to pass any version at or above vmx-17, matching the guide's revised baseline (previously versions newer than vmx-21 failed the check)
+- Fixed switch-level MacChanges and ForgedTransmits remediation in remediate-vcenter-9.ps1, which omitted Get-VDSecurityPolicy from the pipeline and logged success without changing anything
+- remediate-vcenter-9.ps1 now reports an error instead of a false PASS for the appliance SSH and local-accounts checks when no Connect-CisServer session exists
+- Fixed the VGT check in audit-vcenter-9.ps1, which compared the VLAN configuration object to an integer and could never fail; the check now also detects VLAN trunk ranges
+- Fixed the appliance NTP server check in audit-vcenter-9.ps1 to fail on an empty server list
+- Numeric advanced settings in audit-vm-9.ps1 and remediate-vm-9.ps1 are now compared numerically (string comparison previously failed compliant values such as tools.setInfo.sizeLimit)
+- Timeout settings in audit-esx-9.ps1 and remediate-esx-9.ps1 now use a le-nonzero comparison so a value of 0 (timeout disabled) no longer passes
+- The appliance safety-stop message in audit-vm-9.ps1 and remediate-vm-9.ps1 no longer suggests -NoSafetyChecksExceptAppliances as a bypass for the appliance check
+- connect.ps1 now validates the SSO Admin TLS certificate by default; -SkipCertificateCheck is a new opt-in parameter with a warning
+
+New Features:
+- Added -CSVOutputFileName parameter to all scripts for CSV output
+- Added -CSVOutputDirName parameter to audit-all.ps1 for bulk CSV output
+- CSV output uses Export-Csv with proper quoting and escaping
+
+Files Modified:
+- scg-common.psm1
+- audit-all.ps1
+- audit-vm-9.ps1
+- remediate-vm-9.ps1
+- audit-esx-9.ps1
+- remediate-esx-9.ps1
+- audit-vcenter-9.ps1
+- remediate-vcenter-9.ps1
+
 Version 901-20260107-01
 -----------------------
 
-- Initial release for vSphere 9.0.1
+- Initial release for VMware Cloud Foundation 9.0.1

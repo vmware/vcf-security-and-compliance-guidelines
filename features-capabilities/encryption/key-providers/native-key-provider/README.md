@@ -265,11 +265,11 @@ $keyprovider = Get-KeyProvider -Name $keyprovidername
 foreach ($cluster in Get-Cluster) {
     $clusterinfo = Get-VsanClusterConfiguration -Cluster $cluster
     if ($clusterinfo.EncryptionEnabled) {
-        Write-Host "[REKEY] Rekeying vSAN datastores in $cluster to $keyprovider ($date)" -ForegroundColor Green
+        Write-Host "[REKEY] Rekeying vSAN datastores in $cluster to $keyprovider" -ForegroundColor Green
         Start-VsanEncryptionConfiguration -Cluster $cluster -KeyProvider $keyprovider -Confirm:$false -ErrorAction Stop | Out-Null
         Start-VsanEncryptionConfiguration -Cluster $cluster -ShallowRekey -Confirm:$false -ErrorAction Stop | Out-Null
     } else {
-        Write-Host "[SKIP]  $cluster does not have an encrypted vSAN datastore ($date)" -ForegroundColor White
+        Write-Host "[SKIP]  $cluster does not have an encrypted vSAN datastore" -ForegroundColor White
     }
 }
 
@@ -302,9 +302,9 @@ If encrypted virtual machines are not running, they will become locked, and alar
 
 After this move, we suggest re-encrypting/re-keying virtual machines to your preferred key provider to ensure consistency.
 
-### I use VMware Live Site Recovery. What considerations are there to ensure encrypted virtual machines can run on the DR site?
+### I use VCF Protection and Recovery. What considerations are there to ensure encrypted virtual machines can run on the DR site?
 
-When using Site Recovery Manager, you must configure both vCenter instances with the same vSphere Native Key Provider. This requires you to export the vSphere Native Key Provider from one vCenter instance and import it into the DR vCenter instance. For more information see [VMware Live Site Recovery and Virtual Machine Encryption](https://techdocs.broadcom.com/us/en/vmware-cis/live-recovery/live-site-recovery/9-0/how-do-i-protect-my-environment/interoperability-of-srm-with-other-software/site-recovery-manager-and-virtual-machine-encryption.html).
+When using VCF Protection and Recovery (formerly VMware Live Site Recovery and Site Recovery Manager), you must configure both vCenter instances with the same vSphere Native Key Provider. This requires you to export the vSphere Native Key Provider from one vCenter instance and import it into the DR vCenter instance. For more information see [VMware Live Site Recovery and Virtual Machine Encryption](https://techdocs.broadcom.com/us/en/vmware-cis/live-recovery/live-site-recovery/9-0/how-do-i-protect-my-environment/interoperability-of-srm-with-other-software/site-recovery-manager-and-virtual-machine-encryption.html).
 
 ### Does VMware vCenter HA support Native Key Provider?
 
@@ -344,7 +344,7 @@ Whether you should delete them or not is up to you. The backup key files (.p12 f
 
 ### How do I tell which virtual machines are using a key provider?
 
-This information is visible in the virutal machine summary tab in vCenter. You can also use PowerCLI to retrieve this information. An example of this process is provided in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory.
+This information is visible in the virtual machine summary tab in vCenter. You can also use PowerCLI to retrieve this information. An example of this process is provided in the [code-samples](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/code-samples) directory.
 
 ### What FIPS 140-3 levels does Native Key Provider support?
 
@@ -359,18 +359,6 @@ Please consult your compliance auditors for more information about how system de
 ### I replicate to a DR site; how will I decrypt my replicated virtual machines?
 
 You can import the Native Key Provider backup into the DR site vCenter. That will allow that cluster to decrypt and run the encrypted virtual machines. We recommend testing it prior to an incident, of course. Ensure that a copy of the key provider backup is also available to the DR site.
-
-### Is Native Key Provider available in VMware Cloud on AWS SDDCs?
-
-Yes, but not completely like the on-premises version. Native Key Provider is enabled in VMware Cloud on AWS 1.19 and later in order to enable vTPM. However, the Native Key Provider instance is not configurable by customers beyond that. Individual virtual machine Encryption and configurable Native Key Provider are roadmap items. Need these features? Submit a feature request through your account team so our product managers know that there is interest and that you have a use case for it.
-
-### Is the SDDC Native Key Provider backed up in VMware Cloud on AWS?
-
-Yes. The VMware Cloud on AWS service automatically backs up and stores the recovery key (Key Derivation Key) for customers. VMware Cloud on AWS Support can restore the backup key if needed.
-
-### Can I import a Native Key Provider key into VMware Cloud on AWS?
-
-Key provider configurations in an SDDC are not currently available for customer configuration.
 
 ### Do I need to set the Native Key Provider to be the default before I remove the old provider?
 
@@ -448,7 +436,7 @@ Best practices for Native Key Provider tend to be the same as good design practi
   - More key providers means more opportunity for VMs to be encrypted with the wrong key provider.
   - More key providers means more things to back up, manage, and audit.
   - You can have a default key provider at the vCenter level, and then have different default key providers for each cluster. But... do you really need to do that? What problem are you solving? Is it the same set of VCF admins for everything?
-  - vSAN can also have a different key provider, per cluster. In general, organizations that use two key providers often use a Standard Key Provider for vSAN, to protect against theft and improper decommissioning of equipement, and a Native Key Provider for VMs and workloads, to reduce dependencies and minimize KMS licensing costs. The Native Key Provider instance is usually configured as the default key provider.
+  - vSAN can also have a different key provider, per cluster. In general, organizations that use two key providers often use a Standard Key Provider for vSAN, to protect against theft and improper decommissioning of equipment, and a Native Key Provider for VMs and workloads, to reduce dependencies and minimize KMS licensing costs. The Native Key Provider instance is usually configured as the default key provider.
 - If you have multiple clusters, decide if you are going to use the same key provider for all of them, or if you want to have a separate key provider for each cluster.
   - If you use the same key provider for all clusters (creating it on one, exporting it, and importing it on the others) it makes cross-vCenter vMotion easier.
   - It is easy to rekey a cluster and its VMs into a new key provider if you need to change (see the code samples here).

@@ -19,7 +19,7 @@ There is not a regular update schedule for this document; it will be updated as 
 ## Relevant Links
 
 - [VMware Security Advisory VMSA-2025-0013](https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/35877) (the security advisory itself)  
-- [VMSA-2025-0013 Questions & Answers](https://brcm.tech/vmsa-2025-0013-qna) (this document’s shortened ink)  
+- [VMSA-2025-0013 Questions & Answers](https://brcm.tech/vmsa-2025-0013-qna) (this document’s shortened link)  
 - [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg) (the reference for hardening VMware vSphere, virtual machines, and in-guest settings like VMware Tools)  
 - [VMware Cloud Foundation Security Advisories](https://support.broadcom.com/web/ecx/security-advisory?segment=VC) (list of all disclosed security vulnerabilities)  
 - [VMware Security Advisory Mailing List](https://go-vmware.broadcom.com/vmsa_email_alert) (please subscribe for proactive notifications of security advisories)
@@ -43,7 +43,7 @@ These issues qualify under ITIL methodologies as an emergency change, requiring 
 
 ### 3. What should I do to protect myself?
 
-To ensure full protection for your organization, install one of the update versions listed in the VMware Security Advisory. Patches are cumulative; versions newer than those listed will also resolve the issues.
+The most reliable way to remove these vulnerabilities is to install one of the update versions listed in the VMware Security Advisory. Patches are cumulative; versions newer than those listed will also resolve the issues.
 
 ### 4. What products are affected?
 
@@ -55,7 +55,7 @@ CVE-2025-41236, CVE-2025-41237, CVE-2025-41238, CVE-2025-41239
 
 ### 6. What is the severity of the vulnerabilities?
 
-CVE-2025-41236, CVE-2025-41237, CVE-2025-41238, and CVE-2025-41239 have CVSS scores ranging from 6.2 to 9.3 and are considered critical.
+CVE-2025-41236, CVE-2025-41237, CVE-2025-41238, and CVE-2025-41239 have CVSS scores ranging from 6.2 to 9.3, and the advisory overall is rated critical. Consult the advisory for the score and severity of each individual CVE.
 
 ### 7. Are there additional details about the vectors of the vulnerabilities?
 
@@ -101,7 +101,7 @@ No. The vSockets driver that is part of this advisory is not present in Windows 
 
 ### 16. If I update ESX, do I have to update VMware Tools?
 
-This advisory addresses several distinct issues across different components. To completely resolve the issues identified in this advisory, Broadcom strongly recommends that you update all affected components.
+This advisory addresses several distinct issues across different components. To resolve the issues identified in this advisory, Broadcom strongly recommends that you update all affected components.
 
 ### 17. Are the fixed VMware Tools bundled with ESX?
 
@@ -165,7 +165,9 @@ Broadcom always recommends applying the latest updates to all software products.
 
 The build information is available in the Summary tab of the vSphere Client. It can also be easily queried with PowerCLI:
 
-```Get-VMhost | Select-Object Name,Version,Build```
+```powershell
+Get-VMhost | Select-Object Name,Version,Build
+```
 
 ### 30. If I update ESX will it affect running workloads?
 

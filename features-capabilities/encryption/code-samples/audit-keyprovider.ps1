@@ -50,61 +50,19 @@
     prompted, monitor task progress directly in the vSphere Client.
 #>
 
-Function Do-Pause() {
-    Write-Output "[WAIT]  Check the vSphere Client to make sure all tasks have completed, then press a key." 
-    $null = $host.UI.RawUI.FlushInputBuffer()
-    $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-}
-
 #####################
-# Check to see if we have the required version of VMware.PowerCLI
-Function Check-PowerCLI() {
-    # Because of the change between VMware.PowerCLI and VCF.PowerCLI, omitting this check.
-}
-
-#####################
-# Check to see if we are attached to a supported vCenter Server
+# Make sure we are attached to a single vCenter Server, so we audit the environment we intend to
 Function Check-vCenter() {
-    if ($global:DefaultVIServers.Count -lt 1) {
-        Write-Output "[ERROR] Please connect to a vCenter Server (use Connect-VIServer) prior to running this script. Thank you." 
+    if ($global:DefaultVIServers.Count -ne 1) {
+        Write-Output "[ERROR] Connect to a single vCenter Server (use Connect-VIServer) prior to running this script."
         Exit
     }
-
-    # Cannot override these, they're important.
-    if (($global:DefaultVIServers.Count -lt 1) -or ($global:DefaultVIServers.Count -gt 1)) {
-        Write-Output "[ERROR] Connect to a single vCenter Server (use Connect-VIServer) prior to running this script." 
-        Exit
-    }
-
-    $vcVersion = $global:DefaultVIServers.Version
-    if ($vcVersion -lt '7.0.0') {
-        Write-Output "[ERROR] vCenter Server is not the correct version for this script." 
-        Exit
-    }
-}
-
-#####################
-# Check to see if we are attached to supported hosts. Older hosts might work but things change.
-Function Check-Hosts()
-{
-    $ESXi = Get-VMHost
-    foreach ($hostVersion in $ESXi.Version) {
-        if (($hostVersion -lt '7.0.0')) {
-            Write-Output "[ERROR] This script requires vSphere 7 or 8 throughout the environment." 
-            Write-Output "[ERROR] There is at least one host attached that is downlevel ($hostVersion). Exiting." 
-            Exit
-        }
-    }    
 }
 
 #######################################################################################################
 Write-Output "[INFO]  VMware Key Provider Audit Tool v9.0.0`n"
 
-Check-PowerCLI
 Check-vCenter
-Check-Hosts
-
-$date = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
 # Build a lookup of which key providers are Native Key Provider
 $providerTypes = @{}

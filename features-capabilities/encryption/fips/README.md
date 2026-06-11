@@ -1,10 +1,10 @@
 # FIPS Support in VMware vSphere and VMware Cloud Foundation
 
-FIPS validation of VMware cryptography libraries ensures cryptographic modules meet rigorous federal security standards, providing users with independently verified protection of sensitive data and compliance with government requirements. 
+FIPS validation of VMware cryptography libraries verifies that cryptographic modules meet rigorous federal security standards, giving users independent verification of the modules they rely on to protect sensitive data and to support compliance with government requirements. 
 
 ## How to Get Started
 
-If your organization is obligated to meet FIPS requirements you can enable FIPS compatibility. For VMware Cloud Foundation, specify FIPS in the deployment worksheet, or consult the documentation for guidance on enabling it. For VMware vSphere, consult the [Security Configuration Guides](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide) or the [DISA STIG guidance](https://github.com/vmware/dod-compliance-and-automation/tree/master) for instructions and examples on configuring FIPS support.
+If your organization is obligated to meet FIPS requirements you can enable FIPS compatibility. For VMware Cloud Foundation, specify FIPS in the deployment worksheet, or consult the documentation for guidance on enabling it. For VMware vSphere, consult the [Security Configuration Guides](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide) or the [DISA STIG guidance](https://www.vmware.com/resources/certifications/stigs) for instructions and examples on configuring FIPS support.
 
 By default, ESX is configured for FIPS compatibility. vCenter is not configured for FIPS by default.
 
@@ -16,7 +16,7 @@ By default, ESX is configured for FIPS compatibility. vCenter is not configured 
 
 ## Code Samples
 
-You can find sample scripts pertaining to enabling FIPS compatibility in the [Security Configuration Guides](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide) or the [DISA STIG guidance](https://github.com/vmware/dod-compliance-and-automation/tree/master).
+You can find sample scripts pertaining to enabling FIPS compatibility in the [Security Configuration Guides](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide) or the [DISA STIG guidance](https://www.vmware.com/resources/certifications/stigs).
 
 ## Questions & Answers
 
@@ -45,15 +45,15 @@ A fresh installation of VMware Cloud Foundation can enable FIPS for you, by spec
 
 A deployed system will need to have each component changed individually. Follow the product documentation for that.
 
-ESX has FIPS permanenently enabled by default.
+ESX has FIPS permanently enabled by default.
 
 ### Will enabling FIPS make the TLS ciphers pass audits?
 
-FIPS support does have an effect on TLS ciphers, but what you probably want is to set your TLS Profile (in vSphere 8.0.2 and newer) to NIST_2024, which will restrict the ciphers to the best choices, per NIST 2024 guidance.
+FIPS support does have an effect on TLS ciphers, but what you probably want is to set your TLS Profile (in vSphere 8.0 Update 3 and newer) to NIST_2024, which will restrict the ciphers to the best choices, per NIST 2024 guidance.
 
 ### Are there any caveats to enabling FIPS 140-2/140-3?
 
-VMware Cloud Foundation documentation lists considerations when using FIPS. In general, because FIPS compatibility changes the ciphers available there may be some external compatibility issues with other systems and plugins. We encourage you to test connectivity prior to enabling it in production environments. Most notably, RSA SecureID and some US Federal Common Access Cards (CAC) have ciphers which are incompatible. Consider switching to a federated identity source.
+VMware Cloud Foundation documentation lists considerations when using FIPS. In general, because FIPS compatibility changes the ciphers available there may be some external compatibility issues with other systems and plugins. We encourage you to test connectivity prior to enabling it in production environments. Most notably, RSA SecurID and some US Federal Common Access Cards (CAC) have ciphers which are incompatible. Consider switching to a federated identity source.
 
 Enabling FIPS compatibility in vCenter requires a reboot of the VCSA, which will happen immediately upon changing the setting!
 

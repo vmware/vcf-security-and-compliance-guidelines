@@ -1,4 +1,8 @@
 # VMSA-2024-0001: Questions & Answers
+
+> [!WARNING]
+> This information is about an older security vulnerability and is not current. It is kept online for reference. Please review the [VMware Security Advisories web page](https://www.broadcom.com/support/vmware-security-advisories) for the latest information to protect yourself and your organizations. Thank you.
+
 Introduction
 ------------
 
@@ -93,11 +97,11 @@ If you choose a different version instead of upgrading to version 8.16, it is im
 
 ### Is Aria Orchestrator affected by this vulnerability?
 
-No, the vulnerability pertains to VMware Aria Automation. Therefore, no action is required for Aria Orchestrator.
+The vulnerability is in VMware Aria Automation, in access control governing Automation Orchestrator workflows. There is no separate patch for Aria Orchestrator; remediation is applied to Aria Automation itself. See the next question for how Orchestrator usage affects your exposure.
 
 ### If I do not have Aria Orchestrator do I need to worry about following this VMSA?
 
-No, if you are not using Aria Orchestrator workflows, you are not affected by this VMSA. However, VMware strongly recommends upgrading to unaffected versions and applying all security patches to mitigate future vulnerabilities in case the affected feature is used.
+If you are not using Aria Orchestrator workflows, you are not exposed to this specific issue. However, VMware strongly recommends upgrading to unaffected versions and applying all security patches so that you remain protected if the affected feature is used later.
 
 ### Is Aria Automation Cloud affected?
 

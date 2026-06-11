@@ -23,7 +23,7 @@ This set of documents is intended to provide general guidance for organizations 
 Questions & Answers
 -------------------
 
-NOTE: Please use the index on the left side to navigate, as the Q&A you need most may be near the bottom of the document. New information added after the original publication date is added to the end of the list to preserve links to the subsections.
+NOTE: New information added after the original publication date is added to the end of the list to preserve links to the subsections.
 
 ### Who is affected?
 
@@ -31,11 +31,11 @@ Organizations running VMware vSphere on Intel-based server platforms, who also u
 
 ### When do I need to act?
 
-VMware has scored this issue as CVSS 3.8, or “Low.” It only affects organizations who use DirectPath I/O functionality to present physical hardware directly to a virtual machine. Your organization should assess if it is affected, the impact to performance and system capacity if the mitigations are applied, and then make a decision based on your organization’s tolerance for risk. See “Do I need to patch ESXi?” below for a decision tree flowchart.
+VMware has scored this issue as CVSS 3.8, or “Low.” It only affects organizations who use DirectPath I/O functionality to present physical hardware directly to a virtual machine. Your organization should assess if it is affected, the impact to performance and system capacity if the mitigations are applied, and then make a decision based on your organization’s tolerance for risk. See “Do I have to patch ESXi hosts?” below for a summary of that decision process.
 
 ### What should I do to protect myself?
 
-If your environment uses DirectPath I/O the issues can be mitigated by disabling or limiting the use of Hyper-Threading, based on your organization’s risk tolerance and available compute capacity. On VMware vSphere this entails the use of the Side-Channel Aware CPU Schedulers, SCAv1 or SCAv2 (see below).
+If your environment uses DirectPath I/O the issues can be mitigated by disabling or limiting the use of Hyper-Threading, based on your organization’s risk tolerance and available compute capacity. On VMware vSphere this entails the use of the Side-Channel Aware CPU Schedulers, SCAv1 or SCAv2 (see below).
 
 Use of the Side-Channel Aware Schedulers is made more complex because these CPU schedulers detect native CPU vulnerability remediations in CPU hardware and disable their own mitigations to maximize performance. To mitigate these new vulnerabilities customers will need to use the new ESXi advanced parameter VMkernel.Boot.forceHyperthreadingMitigation in order to force SCAv2 to remain active.
 
@@ -73,7 +73,7 @@ Workarounds for this issue on vSphere 6.5 include:
 *   discontinuing use of DirectPath I/O,
 *   ensuring that virtual machines using DirectPath I/O are maintained and operated by trusted staff and organizations.
 
-There may be other compensating controls available, which is for you and your information security staﬀ to assess.
+There may be other compensating controls available, which is for you and your information security staff to assess.
 
 ### What are the Side-Channel Aware Schedulers?
 
@@ -86,8 +86,6 @@ SCA version 1 (SCAv1) is an ESXi CPU scheduler that does not implement Hyper-Thr
 SCA version 2 (SCAv2) is an ESXi CPU scheduler that allows the use of Hyper-Threading “sibling” cores within a virtual machine that has multiple vCPUs configured.
 
 SCAv2 is not necessarily a better version of SCAv1, they both do different things and have different impacts on performance and security.
-
-![image-20220614100702-1](https://images.core.vmware.com/sites/default/files/inline-images/image-20220614100702-1.png)
 
 ### Does using a Side-Channel Aware Scheduler result in performance changes?
 
@@ -107,7 +105,7 @@ All environments are different, and all organizations have different tolerances 
 
 ### Can I just firewall the affected products instead of patching or using the workaround?
 
-CPU vulnerabilities are typically not subject to firewalls and other network-based security controls. Consult your firewall vendor for more information. All organizations have diﬀerent environments, and whether there are system designs or other compensating controls available in your environment is best determined by you and your information security staﬀ.
+CPU vulnerabilities are typically not subject to firewalls and other network-based security controls. Consult your firewall vendor for more information. All organizations have different environments, and whether there are system designs or other compensating controls available in your environment is best determined by you and your information security staff.
 
 ### If I wait to patch will the CPU microcode and new parameters be present in future updates to vSphere?
 
@@ -121,7 +119,7 @@ This disclosure does not affect non-Intel CPUs. Please check your CPU manufactur
 
 Yes, those are all forms of DirectPath I/O where a PCI device is being presented directly to the virtual machine.
 
-### I have extended support on one or more of the aﬀected products. How can I get a patch for this?
+### I have extended support on one or more of the affected products. How can I get a patch for this?
 
 Please follow the extended support process to request patches and other information.
 
@@ -135,9 +133,11 @@ No, this is a vulnerability in server hardware.
 
 ### Do I have to patch ESXi hosts?
 
-VMware always recommends applying the latest updates to installed products and system firmware as a big part of defense-in-depth. Use the following decision tree to help determine if you should apply and/or configure these mitigations:
+VMware always recommends applying the latest updates to installed products and system firmware as a big part of defense-in-depth. The original decision-tree image from this article is no longer available; the decision process it described is:
 
-![image-20220614080651-1](https://images.core.vmware.com/sites/default/files/inline-images/image-20220614080651-1.png)
+1. Are your hosts Intel-based and using DirectPath I/O (PCI Passthrough) or SR-IOV to present physical hardware directly to virtual machines? If no, apply the ESXi updates as part of normal patching; no further configuration is needed.
+2. If yes, does your organization's risk tolerance require mitigating side-channel attacks between workloads on those hosts? If no, apply the ESXi updates and reassess as your workloads change.
+3. If yes, apply the ESXi updates, then enable a Side-Channel Aware Scheduler and set the `VMkernel.Boot.forceHyperthreadingMitigation` advanced parameter so the mitigations remain active, taking into account the performance and capacity impacts discussed above.
 
 ### If I apply these ESXi updates do I also need to update my system firmware?
 
@@ -155,12 +155,14 @@ CVE-2022-21123, CVE-2022-21125, CVE-2022-21166
 
 Yes. As with all code samples, this is provided for educational purposes and without warranty or support, and VMware assumes no responsibility for its use in your environment.
 
-`foreach ($VM in Get-VM) {`  
-    `$VMview = Get-View -VIObject $VM`  
-    `$VMview.Config.Hardware.Device | Where-Object {$_.GetType().Name -match "VirtualPCIPassthrough"} | Foreach-Object {`  
-        ``Write-Host "$VM`: VM has a DirectPath I/O device configured."``  
-    `}`  
-`}`
+```powershell
+foreach ($VM in Get-VM) {
+    $VMview = Get-View -VIObject $VM
+    $VMview.Config.Hardware.Device | Where-Object {$_.GetType().Name -match "VirtualPCIPassthrough"} | Foreach-Object {
+        Write-Host "$VM`: VM has a DirectPath I/O device configured."
+    }
+}
+```
 
 ### Can I use PowerCLI to set the ESXi advanced parameters?
 
@@ -168,14 +170,18 @@ Yes. As with all code samples, this is provided for educational purposes and wit
 
 Also note that you cannot set VMkernel.Boot.forceHyperthreadingMitigation until the VMSA-2022-0016 or subsequent patches have been applied and the hosts restarted.
 
-`Get-VMHost | Get-AdvancedSetting -Name VMkernel.Boot.forceHyperthreadingMitigation | Set-AdvancedSetting -Value $true`
+```powershell
+Get-VMHost | Get-AdvancedSetting -Name VMkernel.Boot.forceHyperthreadingMitigation | Set-AdvancedSetting -Value $true
+```
 
 ### Can I use PowerCLI to determine if a host is using an SCA scheduler?
 
 Yes. As with all code samples, this is provided for educational purposes and without warranty or support, and VMware assumes no responsibility for its use in your environment.
 
-`Get-VMHost | Get-AdvancedSetting -Name` `VMkernel.Boot.HyperthreadingMitigation`  
-`Get-VMHost | Get-AdvancedSetting -Name VMkernel.Boot.HyperthreadingMitigationIntraVM`
+```powershell
+Get-VMHost | Get-AdvancedSetting -Name VMkernel.Boot.HyperthreadingMitigation
+Get-VMHost | Get-AdvancedSetting -Name VMkernel.Boot.HyperthreadingMitigationIntraVM
+```
 
 Default scheduler is VMkernel.Boot.HyperthreadingMitigation = FALSE
 
@@ -187,7 +193,7 @@ SCAv2 scheduler is VMkernel.Boot.HyperthreadingMitigation = TRUE and VMkernel.Bo
 
 VMware is proud of the robust partner ecosystem and community built around our products, but we cannot speak to our partners’ solutions. Nor would they want us to.
 
-Engineered and integrated solutions like Dell EMC VxRail, HPE SimpliVity, and even VMware Cloud Foundation control their patch levels and conﬁgurations as part of their qualiﬁcation and testing processes. Using security guidance that is not explicitly for that product and product version is never advised. VMware covers VMware Cloud Foundation in our security advisory materials, but if you have additional engineered and integrated solutions in use, you should contact those vendors directly for guidance.
+Engineered and integrated solutions like Dell EMC VxRail, HPE SimpliVity, and even VMware Cloud Foundation control their patch levels and configurations as part of their qualification and testing processes. Using security guidance that is not explicitly for that product and product version is never advised. VMware covers VMware Cloud Foundation in our security advisory materials, but if you have additional engineered and integrated solutions in use, you should contact those vendors directly for guidance.
 
 ### I have feedback about the products and/or processes. How do I provide it to you?
 

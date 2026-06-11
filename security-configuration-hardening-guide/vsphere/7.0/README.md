@@ -1,5 +1,10 @@
 # vSphere 7 Security Configuration & Hardening Guide
 
+> [!WARNING]  
+> This product version has reached End of General Support and no longer receives updates or guidance.
+> Upgrade to a supported version as soon as possible. The information here about this product version
+> is no longer maintained. It is provided here solely as an archive.
+
 The VMware vSphere Security Configuration & Hardening Guide (SCG) is the baseline for hardening and auditing guidance for VMware vSphere itself. Started more than fifteen years ago, it has long served as the reference for virtualization administrators looking to protect their infrastructure.
 
 # Download the Latest Version

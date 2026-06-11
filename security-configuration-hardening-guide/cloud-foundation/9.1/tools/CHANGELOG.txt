@@ -1,0 +1,25 @@
+VMware Cloud Foundation Security Configuration Guide (SCG) 9.1 PowerCLI Toolkit
+================================================================================
+
+CHANGELOG
+---------
+
+Version 910-20260612-01
+-----------------------
+
+- Initial release for VMware Cloud Foundation 9.1
+
+Bug Fixes:
+- Fixed switch-level MacChanges and ForgedTransmits remediation in remediate-vcenter-9.ps1, which omitted Get-VDSecurityPolicy from the pipeline and logged success without changing anything
+- Removed vcenter-9.network-vgt and vcenter-9.network-restrict-port-mirroring from the remediate-vcenter-9.ps1 covered-controls list; the script has no remediation for them and now warns when they are requested
+- remediate-vcenter-9.ps1 now reports an error instead of a false PASS for the appliance SSH and local-accounts checks when no Connect-CisServer session exists
+- Removed the unused -NoSafetyChecksExceptAppliances parameter from remediate-vcenter-9.ps1
+- Switch-gated remediation sections (-RemediateDistributedSwitches, -RemediateStandardSwitches, -RemediateTLSCiphers) now honor -Controls and -ExcludeControls
+- Fixed a duplicate -Control argument in remediate-esx-9.ps1 that made the NTP service failure path throw instead of logging
+- Fixed the VGT check in audit-vcenter-9.ps1, which compared the VLAN configuration object to an integer and could never fail; the check now also detects VLAN trunk ranges
+- The account-lockout-duration check in audit-vcenter-9.ps1 now accepts 0 (manual unlock only) as stricter than the recommended 300
+- Fixed the appliance NTP server check in audit-vcenter-9.ps1 to fail on an empty server list
+- Numeric advanced settings in audit-vm-9.ps1 and remediate-vm-9.ps1 are now compared numerically (string comparison previously failed compliant values such as tools.setInfo.sizeLimit)
+- The appliance safety-stop message in audit-vm-9.ps1 and remediate-vm-9.ps1 no longer suggests -NoSafetyChecksExceptAppliances as a bypass for the appliance check
+- audit-all.ps1 wrapper messages are now written to audit-all.txt/audit-all.csv in the output directories (previously they referenced undefined variables and were lost); per-entity file names are sanitized for characters that are invalid in file names
+- connect.ps1 now validates the SSO Admin TLS certificate by default; -SkipCertificateCheck is a new opt-in parameter with a warning

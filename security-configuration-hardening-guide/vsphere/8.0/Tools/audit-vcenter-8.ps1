@@ -27,14 +27,17 @@
 #>
 
 Param (
-    # vCenter Name
-    [Parameter(Mandatory=$true)]
-    [ValidateNotNullOrEmpty()]
+    # vCenter Name (defaults to current connection)
+    [Parameter(Mandatory=$false)]
     [string]$Name,
     # Output File Name
     [Parameter(Mandatory=$false)]
     [ValidateNotNullOrEmpty()]
     [string]$OutputFileName,
+    # CSV Output File Name
+    [Parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+    [string]$CSVOutputFileName,
     # Accept-EULA
     [Parameter(Mandatory=$false)]
     [switch]$AcceptEULA,
@@ -46,13 +49,20 @@ Param (
 # Import common functions
 Import-Module "$PSScriptRoot\scg-common.psm1" -Force
 
+# Default to current connection if Name not specified
+if ([string]::IsNullOrEmpty($Name)) {
+    if ($global:DefaultVIServers.Count -gt 0) {
+        $Name = $global:DefaultVIServers[0].Name
+    }
+}
+
 # Wrapper functions for backward compatibility
 function Log-Message {
     param (
         [Parameter(Mandatory=$false)][AllowEmptyString()][AllowNull()][string]$Message = "",
         [Parameter(Mandatory=$false)][ValidateSet("INFO", "WARNING", "ERROR", "EULA", "PASS", "FAIL", "UPDATE")][string]$Level = "INFO"
     )
-    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName
+    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName -CSVOutputFileName $CSVOutputFileName
 }
 
 Function Accept-EULA() { Show-EULA -OutputFileName $OutputFileName }
@@ -261,17 +271,20 @@ foreach ($switch in $switches) {
             Log-Message "Distributed portgroup `'$portgroup`' is configured to allow forged transmits ($value)" -Level "FAIL"
         }
 
-        $value = $portgroup | Select-Object -ExpandProperty VlanConfiguration
-        if ($value -eq 4095) {
-            Log-Message "Distributed portgroup `'$portgroup`' is configured to allow VLAN 4095 ($value)" -Level "FAIL"
+        $vlanSpec = $portgroup.ExtensionData.Config.DefaultPortConfig.Vlan
+        if ($vlanSpec -is [VMware.Vim.VmwareDistributedVirtualSwitchTrunkVlanSpec]) {
+            $ranges = ($vlanSpec.VlanId | ForEach-Object { if ($_.Start -eq $_.End) { "$($_.Start)" } else { "$($_.Start)-$($_.End)" } }) -join ', '
+            Log-Message "Distributed portgroup `'$portgroup`' is configured as a VLAN trunk ($ranges), which passes tagged frames to VMs (VGT) and should be assessed" -Level "FAIL"
+        } elseif ($vlanSpec.VlanId -eq 4095) {
+            Log-Message "Distributed portgroup `'$portgroup`' is configured to allow VLAN 4095 (VGT)" -Level "FAIL"
         } else {
-            Log-Message "Distributed portgroup `'$portgroup`' is not configured to allow VLAN 4095 ($value)" -Level "PASS"
+            Log-Message "Distributed portgroup `'$portgroup`' is not configured for VGT (VLAN $($vlanSpec.VlanId))" -Level "PASS"
         }
-       
-        if (($value -eq 1) -or ($null -eq $value)) {
-            Log-Message "Distributed portgroup `'$portgroup`' may be configured to use a default VLAN and should be assessed ($value)" -Level "FAIL"
+
+        if (($null -eq $vlanSpec) -or ($vlanSpec.VlanId -eq 0) -or ($vlanSpec.VlanId -eq 1)) {
+            Log-Message "Distributed portgroup `'$portgroup`' may be configured to use a default VLAN and should be assessed (VLAN $($vlanSpec.VlanId))" -Level "FAIL"
         } else {
-            Log-Message "Distributed portgroup `'$portgroup`' does not appear to be configured to use a default VLAN ($value)" -Level "PASS"
+            Log-Message "Distributed portgroup `'$portgroup`' does not appear to be configured to use a default VLAN" -Level "PASS"
         }
 
         $value = $portgroup.ExtensionData.Config.Policy | Select-Object -ExpandProperty PortConfigResetAtDisconnect
@@ -372,7 +385,7 @@ try {
     }
 
     $value = (Get-CisService -Name "com.vmware.appliance.ntp").get()
-    if ($null -eq $value) {
+    if (@($value).Count -eq 0) {
         Log-Message "vCenter Server Appliance NTP does not have servers defined ($value)" -Level "FAIL"
     } else {
         Log-Message "vCenter Server Appliance NTP has servers defined ($value)" -Level "PASS"

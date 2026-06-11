@@ -53,7 +53,7 @@ This guidance evolves; please check for the latest version before commencing sec
 
 The audience for the vSphere Security Configuration Guide is VMware vSphere customers who have implemented vSphere 8.0.3 directly. There are many engineered data center & hybrid cloud infrastructure products that implement VMware vSphere as part of their solutions. If this is how you consume vSphere you should check with those products' support before implementing these ideas.
 
-If you desire VCF 5.2 guidance, use the [DISA STIG for VMware Cloud Foundation 5.2](https://public.cyber.mil/stigs/), and only choose the product controls which can be set without editing components inside the virtual appliances.
+If you desire VCF 5.2 guidance, use the [DISA STIG for VMware Cloud Foundation 5.2](https://www.vmware.com/resources/certifications/stigs), and only choose the product controls which can be set without editing components inside the virtual appliances.
 
 Additionally the "VCF Compatible" column in this guidance indicates whether a control is compatible with VCF.
 
@@ -62,8 +62,6 @@ Additionally the "VCF Compatible" column in this guidance indicates whether a co
 This document includes regulatory compliance and security control identifiers from external sources as a convenience to end users. This does not constitute endorsement, in either direction.
 
 There is not a one-to-one mapping of product capabilities to third-party controls. A product capability, or set of capabilities, may be applicable to multiple controls. Conversely, a control may be satisfied with the use of multiple capabilities.
-
-Control identifier numbers have been included from the [Secure Controls Framework](https://securecontrolsframework.com/), version 2025.4, under the terms of the [Creative Commons Attribution-NoDerivatives 4.0 International Public License](https://creativecommons.org/licenses/by-nd/4.0/). No modifications have been made to the control identifier numbers under the terms of the license.
 
 ## VMware Appliances
 
@@ -82,7 +80,7 @@ Note that a virtual machine snapshot will capture the virtual hardware version. 
 In general, Broadcom guidance is to:
 
 - Run the latest version you are able, ideally the latest version available in the major vSphere version you run.
-- Use VM Hardware 14 (vmx-14) or newer. Version 13 introduces important performance and security improvements for CPU vulnerability mitigations, and version 14 introduces support for vTPM.
+- Use VM Hardware 17 (vmx-17) or newer. Version 13 introduced important performance and security improvements for CPU vulnerability mitigations, and version 14 introduced support for vTPM.
 - Take snapshots of virtual machines prior to upgrading, but do not forget to remove the snapshot later.
 - When scheduling virtual hardware compatibility upgrades use the "Only upgrade after normal guest OS shutdown" to help ensure that a compatibility update does not complicate an unplanned incident or HA event.
 

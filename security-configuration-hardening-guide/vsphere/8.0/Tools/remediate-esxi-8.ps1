@@ -35,6 +35,10 @@ Param (
     [Parameter(Mandatory=$false)]
     [ValidateNotNullOrEmpty()]
     [string]$OutputFileName,
+    # CSV Output File Name
+    [Parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+    [string]$CSVOutputFileName,
     # Accept-EULA
     [Parameter(Mandatory=$false)]
     [switch]$AcceptEULA,
@@ -61,7 +65,7 @@ function Log-Message {
         [Parameter(Mandatory=$false)][AllowEmptyString()][AllowNull()][string]$Message = "",
         [Parameter(Mandatory=$false)][ValidateSet("INFO", "WARNING", "ERROR", "EULA", "PASS", "FAIL", "UPDATE")][string]$Level = "INFO"
     )
-    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName
+    Write-Log -Message $Message -Level $Level -OutputFileName $OutputFileName -CSVOutputFileName $CSVOutputFileName
 }
 
 Function Accept-EULA() { Show-EULA -OutputFileName $OutputFileName }
@@ -131,12 +135,12 @@ $scg_adv = @{
     'Security.PasswordQualityControl' = @{ Expected = 'similar=deny retry=3 min=disabled,disabled,disabled,disabled,15 max=64'; Comparator = 'eq' }
     'Security.PasswordHistory' = @{ Expected = 5; Comparator = 'ge' }
     'Security.PasswordMaxDays' = @{ Expected = 9999; Comparator = 'eq' }
-    'Config.HostAgent.vmacore.soap.sessionTimeout' = @{ Expected = 10; Comparator = 'le' }
+    'Config.HostAgent.vmacore.soap.sessionTimeout' = @{ Expected = 10; Comparator = 'le-nonzero' }
     'Config.HostAgent.plugins.solo.enableMob' = @{ Expected = $false; Comparator = 'eq' }
-    'UserVars.DcuiTimeOut' = @{ Expected = 600; Comparator = 'le' }
+    'UserVars.DcuiTimeOut' = @{ Expected = 600; Comparator = 'le-nonzero' }
     'UserVars.SuppressHyperthreadWarning' = @{ Expected = 0; Comparator = 'eq' }
     'UserVars.SuppressShellWarning' = @{ Expected = 0; Comparator = 'eq' }
-    'UserVars.HostClientSessionTimeout' = @{ Expected = 900; Comparator = 'le' }
+    'UserVars.HostClientSessionTimeout' = @{ Expected = 900; Comparator = 'le-nonzero' }
     'Net.BMCNetworkEnable' = @{ Expected = 0; Comparator = 'eq' }
     'DCUI.Access' = @{ Expected = 'root'; Comparator = 'eq' }
     'Syslog.global.auditRecord.storageEnable' = @{ Expected = $true; Comparator = 'eq' }
@@ -148,8 +152,8 @@ $scg_adv = @{
     'Syslog.global.certificate.strictX509Compliance' = @{ Expected = $true; Comparator = 'eq' }
     'Net.BlockGuestBPDU' = @{ Expected = 1; Comparator = 'eq' }
     'Net.DVFilterBindIpAddress' = @{ Expected = ''; Comparator = 'eq' }
-    'UserVars.ESXiShellInteractiveTimeOut' = @{ Expected = 900; Comparator = 'le' }
-    'UserVars.ESXiShellTimeOut' = @{ Expected = 600; Comparator = 'le' }
+    'UserVars.ESXiShellInteractiveTimeOut' = @{ Expected = 900; Comparator = 'le-nonzero' }
+    'UserVars.ESXiShellTimeOut' = @{ Expected = 600; Comparator = 'le-nonzero' }
     'UserVars.ESXiVPsDisabledProtocols' = @{ Expected = "sslv3,tlsv1,tlsv1.1"; Comparator = 'eq' }
     'Mem.ShareForceSalting' = @{ Expected = 2; Comparator = 'eq' }
     'VMkernel.Boot.execInstalledOnly' = @{ Expected = $true; Comparator = 'eq' }
@@ -165,6 +169,8 @@ foreach ($param in $scg_adv.GetEnumerator()) {
         'eq' { $vmval -eq $expected }
         'ge' { $vmval -ge $expected }
         'le' { $vmval -le $expected }
+        # le-nonzero = less or equal but not zero (for timeouts where 0 disables the timeout entirely)
+        'le-nonzero' { ($vmval -gt 0) -and ($vmval -le $expected) }
     }
 
     if ($pass) {
@@ -185,7 +191,7 @@ foreach ($param in $scg_adv.GetEnumerator()) {
 $scg_banner = @{
 
     'Annotations.WelcomeMessage' = ''
-    'Config.Etc.Issue' = ''
+    'Config.Etc.issue' = ''
 
 }
 

@@ -1,6 +1,6 @@
 # EU Network and Information Security Directive 2 (NIS2)
 
-The **Network and Information Security Directive 2 (NIS2)** (Directive 2022/2555) is the EU's updated cybersecurity framework, replacing the original *NIS Directive (2016/1148)* to address the evolving threat landscape across critical sectors. It significantly broadens the scope of covered organizations by distinguishing between **Essential Entities** (e.g., energy, transport, healthcare, digital infrastructure) and **Important Entities** (e.g., postal services, waste management, manufacturing, digital providers)—with classification based on sector criticality and organizational size thresholds (generally ≥50 employees or ≥€10m annual turnover). NIS2 mandates a risk-based approach to cybersecurity, requiring covered entities to implement appropriate technical, operational, and organizational measures spanning incident handling, supply chain security, encryption, and business continuity. Member States were required to transpose the Directive into national law by **17 October 2024**, with enforcement overseen by designated national competent authorities. Non-compliance can result in administrative fines of up to **€10 million or 2% of global annual turnover** for Essential Entities, reinforcing the EU's commitment to a consistently high common level of cybersecurity across the Union.
+The **Network and Information Security Directive 2 (NIS2)** (Directive 2022/2555) is the EU's updated cybersecurity framework, replacing the original *NIS Directive (2016/1148)* to address the evolving threat landscape across critical sectors. It significantly broadens the scope of covered organizations by distinguishing between **Essential Entities** (e.g., energy, transport, healthcare, digital infrastructure) and **Important Entities** (e.g., postal services, waste management, manufacturing, digital providers), with classification based on sector criticality and organizational size thresholds (generally ≥50 employees or ≥€10m annual turnover). NIS2 mandates a risk-based approach to cybersecurity, requiring covered entities to implement appropriate technical, operational, and organizational measures spanning incident handling, supply chain security, encryption, and business continuity. Member States were required to transpose the Directive into national law by **17 October 2024**, with enforcement overseen by designated national competent authorities. Non-compliance can result in administrative fines of up to **€10 million or 2% of global annual turnover** for Essential Entities, reinforcing the EU's commitment to a consistently high common level of cybersecurity across the Union.
 
 ## Permanent Link
 
@@ -12,9 +12,9 @@ This page is accessible directly using the [https://brcm.tech/tcp-compliance](ht
 
 ## External Resources
 
-* [Directive (EU) 2022/2555 (NIS2 Directive) — Full Text](https://eur-lex.europa.eu/eli/dir/2022/2555/oj)
+* [Directive (EU) 2022/2555 (NIS2 Directive) - Full Text](https://eur-lex.europa.eu/eli/dir/2022/2555/oj)
 * [NIS2 Directive Overview (European Commission)](https://digital-strategy.ec.europa.eu/en/policies/nis2-directive)
-* [ENISA — NIS Directive Resources](https://www.enisa.europa.eu/topics/nis-directive)
+* [ENISA - NIS Directive Resources](https://www.enisa.europa.eu/topics/nis-directive)
 * [NIS Cooperation Group Publications](https://digital-strategy.ec.europa.eu/en/policies/nis-cooperation-group)
 * [National Transposition Measures (EUR-Lex)](https://eur-lex.europa.eu/legal-content/EN/NIM/?uri=CELEX:32022L2555)
 

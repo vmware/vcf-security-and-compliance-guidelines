@@ -4,6 +4,33 @@ VMware vSphere Security Configuration Guide (SCG) 8.0.3 PowerCLI Toolkit
 CHANGELOG
 ---------
 
+Version 803-20260612-01
+-----------------------
+
+Bug Fixes:
+- Fixed -NoSafetyChecksExceptAppliances not bypassing safety checks in audit-vm-8.ps1 and remediate-vm-8.ps1
+- Fixed Config.Etc.Issue casing to Config.Etc.issue in audit-esxi-8.ps1 and remediate-esxi-8.ps1
+- Fixed missing closing parenthesis in remediate-vcenter-8.ps1 etc.issue log message
+- Fixed missing MacManagementOverrideAllowed and NetworkResourcePoolOverrideAllowed in remediate-vcenter-8.ps1 portgroup policy remediation
+- Fixed audit-all.ps1 to require only one of -OutputDirName or -CSVOutputDirName and to validate the CSV output directory
+- Made -Name optional in audit-vcenter-8.ps1 and remediate-vcenter-8.ps1; defaults to the current vCenter connection
+- Changed the VM hardware version check in audit-vm-8.ps1 to pass any version at or above vmx-17, matching the guide's revised baseline
+
+New Features:
+- Added -CSVOutputFileName parameter to all scripts for CSV output
+- Added -CSVOutputDirName parameter to audit-all.ps1 for bulk CSV output
+- CSV output uses Export-Csv with proper quoting and escaping
+
+Files Modified:
+- scg-common.psm1
+- audit-all.ps1
+- audit-vm-8.ps1
+- remediate-vm-8.ps1
+- audit-esxi-8.ps1
+- remediate-esxi-8.ps1
+- audit-vcenter-8.ps1
+- remediate-vcenter-8.ps1
+
 Version 803-20260107-01
 -----------------------
 

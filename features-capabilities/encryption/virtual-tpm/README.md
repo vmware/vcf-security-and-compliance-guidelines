@@ -1,5 +1,5 @@
 # Virtual TPM (vTPM)
-Virtual Trusted Platform Module (vTPM) is a virtual version of a physical TPM 2.0 chip, implemented using VM Encryption. It offers the same functionality as a hardware TPM 2.0 but is used within virtual machines (VMs). With vTPM, each VM can have its own unique and isolated TPM to help secure sensitive information and ensure system integrity. It enables VMs to use security enhancements like BitLocker disk encryption and to authenticate virtual hardware devices, creating a more secure environment.
+Virtual Trusted Platform Module (vTPM) is a virtual version of a physical TPM 2.0 chip, implemented using VM Encryption. It offers the same functionality as a hardware TPM 2.0 but is used within virtual machines (VMs). With vTPM, each VM can have its own unique and isolated TPM to help secure sensitive information and help protect system integrity. It enables VMs to use security features like BitLocker disk encryption and to authenticate virtual hardware devices.
 
 ## How to Get Started
 
@@ -27,7 +27,7 @@ A Trusted Platform Module (TPM) is a specialized chip on an endpoint device that
 
 ### What is a vTPM?
 
-A virtual Trusted Platform Module (vTPM) as implemented in VMware vSphere is a virtual version of a physical TPM 2.0 chip, implemented using VM Encryption. It offers the same functionality as a physical TPM but is used within virtual machines (VMs). With vTPM, each VM can have its own unique and isolated TPM to help secure sensitive information and ensure system integrity. It enables VMs to use security enhancements like BitLocker disk encryption, and to authenticate virtual hardware devices, creating a more secure virtual environment.
+A virtual Trusted Platform Module (vTPM) as implemented in VMware vSphere is a virtual version of a physical TPM 2.0 chip, implemented using VM Encryption. It offers the same functionality as a physical TPM but is used within virtual machines (VMs). With vTPM, each VM can have its own unique and isolated TPM to help secure sensitive information and help protect system integrity. It enables VMs to use security features like BitLocker disk encryption, and to authenticate virtual hardware devices.
 
 ### What do I need in order to use a vTPM?
 
@@ -35,7 +35,7 @@ You need VMware vSphere 6.7 or newer and a key provider, such as Native Key Prov
 
 Use of VM Encryption beyond vTPM may require additional licensing.
 
-### Do I need vSphere Trust Authority to use a vTPM?
+### Do I need anything beyond a key provider to use a vTPM?
 
 No. You only need a key provider, such as Native Key Provider, to use a vTPM.
 
@@ -45,7 +45,8 @@ Yes. Organizations must use vCenter to manage ESX and Native Key Provider, and h
 
 ### What is an endorsement key?
 
-![NOTE: Organizations that are required to rotate encryption keys will sometimes ask about rotating the EK, which is how this topic arises. Practically speaking, the EK cannot be rotated in either the physical or virtual worlds, except by replacing the TPM completely, which is impractical and unnecessary. Compliance auditors and GRC staff should not ask about rotating the EK.
+> [!NOTE]
+> Organizations that are required to rotate encryption keys will sometimes ask about rotating the EK, which is how this topic arises. Practically speaking, the EK cannot be rotated in either the physical or virtual worlds, except by replacing the TPM completely, which is impractical and unnecessary. Compliance auditors and GRC staff should not ask about rotating the EK.
 
 The TPM 2.0 Endorsement Key (EK) is a permanent asymmetric key pair that is generated and stored in a TPM, including the vTPM, during instantiation or manufacture. The EK is designed to be non-migratable, which means it cannot be moved to another TPM, nor can it be changed.
 
@@ -55,7 +56,8 @@ The EK can be used in a privacy-sensitive way by creating an "endorsement key ce
 
 ### What is a storage root key?
 
-> [!NOTE] Organizations using VMware infrastructure products do not need to manage this key, as ESX will handle it upon installation and first boot. Guest operating systems will also handle this automatically as part of the OS installation process when using a vTPM. Like the EK, it is sometimes asked about by compliance auditors and GRC staff.
+> [!NOTE]
+> Organizations using VMware infrastructure products do not need to manage this key, as ESX will handle it upon installation and first boot. Guest operating systems will also handle this automatically as part of the OS installation process when using a vTPM. Like the EK, it is sometimes asked about by compliance auditors and GRC staff.
 
 The Storage Root Key (SRK) in a TPM 2.0 is a key hierarchy that is created when the TPM is first initialized, or when it's reset. It is derived from a primary seed unique to the TPM and is embedded within the device. This key hierarchy, or tree, is anchored by the SRK.
 
@@ -139,7 +141,7 @@ Yes. The device option appears for a selection of Linux distributions. If your d
 
 ### How do I upgrade to a newer version of vTPM when I upgrade vSphere?
 
-The vTPM is a TPM 2.0 compatible component. If there are virtual hardware changes they will be part of the virtual machine hardware compatibility upgrade process, and data inside the vTPMwill be preserved.
+The vTPM is a TPM 2.0 compatible component. If there are virtual hardware changes they will be part of the virtual machine hardware compatibility upgrade process, and data inside the vTPM will be preserved.
 
 ### When I create a new VM, should I check the "Encrypt this virtual machine" option?
 
@@ -183,7 +185,7 @@ Yes, the Virtual Trusted Platform Module (vTPM) implements the TPM 2.0 specifica
 
 ### My organization requires hardware TPMs. Is a vTPM considered a hardware device?
 
-No, vTPMs are not backed by hardware, but they function identically to a “real” hardware TPM 2.0 device. Everything a workload can do with physical TPM hardware is possible with the vTPM as well.
+No, vTPMs are not backed by hardware, but they implement the TPM 2.0 specification and present the same interface and functions to the workload that a hardware TPM 2.0 device does.
 
 A compensating control may be to use an external, hardware-backed key provider, often referred to as a Hardware Security Module (HSM). This can be configured as a "Standard Key Provider" in vSphere, and then used with the vTPM in exactly the same manner.
 
@@ -235,7 +237,7 @@ There are many use cases for an exact copy of the original VM, including recover
 
 The vCenter parameter vpxd.clone.tpmProvisionPolicy can be set to "copy" or "replace" to control the default behavior when cloning virtual machines with vTPMs.
 
-### Do VMware Workspace ONE, VMware Horizon, and Citrix virtual desktop products support vTPM?
+### Do Omnissa (formerly VMware Workspace ONE and VMware Horizon) and Citrix virtual desktop products support vTPM?
 
 Yes. Please check the product documentation from Omnissa or Citrix for information on how to configure VM templates to deploy unique vTPMs.
 

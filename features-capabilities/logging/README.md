@@ -1,10 +1,10 @@
 # Audit Logging in VMware Cloud Foundation
 
-Logging and auditing provide visibility into infrastructure operations, user activities, and security incidents across vSphere and Cloud Foundation environments. Comprehensive logging enables organizations to detect unauthorized access, track configuration changes, investigate security events, and maintain regulatory compliance. VMware platforms generate logs at multiple layers, including ESXi hosts, vCenter Server, NSX, vSAN, and SDDC Manager. VMware provides VCF Operations for Logs (formerly vRealize Log Insight) for centralized log management, offering real-time log aggregation, analytics, and pre-built content packs. This guide covers native logging capabilities, log forwarding, SIEM integration, and best practices for log retention and analysis.
+Logging and auditing provide visibility into infrastructure operations, user activities, and security incidents across vSphere and Cloud Foundation environments. Comprehensive logging enables organizations to detect unauthorized access, track configuration changes, investigate security events, and maintain regulatory compliance. VMware platforms generate logs at multiple layers, including VMware ESX hosts, VMware vCenter, NSX, vSAN, and VCF Operations (SDDC Manager in releases before VCF 9). VMware provides VCF Log Management (formerly vRealize Log Insight) for centralized log management, offering real-time log aggregation, analytics, and pre-built content packs. This guide covers native logging capabilities, log forwarding, SIEM integration, and best practices for log retention and analysis.
 
 ## Resources
 
-### VMware Cloud Foundation 8.0
+### VMware vSphere 8.0
 
 - [VMware ESX 8.0.3 Audit Log Event Reference](vmware-esx-803-audit-log-event-reference.md)
 - [VMware vCenter 8.0.3 Event Reference](vmware-vcenter-803-audit-events.md)

@@ -1,6 +1,6 @@
 # Secure Controls Framework (SCF) 2025.4
 
-The **Secure Controls Framework (SCF)** is an open-source meta-framework that provides a comprehensive catalog of security and privacy controls. SCF maps its controls to over one hundred statutory, regulatory, and contractual frameworks, allowing organizations to address multiple compliance obligations through a single control set. Version 2025.4 is the current release.
+The **Secure Controls Framework (SCF)** is an open-source meta-framework that provides a comprehensive catalog of security and privacy controls. SCF maps its controls to over one hundred statutory, regulatory, and contractual frameworks, allowing organizations to address multiple compliance obligations through a single control set. Version 2025.4 has been superseded by [version 2026.1](../../9.1/scf-2026-1/); this directory is retained for organizations still working from the 2025.4 mappings.
 
 ## Permanent Link
 

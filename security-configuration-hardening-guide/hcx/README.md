@@ -1,3 +1,3 @@
 # VMware HCX Security Configuration & Hardening
 
-VMware, and now Broadcom, provides specific baseline guidance for hardening and auditing VMware products. Choose the version of the Security Configuration & Hardening Guide that is appropriate for your environment from the folder structure here.
+Broadcom provides specific baseline guidance for hardening and auditing VMware products. This directory contains the Security Configuration & Hardening Guide for VMware HCX, the workload mobility platform used to migrate workloads into and between VMware Cloud Foundation and VMware vSphere environments. Choose the version that matches your environment from the folder structure here.

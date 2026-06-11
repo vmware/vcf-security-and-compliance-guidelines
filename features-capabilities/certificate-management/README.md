@@ -8,9 +8,7 @@ More questions & answers can be found below.
 1. [Configuring vSphere Intermediate/Subordinate CA Mode](Configuring-vSphere-Intermediate-Subordinate-CA-Mode.md)
 2. [Demystifying vSphere Certificate Management](Demystifying-SSL-Certificates.pdf)
 3. [Managing vSphere Certificates with PowerCLI](https://blogs.vmware.com/PowerCLI/2022/02/managing-vsphere-certificates-with-powercli.html)
-4. [10 Things to Know ABout vSphere Certificate Management](https://blogs.vmware.com/vsphere/2019/06/10-things-about-vsphere-certificate-management.html)
-
-## Documentation
+4. [10 Things to Know About vSphere Certificate Management](https://blogs.vmware.com/vsphere/2019/06/10-things-about-vsphere-certificate-management.html)
 
 ## Questions & Answers
 
@@ -47,7 +45,7 @@ By default, two years, but it is configurable with the vCenter Server advanced p
 
 ### Can the VMCA be used to sign other certificates, like for a web site or a blog?
 
-Technically, yes, and there are tools such as the VMCA Certificate Generator Fling that make that easier. However, the VMCA is purpose-built for vSphere, and its automation saves considerable effort by IT staff. It is not meant to be a general-purpose CA. Where there might be an issue, perhaps a simple agreement between an organization’s vSphere administration team and PKI team that this won’t be used except for vSphere implementations would suffice.
+Technically, yes. However, the VMCA is purpose-built for vSphere, and its automation saves considerable effort by IT staff. It is not meant to be a general-purpose CA. Where there might be an issue, perhaps a simple agreement between an organization’s vSphere administration team and PKI team that this won’t be used except for vSphere implementations would suffice.
 
 ### My organization’s PKI team is concerned with intermediate/subordinate CA mode, as it may allow unauthorized staff to impersonate the organization.
 
@@ -77,7 +75,7 @@ Not at this time. For feature and enhancement requests as well as roadmap inform
 
 ### Can the VMCA proxy to an enterprise PKI infrastructure?
 
-Not at this time. The SDDC Manager component of VMware Cloud Foundation can interact with external certificate authorities, though. For feature and enhancement requests as well as roadmap information please work with your account team.
+Not at this time. VCF Operations (SDDC Manager in releases before VCF 9) can interact with external certificate authorities, though. For feature and enhancement requests as well as roadmap information please work with your account team.
 
 ### Is there ACME support for interacting with an external certificate authority?
 
@@ -89,7 +87,7 @@ Not at this time. This would create dependency loops for vSphere services and vS
 
 ### What order should the CA certificate chain be in?
 
-Most specific to least specific, e.g. the CA root that signed the certificate at the top, then an intermediate, then the CA root.
+Most specific to least specific: the certificate of the issuing (subordinate) CA first, then any intermediate CA certificates, then the root CA certificate last.
 
 ### My vCenter Server has multiple names, to which should I issue the certificate?
 
@@ -113,7 +111,7 @@ Use the vecs-cli command:
 
 ### Can I encrypt vCenter Server to protect the VMCA keys and certificates?
 
-With certain system designs such as those that use vSphere Trust Authority, yes. Specific system design is beyond the scope of this FAQ.
+No, there would be a dependency loop. vCenter manages the key providers that VM Encryption relies on, so it cannot depend on them itself.
 
 ### Can I use wildcard certificates?
 
@@ -129,7 +127,7 @@ They are deprecated and will be removed in a future major version.
 
 ### I need to shut particular ciphers off in TLS, how do I do that?
 
-See [KB 79476](https://kb.vmware.com/s/article/79476?lang=en_US).
+See [KB 79476](https://knowledge.broadcom.com/external/article?legacyId=79476).
 
 ### Once I’ve replaced my certificates what do I need to do?
 
@@ -139,6 +137,6 @@ Check all connected systems to ensure they work. This includes storage systems a
 
 Every environment is different, and VMware cannot make a recommendation for you. Many small environments enjoy the hybrid mode, where only the vSphere Client certificate is changed. Many large environments appreciate the time savings of intermediate/subordinate CA mode.
 
-Almost nobody thinks custom certificate replacements are worth the time spent. It wasn’t so bad when certificate expirations were five years, but now that they are 397 days that is a lot of work.
+Almost nobody thinks custom certificate replacements are worth the time spent. It wasn’t so bad when certificate expirations were five years, but with public certificate lifetimes dropping to 200 days in March 2026, and continuing to shorten after that, it is a lot of work.
 
 We do recommend not making things harder than they need to be. We also recommend having conversations with each other, remembering you are on the same team. vSphere Admins have many other things to do than replacing certificates, and PKI folks and auditors worry about valid things that vSphere Admins have never thought about. Both perspectives are important.

@@ -1,5 +1,8 @@
 # VMSA-2025-0004: Questions & Answers
 
+> [!WARNING]
+> This information is about an older security vulnerability and is not current. It is kept online for reference. Please review the [VMware Security Advisories web page](https://www.broadcom.com/support/vmware-security-advisories) for the latest information to protect yourself and your organizations. Thank you.
+
 Introduction
 ------------
 
@@ -24,11 +27,11 @@ There is not a regular update schedule for this document; it will be updated as 
 ## Relevant Links
 
 [VMware Security Advisory VMSA-2025-0004](https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/25390) (the security advisory itself)  
-[VMSA-2025-0004 Questions & Answers](https://brcm.tech/vmsa-2025-0004) (this document’s shortened ink)  
+[VMSA-2025-0004 Questions & Answers](https://brcm.tech/vmsa-2025-0004) (this document’s shortened link)  
 [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg) (the reference for hardening VMware vSphere, virtual machines, and in-guest settings like VMware Tools)  
 [VMware Cloud Foundation Security Advisories](https://support.broadcom.com/web/ecx/security-advisory?segment=VC) (list of all disclosed security vulnerabilities)  
 [VMware Security Advisory Mailing List](https://go-vmware.broadcom.com/vmsa_email_alert) (please subscribe for proactive notifications of security advisories)  
-[VMware Ports & Protocols](https://ports.broadcom.com/) & [VMware vSphere Firewalling Helper](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-configuration-hardening-guide/vsphere/8.0/VMware%20vSphere%20Security%20Configuration%20Guide%208%20-%20Firewalling%20Helper.xlsx) (assistance in determining ingress & egress firewall rule sets)  
+[VMware Ports & Protocols](https://ports.broadcom.com/) (assistance in determining ingress & egress firewall rule sets)  
 [VMware vSphere Critical Patch Downloads](https://support.broadcom.com/group/ecx/productdownloads?subfamily=VMware+vSphere&tab=Solutions) (support.broadcom.com)
 
 ## Questions & Answers
@@ -45,7 +48,7 @@ These issues would qualify under ITIL methodologies as an emergency change, requ
 
 ### What should I do to protect myself?
 
-To ensure full protection for yourself and your organization, install one of the update versions listed in the VMware Security Advisory.
+The most reliable way to remove the vulnerability is to install one of the update versions listed in the VMware Security Advisory.
 
 ### What products are affected?
 
@@ -85,7 +88,7 @@ No; Although Live Patch was [announced](https://blogs.vmware.com/cloud-foundatio
 
 ### I currently have an active entitlement however I cannot see all the fixed versions relating to the VMSA.
 
-To access a patch from any version, for example: 7 patch you must have a License Key of the same version to view and download.  If the licenses on your site ID contain one version you will have to upgrade/downgrade licenses to access another version.  For more information relating to upgrading/downgrading licenses see [Upgrade and Downgrade VMware License Keys](https://knowledge.broadcom.com/external/article/281797/upgrade-and-downgrade-vmware-license-key.html)
+To access a patch from any version, you must have a license key of the same version to view and download. If the licenses on your site ID contain one version, you will have to upgrade or downgrade licenses to access another version. For more information about upgrading or downgrading licenses, see [Upgrade and Downgrade VMware License Keys](https://knowledge.broadcom.com/external/article/281797/upgrade-and-downgrade-vmware-license-key.html).
 
 ### Do I have to update SDDC Manager?
 
@@ -105,7 +108,7 @@ Yes, there is an asynchronous patch for supported versions of the VMware Cloud F
 
 ### Will there be a patch for VMware Telco Cloud Platform?
 
-VMware Telco Cloud Platform customers will need to update to a version of ESXi that contains the fixes, which may necessitate moving to a newer version of VMware Telco Cloud Platform (TCP). For more details please consult the instructions in the VMSA itself.
+VMware Telco Cloud Platform customers will need to update to a version of ESX that contains the fixes, which may necessitate moving to a newer version of VMware Telco Cloud Platform (TCP). For more details please consult the instructions in the VMSA itself.
 
 ### Are there workarounds for these vulnerabilities?
 
@@ -133,7 +136,9 @@ Broadcom always recommends applying the latest updates to all software products.
 
 The build information is available in the Summary tab of the vSphere Client. It can also be easily queried with PowerCLI:
 
-```Get-VMhost | Select-Object Name,Version,Build```
+```powershell
+Get-VMhost | Select-Object Name,Version,Build
+```
 
 ### If I update ESX will it affect running workloads?
 
@@ -163,9 +168,9 @@ Yes. vSphere 7 Update 3 was released in January 2022 and is considered the best 
 
 ### I am using a third-party solution such as HPE SimpliVity, Dell EMC VxRail, and so on. Is it safe for me to apply the update?
 
-Third-party engineered systems control their patch levels and conﬁgurations as part of their qualiﬁcation and testing processes. Using security guidance that is not explicitly for that product and product version is never advised. If you use engineered and integrated solutions please contact those vendors directly for guidance. Broadcom is not involved in, and cannot speak to, third-party product release schedules.
+Third-party engineered systems control their patch levels and configurations as part of their qualification and testing processes. Using security guidance that is not explicitly for that product and product version is never advised. If you use engineered and integrated solutions please contact those vendors directly for guidance. Broadcom is not involved in, and cannot speak to, third-party product release schedules.
 
-### 35. Are VMware Cloud and hosted products updated?
+### Are VMware Cloud and hosted products updated?
 
 VMSA information is delivered as a message inside hosted, cloud, and software-as-a-service products where applicable. Please check the administrative consoles of those services for further relevant messages and details about this VMSA. Additional questions about the service should be answered through the support processes for that service. Thank you.
 

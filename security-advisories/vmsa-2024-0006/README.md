@@ -135,7 +135,7 @@ Replace or assign a value to the $vmname variable and uncomment the ReconfigVM l
 
 As with all code samples, we provide them to assist customers who wish to automate their work. However, all environments are different, and VMware cannot take responsibility for the effects of this code sample in your environment. Please ensure that you have tested this in a controlled environment, understand the effects prior to using it in a production setting, have gained proper authorization to make these changes, and have communicated the changes to your organization prior to making them.
 
-Snapshots also capture VM configuration, which means that you can take a snapshot of a VM for testing or to mitigate the risk of this change. It also means that snapshots of a virtual machine may contain USB controllers, so if they are reverted you may be vulnerable again. This is why patching ESXi is always recommended as the best method for securing the environment, as it eliminates the vulnerability completely. If you do take a snapshot, ensure that you remove it in a timely manner to avoid the common performance and capacity issues that can develop from long-term snapshots.
+Snapshots also capture VM configuration, which means that you can take a snapshot of a VM for testing or to mitigate the risk of this change. It also means that snapshots of a virtual machine may contain USB controllers, so if they are reverted you may be vulnerable again. This is why patching ESXi is always recommended as the best method for securing the environment, as it removes the vulnerability itself. If you do take a snapshot, ensure that you remove it in a timely manner to avoid the common performance and capacity issues that can develop from long-term snapshots.
 
 Changelog
 ---------

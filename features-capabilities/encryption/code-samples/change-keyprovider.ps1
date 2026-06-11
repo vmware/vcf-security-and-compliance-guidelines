@@ -93,47 +93,19 @@ Function Do-Pause() {
 }
 
 #####################
-# Check to see if we have the required version of VMware.PowerCLI
-Function Check-PowerCLI() {
-    # Because of the change between VMware.PowerCLI and VCF.PowerCLI, omitting this check.
-}
-
-#####################
-# Check to see if we are attached to a supported vCenter Server
+# Make sure we are attached to a single vCenter Server, so we rekey the environment we intend to
 Function Check-vCenter() {
     if ($global:DefaultVIServers.Count -ne 1) {
         Write-Output "[ERROR] Connect to a single vCenter Server (use Connect-VIServer) prior to running this script."
         Exit
     }
-
-    $vcVersion = $global:DefaultVIServers.Version
-    if ($vcVersion -lt '7.0.0') {
-        Write-Output "[ERROR] vCenter Server is not the correct version for this script."
-        Exit
-    }
-}
-
-#####################
-# Check to see if we are attached to supported hosts. Older hosts might work but things change.
-Function Check-Hosts()
-{
-    $ESXi = Get-VMHost
-    foreach ($hostVersion in $ESXi.Version) {
-        if (($hostVersion -lt '7.0.0')) {
-            Write-Output "[ERROR] This script requires vSphere 7 or 8 throughout the environment." 
-            Write-Output "[ERROR] There is at least one host attached that is downlevel ($hostVersion). Exiting." 
-            Exit
-        }
-    }    
 }
 
 #######################################################################################################
 Write-Output "[INFO]  VMware Key Provider Change Tool v9.0.0`n"
 
 Accept-EULA
-Check-PowerCLI
 Check-vCenter
-Check-Hosts
 
 $keyprovider = Get-KeyProvider -Name $NewKeyProviderName -ErrorAction SilentlyContinue
 if ($null -eq $keyprovider) {
@@ -148,10 +120,10 @@ foreach ($cluster in Get-Cluster) {
     if ($clusterinfo.EncryptionEnabled) {
         try {
             $health = Test-VsanClusterHealth -Cluster $cluster -ErrorAction Stop
-            if ($health.OverallHealth -eq 'red') {
+            if ($health.OverallHealthStatus -eq 'red') {
                 Write-Host "[ERROR] Cluster $($cluster.Name) vSAN health is RED. Cannot safely rekey. Exiting." -ForegroundColor Red
                 Exit
-            } elseif ($health.OverallHealth -eq 'yellow') {
+            } elseif ($health.OverallHealthStatus -eq 'yellow') {
                 Write-Host "[WARN]  Cluster $($cluster.Name) vSAN health is YELLOW. Proceeding with caution." -ForegroundColor Yellow
             } else {
                 Write-Output "[INFO]  Cluster $($cluster.Name) vSAN health is GREEN."
@@ -260,8 +232,8 @@ foreach ($entry in $rekeyTemplates) {
 
     try {
         Write-Output "[REKEY] Converting template $($template.Name) to VM for rekey"
-        Set-Template -Template $template -ToVM -Confirm:$false -ErrorAction Stop | Out-Null
-        $vm = Get-VM -Name $template.Name -ErrorAction Stop
+        # Use the returned VM object directly; fetching by name could match an unrelated VM with the same name
+        $vm = Set-Template -Template $template -ToVM -Confirm:$false -ErrorAction Stop
 
         if ($hasEncryptedDisks) {
             Write-Output "[REKEY] Rekeying $($template.Name) to $keyprovider"

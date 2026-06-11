@@ -1,6 +1,14 @@
 # VMware HCX Security Configuration & Hardening Guide
 
-The VMware vSphere Security Configuration & Hardening Guide (SCG) is the baseline for hardening and auditing guidance for VMware Cloud Foundation and VMware vSphere Foundation, including vSAN. Started more than seventeen years ago, it has long served as the reference for virtualization administrators looking to protect their infrastructure.
+The VMware HCX Security Configuration & Hardening Guide (SCG) is the baseline for hardening and auditing guidance for VMware HCX, the workload mobility platform used to migrate workloads into and between VMware Cloud Foundation and VMware vSphere environments. It is part of the family of Security Configuration & Hardening Guides that have long served as the reference for virtualization administrators looking to protect their infrastructure.
+
+# What is Included?
+
+This guide includes several artifacts:
+
+- [**vmware-hcx-security-configuration-guide-411-guidance.pdf**](vmware-hcx-security-configuration-guide-411-guidance.pdf?raw=true) - Main guidance document
+- [**vmware-hcx-security-configuration-guide-411-controls.xlsx**](vmware-hcx-security-configuration-guide-411-controls.xlsx?raw=true) - Spreadsheet with the security hardening baseline controls and discussion
+- [**vmware-hcx-security-configuration-guide-411-controls.csv**](vmware-hcx-security-configuration-guide-411-controls.csv?raw=true) - A version which is more conducive to GitHub's change tracking
 
 # Download the Latest Version
 

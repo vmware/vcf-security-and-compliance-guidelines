@@ -1,6 +1,6 @@
 # UK Telecommunications Security Code of Practice
 
-The **Telecommunications Security Code of Practice** functions as the technical implementation guide for the *Telecommunications (Security) Act 2021* and the *Electronic Communications (Security Measures) Regulations 2022*. It establishes specific security standards for public telecommunications providers—differentiating between **Tier 1** (annual turnover ≥£1bn) and **Tier 2** (annual turnover ≥£50m) entities—to ensure the resilience of the UK's critical digital infrastructure. The Code details mandatory security outcomes regarding network architecture, supply chain monitoring, and data protection, while offering a "preferred approach" for compliance; providers may adopt alternative technical solutions only if they can demonstrate to the regulator, **Ofcom**, that these alternatives achieve equivalent security standards.
+The **Telecommunications Security Code of Practice** functions as the technical implementation guide for the *Telecommunications (Security) Act 2021* and the *Electronic Communications (Security Measures) Regulations 2022*. It establishes specific security standards for public telecommunications providers, differentiating between **Tier 1** (annual turnover ≥£1bn) and **Tier 2** (annual turnover ≥£50m) entities, to ensure the resilience of the UK's critical digital infrastructure. The Code details mandatory security outcomes regarding network architecture, supply chain monitoring, and data protection, while offering a "preferred approach" for compliance; providers may adopt alternative technical solutions only if they can demonstrate to the regulator, **Ofcom**, that these alternatives achieve equivalent security standards.
 
 ## Permanent Link
 
@@ -8,8 +8,8 @@ This page is accessible directly using the [https://brcm.tech/tcp-compliance](ht
 
 ## Broadcom Resources
 
-- [UK TSA CoP - Companion Guide for Telco Cloud Platform 5.1 and Cloud Foundation 9.0 XLSX](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/9.0/uk-tsa-cop/vcf-companion-uk-tsa-code-of-practice.xlsx) - direct XLSX download of the document in this directory
-- [UK TSA CoP - Companion Guide for Telco CLoud Platform 5.1 and Cloud Foundation 9.0 CSV](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/9.0/uk-tsa-cop/vcf-companion-uk-tsa-code-of-practice.csv) - direct XLSX download of the document in this directory
+- [UK TSA CoP - Companion Guide for Telco Cloud Platform 5.1 and Cloud Foundation 9.0 XLSX](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/telco-cloud-platform/5.1/uk-tsa-cop/vcf-companion-uk-tsa-code-of-practice.xlsx) - direct XLSX download of the document in this directory
+- [UK TSA CoP - Companion Guide for Telco Cloud Platform 5.1 and Cloud Foundation 9.0 CSV](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/telco-cloud-platform/5.1/uk-tsa-cop/vcf-companion-uk-tsa-code-of-practice.csv) - direct CSV download of the document in this directory
 
 ## External Resources
 

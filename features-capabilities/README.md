@@ -4,7 +4,7 @@
 > This repository is a work-in-progress as content is moved from other parts of legacy VMware sites.
 > Thank you for your patience during this transition.
 
-The most secure and resilient IT environments in the world are built on VMware vSphere and VMware Cloud Foundation. This directory contains a growing repository of information about the security features present in VMware ESX, VMware vCenter, and VMware Cloud Foundation.
+Some of the most secure and resilient IT environments in the world are built on VMware vSphere and VMware Cloud Foundation. This directory contains a growing repository of information about the security features present in VMware ESX, VMware vCenter, and VMware Cloud Foundation.
 
 Please browse the directory structure above to find information.
 
@@ -18,7 +18,7 @@ Please browse the directory structure above to find information.
 Please browse the directory structure above to find more information on other security features and capabilities.
 
 ## What about regulatory compliance?
-Regulatory compliance is a process that periodically checks your environment for compliance with regulatory requirements. The third-party auditors that do this work are looking for how your environment implments security controls and security business processes. As such, being secure in the first place is key.
+Regulatory compliance is a process that periodically checks your environment for compliance with regulatory requirements. The third-party auditors that do this work are looking for how your environment implements security controls and security business processes. As such, being secure in the first place is key.
 
 For information about regulatory compliance with VMware vSphere and VMware Cloud Foundation, please visit:
 

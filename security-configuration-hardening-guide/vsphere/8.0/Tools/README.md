@@ -197,6 +197,7 @@ An example script for connecting to vCenter Server.
 |-----------|----------|-------------|
 | `-vCenter` | Yes | Name of the vCenter Server to connect to |
 | `-User` | Yes | Username to use when connecting to the named vCenter Server |
+| `-SkipCertificateCheck` | No | Skip TLS certificate validation for the SSO Admin connection. Use only when this system does not trust the vCenter certificate chain |
 
 ### audit-esxi-8.ps1
 
@@ -208,8 +209,9 @@ Assesses a particular ESXi host for compliance with the VMware Security Configur
 |-----------|----------|-------------|
 | `-Name` | Yes | Name of the host to be audited |
 | `-OutputFileName` | No | Name of a file to receive the logged output from the audit |
+| `-CSVOutputFileName` | No | Name of a file to receive the logged output in CSV format |
 | `-AcceptEULA` | No | Accepts the disclaimer and the license for this tool |
-| `-NoSafetyChecks` | No | Skip safety checks on software versions |
+| `-NoSafetyChecks` | No | Skip the connection safety checks (single vCenter connection, hosts attached) |
 
 ### audit-vcenter-8.ps1
 
@@ -221,8 +223,9 @@ Assesses a particular vCenter Server for compliance with the VMware Security Con
 |-----------|----------|-------------|
 | `-Name` | No | Name of the vCenter Server to be audited (uses connected vCenter if not specified) |
 | `-OutputFileName` | No | Name of a file to receive the logged output from the audit |
+| `-CSVOutputFileName` | No | Name of a file to receive the logged output in CSV format |
 | `-AcceptEULA` | No | Accepts the disclaimer and the license for this tool |
-| `-NoSafetyChecks` | No | Skip safety checks on software versions |
+| `-NoSafetyChecks` | No | Skip the connection safety checks (single vCenter connection, hosts attached) |
 
 ### audit-vm-8.ps1
 
@@ -234,9 +237,10 @@ Assesses a particular virtual machine for compliance with the VMware Security Co
 |-----------|----------|-------------|
 | `-Name` | Yes | Name of the virtual machine object to be audited |
 | `-OutputFileName` | No | Name of a file to receive the logged output from the audit |
+| `-CSVOutputFileName` | No | Name of a file to receive the logged output in CSV format |
 | `-AcceptEULA` | No | Accepts the disclaimer and the license for this tool |
-| `-NoSafetyChecks` | No | Skip safety checks on software versions and VMware appliances |
-| `-NoSafetyChecksExceptAppliances` | No | Skip software version safety checks but do not audit VMware appliances |
+| `-NoSafetyChecks` | No | Skip the connection safety checks and the VMware appliance check |
+| `-NoSafetyChecksExceptAppliances` | No | Skip the connection safety checks but keep the VMware appliance check enabled |
 
 ### audit-all.ps1
 
@@ -246,9 +250,10 @@ Recursively assesses VMs, hosts, and vCenter for compliance with the VMware Secu
 
 | Parameter | Required | Description |
 |-----------|----------|-------------|
-| `-OutputDirName` | Yes | Name of an empty directory to receive the logged output from the audit |
+| `-OutputDirName` | No | Name of an empty directory to receive the logged output from the audit (at least one of `-OutputDirName` or `-CSVOutputDirName` must be specified) |
+| `-CSVOutputDirName` | No | Name of an empty directory to receive the logged output in CSV format |
 | `-AcceptEULA` | No | Accepts the disclaimer and the license for this tool |
-| `-NoSafetyChecks` | No | Skip safety checks on software versions |
+| `-NoSafetyChecks` | No | Skip the connection safety checks (single vCenter connection, hosts attached) |
 
 ### remediate-esxi-8.ps1
 
@@ -260,8 +265,9 @@ Remediate an ESXi host against the VMware Security Configuration Guide.
 |-----------|----------|-------------|
 | `-Name` | Yes | Name of the ESXi host to be remediated |
 | `-OutputFileName` | No | Name of a file to receive the logged output from the script |
+| `-CSVOutputFileName` | No | Name of a file to receive the logged output in CSV format |
 | `-AcceptEULA` | No | Accepts the disclaimer and the license for this tool |
-| `-NoSafetyChecks` | No | Skip safety checks on software versions |
+| `-NoSafetyChecks` | No | Skip the connection safety checks (single vCenter connection, hosts attached) |
 | `-RemediateStandardSwitches` | No | Update standard virtual switches and their port groups against the recommended settings. This may have negative effects on workload connectivity. |
 | `-EnableLockdownMode` | No | Enable ESXi lockdown mode. This may have negative effects on the ability to connect directly to the host to manage it. |
 | `-RemediateTLSCiphers` | No | Enable TLS 1.3 and the NIST_2024 limited set of ciphers. This will require a host reboot. |
@@ -274,10 +280,11 @@ Remediate a vCenter Server against the VMware Security Configuration Guide.
 
 | Parameter | Required | Description |
 |-----------|----------|-------------|
-| `-Name` | Yes | Name of the vCenter Server to be remediated |
+| `-Name` | No | Name of the vCenter Server to be remediated (uses connected vCenter if not specified) |
 | `-OutputFileName` | No | Name of a file to receive the logged output from the audit |
+| `-CSVOutputFileName` | No | Name of a file to receive the logged output in CSV format |
 | `-AcceptEULA` | No | Accepts the disclaimer and the license for this tool |
-| `-NoSafetyChecks` | No | Skip safety checks on software versions |
+| `-NoSafetyChecks` | No | Skip the connection safety checks (single vCenter connection, hosts attached) |
 | `-RemediateDistributedSwitches` | No | Update distributed virtual switches and their port groups against the recommended settings. This may have negative effects on workload connectivity. |
 
 ### remediate-vm-8.ps1
@@ -290,9 +297,10 @@ Remediate a virtual machine against the VMware Security Configuration Guide.
 |-----------|----------|-------------|
 | `-Name` | Yes | Name of the virtual machine object to be remediated |
 | `-OutputFileName` | No | Name of a file to receive the logged output from the script |
+| `-CSVOutputFileName` | No | Name of a file to receive the logged output in CSV format |
 | `-AcceptEULA` | No | Accepts the disclaimer and the license for this tool |
-| `-NoSafetyChecks` | No | Skip safety checks on software versions and VMware appliances |
-| `-NoSafetyChecksExceptAppliances` | No | Skip software version safety checks but do not remediate VMware appliances |
+| `-NoSafetyChecks` | No | Skip the connection safety checks and the VMware appliance check |
+| `-NoSafetyChecksExceptAppliances` | No | Skip the connection safety checks but keep the VMware appliance check enabled |
 | `-RemoveExtraDevices` | No | Remove virtual CD/DVD, AHCI controller, USB & XHCI, parallel & serial port, floppy drive, and sound card devices. This may negatively impact the function of the VM. |
 | `-UpdateHardwareVersion` | No | Updates the virtual machine hardware version to 21. There may be compatibility considerations for your guest operating system. |
 | `-TakeSnapshot` | No | Take a snapshot prior to making changes to the virtual machine. The snapshot name will be "Security Configuration Guide Remediation." |

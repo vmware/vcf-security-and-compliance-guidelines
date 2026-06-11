@@ -1,0 +1,1791 @@
+# Companion Guide to the NIST AI Risk Management Framework (AI RMF 1.0) for VMware Cloud Foundation 9.1
+
+## Version
+
+910-20260612-01
+
+## Introduction
+
+This document describes how VMware Cloud Foundation (VCF) 9.1 and the separately licensed advanced services assessed alongside it, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, and VMware Avi Load Balancer, can support organizations aligning with the NIST Artificial Intelligence Risk Management Framework (AI RMF 1.0, NIST AI 100-1). The AI RMF is a voluntary framework for incorporating trustworthiness considerations into the design, development, use, and evaluation of AI systems. It organizes outcomes into four functions (Govern, Map, Measure, and Manage) with categories and subcategories. Each assessed product is reported separately for every control, with VCF covering the full platform, including its consumption services and Private AI Services capabilities. The responsibility for identifying the organization's AI risk profile and applying the framework remains with the organization.
+
+https://www.nist.gov/itl/ai-risk-management-framework
+
+This guidance evolves. Please check the current revision at: https://brcm.tech/vcf-compliance
+
+## Disclaimer
+
+This kit is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This document is not intended to provide advice and is provided "AS IS." Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
+
+This material is provided as is and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the copyright holder or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage. The provider makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of this sample. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations. You acknowledge that there may be performance or other considerations, and that these examples may make assumptions which may not be valid in your environment or organization.
+
+## Third Party Identifiers and Mappings
+
+This document includes regulatory compliance and security control identifiers from external sources as a convenience to end users. This does not constitute endorsement, in either direction.
+
+There is not a one-to-one mapping of product capabilities to third-party controls. A product capability, or set of capabilities, may be applicable to multiple controls. Conversely, a control may be satisfied with the use of multiple capabilities.
+
+Control identifier numbers have been included from the Secure Controls Framework, version 2026.1, under the terms of the Creative Commons Attribution-NoDerivatives 4.0 International Public License. No modifications have been made to the control identifier numbers under the terms of the license.
+
+https://securecontrolsframework.com/
+
+## Coverage Levels
+
+Each control entry below carries the framework control text, the SCF control or controls it maps to, and an Aggregate Coverage line showing the strongest position any one of the assessed products holds for that control. Products that meet or contribute to the control follow as subsections, each with its own coverage level and response. Products the control does not apply to are listed together at the end of the entry, with a brief explanation. The coverage levels are:
+
+- **Meets** -- the product directly provides the capability described in the control. No additional organizational process, external product, or human activity is needed beyond configuring the product itself.
+- **Contributes** -- the product provides technical capabilities that help satisfy the control, but the control also requires something outside the product to be fully met, such as an organizational process, human activity, or an additional tool.
+- **Not Applicable** -- the control does not apply to the product. Physical facility controls, staffing decisions, organizational governance processes, and domains the product does not operate in fall here.
+- **Not Supported** -- the control is relevant to the product's domain (infrastructure, networking, security), but the product lacks the specific capability the control requires.
+- **Not Assessed** -- the control has not yet been evaluated against the product.
+
+## Controls
+
+### Control GOVERN 1.0
+
+> Policies, processes, procedures, and practices across the organization related to the mapping, measuring, and managing of AI risks are in place, transparent, and implemented effectively.
+
+**SCF Controls:** AAT-01, GOV-02, OPS-01.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 1.1
+
+> Legal and regulatory requirements involving AI are understood, managed, and documented.
+
+**SCF Controls:** AAT-01.1, AST-01.2, CPL-01, CPL-01.2
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 1.2
+
+> The characteristics of trustworthy AI are integrated into organizational policies, processes, procedures, and practices.
+
+**SCF Controls:** AAT-01.2, GOV-02, OPS-01, OPS-01.1, SEA-01, SEA-01.1, TDA-01, TDA-01.1
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) contributes to several of the design characteristics this control addresses, including reliability, security, resilience, and data privacy, through infrastructure-level mechanisms that apply to AI workloads deployed on VMware Cloud Foundation (VCF).
+
+Security. PAIS uses VCF SSO for identity and supports role separation across VI administrator, organization administrator, project administrator, DevOps engineer, data scientist, and MLOps engineer functions, with each role scoped to specific namespaces and operations. The Model Gallery is implemented as a Harbor project, and access to model artifacts is restricted to authorized users. Trust bundles establish authenticated HTTPS connections between PAIS components, the identity provider, the registry, and content management systems. GPU resource entitlements are scoped to the GPU-accelerated workload domain so capacity is not shared across domain boundaries.
+
+Reliability and resilience. PAIS workloads run on VCF, which provides vSphere High Availability for automatic VM restart on host failure, the Distributed Resource Scheduler for workload balancing, and vMotion for live migration of GPU-accelerated VMs when the supporting setting is configured. Cluster sizing guidance recommends maintaining unreserved GPU capacity and a dedicated failover host to accommodate planned upgrades and unplanned host failures. The Model Gallery stores ML models as OCI artifacts with immutable manifests and unique content digests, which supports rollback to a known-good model revision if a newly deployed model behaves incorrectly.
+
+Data privacy. PAIS isolates AI workloads in dedicated workload domains that can be deployed separately from the broader VCF environment. Namespace-scoped permissions restrict which users can access specific workloads and data. The Harbor registry replica architecture keeps the GPU-enabled workload domain isolated by proxying container images through a separate Internet-connected registry in a DMZ, with only registry push and pull traffic permitted between the two.
+
+Model integrity and validation. The validate-then-publish workflow requires MLOps engineers to validate ML models against the organization's security, privacy, and technical requirements before uploading them to the Model Gallery. PAIS scans models for serialization attacks before upload, and model integrity is verified through hash comparison of model files. Each revision pushed to the gallery receives a unique digest. Models can be validated for inference functionality and evaluated for performance and safety against business use cases before production deployment.
+
+PAIS does not address the fairness, transparency, or explainability characteristics this control names, because those properties belong to the AI models themselves rather than the infrastructure platform. Organizations must implement separate controls for bias testing, model interpretability, and output explainability at the application layer.
+
+#### VMware vDefend (Contributes)
+
+VMware vDefend contributes to centralized management of cybersecurity controls by providing a unified management plane for network security policy across the virtualized data center. vDefend's centralized capabilities span firewall policy, intrusion detection and prevention, malware prevention, and traffic analytics, all managed through a single interface or, for multi-site deployments, through Global Manager.
+
+The vDefend distributed firewall (DFW) allows administrators to define, organize, and enforce microsegmentation policies from a central management plane. Policies are organized into pre-defined categories (Infrastructure, Environment, Application) that provide a logical structure for managing large rule sets. Administrators can create security groups based on VM attributes, IP sets, or dynamic criteria, and apply east-west firewall rules to those groups consistently. When rules are published, they are pushed from the management plane to every host in the targeted clusters, so enforcement is uniform across the environment without requiring per-host configuration. For multi-site or federated deployments, NSX Federation Security provides centralized management of security policies across all sites through Global Manager. Distributed and Gateway Firewall policies created from Global Manager are synchronized to Local Managers at each registered site. Administrators can define custom regions within a federated deployment and assign specific Security and Network policies to those regions, enabling policy scoping at geographic or administrative boundaries.
+
+In 9.1, vDefend extends centralized policy management to VPC-scoped workloads in VCF Automation. Five system-defined security strategies are available for VPC security posture: VPC Isolation, VPC Isolation with essential services, VPC External Connectivity, VPC Secure Connection, and NONE. Project Administrators can select a pre-defined security posture that enforces Secure by Default principles, rather than manually configuring firewall rules for individual VPCs. The Distributed Firewall supports Organizations in VCF Automation for multi-tenant policy isolation, and the Organization Admin (Tenant Admin) role holds full access to manage Transit Gateway firewalls, distributed firewalls, and all VPC gateway firewalls within that tenant context.
+
+Distributed IDS/IPS and Malware Prevention are centrally managed. IDS/IPS profiles and signature sets are configured centrally and distributed to hosts, and Distributed Malware Prevention rules follow the same publish model as firewall policies. In multi-site environments, IDS/IPS signature management is centralized through Global Manager, which distributes updates to multiple Local Managers and supports both automatic update and manual version control.
+
+Security Services Platform provides centralized network security analytics and visibility through Security Intelligence, which analyzes traffic flows across the data center and generates policy recommendations, including recommended security policies and security groups, that administrators can review and publish as Distributed Firewall rules. The platform includes segmentation planning tools that help administrators design and implement microsegmentation strategies from a central vantage point. Security Services Platform also extends centralized policy management to bare metal servers, where security policies are defined, propagated, and enforced through the same centralized model as virtualized workloads.
+
+Role-based access control within vDefend and Security Services Platform governs who can perform security operations. Security Services Platform defines five roles: Enterprise Admin, Auditor, Security Engineer, Security Operator, and Support Bundle Collector, each with differentiated permissions for policy publishing, traffic visualization, and configuration changes. Configuration of Distributed Firewall policies requires explicit DFW Manage/View rights and rights for Groups and Services, so access to centralized policy management is controlled at the permission level.
+
+vDefend's centralized management is scoped to network security controls. Organization-wide centralized management of all cybersecurity and data protection processes, including identity management, compute hardening, compliance tracking, and governance, requires the broader VCF platform and external GRC systems.
+
+Not applicable for this control: VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 1.3
+
+> Processes, procedures, and practices are in place to determine the needed level of risk management activities based on the organization’s risk tolerance.
+
+**SCF Controls:** CPL-01.2, GOV-02, GOV-04, GOV-04.1, GOV-04.2, OPS-01, OPS-01.1, RSK-01, RSK-01.1, RSK-01.2, RSK-01.3
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 1.4
+
+> The risk management process and its outcomes are established through transparent policies, procedures, and other controls based on organizational risk priorities.
+
+**SCF Controls:** GOV-02, OPS-01, OPS-01.1, RSK-01, RSK-01.1, RSK-01.2
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 1.5
+
+> Ongoing monitoring and periodic review of the risk management process and its outcomes are planned and organizational roles and responsibilities clearly defined, including determining the frequency of periodic review.
+
+**SCF Controls:** CPL-02, CPL-03, CPL-04, GOV-05, RSK-01, RSK-04, RSK-04.1, RSK-08
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 1.6
+
+> Mechanisms are in place to inventory AI systems and are resourced according to organizational risk priorities.
+
+**SCF Controls:** AAT-02, AST-02, BCD-02, DCH-02
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VCF contributes to asset inventory processes by maintaining a detailed, real-time inventory of technology assets across compute, storage, and networking layers.
+
+VMware vCenter maintains the authoritative inventory of all managed objects in the environment. The vSphere inventory organizes objects in a hierarchical structure beginning at the root folder and extending through datacenters, clusters, hosts, virtual machines, networks, and datastores. Each object carries metadata including configuration details, resource allocations, and operational state. Administrators can extend this metadata by defining custom attributes, which store organization-specific fields against any inventory object in vCenter. Custom attribute values are held centrally by vCenter rather than within the individual objects, allowing teams to annotate VMs, hosts, datastores, and other inventory items with organization-defined information such as ownership, classification, or business justification details. This inventory reflects the live state of the environment as objects are created, modified, or removed. Multiple vCenter instances can be linked for centralized inventory management across workload domains.
+
+Programmatic access to the full inventory is available through the vSphere Web Services API. The Property Collector service uses Property Filter Specifications to identify inventory elements either directly or through object property traversal. The RetrievePropertiesEx method collects properties from inventory objects, allowing external systems and automation scripts to enumerate assets, gather configuration details, and build reports at whatever level of granularity is needed. The SimpleClient sample application demonstrates how to connect to a vCenter instance and obtain a listing of top-level inventory entities along with their properties and references.
+
+VCF Operations extends inventory visibility by retrieving inventory details from each vCenter, including associated clusters, VMware ESX hosts, datastores, and virtual machines. Discovered objects are grouped logically in detailed inventory lists, and the inventory management interface supports sorting, searching, and object tagging to organize assets at scale. Custom object groups are containers that collect data from included objects and report on the data collected, allowing administrators to create dashboards and widgets that display resource information for grouped assets. VCF Operations also applies policies to newly discovered objects, such as objects added to an object group. ResourceAttribute elements define the metrics that appear in the monitoring interface, each identified by a Metric Key, providing continuous visibility into asset utilization, capacity, and health. The vSphere Compute Inventory Dashboard provides interactive views of clusters, hosts, and virtual machines associated with any selected object.
+
+For application-level visibility, the VCF Operations Service Discovery adapter discovers running applications and services along with their CPU and memory metrics. Discovery rules can be defined using object types including metrics, relationships, properties, object names, and tag-based criteria. Discovered applications can be grouped by object type and selected attributes through Application Definition criteria, and the results can be exported in CSV format for use in external asset tracking systems.
+
+VCF Automation adds a consumption-oriented layer to asset tracking. Projects link users, catalog items, and infrastructure resources where deployments are provisioned. The Overview tab displays infrastructure and consumption metrics across the organization. Resources visible in inventory views are scoped by the rights and project roles assigned to each user, providing role-appropriate visibility for audit and review. When catalog items are deployed, they are provisioned against the infrastructure available to the selected project, creating a traceable relationship between the request, the deployment, and the underlying resources. Provider accounts can create and track assets including virtual machines, catalogs, templates, and media. Organizations in VCF Automation support policy-based governance on resource usage, allowing IT teams to monitor resource consumption, control permissions, and provide managed services with network isolation. Each organization maintains a secure boundary from other organizations. Resource quota policies can be defined through the Policies API to limit resources consumed by each user, project, or organization. Day 2 Action policies restrict which users have access to specific lifecycle operations on deployed resources. Tags within VCF Automation express capabilities and constraints that define deployments, and cloud administrators can place constraint tags on projects to exercise governance over resource provisioning, supporting asset classification and controlled placement of workloads across the infrastructure.
+
+For integration with external asset registries, VCF provides multiple paths. The Management Pack for ServiceNow in VCF Operations discovers and synchronizes asset details including CPU count, CPU speed, CPU type, disk space, RAM, serial number, manufacturer, model ID, OS version, IP address, and vCenter reference through the ServiceNow Table API and CMDB Meta API. These properties are marked as required discovery fields, keeping the external CMDB aligned with the actual virtual infrastructure. VCF Operations for Networks supports adding ServiceNow as a CMDB data source to fetch configuration items and their relationships. VCF Automation also integrates with ServiceNow for ITSM and CMDB synchronization, configurable through extensibility action scripts or through VCF Operations Orchestrator Client hosted workflows. The ServiceNow ITSM Plug-in for VCF Automation captures extensive asset metadata, including resource name, operational status, project assignment, storage details, account and region information, endpoint type, zone, environment, and custom properties. The plug-in stores machine resource records in custom ServiceNow CMDB tables that track creation timestamps, deployment IDs, machine IDs, entitled users, and network schema. Deployment records similarly capture blueprint version, project ID, catalog ID, organization ID, operational status, owner, requester, and expiration tracking. The plug-in supports day-2 resource lifecycle actions such as Add Disk, Resize, Power On/Off, Create Snapshot, and Delete, and maintains CMDB accuracy through reconciliation.
+
+Software asset tracking is supported through vSphere Lifecycle Manager, where software depots contain both the payloads and metadata for software updates. VCF Lifecycle Management tracks different versions of software components to help maintain compatibility across the infrastructure. The VCF Operations API includes methods to register associated products with their product name, version, and deployment details, contributing to a software-level view of the environment.
+
+The Consumption layer of VCF extends asset inventory to containerized workloads running on VMware Kubernetes Service (VKS) and vSphere Supervisor. The Kubernetes API server maintains a live registry of every object within a cluster or Supervisor namespace, covering pods, deployments, services, ConfigMaps, Secrets, PersistentVolumeClaims, CustomResourceDefinitions, and other resource types. Every resource carries standard metadata including name, namespace, labels, annotations, creation timestamp, and owning references that administrators can query or export at any level of granularity. Labels and annotations allow teams to attach arbitrary metadata to any Kubernetes resource, such as application name, business unit, or data classification, and these fields are queryable via label selectors, supporting filtered inventory exports by category. Supervisor namespaces map to vCenter namespaces, associating Kubernetes workloads with the organizational units defined during provisioning, and resource quotas and limit ranges attached to each namespace record the allocated capacity and support tracking of resource consumption by application or team.
+
+For workloads that consume specialized hardware such as accelerators or dedicated network devices, the Kubernetes Device Plugin framework provides hardware-level asset visibility within VKS clusters. Administrators or device owners use DeviceClasses to define sets of devices available in the cluster, and workloads claim specific hardware resources by creating ResourceClaims that filter for device parameters declared in a DeviceClass. Monitoring agents for device plugin resources discover which devices are in use on each node and collect metadata that associates each device allocation with the specific container consuming it, extending hardware asset tracking to the workload level.
+
+The Harbor Registry Supervisor Service provides an inventory mechanism for container images and artifacts. Harbor organizes images in a Projects structure by team or application and secures them with policies and role-based access control, allowing administrators to track which container images are authorized for use within the environment. Container images deployed through VCF consumption paths should be scanned, signed, and approved according to organizational software supply chain policies before use; digital certificates and validation mechanisms support supply chain assurance of images and artifacts. Where GitOps practices are in use, the Argo CD Supervisor Service extends this inventory capability by recording application synchronization events with timestamps, capturing the resource group, kind, namespace, name, sync status, and health status of each synchronized resource. Git repositories serve as the single source of truth for desired application and infrastructure state in a GitOps workflow, and infrastructure as code stored in version control creates a durable audit log of every authorized change to that state.
+
+These capabilities give VCF a strong technical foundation for tracking virtual infrastructure assets with accurate, real-time data at multiple levels of granularity. However, the broader requirements of this control, including business justification tracking, organization-defined accountability information, and formal review and audit processes for the full scope of technology assets, applications, services, and data, require organizational policies and processes that operate alongside the platform's inventory capabilities.
+
+#### VMware vDefend (Contributes)
+
+VMware vDefend's Security Services Platform (SSP) maintains an inventory of network-visible workloads organized into a hierarchical asset collection spanning regions, zones, environments, applications, and application tiers. The Publish Inventory Assets tab in SSP displays infrastructure asset details including asset names, asset types, IP addresses, and total VM counts for assets sourced from imported CSV files, discovered services, or published infrastructure assets, providing accurate, granular records of network-visible assets.
+
+Platform Inventory monitoring supports ongoing inventory accuracy through several mechanisms. Administrators can filter infrastructure assets by Name and Status, identifying assets that are timed out or out of sync. The inventory hierarchy view shows regions, zones, and VMs so administrators can verify correct definition. SSP Inventory displays assigned tags for each infrastructure asset, and environment rows can be expanded to view tag assignments and confirm hierarchy accuracy. The platform also collects and displays VM tags with their respective scopes, supporting classification and tracking. Published applications and their application types are verifiable in the Inventory > Applications interface.
+
+SSP identifies and publishes application assets, classifying them as either critical or regular applications. Application Asset Collections represent groups of workloads delivering enterprise software functions. Security Intelligence within SSP displays application associations for compute entities, indicating the tiers within each application to which a given compute entity belongs. Administering compute entity classifications in Security Intelligence requires appropriate privileges, supporting access control over classification changes. Consistent naming conventions are recommended when preparing inventory data for import, and the Asset Prefix setting enables standardized naming during segmentation planning and monitoring.
+
+In disconnected mode, usage files include an asset_id field providing a unique asset identifier, supporting asset tracking in environments without continuous connectivity.
+
+vDefend's inventory scope is limited to network-visible workloads and does not replace enterprise-wide TAASD inventory tools, authorized software catalogs with business justification records, or data asset registries required for full AST-02 compliance.
+
+#### VCF Protection and Recovery (Contributes)
+
+VCF Protection and Recovery (PNR) organizes its protection model around identifying which assets are critical enough to warrant disaster recovery protection. Protection groups are an explicit declaration of critical assets, organizing virtual machines into logical units based on their replication and recovery requirements. Placing a workload in a protection group is a deliberate act of classifying it as essential to business operations.
+
+Inventory mappings document how each protected-site asset (resource pools, folders, networks, datastores) corresponds to recovery-site resources, creating a structured record of the infrastructure that supports critical workloads. Site-wide inventory mappings apply defaults across all protected VMs, while per-VM customizations document specific recovery configurations for workloads with unique requirements.
+
+The Protection and Recovery Configuration Import/Export Tool exports a complete record of the DR asset inventory, including site names, inventory mappings, placeholder datastores, advanced settings, array managers with SRA information, protection groups, and recovery plans. This export provides a structured, portable document of which assets are protected and how they are configured for recovery. The export is produced in XML format, enabling automated processing and retention as a configuration record.
+
+PNR generates and exports reports documenting each run of a recovery plan, each test of a recovery plan, and each test cleanup operation. These reports provide an auditable record of which recovery plans executed and which protected workloads were involved.
+
+PNR tracks site metrics including paired sites, pair names, vCenter addresses, site connectivity status, and counts of protection groups, recovery plans, protected virtual machines, and array managers. VCF Operations collects configuration, component health, and usage information from protection and recovery servers and site pairs, providing consolidated visibility into the DR infrastructure as a class of managed assets.
+
+#### VMware Data Services Manager (Contributes)
+
+VMware Data Services Manager (DSM) contributes to asset inventory requirements by providing built-in visibility into the database instances, infrastructure resources, and users it manages. This visibility supports tracking and accountability for the subset of technology assets that DSM governs. Organization-wide TAASD inventory across all asset categories requires organizational processes and additional tooling beyond DSM itself.
+
+DSM tracks the association between deployed databases and the infrastructure policies under which they were provisioned. Administrators can review databases and their configuration details through the Databases tab in the Infrastructure Policies view of the DSM Administrator UI, which displays each policy alongside the databases bound to it. Because infrastructure policies define the compute, storage, and networking resources allocated to databases, including allowed VM classes, this view gives administrators a structured picture of how platform resources are being consumed. The About the DSM UI Views section confirms the Infrastructure Policies view lists all policies available in the environment and the databases associated with each.
+
+DSM administrators can define and configure data service policies for the data services DSM manages, supporting compliance with organizational standards across tenants. Each policy can be tailored to specific requirements and assigned to one or more organizations to enforce consistent configurations. For tenant-facing self-service, the DSM Consumption Operator creates infrastructure policies as cluster-scoped resources in the consumption cluster and requires an allowedInfrastructurePolicies list that defines which policies a tenant cluster may use, giving administrators a clear inventory of the policies in scope per cluster. Tenant users create and consume databases under a Supervisor namespace through the VCF Automation Cloud Consumption Interface (CCI), and the DSM portal exposes a Consumption Operator endpoint that provides access to deployment artifacts.
+
+For database-level visibility, the Database Health view in the DSM UI collects metric data for each database instance and cross-references alerts with resolution paths. DSM deploys a Telegraf agent on the Provider Appliance and a local Telegraf agent on each workload cluster to gather VM-level metrics such as CPU, memory, and disk usage, plus engine-specific metrics. DSM can forward metrics to an external Metrics target server, supporting integration with external monitoring or inventory aggregation systems.
+
+For auditors, DSM's inventory-relevant information is accessible through the Administrator UI and is available to personnel with the Admin role. The Databases tab, Infrastructure Policies view, Database Health view, and Consumption Operator policy inventory collectively provide the granularity needed to account for DSM-managed database assets and the policies governing them. The documented DSM user roles (vSphere administrator, VCF Automation organization administrator, VCF Automation project user) clarify which personnel have visibility into which inventory views.
+
+DSM provides resource tracking and visibility within its own management scope. DSM does not perform organization-wide asset discovery and does not inventory physical infrastructure, non-database applications, or data assets outside its management domain. A TAASD inventory program spanning all asset categories requires a CMDB or dedicated asset management solution that can aggregate DSM resource data alongside information from other platform components.
+
+Not applicable for this control: VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of this product.
+
+### Control GOVERN 1.7
+
+> Processes and procedures are in place for decommissioning and phasing out AI systems safely and in a manner that does not increase risks or decrease the organization’s trustworthiness.
+
+**SCF Controls:** AST-09, AST-30, PRM-07, SEA-02.3, TDA-17
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VCF provides several capabilities that support secure logical disposal and sanitization of virtual resources, though the physical destruction or secure disposal of hardware remains an organizational responsibility outside VCF's scope.
+
+vSAN data-at-rest encryption uses a two-tier key architecture with Key Encryption Keys (KEK) and Data Encryption Keys (DEK), managed through an external Key Management Server (KMS) or vSphere Native Key Provider. When decommissioning encrypted storage, destroying the encryption keys renders the data unrecoverable without requiring a full disk wipe, a technique known as cryptographic erasure. vSAN also provides an "Erase disks before use" option during encryption configuration that wipes existing data from storage devices. For devices being added to or removed from vSAN disk groups, residual data and partition information can be cleaned before the device is reclaimed or released. Administrators can wipe ineligible disks through the vSAN Management API after verifying the partition table and stored data. vSphere provides API methods for cryptographic key lifecycle management, including removeKey and removeKeys operations that delete encryption keys from host caches. These methods support a force parameter for definitive key removal.
+
+VCF Operations includes a Reclamation dashboard and associated settings that help administrators identify virtual resources eligible for cleanup and disposal. The Reclamation Settings interface surfaces powered off VMs, idle VMs, snapshots, and orphaned disks, quantifying the resources that can be reclaimed. The Datastore Capacity Dashboard and ESX Capacity Dashboard both identify three specific reclamation opportunities: powered off VMs, snapshots, and orphaned VMDKs. These dashboards give operations and capacity teams visibility into resources that should be reviewed for secure removal before equipment is repurposed or decommissioned. The Reclamation Report tracks CPUs reclaimed, memory reclaimed, and storage reclaimed across different time periods, providing evidence of resource cleanup activity.
+
+For the actual deletion of virtual resources, VCF Operations provides a DELETE VM(s) capability that removes selected powered off VMs, and a RECLAIM RESOURCES function that allows immediate execution of resource reclamation processes. VCF Automation extends this with a Delete action on Deployments that destroys an entire deployment and deletes all associated resources for reclamation. VCF Automation also supports the creation and deletion of secret reusable properties through its secrets management interface under Administration Secrets, which is relevant when sanitizing credential material before equipment reuse.
+
+VCF Operations can disable virtual disk wiper and disk shrink operations on virtual machines through the isolation.tools.diskWiper.disable setting, which blocks data recovery attempts from within guest operating systems.
+
+Core dump handling is another area where VCF provides disposal-relevant guidance. VMware recommends considering disabling core dumps on VMware vCenter systems to protect sensitive information. Unlike virtual machine core dumps, which are encrypted when VM encryption is active, vCenter core dumps are not encrypted by default; vCenter systems support core dump encryption through the core-dump-encryption setting, and encrypted core dumps can be decrypted or re-encrypted as needed. Core dumps may contain sensitive information such as host keys, and organizations should follow their security and privacy policies to protect this data. When decommissioning or repurposing hosts, addressing core dumps is an important step for reducing the likelihood of information recovery.
+
+VCF also recommends securely deleting decrypted backup files after restore operations for VCF Operations, vCenter, and NSX components.
+
+Auditors should verify that the organization has defined procedures for securely disposing of or repurposing VCF-managed infrastructure. This includes confirming that virtual resources (VMs, snapshots, orphaned disks, secrets) are deleted through VCF's reclamation and deletion tools before physical equipment is removed from service, and that encryption keys are destroyed via cryptographic erasure for storage that held sensitive data. Physical chain-of-custody procedures, media sanitization verification, and equipment tracking through the disposal lifecycle are organizational processes outside the scope of VCF.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 2.0
+
+> Accountability structures are in place so that the appropriate teams and individuals are empowered, responsible, and trained for mapping, measuring, and managing AI risks.
+
+**SCF Controls:** AST-01, AST-01.2, GOV-04.1, HRS-03, HRS-04.1, HRS-05.1, HRS-05.4, SAT-01, SAT-03
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 2.1
+
+> Roles and responsibilities and lines of communication related to mapping, measuring, and managing AI risks are documented and are clear to individuals and teams throughout the organization.
+
+**SCF Controls:** AAT-01, AAT-08, GOV-04, GOV-04.1, GOV-04.2, HRS-03
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) supports differentiated roles and responsibilities across the AI workload lifecycle through platform-level access controls layered on the VCF identity model. Platform administrators manage infrastructure setup: they deploy infrastructure, configure GPU-accelerated workload domains, and add the PAIS supervisor service to the supervisor before any AI workloads can be deployed. This role controls the foundational infrastructure on which AI operations depend.
+
+Organization administrators control namespace imports and grant permissions for AI catalog items. The organization administrator token is required for API calls that import namespaces into VCF Automation organizations, centralizing oversight of which AI capabilities are exposed. Organization administrators must grant permissions before users can request AI catalog items, providing a gatekeeping function over AI deployments.
+
+DevOps engineers are scoped to project and namespace membership for provisioning GPU-accelerated VMware Kubernetes Service (VKS) clusters and related infrastructure. Data scientists and MLOps engineers provision models and retrieval-augmented generation (RAG) applications through PAIS. The MLOps role carries specific validation responsibilities: MLOps engineers validate ML models against the security, privacy, and technical requirements of the organization before uploading them to the model gallery, including testing inference functionality and evaluating performance and safety against business use cases.
+
+Access to PAIS is authorized through OIDC groups specified in the authorizedGroups configuration, tying role enforcement to VCF SSO. Namespace-scoped permissions confine each role's actions to assigned boundaries within the platform.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 2.2
+
+> The organization’s personnel and partners receive AI risk management training to enable them to perform their duties and responsibilities consistent with related policies, procedures, and agreements.
+
+**SCF Controls:** SAT-03, SAT-03.5, SAT-03.6
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 2.3
+
+> Executive leadership of the organization takes responsibility for decisions about risks associated with AI system development and deployment.
+
+**SCF Controls:** GOV-01.1, GOV-01.2, GOV-04
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 3.0
+
+> Workforce diversity, equity, inclusion, and accessibility processes are prioritized in the mapping, measuring, and managing of AI risks throughout the lifecycle.
+
+**SCF Controls:** AAT-06
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 3.1
+
+> Decision-making related to mapping, measuring, and managing AI risks throughout the lifecycle is informed by a diverse team (e.g., diversity of demographics, disciplines, experience, expertise, and backgrounds).
+
+**SCF Controls:** AAT-07, TDA-01, TDA-01.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 3.2
+
+> Policies and procedures are in place to define and differentiate roles and responsibilities for human-AI configurations and oversight of AI systems.
+
+**SCF Controls:** AAT-08, GOV-02, OPS-01, OPS-01.1
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) supports differentiated roles and responsibilities across the AI workload lifecycle through platform-level access controls layered on the VCF identity model. Platform administrators manage infrastructure setup: they deploy infrastructure, configure GPU-accelerated workload domains, and add the PAIS supervisor service to the supervisor before any AI workloads can be deployed. This role controls the foundational infrastructure on which AI operations depend.
+
+Organization administrators control namespace imports and grant permissions for AI catalog items. The organization administrator token is required for API calls that import namespaces into VCF Automation organizations, centralizing oversight of which AI capabilities are exposed. Organization administrators must grant permissions before users can request AI catalog items, providing a gatekeeping function over AI deployments.
+
+DevOps engineers are scoped to project and namespace membership for provisioning GPU-accelerated VMware Kubernetes Service (VKS) clusters and related infrastructure. Data scientists and MLOps engineers provision models and retrieval-augmented generation (RAG) applications through PAIS. The MLOps role carries specific validation responsibilities: MLOps engineers validate ML models against the security, privacy, and technical requirements of the organization before uploading them to the model gallery, including testing inference functionality and evaluating performance and safety against business use cases.
+
+Access to PAIS is authorized through OIDC groups specified in the authorizedGroups configuration, tying role enforcement to VCF SSO. Namespace-scoped permissions confine each role's actions to assigned boundaries within the platform.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 4.0
+
+> Organizational teams are committed to a culture
+
+**SCF Controls:** GOV-14, GOV-15, RSK-12
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 4.1
+
+> Organizational policies and practices are in place to foster a critical thinking and safety-first mindset in the design, development, deployment, and uses of AI systems to minimize potential negative impacts. Continued on next page
+
+**SCF Controls:** AAT-01, GOV-02, HRS-01, HRS-03.1, HRS-03.2, HRS-04.1, HRS-05.1, HRS-05.4, OPS-01, OPS-01.1, SAT-01, TDA-01.1, TDA-02.3
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 4.2
+
+> Organizational teams document the risks and potential impacts of the AI technology they design, develop, deploy, evaluate, and use, and they communicate about the impacts more broadly.
+
+**SCF Controls:** AAT-09, TDA-01, TDA-01.1, TDA-02.3, TDA-04, TDA-05
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 4.3
+
+> Organizational practices are in place to enable AI testing, identification of incidents, and information sharing.
+
+**SCF Controls:** AAT-10, IAO-01
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) provides infrastructure that supports AI Test, Evaluation, Validation and Verification (TEVV) activities throughout the model lifecycle. Deep learning VMs provisioned from PAIS images provide dedicated testing environments for AI prototyping, fine-tuning, validation, and inference workloads. These DL VMs run on the same GPU-accelerated workload domains, vGPU profiles, and VM classes used in production, so TEVV activities occur in conditions comparable to the deployment environment.
+
+The validate-then-publish workflow creates a formal gate for AI deployment. MLOps engineers validate models for inference functionality using the Triton Inference Server and evaluate performance and safety against business use cases, including examination of inference requests for malicious behavior and functional testing. Models must pass this validation before being uploaded to the Model Gallery for production use. Model integrity is verified through hash code validation, and each revision is assigned a unique digest stored as an OCI artifact with an immutable manifest, giving cryptographic verification that the tested model is the same artifact that gets deployed.
+
+The platform also supports TEVV through its monitoring stack. VCF Operations monitors GPU consumption at cluster, host system, and host properties levels. Each DL VM includes a pre-installed DCGM Exporter with Prometheus collection at 5-second scrape intervals and Grafana visualization, supplying performance telemetry during testing and evaluation. The software stack for running AI applications on top of NVIDIA GPUs is validated in advance, and NVIDIA NGC containers are pre-tested and ready to run, reducing variables during TEVV by providing a known-good baseline.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 5.0
+
+> Processes are in place for robust engagement with relevant AI actors.
+
+**SCF Controls:** AAT-11, AST-01.2, CHG-05, GOV-04, GOV-04.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 5.1
+
+> Organizational policies and practices are in place to collect, consider, prioritize, and integrate feedback from those external to the team that developed or deployed the AI system regarding the potential individual and societal impacts related to AI risks.
+
+**SCF Controls:** AAT-11.1, GOV-02, OPS-01, OPS-01.1, TDA-01.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 5.2
+
+> Mechanisms are established to enable the team that developed or deployed AI systems to regularly incorporate adjudicated feedback from relevant AI actors into system design and implementation.
+
+**SCF Controls:** AAT-11.1, TDA-01.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 6.0
+
+> Policies and procedures are in place to address AI risks and benefits arising from third-party software and data and other supply chain issues.
+
+**SCF Controls:** GOV-02, OPS-01, OPS-01.1, RSK-09.2, TDA-01.1
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) addresses AI-related supply chain risks through a Harbor registry architecture that controls how third-party AI software and container images enter the deployment environment. PAIS uses a Harbor registry service on the Supervisor to store validated ML models and can also integrate with OCI-compliant registries from other vendors, and PAIS artifacts are uploaded to an allocated Harbor project as part of the installation process. AI workload platforms can be deployed in connected or disconnected (air-gapped) environments. In a disconnected environment, PAIS requires additional setup steps for appliances and local resource provisioning, with container images and model artifacts manually downloaded and staged in the local Harbor registry, allowing the organization to inspect and approve content before it reaches the production environment.
+
+The NVIDIA GPU Operator enforces image pull authentication through registry secrets for all container images deployed in a disconnected PAIS environment, restricting GPU operator components to authenticated registry sources. Model Runtime endpoints reference OCI container images for models via the spec.model.ociRef property and support optional image pull secrets (pullSecrets) for private OCI registries requiring authentication, restricting model serving sources to authenticated registries. Deep Learning VMs communicate with the nvcr.io container registry over HTTPS for image authentication and download, and the oras login command authenticates to private Harbor registries using username and password credentials for subsequent image operations.
+
+For ML model supply chain integrity, MLOps engineers validate ML models onboarded to PAIS against organizational security, privacy, and technical requirements. Model files are validated for integrity by checking hash codes, scanned for malware, scanned for serialization attacks, and tested for correct inference behavior using Triton Inference Server as part of the sandbox validation process in Deep Learning VMs. This validate-then-publish workflow supports organizational review of third-party models before they reach production workloads.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 6.1
+
+> Policies and procedures are in place that address AI risks associated with third-party entities, including risks of infringement of a third-party’s intellectual property or other rights.
+
+**SCF Controls:** AAT-12, GOV-02, OPS-01, OPS-01.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control GOVERN 6.2
+
+> Contingency processes are in place to handle failures or incidents in third-party data or AI systems deemed to be high-risk.
+
+**SCF Controls:** BCD-01, BCD-16, IRO-01, IRO-02, IRO-02.4, IRO-04
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VCF provides a broad set of infrastructure-level capabilities that support business continuity and disaster recovery planning. While VCF does not itself constitute a Business Continuity Management System, it supplies the technical mechanisms that underpin resilient deployments and contingency operations.
+
+vSAN stretched clusters allow organizations to extend a single vSAN datastore across two geographically separated sites with an independent witness host. When configured with site mirroring, a stretched cluster can tolerate the complete loss of one site while maintaining data availability. vSphere HA, when enabled on a stretched cluster, automatically restarts virtual machines on the surviving site during a site failure. To support this, vSphere HA admission control should be configured to reserve 50% of the cluster's aggregate CPU and memory resources for failover, and site-specific isolation response addresses should be defined so that vSphere HA can validate host isolation even when network connectivity between sites is lost. The admission control setting for host failures the cluster tolerates should also be updated after cluster expansion to reflect the correct host count per availability zone. When stretching a workload domain cluster, the default management vSphere cluster must already be stretched. vSphere HA uses network heartbeats to validate the state of VMware ESX hosts, and can also use heartbeat datastores mounted to more than one host (excluding vSAN datastores) for cluster membership monitoring.
+
+vSphere HA also operates at the individual cluster level independent of stretched clusters. The HA configuration remediation mode can be set to quarantine mode, maintenance mode, or mixed mode to handle host failures in a controlled manner, helping maintain workload availability during hardware events. vSphere Fault Tolerance provides a higher tier of availability for individual virtual machines by maintaining a secondary VM in continuous lockstep with the primary, enabling instantaneous failover with no data loss if the primary host fails.
+
+vSAN Data Protection provides snapshot-based protection through the vSAN Snapshot Service. Protection groups support configurable snapshot scheduling with adjustable intervals and retention policies that define retention duration and time units. This allows organizations to define data protection policies aligned with their recovery point objectives. The Snapshot Service API also supports operations such as restoring deleted virtual machines from snapshots and creating linked clones from snapshots.
+
+vSphere Replication provides asynchronous replication of virtual machines with a configurable Recovery Point Objective (RPO), allowing organizations to replicate workloads to a secondary site and define acceptable data loss windows as part of their contingency planning.
+
+VCF requires all management components, including VCF Operations, VMware vCenter, NSX, and VCF Automation, to be configured with a regular backup schedule and retention policy. VCF Operations configures NSX Manager backups during the initial deployment, with a recommended backup frequency of hourly and 7-day retention. Backup jobs for VCF Operations and all vCenter instances should start within the same 5-minute window to capture a consistent state. The VMware Infrastructure Health adapter within VCF Operations monitors backup job retention for management components, including NSX Manager. Changed Block Tracking (CBT) tracks modified disk sectors on virtual machines to support incremental backups, reducing backup windows and storage requirements for VM-level backup operations. vCenter itself also supports a High Availability configuration with Active and Passive nodes whose configuration files are continuously replicated, providing management-plane resilience independent of the backup schedule.
+
+VMware HCX provides workload mobility capabilities for migrating and replicating VMs between sites. HCX supports multiple migration types through its Mobility Agent service, including vMotion, Cold Migration, Bulk Migration, and Replication Assisted vMotion (RAV), each addressing different scenarios from large-scale parallel migrations to zero-downtime live migrations. HCX also includes appliance-level backup and restore capabilities for the HCX Manager, including certificate backup and restore, supporting planned migrations and recovery scenarios as part of broader BC/DR operations.
+
+VCF Operations monitors infrastructure health and surfaces alerts when conditions threaten availability, giving operations teams early warning of potential failures. The Platform Health Alerts page provides a centralized view of alerts across data sources and infrastructure nodes. VCF Automation provides alerts through the associated VCF Operations application for capacity, performance, and availability monitoring. VCF Operations also includes infrastructure planning and what-if analysis capabilities that help organizations forecast capacity requirements and plan for contingency scenarios. Committed scenarios reserve capacity by setting aside resources for new, upcoming, or planned workloads, helping stakeholders understand capacity requirements across the environment. Integration with IT Service Management and Configuration Management Database platforms is supported through VCF Automation, enabling organizations to tie their infrastructure management into broader service continuity workflows.
+
+Lifecycle management tools allow administrators to plan updates and schedule maintenance windows to make changes with minimal disruption to services, supporting the operational continuity aspect of business continuity planning.
+
+While VCF provides these technical capabilities, a complete BCMS requires organizational elements that fall outside the platform: documented continuity of operations plans, recovery time and recovery point objectives defined by business stakeholders, regular testing and exercise of recovery procedures, communication plans, and management oversight of the continuity program. VCF supplies the infrastructure resilience and recovery mechanisms that such plans depend on, but the planning, governance, and procedural components must be established and maintained by the organization.
+
+#### VMware vDefend (Contributes)
+
+VMware vDefend contributes to business continuity by providing security-layer continuity mechanisms that remain active during disaster recovery events and workload migrations. NSX Federation Security maintains security posture across data centers during disaster recovery and workload migration, preserving distributed firewall and gateway firewall policies so that enforcement continues through failover.
+
+The Security Services Platform, which provides the underlying infrastructure for vDefend's threat detection and inspection services, supports vSphere High Availability configurations. When a VMware ESX host becomes unhealthy, vSphere HA migrates the affected Security Services Platform virtual machines to healthy hosts in the cluster, restoring threat detection capacity without manual intervention. VMware recommends enabling vSphere HA for host-level failure recovery and configuring a storage policy with RAID for datastore-level failure tolerance in Security Services Platform deployments.
+
+Security Services Platform can also be deployed on a vSAN stretched cluster configuration, which replicates storage across two physically distinct sites connected by a high-bandwidth or low-latency inter-site link. This configuration requires a minimum of two sites with their own hosts and a witness host to handle potential conflicts arising from network partitions, supporting site-level failure scenarios.
+
+When vSphere HA restarts workload VMs on a new recovery host after a failover, the vDefend distributed firewall automatically reinspects all traffic from those VMs on the receiving host, because the Flow Table contents cannot be moved between hosts during host recovery. Security policy enforcement resumes on the new host without manual reconfiguration.
+
+The broader BCMS framework, including Continuity of Operations Plan and BC/DR playbooks, impact analyses, and organizational governance processes, is outside vDefend's scope and must be established through dedicated business continuity management programs.
+
+#### VCF Protection and Recovery (Contributes)
+
+VCF Protection and Recovery (PNR) provides the technical execution layer for contingency planning in virtualized infrastructure. Recovery plans define the sequence, priority, and configuration for failover operations, acting as executable BC/DR playbooks. Protection groups organize virtual machines into logical units aligned with application tiers or business functions, establishing the scope of each contingency plan.
+
+Recovery plans support non-disruptive testing before use in planned migration or disaster recovery, allowing organizations to validate their contingency procedures without affecting production workloads. Recovery plan configuration differs between emergency scenarios at the protected site and planned migration of services from one site to another, with PNR supporting both modes. A forced recovery function is available during disaster recovery plan execution for scenarios requiring immediate failover.
+
+vSphere Replication provides host-based replication with configurable Recovery Point Objectives (RPO), allowing organizations to set per-workload data loss tolerances. vSphere Replication supports up to 200 point-in-time recovery instances per virtual machine using the Latest Instances option, enabling recovery to specific earlier states. This capability is relevant to contingency scenarios involving data corruption or ransomware events. When the source site is accessible at the time of recovery, vSphere Replication can synchronize recent changes from the source site to the target site before completing the operation, reducing data loss.
+
+In 9.1, PNR extends to multi-tenant disaster recovery through integration with VCF Automation. The product implements role-based access control with Organization Administrator, Project Administrator, and Project Advanced User roles, each with defined authorization levels for disaster recovery operations. Role assignments must be configured on both the primary and secondary PNR sites to maintain consistent access control across the DR environment. A multi-region deployment topology places separate management domains in each region to contain disaster impact to one region, while enabling service recovery in an alternate management domain when VCF Automation and VCF Operations are affected. The VCF Operations Orchestrator Plug-In for PNR provides Configuration, Inventory Mappings, Protection Groups, and Storage predefined workflow categories for workflow-driven recovery operations.
+
+Cyber recovery deployments support a standard VCF topology where the workload domain is isolated from the management domain, providing separation between management and user workloads in clean-room recovery scenarios.
+
+#### VMware Avi Load Balancer (Contributes)
+
+VMware Avi Load Balancer provides application-layer resilience mechanisms at both the control plane and the data plane that organizations can incorporate into business continuity plans for application delivery services.
+
+At the control plane, the Avi Controller is deployed as a cluster with continuous configuration replication across all nodes, providing management-plane redundancy so that a single Controller node failure does not interrupt application delivery operations. Avi supports deployment of the Controller cluster across two availability zones, with vSphere HA recommended to support recovery of any node that fails in the secondary zone. For single-node deployments, enabling vSphere HA on the Controller VM is recommended for node recovery following a host failure. The Avi Controller provides configuration backup and restore capability that supports disaster recovery and configuration migration across Controller instances; organizations should capture and retain Controller backups as part of their continuity documentation.
+
+Availability Zone awareness in Avi allows multiple availability zones to be configured, each defining a subset of vCenter instances, hosts, and datastores that share a fault domain. Configuring availability zones during Service Engine Group setup distributes data-plane capacity across isolated failure domains, supporting continuity designs where application delivery capacity remains available if one fault domain becomes unavailable.
+
+At the data plane, Avi's Elastic High Availability mode provides fast recovery for individual virtual services following Service Engine failure. In vSphere DRS-enabled clusters, virtual service recovery occurs before vSphere HA brings up a replacement Service Engine when virtual service slots are available in other Service Engines, giving the application delivery layer its own recovery path distinct from the infrastructure restart cycle. If vSphere HA does not recover the failed Service Engine within a configured timeout period, the Avi Controller resumes recovery independently. Service Engine VMs should be deployed on vSphere clusters configured with both HA and DRS in fully automated mode; when Avi is deployed with VMware Kubernetes Service (VKS) on VCF, DRS and HA are required on every vSphere cluster used with Avi.
+
+For Kubernetes environments, the Avi Multi-Cluster Kubernetes Operator (AMKO) provides federation architecture that supports disaster recovery across Kubernetes clusters. AMKO designates a leader cluster and multiple member clusters, coordinating application delivery failover as part of a multi-cluster DR strategy.
+
+Avi ControlScripts, used in conjunction with the alert framework, can perform automated failover actions such as adding or removing routes based on VIP attachment and detachment events, allowing organizations to define automated remediation workflows that respond to system events without manual administrator intervention.
+
+In 9.1 deployments using VCF Automation, Avi's Central Licensing maintains a global capacity pool that removes the requirement for duplicate licenses in DR scenarios, supporting license continuity across failover sites.
+
+Organizations should document these mechanisms, including the Elastic HA configuration, Controller cluster topology and backup schedule, availability zone placement, and AMKO federation design, in their Business Continuity and Disaster Recovery playbooks. The technical recovery capabilities are built into the product; the planning artifacts, testing procedures, and escalation workflows are organizational responsibilities that extend beyond what Avi provides.
+
+Not applicable for this control: VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of this product.
+
+### Control MANAGE 1.0
+
+> AI risks based on assessments and other analytical output from the MAP and MEASURE functions are prioritized, responded to, and managed.
+
+**SCF Controls:** AAT-18.1, RSK-01, RSK-03, RSK-04
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) provides AI-specific mechanisms that support an organization's risk response process for AI systems. MLOps engineers validate ML models onboarded to PAIS against the security, privacy, and technical requirements of the organization, providing a structured gate for remediation when an existing model is identified as risky and a replacement must be vetted before publication. When remediation requires substituting a model, operators can deploy completion or embedding model endpoints and use A/B testing to compare the behavior of candidate models against the incumbent in real-world settings, supporting empirical evaluation of the replacement before full rollout. Embedding model selection is recommended to be based on empirical evaluation using the organization's own data rather than relying solely on benchmarks.
+
+Health and performance metrics for PAIS components running in a VCF Automation namespace can be visualized in observability platforms such as Grafana and VCF Operations. MLOps engineers and application developers can monitor the health, quality, and behavior of AI applications through these observability surfaces to detect anomalies that warrant a risk response. PAIS observability is configured through a Prometheus runtime with a specified storage class and a configurable metrics retention period, with a default of 14 days, giving risk responders historical context for investigation. Metrics collection is activated by enabling the spec.observability.prometheusRuntime section of the PAISConfiguration CR.
+
+Organizational processes for prioritizing AI risks based on assessments, coordinating remediation across stakeholders, and tracking risk closure remain organizational responsibilities outside the scope of PAIS infrastructure capabilities. General platform resilience inherited from VCF is covered under VCF Coverage and is not a PAIS-specific contribution to this control.
+
+#### VMware vDefend (Contributes)
+
+VMware vDefend contributes to prioritizing, responding to, and remediating security risks affecting AI workloads running on VCF by providing severity-based threat prioritization, multiple response mechanisms, and policy-based remediation at the network layer.
+
+Prioritization. Security Intelligence categorizes detected suspicious traffic events by impact type (Critical, High, Medium, and Low), helping security teams focus first on the most urgent risks to AI workloads. The Security Services Platform Campaign Impact Score measures the overall severity of correlated threat campaigns on a scale from 0 through 100, with scores calculated using the confidence level of each constituent detection and higher scores indicating higher-priority campaigns for triage. Malware Prevention's Process Analysis Report classifies risk estimates and flags artifacts as High risk when they represent a critical risk requiring priority attention. vDefend IDS/IPS follows a prioritized event-handling approach under memory pressure, dropping lower-priority severity data (Low and Informational) first and retaining Critical and High severity events, so that the most significant detections are preserved for triage and response.
+
+Response. When security risks to AI workloads are identified, vDefend provides multiple response options calibrated to the situation. Administrators can deploy microsegmentation rules to isolate affected AI workloads, adjust IDS/IPS profiles to address newly identified threat patterns, or modify Gateway Firewall policies to restrict traffic at the perimeter. The Security Intelligence threat visualization canvas supports rapid threat containment by identifying compromised assets and guiding microsegmentation policy updates. Intelligent Assist analyzes detected anomalies and recommends remediation policies; remediation rules are added using the naming convention prefix 'ai-' and are not enabled by default, requiring an analyst or administrator to review and manually enable them after due diligence and verification. When Intelligent Assist determines that a given anomaly cannot be remediated, it indicates this automatically, allowing analysts to focus on actionable findings. Security Intelligence retains the IDS policies, rules, and security profiles created by Intelligent Assist as part of remediation operations, providing an audit trail of response actions taken.
+
+Remediation. The Security Intelligence recommendation engine generates firewall policy recommendations based on observed traffic patterns between virtual machines. These recommendations can be published as firewall policies applied to environment category pairs, enabling organizations to close segmentation gaps identified during risk assessments. Administrators can designate high-priority applications and groups through prioritized collections, focusing Security Intelligence's flow analysis on the AI workloads most critical to protect.
+
+Not applicable for this control: VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MANAGE 1.1
+
+> A determination is made as to whether the AI system achieves its intended purposes and stated objectives and whether its development or deployment should proceed.
+
+**SCF Controls:** AAT-10.10, AAT-15, AAT-15.1, AAT-15.2, IAO-01, IAO-05, IAO-07
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) provides a workflow for evaluating AI TEVV results before a model reaches production deployment. MLOps engineers validate ML models onboarded to PAIS against the organization's security, privacy, and technical requirements, which establishes a checkpoint that TEVV results inform.
+
+Deep Learning VMs and the Model Endpoints feature give MLOps engineers the testing environment where TEVV activities produce results to be evaluated. Completion and embedding models run on GPU through the open-source vLLM inference engine, and A/B testing of embedding models is recommended so teams can compare model performance in real-world settings before promotion.
+
+Performance and behavioral telemetry to interpret TEVV results comes from PAIS observability. vGPU metrics are collected by the DCGM Exporter and visualized in Prometheus and Grafana for performance analysis, and MLOps engineers and application developers monitor model health, quality, and behavior in agent applications through observability platforms such as Grafana. PAIS controller pod metrics are streamed to VCF Operations through the Telegraf agent running on the Supervisor instance, and GPU metrics can be reviewed at cluster, host system, and host properties levels in VCF Operations. Observability is enabled as part of PAIS activation in VCF Automation and is configured by uncommenting the spec.observability.prometheusRuntime section of the PAISConfiguration CR.
+
+PAIS provides the workflow checkpoint, the testing surface, and the monitoring tooling. The interpretation of TEVV results and the viability determination remain organizational decisions made by MLOps engineers and AI leadership.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MANAGE 1.2
+
+> Treatment of documented AI risks is prioritized based on impact, likelihood, and available resources or methods.
+
+**SCF Controls:** AAT-15.1, AAT-15.2, IAO-05, RSK-02.1, RSK-05, RSK-06
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MANAGE 1.3
+
+> Responses to the AI risks deemed high priority, as identified by the MAP function, are developed, planned, and documented. Risk response options can include mitigating, transferring, avoiding, or accepting.
+
+**SCF Controls:** IAO-05, RSK-06.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MANAGE 1.4
+
+> Negative residual risks (defined as the sum of all unmitigated risks) to both downstream acquirers of AI systems and end users are documented.
+
+**SCF Controls:** AAT-15.1, IAO-05, RSK-04.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MANAGE 2.0
+
+> Strategies to maximize AI benefits and minimize negative impacts are planned, prepared, implemented, documented, and informed by input from relevant AI actors.
+
+**SCF Controls:** AAT-07.3, TDA-01, TDA-01.1
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+Continuous improvement of Artificial Intelligence and Autonomous Technologies capabilities is an organizational activity carried out by the teams that build, evaluate, and operate AI workloads. VMware Private AI Services (PAIS) is the AI infrastructure layer of VCF and supplies the platform on which those workloads run; it does not perform the improvement cycle itself. The decision to retrain a model, change a data source, adjust a prompt, or retire a capability is made by the data science, MLOps, and product teams that own the workload, governed by their own internal processes.
+
+PAIS supplies platform mechanisms that workload teams can incorporate into their own improvement cycles. A central model gallery is recommended for managing ML models with consistency across deployment targets. Knowledge bases can be created with linked data sources including Microsoft SharePoint sites and Amazon S3 compatible stores, allowing teams to update the context available to model responses without rebuilding the underlying model. Private AI Services Agent Builder maintains a list of approved tools for use in AI agents when connecting to Model Context Protocol (MCP) servers, giving workload owners a mechanism to add or restrict capabilities over time. PAIS can be installed or updated to later versions independently of the core Supervisor Service, allowing platform-level improvements to ship without a full core update. Controller pod metrics are integrated into observability platforms through Telegraf configuration in the Supervisor instance, so operations teams can feed platform telemetry into their evaluation loops. These are tools that workload teams use; PAIS does not own the improvement decision.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MANAGE 2.1
+
+> Resources required to manage AI risks are taken into account – along with viable non-AI alternative systems, approaches, or methods – to reduce the magnitude or likelihood of potential impacts.
+
+**SCF Controls:** PRM-01, PRM-02, PRM-03, RSK-01.2, RSK-06.2
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MANAGE 2.2
+
+> Mechanisms are in place and applied to sustain the value of deployed AI systems.
+
+**SCF Controls:** AAT-01.3, PRM-01, PRM-07, TDA-01.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MANAGE 2.3
+
+> Procedures are followed to respond to and recover from a previously unknown risk when it is identified.
+
+**SCF Controls:** AAT-17.3, IRO-01, IRO-02, RSK-03, RSK-06.1
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VCF provides technical capabilities that support several phases of the incident handling lifecycle, though the organizational preparation, process governance, and manual intake elements require processes and structures outside the platform.
+
+For preparation, VCF Operations supports the configuration of notification rules with detailed incident field mappings, including incident state, resolution codes, impact, urgency, priority, severity levels, and assignment groups. The ServiceNow Management Pack can be configured with parameters such as callerId, propagateAlertUpdates, retrieveIncidentUpdates, and incidentReopenState, allowing organizations to establish incident handling workflows before events occur. These configuration options allow teams to define how incidents are categorized, prioritized, and routed in advance of any actual incident.
+
+For automated event detection, VCF Operations correlates events from monitored infrastructure components and delivers them as faults. Events are ranked by severity from Info through Warning, Critical, and Immediate, and notification rules trigger actions based on incident state changes. VCF Operations can automatically create incidents in ServiceNow through the Service-Now Notifications plug-in, with structured information including the caller, category, subcategory, and business service. This integration bridges the gap between infrastructure monitoring and organizational incident tracking systems. VCF Operations also combines Diagnostic Findings with VCF Health to detect and predict issues, which helps reduce mean time to resolution. VMware vCenter alarms provide additional automated detection, triggering script execution, SNMP traps, email notifications, or API calls when infrastructure conditions exceed defined thresholds.
+
+For analysis, the Troubleshooting Incident Page displays information related to the entity under investigation, including traffic and flows on the entity, past incidents created for that entity, status, root cause metrics, and closing remarks. Operators can flag metrics and mark specific metrics as root cause during investigation. The Notes section on each incident allows users to add observations that are visible to anyone who opens the session, which supports collaborative analysis across team members. vCenter Events record user and system actions on inventory objects and can be used for forensic analysis and auditing of activity in the virtual environment, providing an audit trail for incident investigation. Diagnostic Findings consolidates log-based and property-based findings with specific resolution recommendations and links to knowledge base articles, helping analysts identify known issues by matching log patterns and property-based signatures against a library of diagnostic rules. Log Assist can generate log bundles and automatically attach property-based diagnostic findings data to support cases. VCF Operations also integrates with ServiceNow, allowing incidents to flow into existing ITSM workflows for structured triage.
+
+For containment, vCenter supports isolating affected workloads through VM power state changes and network reconfiguration. VMware vDefend (a separate product that extends VCF's networking foundation) provides more targeted containment through quarantine policies that automatically isolate VMs based on security events while preserving forensic access for investigation. Physical containment, network isolation decisions, and cross-system coordination during active incidents depend on processes and authority structures that exist outside the platform.
+
+For eradication, VCF Operations maps out-of-the-box workflows to recommendations and associates them with specific alerts, enabling automated remediation of known conditions. Diagnostic Findings helps operators find and resolve known issues using diagnostic rules and signatures, with recommended fixes based on industry-standard best practices.
+
+For recovery, vSphere HA automatically restarts VMs on healthy hosts after a host failure, with admission control policies that reserve capacity for failover. Proactive HA integrates with hardware vendor monitoring to detect degrading components and evacuate workloads before failure occurs. vSphere Fault Tolerance provides continuous availability for workloads that require zero-downtime protection during failover. VCF Operations maintains a summary view of all incidents with status tracking, entity counts for in-progress incidents, and counts of top root causes for visibility into the overall state of incident resolution.
+
+VCF Operations also provides a centralized incident list displaying all incidents with their status and key details, with edit, share, and delete actions for incident lifecycle management. Incident tracking captures state, resolution code, resolution notes, impact (business criticality), urgency (resolution timeframe), priority (resolution sequence), severity level, and approval workflow documentation, which is a structured audit trail for each incident. The Guided Network Troubleshooting feature automatically maintains a list of the 20 most recently modified incidents within a selected scope for continuity across investigation sessions.
+
+While VCF Operations provides tooling for detection, analysis, and remediation of infrastructure incidents, several aspects of the six-phase incident handling lifecycle require organizational processes beyond what the platform provides. Preparation requires documented incident response plans, team roles, and communication procedures. Manual incident report intake requires organizational channels and triage processes. Containment decisions require human judgment and authority structures. A formal incident response program that incorporates VCF's technical capabilities into broader organizational processes is necessary to address all six phases.
+
+#### VMware vDefend (Contributes)
+
+VMware vDefend (VMware vDefend and Advanced Threat Protection) contributes to multiple phases of the incident handling lifecycle through network-layer detection, multi-signal analysis, and automated containment capabilities.
+
+For detection and event intake, Security Intelligence categorizes detected suspicious traffic events by impact type, assigning Critical, High, Medium, or Low severity to help teams prioritize response. Security Intelligence also maps detections to MITRE ATT&CK tactics and techniques and records occurrence counts over configurable time windows, providing the structured event context that analysis workflows require.
+
+For analysis, Malware Prevention generates File Analysis Reports and Process Analysis Reports that detail the types of activities detected during artifact inspection. File Analysis Reports classify detected behaviors across categories including Autostart, Disable, Evasion, File, Memory, Network, Reputation, Settings, Signature, Steal, Stealth, and Silenced, and include an ATT&CK TECHNIQUES field that records observed malicious actions or tools. Process Analysis Reports document in-memory script buffer inspection results and carry an Analyst UUID to track individual inspection events. Malware Prevention Service event logs capture file type, file size, inspection timestamp, client VM ID, submission source, detection status, verdict, and analysis status for each inspected file. The Malware Prevention Dashboard aggregates file and process event details and inspection results for operator review. Network Detection and Response (NDR) Campaign Correlation Rules correlate labeled file and process detections, including AV labels and PCAP matches, with matching IDS events on the same compute, supporting multi-signal analysis during investigation. The Security Services Platform assigns a Security Operator role dedicated to monitoring security systems and responding to security incidents.
+
+For containment and eradication, Intelligent Assist supports remediation by allowing selection of a Targeted Strategy for surgical, focused containment or a Comprehensive Strategy for broader remediation across potentially affected workloads. The Security Segmentation Report's Overview section summarizes inter-environment policies and rules, providing traffic flow context that can inform containment scope. Security Explorer's ratio of detected versus prevented events helps operators assess how effectively controls are operating during active response.
+
+A limitation applies to automated remediation: objects generated during Intelligent Assist or NDR remediation that encounter errors require manual cleanup, so recovery activities may require human intervention beyond automated policy actions. vDefend IDS/IPS also applies a severity-based prioritization under memory pressure, dropping lower-severity events (Low and Informational) first before Medium, High, and Critical, which operators should account for when assessing detection completeness during an investigation.
+
+Preparation and full organizational recovery rely on processes and tooling outside vDefend's scope.
+
+#### VCF Protection and Recovery (Contributes)
+
+VCF Protection and Recovery (PNR) provides technical mechanisms that support the recovery, containment, and detection phases of incident handling through recovery plans, isolated cyber-recovery workflows, structured event logging, and integration with security monitoring platforms.
+
+Recovery plans define ordered procedures for recovering protected workloads at a recovery site, including custom recovery steps. PNR handles custom command failures in recovery plans based on the type of command, allowing operators to control how the plan continues when steps fail. When a disaster event affects the management domain containing VCF Automation and VCF Operations, PNR enables service recovery in another management domain so that users can recover workloads. After execution, PNR provides the ability to view and export reports about each run of a recovery plan, test of a recovery plan, or test cleanup, producing documented evidence for after-action review.
+
+For containment and eradication, the Clean Room Orchestrator enables triage and analysis of recovered workloads in an isolated environment. PNR monitors a global collection of clean room events, tasks, and alarms for recovery operations, with Clean Room Orchestrator events classified at severity levels of Info, Warning, Error, and Emergency. This isolated environment supports analysis of suspect workloads in parallel to site-level recovery actions.
+
+For detection and analysis, PNR logs events and triggers corresponding alarms to track system health, with event records including timestamp, priority level, message content, component name, severity level, configuration ID, component ID, and event type. PNR tracks Site Status events that provide information about the status of protected and recovery sites and the connection between them. PNR can forward Clean Room Orchestrator events to VCF Log Management, Microsoft Sentinel, or Splunk Cloud, supporting integration with broader security monitoring and incident response platforms.
+
+PNR Health findings classify status into Error, Warning, and Info categories and are visible through Protection and Recovery dashboards in VCF Operations. Deployment topology with separate management domains for each region is designed to contain the impact of a disaster event to one particular region, supporting preparation by limiting blast radius.
+
+#### VMware Data Services Manager (Contributes)
+
+VMware Data Services Manager (DSM) contributes to responding to and recovering from previously unknown AI-related risks by providing backup, restore, high availability, and alerting capabilities for the databases that AI workloads depend on. If AI training data or model artifacts stored in DSM-managed databases are compromised by a novel threat, point-in-time recovery allows restoration to a state before the threat materialized, and automated backups with configurable retention provide multiple recovery points. Database replicas with automatic promotion support continued operation when a primary database is affected. For PostgreSQL workloads, multi-site deployment supports cross-site disaster recovery, including controlled redirection of a secondary instance to a new primary after promotion, with explicit acknowledgment of data-loss risk when demoting a previously blocked primary.
+
+DSM emits a structured catalog of global alerts that help operators detect novel issues affecting database services. Alert types include DATABASE_ENGINE_HEALTH_ALERT for database engine outages, read-only mode, or reduced availability; SYSTEM_DISK_HEALTH_ALERT for system disk health; data-disk warning thresholds; and infrastructure policy alerts such as INFRASTRUCTURE_POLICY_ORPHAN_VM_FOUND, INFRASTRUCTURE_POLICY_VC_ALARMS, INFRASTRUCTURE_POLICY_CLUSTER_COMPLIANT, INVALID_SUPERVISOR_INFRASTRUCTURE_POLICY_STATUS, and NetworkOverlap Found. Alerts for database operation failures can be activated or deactivated, and webhooks can be configured to deliver CRITICAL or WARNING alert level information to external response tooling when database parameter thresholds are crossed. Administrators can collect support bundles for the affected cluster to assist in root-cause analysis and recovery.
+
+Identifying novel AI-related risks and developing response and recovery procedures are organizational responsibilities. DSM supplies the technical mechanisms that those response actions act on.
+
+#### VMware Avi Load Balancer (Contributes)
+
+Avi Load Balancer contributes to the incident handling lifecycle by providing application-layer detection, analysis, automated alerting, and recovery capabilities within its role as an application delivery controller.
+
+For preparation, the Controller's alert and event framework supports pre-configured response actions. ControlScripts, defined under Alert Actions in the Controller UI, allow administrators to specify automated responses that fire when defined alert conditions are met. The Alert feature processes system events and metrics against user-defined rules and generates notifications via email, syslog message, or SNMP trap. The Syslog-Audit-Persistence alert action streams audit compliance events to external syslog servers, enabling incident response tooling to receive Avi event data in real time.
+
+For automated event detection, the Controller's System Events Overlay records event codes that provide high-level definitions of system status, including SERVER_HEALTH_DEGRADED, POOL_HEALTH_DEGRADED, and VS_UP. The Avi Service Engine logs events when WAF matches a transaction, and logs audit record failures to Events, Syslog, and Splunk, covering initiation and termination of trusted channels, certificate validation failures, client authentication failures, and SSH session establishment failures. The Application Security Report provides an executive summary alongside WAF statistics, including ranked lists of top attack types such as SQL injection and cross-site scripting, lists of top attacking source IP addresses, and trend summaries of total and flagged request volumes.
+
+For analysis, Avi Service Engine health monitoring records failure details for each monitored server, including failure type, failure count, average response time, and minimum and maximum response times. The Service Engine analytics page displays the list of failed health monitors per server in a pool, enabling investigation of health patterns. WAF Log Analytics supports creation of exceptions at the group or rule level for false positive remediation, enabling more accurate signal analysis during an investigation. Support bundles collect diagnostic data, logs, and configuration information from the system to assist in troubleshooting and resolving issues.
+
+For containment, WAF policies block application-layer requests that match defined rules or anomaly score thresholds, and WAF Policies can attach a Positive Security group to apply learned data and define hit/miss actions for fine-grained control. ControlScripts can trigger automated containment actions in response to alert events.
+
+For recovery, the Avi for VCF rollback procedure supports validation of the operational status of all VIPs and pools, followed by end-to-end health checks on the VS-App environment. GSLB services with the priority algorithm support a manual resume option for controlled failover and recovery management.
+
+The full incident handling program, including organizational preparation procedures, eradication processes for removing attacker footholds across the broader environment, cross-team coordination, and end-to-end recovery governance, requires processes and tooling beyond what Avi provides within its application delivery scope.
+
+### Control MANAGE 2.4
+
+> Mechanisms are in place and applied, and responsibilities are assigned and understood, to supersede, disengage, or deactivate AI systems that demonstrate performance or outcomes inconsistent with intended use.
+
+**SCF Controls:** AAT-15.2, GOV-04.1, IRO-01, IRO-02, RSK-06.1
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VCF provides technical capabilities that support several phases of the incident handling lifecycle, though the organizational preparation, process governance, and manual intake elements require processes and structures outside the platform.
+
+For preparation, VCF Operations supports the configuration of notification rules with detailed incident field mappings, including incident state, resolution codes, impact, urgency, priority, severity levels, and assignment groups. The ServiceNow Management Pack can be configured with parameters such as callerId, propagateAlertUpdates, retrieveIncidentUpdates, and incidentReopenState, allowing organizations to establish incident handling workflows before events occur. These configuration options allow teams to define how incidents are categorized, prioritized, and routed in advance of any actual incident.
+
+For automated event detection, VCF Operations correlates events from monitored infrastructure components and delivers them as faults. Events are ranked by severity from Info through Warning, Critical, and Immediate, and notification rules trigger actions based on incident state changes. VCF Operations can automatically create incidents in ServiceNow through the Service-Now Notifications plug-in, with structured information including the caller, category, subcategory, and business service. This integration bridges the gap between infrastructure monitoring and organizational incident tracking systems. VCF Operations also combines Diagnostic Findings with VCF Health to detect and predict issues, which helps reduce mean time to resolution. VMware vCenter alarms provide additional automated detection, triggering script execution, SNMP traps, email notifications, or API calls when infrastructure conditions exceed defined thresholds.
+
+For analysis, the Troubleshooting Incident Page displays information related to the entity under investigation, including traffic and flows on the entity, past incidents created for that entity, status, root cause metrics, and closing remarks. Operators can flag metrics and mark specific metrics as root cause during investigation. The Notes section on each incident allows users to add observations that are visible to anyone who opens the session, which supports collaborative analysis across team members. vCenter Events record user and system actions on inventory objects and can be used for forensic analysis and auditing of activity in the virtual environment, providing an audit trail for incident investigation. Diagnostic Findings consolidates log-based and property-based findings with specific resolution recommendations and links to knowledge base articles, helping analysts identify known issues by matching log patterns and property-based signatures against a library of diagnostic rules. Log Assist can generate log bundles and automatically attach property-based diagnostic findings data to support cases. VCF Operations also integrates with ServiceNow, allowing incidents to flow into existing ITSM workflows for structured triage.
+
+For containment, vCenter supports isolating affected workloads through VM power state changes and network reconfiguration. VMware vDefend (a separate product that extends VCF's networking foundation) provides more targeted containment through quarantine policies that automatically isolate VMs based on security events while preserving forensic access for investigation. Physical containment, network isolation decisions, and cross-system coordination during active incidents depend on processes and authority structures that exist outside the platform.
+
+For eradication, VCF Operations maps out-of-the-box workflows to recommendations and associates them with specific alerts, enabling automated remediation of known conditions. Diagnostic Findings helps operators find and resolve known issues using diagnostic rules and signatures, with recommended fixes based on industry-standard best practices.
+
+For recovery, vSphere HA automatically restarts VMs on healthy hosts after a host failure, with admission control policies that reserve capacity for failover. Proactive HA integrates with hardware vendor monitoring to detect degrading components and evacuate workloads before failure occurs. vSphere Fault Tolerance provides continuous availability for workloads that require zero-downtime protection during failover. VCF Operations maintains a summary view of all incidents with status tracking, entity counts for in-progress incidents, and counts of top root causes for visibility into the overall state of incident resolution.
+
+VCF Operations also provides a centralized incident list displaying all incidents with their status and key details, with edit, share, and delete actions for incident lifecycle management. Incident tracking captures state, resolution code, resolution notes, impact (business criticality), urgency (resolution timeframe), priority (resolution sequence), severity level, and approval workflow documentation, which is a structured audit trail for each incident. The Guided Network Troubleshooting feature automatically maintains a list of the 20 most recently modified incidents within a selected scope for continuity across investigation sessions.
+
+While VCF Operations provides tooling for detection, analysis, and remediation of infrastructure incidents, several aspects of the six-phase incident handling lifecycle require organizational processes beyond what the platform provides. Preparation requires documented incident response plans, team roles, and communication procedures. Manual incident report intake requires organizational channels and triage processes. Containment decisions require human judgment and authority structures. A formal incident response program that incorporates VCF's technical capabilities into broader organizational processes is necessary to address all six phases.
+
+#### VMware vDefend (Contributes)
+
+VMware vDefend (VMware vDefend and Advanced Threat Protection) contributes to multiple phases of the incident handling lifecycle through network-layer detection, multi-signal analysis, and automated containment capabilities.
+
+For detection and event intake, Security Intelligence categorizes detected suspicious traffic events by impact type, assigning Critical, High, Medium, or Low severity to help teams prioritize response. Security Intelligence also maps detections to MITRE ATT&CK tactics and techniques and records occurrence counts over configurable time windows, providing the structured event context that analysis workflows require.
+
+For analysis, Malware Prevention generates File Analysis Reports and Process Analysis Reports that detail the types of activities detected during artifact inspection. File Analysis Reports classify detected behaviors across categories including Autostart, Disable, Evasion, File, Memory, Network, Reputation, Settings, Signature, Steal, Stealth, and Silenced, and include an ATT&CK TECHNIQUES field that records observed malicious actions or tools. Process Analysis Reports document in-memory script buffer inspection results and carry an Analyst UUID to track individual inspection events. Malware Prevention Service event logs capture file type, file size, inspection timestamp, client VM ID, submission source, detection status, verdict, and analysis status for each inspected file. The Malware Prevention Dashboard aggregates file and process event details and inspection results for operator review. Network Detection and Response (NDR) Campaign Correlation Rules correlate labeled file and process detections, including AV labels and PCAP matches, with matching IDS events on the same compute, supporting multi-signal analysis during investigation. The Security Services Platform assigns a Security Operator role dedicated to monitoring security systems and responding to security incidents.
+
+For containment and eradication, Intelligent Assist supports remediation by allowing selection of a Targeted Strategy for surgical, focused containment or a Comprehensive Strategy for broader remediation across potentially affected workloads. The Security Segmentation Report's Overview section summarizes inter-environment policies and rules, providing traffic flow context that can inform containment scope. Security Explorer's ratio of detected versus prevented events helps operators assess how effectively controls are operating during active response.
+
+A limitation applies to automated remediation: objects generated during Intelligent Assist or NDR remediation that encounter errors require manual cleanup, so recovery activities may require human intervention beyond automated policy actions. vDefend IDS/IPS also applies a severity-based prioritization under memory pressure, dropping lower-severity events (Low and Informational) first before Medium, High, and Critical, which operators should account for when assessing detection completeness during an investigation.
+
+Preparation and full organizational recovery rely on processes and tooling outside vDefend's scope.
+
+#### VCF Protection and Recovery (Contributes)
+
+VCF Protection and Recovery (PNR) provides technical mechanisms that support the recovery, containment, and detection phases of incident handling through recovery plans, isolated cyber-recovery workflows, structured event logging, and integration with security monitoring platforms.
+
+Recovery plans define ordered procedures for recovering protected workloads at a recovery site, including custom recovery steps. PNR handles custom command failures in recovery plans based on the type of command, allowing operators to control how the plan continues when steps fail. When a disaster event affects the management domain containing VCF Automation and VCF Operations, PNR enables service recovery in another management domain so that users can recover workloads. After execution, PNR provides the ability to view and export reports about each run of a recovery plan, test of a recovery plan, or test cleanup, producing documented evidence for after-action review.
+
+For containment and eradication, the Clean Room Orchestrator enables triage and analysis of recovered workloads in an isolated environment. PNR monitors a global collection of clean room events, tasks, and alarms for recovery operations, with Clean Room Orchestrator events classified at severity levels of Info, Warning, Error, and Emergency. This isolated environment supports analysis of suspect workloads in parallel to site-level recovery actions.
+
+For detection and analysis, PNR logs events and triggers corresponding alarms to track system health, with event records including timestamp, priority level, message content, component name, severity level, configuration ID, component ID, and event type. PNR tracks Site Status events that provide information about the status of protected and recovery sites and the connection between them. PNR can forward Clean Room Orchestrator events to VCF Log Management, Microsoft Sentinel, or Splunk Cloud, supporting integration with broader security monitoring and incident response platforms.
+
+PNR Health findings classify status into Error, Warning, and Info categories and are visible through Protection and Recovery dashboards in VCF Operations. Deployment topology with separate management domains for each region is designed to contain the impact of a disaster event to one particular region, supporting preparation by limiting blast radius.
+
+#### VMware Avi Load Balancer (Contributes)
+
+Avi Load Balancer contributes to the incident handling lifecycle by providing application-layer detection, analysis, automated alerting, and recovery capabilities within its role as an application delivery controller.
+
+For preparation, the Controller's alert and event framework supports pre-configured response actions. ControlScripts, defined under Alert Actions in the Controller UI, allow administrators to specify automated responses that fire when defined alert conditions are met. The Alert feature processes system events and metrics against user-defined rules and generates notifications via email, syslog message, or SNMP trap. The Syslog-Audit-Persistence alert action streams audit compliance events to external syslog servers, enabling incident response tooling to receive Avi event data in real time.
+
+For automated event detection, the Controller's System Events Overlay records event codes that provide high-level definitions of system status, including SERVER_HEALTH_DEGRADED, POOL_HEALTH_DEGRADED, and VS_UP. The Avi Service Engine logs events when WAF matches a transaction, and logs audit record failures to Events, Syslog, and Splunk, covering initiation and termination of trusted channels, certificate validation failures, client authentication failures, and SSH session establishment failures. The Application Security Report provides an executive summary alongside WAF statistics, including ranked lists of top attack types such as SQL injection and cross-site scripting, lists of top attacking source IP addresses, and trend summaries of total and flagged request volumes.
+
+For analysis, Avi Service Engine health monitoring records failure details for each monitored server, including failure type, failure count, average response time, and minimum and maximum response times. The Service Engine analytics page displays the list of failed health monitors per server in a pool, enabling investigation of health patterns. WAF Log Analytics supports creation of exceptions at the group or rule level for false positive remediation, enabling more accurate signal analysis during an investigation. Support bundles collect diagnostic data, logs, and configuration information from the system to assist in troubleshooting and resolving issues.
+
+For containment, WAF policies block application-layer requests that match defined rules or anomaly score thresholds, and WAF Policies can attach a Positive Security group to apply learned data and define hit/miss actions for fine-grained control. ControlScripts can trigger automated containment actions in response to alert events.
+
+For recovery, the Avi for VCF rollback procedure supports validation of the operational status of all VIPs and pools, followed by end-to-end health checks on the VS-App environment. GSLB services with the priority algorithm support a manual resume option for controlled failover and recovery management.
+
+The full incident handling program, including organizational preparation procedures, eradication processes for removing attacker footholds across the broader environment, cross-team coordination, and end-to-end recovery governance, requires processes and tooling beyond what Avi provides within its application delivery scope.
+
+Not applicable for this control: VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of this product.
+
+### Control MANAGE 3.0
+
+> AI risks and benefits from third-party entities are managed.
+
+**SCF Controls:** RSK-09, RSK-09.2, TPM-01, TPM-08
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) addresses AI-related supply chain risks through a Harbor registry architecture that controls how third-party AI software and container images enter the deployment environment. PAIS uses a Harbor registry service on the Supervisor to store validated ML models and can also integrate with OCI-compliant registries from other vendors, and PAIS artifacts are uploaded to an allocated Harbor project as part of the installation process. AI workload platforms can be deployed in connected or disconnected (air-gapped) environments. In a disconnected environment, PAIS requires additional setup steps for appliances and local resource provisioning, with container images and model artifacts manually downloaded and staged in the local Harbor registry, allowing the organization to inspect and approve content before it reaches the production environment.
+
+The NVIDIA GPU Operator enforces image pull authentication through registry secrets for all container images deployed in a disconnected PAIS environment, restricting GPU operator components to authenticated registry sources. Model Runtime endpoints reference OCI container images for models via the spec.model.ociRef property and support optional image pull secrets (pullSecrets) for private OCI registries requiring authentication, restricting model serving sources to authenticated registries. Deep Learning VMs communicate with the nvcr.io container registry over HTTPS for image authentication and download, and the oras login command authenticates to private Harbor registries using username and password credentials for subsequent image operations.
+
+For ML model supply chain integrity, MLOps engineers validate ML models onboarded to PAIS against organizational security, privacy, and technical requirements. Model files are validated for integrity by checking hash codes, scanned for malware, scanned for serialization attacks, and tested for correct inference behavior using Triton Inference Server as part of the sandbox validation process in Deep Learning VMs. This validate-then-publish workflow supports organizational review of third-party models before they reach production workloads.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MANAGE 3.1
+
+> AI risks and benefits from third-party resources are regularly monitored, and risk controls are applied and documented.
+
+**SCF Controls:** IAO-05, RSK-09.1, RSK-09.2, TPM-04.1, TPM-08
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) addresses AI-related supply chain risks through a Harbor registry architecture that controls how third-party AI software and container images enter the deployment environment. PAIS uses a Harbor registry service on the Supervisor to store validated ML models and can also integrate with OCI-compliant registries from other vendors, and PAIS artifacts are uploaded to an allocated Harbor project as part of the installation process. AI workload platforms can be deployed in connected or disconnected (air-gapped) environments. In a disconnected environment, PAIS requires additional setup steps for appliances and local resource provisioning, with container images and model artifacts manually downloaded and staged in the local Harbor registry, allowing the organization to inspect and approve content before it reaches the production environment.
+
+The NVIDIA GPU Operator enforces image pull authentication through registry secrets for all container images deployed in a disconnected PAIS environment, restricting GPU operator components to authenticated registry sources. Model Runtime endpoints reference OCI container images for models via the spec.model.ociRef property and support optional image pull secrets (pullSecrets) for private OCI registries requiring authentication, restricting model serving sources to authenticated registries. Deep Learning VMs communicate with the nvcr.io container registry over HTTPS for image authentication and download, and the oras login command authenticates to private Harbor registries using username and password credentials for subsequent image operations.
+
+For ML model supply chain integrity, MLOps engineers validate ML models onboarded to PAIS against organizational security, privacy, and technical requirements. Model files are validated for integrity by checking hash codes, scanned for malware, scanned for serialization attacks, and tested for correct inference behavior using Triton Inference Server as part of the sandbox validation process in Deep Learning VMs. This validate-then-publish workflow supports organizational review of third-party models before they reach production workloads.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MANAGE 3.2
+
+> Pre-trained models which are used for development are monitored as part of AI system regular monitoring and maintenance.
+
+**SCF Controls:** AAT-16.7
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) provides mechanisms for validating the source and quality of pre-trained models before they enter the deployment pipeline. Models must be downloaded into a Deep Learning VM from trusted sources such as the NVIDIA NGC catalog, Hugging Face, or another model hub before validation. Inside the Deep Learning VM, the validation workflow performs integrity verification through hash code checking, malware scanning, serialization attack scanning, and inference testing with the Triton Inference Server. MLOps engineers validate onboarded models against the security, privacy, and technical requirements of the organization, and the documentation recommends distributing internally validated models from a central gallery rather than pulling models directly from the internet, which can carry malicious code or be tuned for malicious behavior.
+
+After validation, models are uploaded to the PAIS Model Gallery, which stores ML models that can be referenced by URL for deployment on CPU or GPU infrastructure. The Model Gallery sits behind a Harbor registry service running in the Supervisor and supports OCI-compliant registries from other vendors for connected and disconnected environments. Access to the Harbor registry requires authentication and certificate-based trust for model retrieval, which restricts access to the validated model store. The vcf pais commands support automated CI/CD upload of validated models for MLOps pipelines and provide a consistent mechanism for promoting models from validation to publication.
+
+PAIS Model Runtime serves validated models as Model Endpoints paired with inference engines such as vLLM, llama.cpp, or Infinity, and the endpoints are reachable through the PAIS REST API or through agents in Agent Builder in VCF Automation. The guidance recommends A/B testing between embedding models in real-world settings to compare performance, and MLOps engineers and application developers can perform monitoring and diagnostics through observability platforms such as Grafana to track the health, quality, and behavior of AI applications running on PAIS, supporting ongoing quality validation after a model has been admitted to production.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MANAGE 4.0
+
+> Risk treatments, including response and recovery, and communication plans for the identified and measured AI risks are documented and monitored regularly.
+
+**SCF Controls:** IAO-03, IAO-05, IRO-04, RSK-06, RSK-06.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MANAGE 4.1
+
+> Post-deployment AI system monitoring plans are implemented, including mechanisms for capturing and evaluating input from users and other relevant AI actors, appeal and override, decommissioning, incident response, recovery, and change management.
+
+**SCF Controls:** AAT-10.13, AAT-11.1, AAT-11.2, AAT-11.3
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VCF contributes to post-deployment monitoring of AI workloads through VCF Operations, which provides continuous health, performance, and capacity monitoring for the infrastructure hosting those workloads. VCF Operations dashboards surface CPU, memory, storage, and network metrics for VMs running AI workloads. VCF Log Management aggregates and analyzes log data from VMware vCenter, VMware ESX, and NSX components. vCenter alarms provide threshold-based alerting for infrastructure conditions that could affect AI workload availability.
+
+For AI workloads running as containerized applications on VMware Kubernetes Service (VKS) clusters, the platform extends infrastructure-level observability to the Kubernetes layer. VKS clusters provisioned with the automated-monitoring label automatically receive monitoring configuration on each new node, integrating cluster telemetry with VCF Operations. The Prometheus standard package, installable on VKS clusters through the Supervisor Management Proxy Service, deploys kube-state-metrics, node-exporter, pushgateway, Prometheus, and Alertmanager as components. The prometheus-kube-state-metrics component monitors node status and capacity, ReplicaSet compliance, pod status, job and CronJob status, and resource requests and limits, providing continuous metric collection that can be directed at AI inference services or training job pods. Telegraf is available as a standard package that deploys as a Deployment component to scrape metrics from kube-state-metrics and node-exporter and forward them to external observability backends. Monitoring and alerting for Kubernetes deployments is also available through the Argo CD Supervisor Service using Grafana Operator and Prometheus.
+
+Kubernetes-native health probes and status tracking support workload condition detection at the pod level. Liveness and readiness probes can be configured on AI workload containers to detect unresponsive or overloaded model serving instances; a readiness probe removes the pod from service routing when it cannot handle requests, and a liveness probe triggers a container restart when the application becomes unresponsive. The Kubernetes Deployment controller continuously monitors running application instances and automatically replaces instances when nodes fail or are removed from service, providing a self-healing mechanism that addresses machine failure or maintenance. Kubernetes DeploymentStatus exposes observedGeneration and conditions fields with type, status, lastTransitionTime, and reason values, allowing operators to detect rollout failures, stuck deployments, or configuration drift from the expected specification. VKS cluster management proactively monitors the cluster estate to verify that assigned policies are enforced correctly, and generates Policy Insights when configuration conflicts or environmental errors are detected.
+
+For organizations using Harness CI/CD on VKS, Dynatrace integration provides full-stack observability including application performance monitoring, infrastructure monitoring, and digital experience monitoring. The Dynatrace operator automates deployment, scaling, and maintenance of the monitoring stack within VKS clusters, and automatically correlates application deployment service metrics with underlying VKS infrastructure including nodes, pods, and the network. The Dynatrace AI engine detects anomalies, identifies root causes, and provides intelligent alerts. Harness SRM monitors deployed services post-deployment to calculate a real-time health score based on transaction success and latency.
+
+The VCF Automation Monitor tab provides deployment health information drawn from VCF Operations, and deployment cards in the self-service catalog surface deployment state, last request status, and operational history for workload deployments. AI-specific behavior monitoring (model accuracy drift, output quality) requires application-level tooling outside VCF's scope.
+
+VMware Private AI Services (PAIS) provides AI-specific monitoring mechanisms that support continuous post-deployment observation of AI workloads on VCF.
+
+At the PAIS layer, observability is activated by updating the PAISConfiguration custom resource with parameters that enable metrics collection and forward large language model traces to an OpenTelemetry Collector. PAIS deploys a Prometheus server pod for metrics collection that must be ready and running for observability to function, configured with a chosen storage class and a configurable metrics retention period. PAIS controller pod metrics are integrated into observability platforms through Telegraf configuration in the Supervisor instance, and the telegraf-user-config ConfigMap in the vmware-system-monitoring namespace manages user-configured monitoring endpoints for PAIS. The PAIS Supervisor Service exposes service-level metrics through pais.vmware.com that VI administrators access to monitor the health of the service.
+
+DevOps engineers visualize PAIS health and performance metrics in observability platforms such as Grafana, where dashboards report pod restart frequency, vGPU licensing status, and idle or underutilized GPU devices in passthrough mode. VI administrators visualize PAIS controller pod operation metrics in VCF Operations using the same metrics pipeline. MLOps engineers and application developers track the health, quality, and behavior of AI applications and the models used in agents through Grafana, supporting continuous observation of inference behavior. Model Endpoint deployment status can be verified using the kubectl get modelendpoints command, which returns the Ready status for each deployed endpoint, and the vcf cluster command-line interface provides cluster provisioning monitoring, registration, and kubeconfig retrieval for VKS clusters that host AI workloads. PAIS deployment leases can be configured to bound how long a deployment can exist, supporting lifecycle oversight of catalog-deployed AI workloads.
+
+Enabling these observability features, defining retention and alerting policy, and acting on monitoring signals are organizational process responsibilities. PAIS provides the monitoring infrastructure and integration points, but continuous post-deployment monitoring as a practice requires the organization to assign operational ownership, review observability data on an ongoing basis, and respond to anomalies in AI workload behavior.
+
+#### VMware vDefend (Contributes)
+
+VMware vDefend (vDefend) contributes to proactive and continuous monitoring of deployed AI workloads running on VCF through multiple layers of ongoing network-level security monitoring.
+
+Security Intelligence continuously monitors for new flows between environments and alerts administrators to unauthorized or unexpected traffic, enabling ongoing policy adjustments as workloads evolve. It also monitors infrastructure services to detect newly deployed servers. A classification cron job runs automatically at 2:00 AM local time and repeats every 24 hours, evaluating traffic flows from the preceding 30 days to classify compute entities providing network infrastructure services. When the Recommendations Monitoring feature is enabled, Security Intelligence checks every hour for changes in the scope of monitored entities, allowing policy recommendations to remain current as AI workloads change. The Security Intelligence Flow Insights Dashboard supports detection and display of MITRE ATT&CK framework tactics and techniques, showing counts of detected suspicious events per tactic and technique during a selected time period.
+
+Segmentation Monitoring provides dedicated views for environment-level traffic flows, accessible through the Monitor & Plan interface. Administrators can monitor traffic between configured environment pairs, view flows related to detected infrastructure servers within specified time intervals, and export all unique flows to a CSV file for offline analysis or compliance evidence. The Environments monitoring window provides assessment of current security posture and enables improvement actions for environment pairs. When no protection policy is configured for an environment pair, Segmentation Monitoring offers a Run Recommendations option to generate policy recommendations, closing monitoring gaps around AI workloads.
+
+The Security Services Platform (SSP) collects metrics to monitor the readiness and performance of vDefend IDS/IPS in the environment. IDS/IPS engine statistics accessible per host include uptime, alert count, suppressed alerts, alert queue overflow status, engine ID, and last reload timestamp. IDS/IPS monitoring dashboards can be scoped to custom projects, displaying events triggered for that project only. For bare metal deployments, Bare Metal Agents stream metrics and detailed host-level telemetry to the SSP. The NDR Sensor periodically checks the status of activated features on the SSP every 15 minutes and updates its configuration accordingly.
+
+Intelligent Assist provides AI-assisted analysis within the NSX Manager UI and SSP UI, displaying on the IDS/IPS, Detections, and Campaigns pages to help administrators interpret monitoring data.
+
+Malware Prevention Service provides deployment status monitoring at the cluster level and per-node level, displaying deployment errors and individual transport node status. Network Detection and Response (NDR) applies behavioral analysis to detect suspicious activity targeting monitored workloads and correlates events into campaigns for investigation.
+
+Monitoring AI system functionality at the application layer, including model performance, output quality, and behavioral drift, is outside vDefend's domain.
+
+Not applicable for this control: VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MANAGE 4.2
+
+> Measurable activities for continual improvements are integrated into AI system updates and include regular engagement with interested parties, including relevant AI actors.
+
+**SCF Controls:** AAT-10.14
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VCF provides the deployment and update infrastructure that organizations use to integrate continual improvements into AI and machine learning workloads through VMware Kubernetes Service (VKS) and vSphere Supervisor.
+
+Kubernetes Deployments, available natively through VKS, provide declarative update semantics for containerized workloads. When a Deployment specification is updated, the Deployment controller terminates existing Pods and creates new Pods conforming to the updated specification, enabling rolling updates without service interruption. This model allows organizations to push new AI model versions, updated inference containers, or changed configurations by modifying the Deployment manifest. The Deployment resource supports revision history, giving teams the ability to revert to a prior version if an updated model degrades in production.
+
+For stateful AI components, VKS supports Kubernetes StatefulSets with configurable update strategies. The .spec.updateStrategy field accepts a RollingUpdate type, which is the default and implements automated rolling updates for containers, labels, resource requests and limits, and annotations across the Pods in a StatefulSet. This allows organizations to update stateful inference or serving workloads through the same controlled rollout mechanism used for stateless Deployments.
+
+For teams that use CI/CD pipelines, VKS supports both Harness and Argo CD as deployable Supervisor Services. A Harness CI/CD pipeline deployed on a VKS cluster automates Docker image creation, pushing to a container registry, updating Helm charts, and rolling out deployments to VKS clusters. Harness also orchestrates deployment by pulling the latest images from artifact stores such as Artifactory, applying Infrastructure-as-Code changes, and updating application configurations. Argo CD provides equivalent pipeline automation: Docker image creation, registry push, Helm chart update, and rolling deployment to Kubernetes clusters. Either pipeline can be configured to trigger on new model artifacts or code changes, providing a structured path from training output to deployed workload.
+
+VKS clusters support a rolling update model that can be initiated by changing the cluster specification or through system operations. VKS rolling updates proceed through three stages: updating add-ons, updating the control plane, and updating the worker nodes. During an update, VKS upgrades all control plane nodes first, then worker nodes. Changes to the Content Library hosting VKS cluster images can also trigger rolling updates of the clusters.
+
+Harbor, available as a Supervisor Service, provides a private container image registry organized by vSphere Namespace. After Harbor is installed and integrated with the Supervisor, all VKS clusters on the same Supervisor automatically trust Harbor and can pull container images from it. Harbor can also be deployed as a standard package on individual VKS clusters. Harbor instances can be configured, deployed to additional regions, or have service properties changed through the VCF Automation Provider Management Portal, which allows centralized management of the registry across the environment.
+
+For organizations managing AI workloads deployed as virtual machines through VCF Automation, day-2 updates to deployed resources are available through the Resources > Deployments interface, where administrators can modify resource properties after initial deployment. Organizations should note that policy conflicts in VKS Cluster Management Policies may prevent automated lifecycle updates in VCF Automation, so policy consistency should be verified before relying on automated update mechanisms.
+
+VCF contributes to this control by supplying the deployment, update, and pipeline infrastructure that enables AI workload improvement cycles. The organizational components required to fully satisfy this control include: a defined process for validating AI model improvements before promotion to production, monitoring of deployed model behavior and performance, governance over which model versions are authorized for deployment, and procedures for triggering updates in response to observed model drift or performance degradation. These organizational processes operate above the platform layer and must be implemented by the organization using the platform.
+
+VMware Private AI Services (PAIS) provides infrastructure-level mechanisms that help organizations integrate continual improvements for deployed AI workloads. PAIS is installed as a separate package from core VCF functionality, and PAIS versions can be installed or updated to later versions independently of the core product after the foundation release. New PAIS versions can be deployed on existing Supervisors of a workload domain, so improvements to the AI infrastructure layer can be delivered without coordinating a core platform update.
+
+AI catalog items added to VCF Automation through the Private AI Services Quickstart are the delivery vehicle for refreshed AI workload templates. As Deep Learning VM and VKS cluster definitions change, updated catalog items can be republished through the Quickstart, with required images uploaded in advance to a Harbor registry in disconnected environments. PAIS is compatible with Harbor and other OCI-compliant registries, and PAIS setup supports both connected and disconnected air-gapped deployment modes, so update workflows can be aligned with the connectivity posture of the environment. Deployment leases can be created to control how long a PAIS deployment exists, providing a lifecycle boundary that supports replacing older AI workloads with updated ones.
+
+A central model gallery is used for machine learning models in PAIS and provides centralized management and consistency across deployment targets. As models are revised, the gallery is the single point from which updated models are made available to deployed completion and embedding model endpoints, and deployed models continue to be accessible over the PAIS REST API and through Agent Builder for generative AI applications. PAIS Agent Builder maintains a list of approved tools for use in AI agents that connect to Model Context Protocol (MCP) servers, and PAIS integrates with MCP servers to extend AI model capabilities through specialized data and external tools. The capabilities available to deployed AI applications can be updated by adjusting the approved-tools list and MCP integrations without redeploying the underlying models.
+
+The decision to update, the acceptance criteria for an improvement, and the approval workflow for promoting changes into deployed AI applications are organizational activities that the platform supports rather than replaces.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MANAGE 4.3
+
+> Incidents and errors are communicated to relevant AI actors, including affected communities. Processes for tracking, responding to, and recovering from incidents and errors are followed and documented.
+
+**SCF Controls:** AAT-11.4, IRO-10
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 1.0
+
+> Context is established and understood.
+
+**SCF Controls:** AAT-03, PRM-06
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 1.1
+
+> Intended purposes, potentially beneficial uses, contextspecific laws, norms and expectations, and prospective settings in which the AI system will be deployed are understood and documented. Considerations include: the specific set or types of users along with their expectations; potential positive and negative impacts of system uses to individuals, communities, organizations, society, and the planet; assumptions and related limitations about AI system purposes, uses, and risks across the development or product AI lifecycle; and related TEVV and system metrics.
+
+**SCF Controls:** AAT-03, AAT-04, PRM-06, RSK-08, RSK-10
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 1.2
+
+> Interdisciplinary AI actors, competencies, skills, and capacities for establishing context reflect demographic diversity and broad domain and user experience expertise, and their participation is documented. Opportunities for interdisciplinary collaboration are prioritized.
+
+**SCF Controls:** AAT-08, AAT-13, HRS-03.2
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 1.3
+
+> The organization’s mission and relevant goals for AI technology are understood and documented.
+
+**SCF Controls:** AAT-03.1, GOV-08, PRM-01.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 1.4
+
+> The business value or context of business use has been clearly defined or – in the case of assessing existing AI systems – re-evaluated.
+
+**SCF Controls:** AAT-03, AAT-03.1, PRM-06
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 1.5
+
+> Organizational risk tolerances are determined and documented.
+
+**SCF Controls:** RSK-01.3
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 1.6
+
+> System requirements (e.g., “the system shall respect the privacy of its users”) are elicited from and understood by relevant AI actors. Design decisions take socio-technical implications into account to address AI risks.
+
+**SCF Controls:** AAT-14, PRI-01, PRI-05.4, PRM-05
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 2.0
+
+> Categorization of the AI system is performed.
+
+**SCF Controls:** AST-31, AST-31.1
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VCF provides several mechanisms for categorizing technology assets, applications, and services across its management stack, though a complete asset categorization program requires organizational policies to define taxonomies and govern their consistent application.
+
+Within vSphere, administrators can apply tags as metadata labels to managed objects such as virtual machines, hosts, datastores, and networks. Tags are organized into categories, where each category defines the associable object types and cardinality (whether single or multiple tags can be applied). Multiple tags from different categories can be applied to a single object, enabling multi-dimensional classification. The vSphere Tagging API provides Category, Tag, and TagAssociation classes to create, manage, and associate tags programmatically, and tags created through the API are visible and manageable in the vSphere Client. Access to the tagging system is governed by dedicated vSphere RBAC privileges, including InventoryService.Tagging.CreateCategory, EditCategory, ObjectAttachable, and AttachTag, which allow organizations to restrict who can define tag categories, modify them, and assign tags to inventory objects. Tag-based policies drive workload placement, storage profile assignment, and compute policy enforcement, making tags a functional part of infrastructure governance rather than just labels. Compute policies rely on tags to identify inventory objects on which to enforce a policy, and tag-based storage profiles allow administrators to define storage requirements based on tag metadata associated with datastores. vSphere also provides folders for hierarchical organization of VMs and templates, and resource pools for grouping compute allocations.
+
+VCF Operations extends categorization with a flexible object tagging system. Each tag type can hold multiple tag values, enabling multi-dimensional categorization schemes. Predefined object tags are available out of the box, and administrators can create custom object tags when the predefined set does not meet their needs. These tags make it straightforward to find, group, and filter objects across the managed environment. VCF Operations also automatically generates Object Type Classification and Subclassification properties for every managed object, with property values such as ADAPTER_INSTANCE, GROUP, BUSINESS_SERVICE, TIER, or GENERAL. This built-in classification provides a baseline categorization layer without manual effort. Commonly used object group types, including World, Environment, and Licensing, organize groups of objects into logical categories.
+
+For application-level categorization, VCF Operations supports Business Applications, which are groups of related objects that model an application within the business and support mapping application-to-application relationships. The Object Summary card for a Business Application displays attributes including Source, Application Tag, Environment, and Business Criticality, giving administrators a structured view of each application's classification. The Policy Workspace further supports filtering by Object Type, enabling category-aware policy management.
+
+VCF Automation adds another layer of categorization through its organizational model. Organizations consume resources from a shared pool, and those resources can be further allocated to projects, which are logical representations of application teams consisting of users, groups, and the resource pools they are entitled to. Within a VCF Automation organization, projects serve as grouping objects to isolate administrative concerns and establish clear resource boundaries for different teams. Tags in VCF Automation can be used as constraints to associate resources with specific projects or images, and organizations are encouraged to create tags that categorize networking options and accommodate applicable resource types. This tag-based constraint system supports categorization-driven resource placement and access decisions. Custom categories can also be defined and linked to catalog items, supporting a self-service model where resources are organized by type and purpose. Catalog items include blueprints, VM images, storage, networks, and other infrastructure resources that are scoped to projects and available for self-service deployment. The VCF Automation Resources tab supports filtering deployed resources by attributes such as project, cloud type, and origin, enabling project-scoped inventory queries across both deployed and discovered assets.
+
+The Tenant Portal provides catalog consumers with a resource management interface that supports filtering by project and other attributes, searching by name or values, and executing day-2 actions specific to resource type and state. The resources visible in VCF Automation inventory views depend on the rights and project roles assigned to the user, so project-based categorization also functions as an access-control boundary.
+
+Within the VMware Kubernetes Service (VKS) layer of VCF, Kubernetes-native labeling provides a structured mechanism for classifying workloads. The standard app.kubernetes.io label schema defines a taxonomy for workload classification: app.kubernetes.io/name identifies the application name, app.kubernetes.io/instance distinguishes individual instances, app.kubernetes.io/version records the current version, app.kubernetes.io/component describes the role of the component within an application, app.kubernetes.io/part-of indicates the higher-level system a component belongs to, and app.kubernetes.io/managed-by records what tool manages the resource. Applying these labels consistently across Deployments, Services, and other API objects creates a queryable classification system that supports inventory, reporting, and access control decisions. Label selectors filter queried resource lists by their label values, enabling targeted retrieval of categorized workload sets. vSphere namespaces provide a first-level grouping of workloads and services at the cluster level; each namespace can represent a team, application, environment, or business unit, and resource quotas and limit ranges can be applied per namespace to reflect the relative importance or risk classification of the workloads within it.
+
+Custom Resource Definitions (CRDs) expose a names.categories field that publishes grouped resource classifications in API discovery documents. When CRDs are defined with appropriate categories, administrators can retrieve all resources in a category using a single kubectl command, making it easier to enumerate workloads by type. The acceptedNames.categories field reflects the accepted category groupings after name conflict resolution, and these classifications appear in API discovery documents accessible to tooling and auditors.
+
+For hardware device resources, Kubernetes DeviceClasses define categories of devices that workloads can request through ResourceClaims. Device drivers publish resource properties via ResourceSlices, and DeviceClass resources collect related devices under a named category, allowing workloads to request a class of resource rather than a specific device instance.
+
+Container image assets are organized through Harbor Registry projects, which group container images by team, application, or environment, creating a categorization layer for the container supply chain that feeds VKS workloads.
+
+NSX provides application-level classification through its Inventory capabilities, which include App IDs for identifying and categorizing network traffic by application type. App IDs support classification of traffic types including File Transfer, Web Services, Messaging, Streaming Media, VPN and Tunneling, and Networking.
+
+These categorization capabilities are native to VCF and operate across its management stack. However, maintaining a consistent categorization taxonomy, aligning it with organizational asset management processes, establishing procedures for assigning categories to new and existing assets, periodically reviewing categorization accuracy, and covering assets outside the VCF environment require additional governance and potentially external CMDB or asset management tools.
+
+VMware Private AI Services (PAIS) contributes to asset categorization by providing a structured taxonomy of AI workload types through its integration with VCF Automation. The Private AI Services Quickstart creates named catalog items in VCF Automation that represent distinct categories of AI applications, including AI Workstation, DSM Database, Triton Inferencing Server, and AI Kubernetes Cluster. These named catalog items act as predefined AI asset categories that organizations can use when building and maintaining a technology asset inventory. Each catalog item is backed by a blueprint that can be viewed in VCF Automation under Build & Deploy > Content Hub > Blueprint Design > Blueprints, providing a structured artifact definition for each AI workload type.
+
+Catalog items are organized by the intended user role. VCF Automation presents self-service catalog items segmented for DevOps engineers, data scientists, and MLOps engineers, providing a functional classification that aligns PAIS services with the teams that consume them. Data scientists use deep learning catalog items to deploy deep learning VMs, while DevOps engineers use catalog items to provision AI-ready VKS clusters. Access and deployment scope is controlled through VCF Automation organization namespaces in which Private AI Services is activated.
+
+PAIS exposes distinct service component categories that organizations can use to classify AI services by function. The Data Indexing and Retrieval component connects to and indexes data from multiple sources for use in knowledge bases that support contextual search in RAG applications. Model Endpoints separate completion models from embedding models as distinct deployable categories, with embedding models further classified by application goal such as semantic similarity, classification, or retrieval. Knowledge bases classify indexed content by media type, maintaining document counts per type including PDF and PPTX. The PAIS Controller is surfaced as its own integration target in VCF Operations under Operate > Inventory > Integrations > vSphere Supervisor.
+
+For ML models stored through PAIS, the Model Gallery records model metadata in Open Container Initiative (OCI) format that describes model contents and dependencies, enabling identification of the platforms that can run a given model. The Model Gallery applies Harbor project access controls to restrict access to sensitive data used to train and tune models, allowing model assets to be partitioned by sensitivity in addition to type.
+
+#### VMware vDefend (Contributes)
+
+VMware vDefend provides asset categorization capabilities through the Security Services Platform, which organizes workloads and infrastructure into a structured hierarchy for security policy enforcement.
+
+The Security Services Platform (SSP) classifies inventory assets into a five-level hierarchy: region, zone, environment, application, and application tier. The Segmentation Hierarchy and Infrastructure Services view displays this hierarchy across the entire inventory, listing the total number of assets at each scope. SSP identifies and publishes application assets, classifying them as either critical or regular applications, which allows security policies to differentiate based on business importance.
+
+Two configuration settings govern how SSP derives asset categorization from tagged metadata. The Asset Delimiter setting defines how the hierarchy is derived from delimited tags during application discovery; the default value is an underscore, with options to select a period or hyphen. The Asset Prefix setting adds a configurable prefix to asset names during segmentation planning, monitoring, or policy recommendation, with a default of an empty string for application discovery. These settings allow organizations to align asset hierarchy derivation with existing naming conventions.
+
+The Platform Inventory view organizes monitored assets into Regions and Zones and collects VM tags with their respective scopes for asset tracking and classification. Inventory filtering by name and status allows administrators to locate specific assets and identify those that are timed out or out of sync. The Publish Inventory Assets tab shows infrastructure asset details drawn from imported CSV files, discovered services, or published infrastructure assets, including asset names, types, total IP address counts, and VM counts. Segmentation analysis displays mapped VMs, segments, DVPG (Distributed Virtual Port Group), and IP addresses, with the ability to view asset names and associated asset types for each.
+
+Security Intelligence, integrated within the Security Services Platform, organizes assets into collections that include groups, infrastructure assets, environments, applications, and application tiers. Using consistent naming conventions when preparing inventory data for segmentation planning supports accurate categorization within these asset collections.
+
+These mechanisms are scoped to network security asset organization. Full technology asset, application, and service categorization for the broader organization requires governance processes, naming conventions, and asset management tooling beyond what vDefend provides.
+
+#### VCF Protection and Recovery (Contributes)
+
+VCF Protection and Recovery (PNR) contributes to asset categorization through several DR-specific mechanisms that organize virtual machines, storage resources, and recovery configurations according to their disaster recovery attributes.
+
+Protection groups are the primary categorization mechanism. Each protection group classifies virtual machines by their replication method: array-based replication, Virtual Volumes, vSAN Data Protection, or vSphere Replication. Protection groups track which VMs they protect, their protection status, and the applicable replication configuration. This creates a DR-specific taxonomy that distinguishes protected assets from unprotected ones and groups them by coverage type. Array-based replication protection groups can be further scoped using storage tag categories, selecting datastores via Browse Tags, which allows storage assets to be categorized by replication group membership. Protection Group Folders add a hierarchical layer with parent-child relationships, supporting nested organization of protected resources for management and reporting.
+
+Inventory mappings provide a complementary categorization by site role. Mappings define how protected-site objects (resource pools, folders, networks, and storage) correspond to their recovery-site counterparts. PNR supports both automatic mapping, which matches items by name across sites, and manual mapping, where multiple local items can map to a single remote item. Site-wide defaults apply across all protection groups, and individual VM mappings can override those defaults. The inventory mapping service (ims-service) runs with automatic startup and maintains these cross-site relationships continuously.
+
+Recovery plans organize protected workloads by recovery priority and sequence, reflecting their relative importance in a DR event. The Configuration Import/Export Tool captures the full categorization structure in an exportable format, including site names, inventory mappings, placeholder datastores, advanced settings, array manager details, and protection group and recovery plan definitions. This export supports documentation of the DR classification scheme and enables replication of that structure to other environments.
+
+VCF Operations provides dashboard visibility into the categorized asset estate. The vSAN snapshots and replication dashboard shows the number of VMware vCenter (vCenter) instances with protection enabled, VMs with local protection, VMs with remote replication, and protection group counts. The Inventory view in VCF Operations displays health status, metrics, alerts, and network topology for all PNR objects. The VCF Automation orchestrator plug-in for PNR organizes its workflow surface into predefined categories: Configuration, Inventory Mappings, Protection Groups, and Storage, making the same classification taxonomy available in automation workflows.
+
+Organizations should incorporate PNR's protection group membership, replication status, recovery priority, and inventory mapping data into their broader asset management taxonomy to ensure that disaster recovery attributes are part of the overall asset classification scheme.
+
+#### VMware Avi Load Balancer (Contributes)
+
+VMware Avi Load Balancer (Avi) maintains a structured catalog of the application delivery objects it manages, including virtual services, pools, service engine groups, and SSL certificates. Each virtual service in the Avi Controller references application profiles, network profiles, analytics profiles, pools, SSL profiles, and VRF contexts that describe the function and operational characteristics of the service. The Avi Controller Analytics view presents performance metrics collected from virtual services, service engines, and pools in a unified view, giving administrators a consolidated inventory of managed application delivery resources and their real-time state.
+
+Avi's Extended Granular Role-Based Access Control (RBAC) feature provides a marker system for assigning ownership and classification labels to these objects. Resources can be configured with markers that associate one or more owners or functional categories via key-value pairs. The Avi Controller's LabelGroup object tracks the set of labels allowed or suggested for use within a given tenant, with labels enforced or deprecated at the tenant level to support consistent taxonomy enforcement across the environment. Tenants can be associated with label groups using the label_group_refs parameter, which restricts which labels may be applied within that tenant's scope. Label group enforcement can be enabled at the tenant level to restrict access to resources tagged with specific label groups. Role filters in Extended Granular RBAC support glob pattern matching against object labels, so access control and resource categorization work together: only resources with matching label values are visible or accessible to a given role.
+
+In Kubernetes environments managed through the Avi Multi-Cluster Kubernetes Operator (AMKO), GlobalDeploymentPolicy matchRules enable selection and categorization of objects using application labels configured on Ingress or Route objects, or through namespace labels on namespace objects. This label-based selection extends Avi's classification model into multi-cluster Kubernetes deployments, allowing policies to apply across all namespaces or be filtered by both application and namespace labels. For deployments on cloud providers such as GCP, Azure, and AWS, custom tags can be applied to Avi Load Balancer resources including Service Engine instances and related objects, enabling grouping and management within cloud-native tagging frameworks. Avi service discovery via Consul supports per-service metadata configuration including enabled status, traffic ratio weighting, and custom tags for service classification.
+
+Avi's Application Insights feature extends this picture by learning and analyzing application traffic patterns for each virtual service. Application Insights data is collected by Avi Service Engines and sent to the Avi Controller for analysis and policy configuration. Virtual Service Analytics allows administrators to identify the most used URLs, HTTP methods, and content types handled by each virtual service, which can inform classification decisions based on observed application behavior.
+
+Because Avi manages only the application delivery layer, its categorization mechanisms cover the resources within its scope. An organizational technology asset inventory that spans compute, storage, networking, and workloads across VCF requires platform-level tooling and asset management processes beyond what Avi provides independently.
+
+Not applicable for this control: VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of this product.
+
+### Control MAP 2.1
+
+> The specific tasks and methods used to implement the tasks that the AI system will support are defined (e.g., classifiers, generative models, recommenders).
+
+**SCF Controls:** AAT-14.1, PRM-06, TDA-01.1
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) defines the AI task types the platform supports through a set of catalog items, model and knowledge-base constructs, and namespace activation steps that translate organizational AI scoping decisions into platform configuration. The PAIS catalog in VCF Automation, populated through the Private AI Services Quickstart, exposes a defined set of AI workload patterns to users: AI Workstation, DSM Database, Triton Inferencing Server, and AI Kubernetes Cluster. An organization administrator or MLOps engineer must activate PAIS in a namespace before any of these AI workloads can be requested, and catalog item permissions control which task types are visible to which users. AI workloads can run on GPU devices in vGPU or passthrough mode or in CPU-only configurations, allowing the task definitions to match the underlying hardware policy.
+
+For generative AI tasks, PAIS provides Model Endpoints for completion and embedding models, Agent Builder for assembling agents on top of those endpoints, and Knowledge Bases that link to external data sources such as Microsoft SharePoint sites and Amazon S3 compatible stores so that retrieval-augmented generation patterns are scoped to approved corpora. Agent Builder also maintains a list of approved tools when connecting to MCP servers, giving organizations a mechanism to constrain the specialized capabilities an AI agent can invoke. Deployment connectivity mode is itself a defined attribute: PAIS can be installed in connected or disconnected air-gapped environments, with a Harbor registry, or another OCI-compliant registry, holding the model gallery in both modes.
+
+Because PPTDF for this control is Process only, the organization remains responsible for identifying the AI use cases the environment will support, approving task categories, and documenting the operational scope. PAIS supplies the platform mechanisms that enforce those decisions but does not perform the scoping itself.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 2.2
+
+> Information about the AI system’s knowledge limits and how system output may be utilized and overseen by humans is documented. Documentation provides sufficient information to assist relevant AI actors when making decisions and taking subsequent actions.
+
+**SCF Controls:** AAT-14.2
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 2.3
+
+> Scientific integrity and TEVV considerations are identified and documented, including those related to experimental design, data collection and selection (e.g., availability, representativeness, suitability), system trustworthiness, and construct validation.
+
+**SCF Controls:** AAT-10.2, IAO-02.2
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) provides specific, documentable tools for AI TEVV activities. Deep learning VMs are the primary validation environment, provisioned from PAIS images with pre-installed software stacks validated for running AI applications on NVIDIA GPUs. DL VMs support prototyping, fine-tuning, validation, and inference workloads in a single environment.
+
+The Triton Inference Server is the documented tool for model inference validation. Models are tested for inference functionality using Triton and evaluated for performance and safety against business use cases, including examination of inference requests for malicious behavior and functional testing. This provides a standardized, repeatable testing tool for model evaluation.
+
+For performance measurement, each DL VM includes a pre-installed NVIDIA DCGM Exporter that monitors GPU metrics and workload behavior. GPU metrics are collected by Prometheus at configurable scrape intervals (global scrape at 15 seconds, DCGM exporter scrape at 5 seconds) and visualized in Grafana dashboards. VCF Operations provides additional GPU metrics monitoring at the cluster, host system, and host properties levels. The vSphere Client provides GPU performance charts at both host and cluster levels.
+
+The vcf pais CLI provides model management tooling, including the vcf pais models list command for retrieving and displaying all models available in a model gallery. Harbor Registry provides the artifact management tooling for storing, versioning, and distributing model artifacts with integrity verification through hash codes and unique content digests.
+
+PAIS does not manage test datasets or test set documentation. The selection, curation, versioning, and documentation of test sets used during TEVV activities is an organizational responsibility.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 3.0
+
+> AI capabilities, targeted usage, goals, and expected benefits and costs compared with appropriate benchmarks are understood.
+
+**SCF Controls:** AAT-03, AAT-03.1, AAT-04
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 3.1
+
+> Potential benefits of intended AI system functionality and performance are examined and documented.
+
+**SCF Controls:** AAT-04, AAT-04.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 3.2
+
+> Potential costs, including non-monetary costs, which result from expected or realized AI errors or system functionality and trustworthiness – as connected to organizational risk tolerance – are examined and documented.
+
+**SCF Controls:** AAT-04, AAT-04.2, RSK-01.3
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 3.3
+
+> Targeted application scope is specified and documented based on the system’s capability, established context, and AI system categorization.
+
+**SCF Controls:** AAT-04.3, CPL-01.2
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 3.4
+
+> Processes for operator and practitioner proficiency with AI system performance and trustworthiness – and relevant technical standards and certifications – are defined, assessed, and documented.
+
+**SCF Controls:** AAT-13.1, HRS-03.2
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 3.5
+
+> Processes for human oversight are defined, assessed, and documented in accordance with organizational policies from the GOVERN function.
+
+**SCF Controls:** AAT-01, GOV-01.1, GOV-01.2, GOV-02, OPS-01, OPS-01.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 4.0
+
+> Risks and benefits are mapped for all components of the AI system including third-party software and data.
+
+**SCF Controls:** AAT-04.4
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 4.1
+
+> Approaches for mapping AI technology and legal risks of its components – including the use of third-party data or software – are in place, followed, and documented, as are risks of infringement of a third party’s intellectual property or other rights.
+
+**SCF Controls:** AAT-02.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 4.2
+
+> Internal risk controls for components of the AI system, including third-party AI technologies, are identified and documented.
+
+**SCF Controls:** AAT-02.2
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 5.0
+
+> Impacts to individuals, groups, communities, organizations, and society are characterized.
+
+**SCF Controls:** AAT-07.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 5.1
+
+> Likelihood and magnitude of each identified impact (both potentially beneficial and harmful) based on expected use, past uses of AI systems in similar contexts, public incident reports, feedback from those external to the team that developed or deployed the AI system, or other data are identified and documented.
+
+**SCF Controls:** AAT-07.2, RSK-02.1, RSK-08
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MAP 5.2
+
+> Practices and personnel for supporting regular engagement with relevant AI actors and integrating feedback about positive, negative, and unanticipated impacts are in place and documented.
+
+**SCF Controls:** AAT-01, AAT-11, GOV-01.1, GOV-05
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 1.0
+
+> Appropriate methods and metrics are identified and applied.
+
+**SCF Controls:** AAT-16.2, GOV-05
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VCF contributes to measuring the effectiveness of security controls for AI workloads through VCF Operations compliance dashboards that report on configuration conformance, hardening posture, and drift from baselines across the infrastructure hosting those workloads. VCF Operations generates health scores and compliance reports that can be reviewed to assess whether infrastructure-level controls are functioning. VCF Operations also monitors Kubernetes cluster health metrics, including node status and kubelet status, when the Supervisor is integrated as a data source, extending this infrastructure-level visibility to containerized workload environments.
+
+At the Consumption layer, VMware Kubernetes Service (VKS) and the vSphere Supervisor provide technical mechanisms that support ongoing assessment of control effectiveness across containerized workloads. Pod Security Admission (PSA) supports three enforcement modes, enforce, warn, and audit, applied per namespace. When a namespace is configured with the pod-security.kubernetes.io/audit or pod-security.kubernetes.io/warn labels, violations are recorded in the Kubernetes audit log or surfaced as warnings without blocking workload deployment. This allows organizations to evaluate the compliance impact of a security policy before moving to full enforcement, and the pod_security_evaluations_total metric tracks the number of policy evaluations occurring across namespaces, giving administrators a quantitative view of PSA activity.
+
+Kubernetes audit logging records all API server activity, including authentication outcomes, authorization decisions, and resource access patterns. The audit policy controls which events are captured and at what level of detail, and the resulting log stream can be delivered to a webhook backend or written to log files for integration with external monitoring and analysis platforms. Antrea NetworkPolicyStats, enabled via the NetworkPolicyStats feature flag, collects per-policy enforcement statistics including packet and flow counts for traffic matched by each network policy, allowing administrators to verify that policies are actively enforcing network boundaries and to identify policies with no traffic matches.
+
+VKS Policy Insights provides centralized visibility into the governance health of the VKS cluster estate and generates actionable data for troubleshooting and remediating policy enforcement issues. It surfaces Health alerts when infrastructure-level conditions prevent policy enforcement, such as an unhealthy policy operator or a failed Gatekeeper installation, and raises Incompatibility insights when a pre-existing Gatekeeper installation is detected outside of cluster management. Custom VKS Cluster Management Security Policies allow administrators to fine-tune security context parameters to match specific organizational requirements. The Prometheus standard package for VKS clusters measures API server availability as the ratio of successful requests to total requests over 30-day windows, with separate tracking for read and write verb categories, and also captures request duration and error rate metrics. The Telegraf standard package complements this by scraping metrics from service endpoints such as kube-state-metrics and node-exporter.
+
+MachineHealthCheck, a Cluster API resource configurable on VKS clusters, defines unhealthyConditions as an array of node condition types, statuses, and timeout thresholds, enabling declarative detection of nodes that have fallen outside expected health parameters. When a defined condition is met, the controller marks the node for remediation, creating a record of detected infrastructure failures against which administrators can assess the state of resilience controls. VKS cluster machine health conditions, including KubernetesReleaseCompatible, indicate when the Kubernetes release in use by a cluster is no longer compatible with the Supervisor, supporting assessment of upgrade readiness and compatibility posture. VCF's Network Inventory provides visibility into Kubernetes node health by surfacing standard node conditions including MemoryPressure, PIDPressure, DiskPressure, and the Ready condition, allowing administrators to assess node-level health as part of broader infrastructure reviews. The health status of VKS infrastructure components can also be observed directly by inspecting the running state and restart counts of system pods, including etcd, kube-apiserver, antrea-agent, antrea-controller, and coredns, running in the Supervisor cluster.
+
+Harbor Registry, available as a Supervisor Service and as a standard package on VKS clusters, provides vulnerability scanning, content trust, and policy-based access control for container images. Harbor Registry instances on the Supervisor are organized by vSphere Namespace and are automatically trusted by all VKS clusters on the same Supervisor, creating a consistent point of control for supply chain assessment. Security Technical Implementation Guides (STIGs) are available for Supervisor components and VKS Kubernetes releases, providing hardening benchmarks against which administrators can assess deployed cluster configuration and identify gaps. GitOps tooling, such as the Argo CD Supervisor Service, combined with infrastructure as code in version control, creates an audit trail of every authorized change to cluster configuration and supports retrospective review of configuration drift.
+
+Measuring the effectiveness of AI-specific controls such as model accuracy, bias detection, and output filtering is outside VCF's scope. The organization must define assessment cadences, review audit log data and vulnerability reports, track findings to resolution, and evaluate potential impacts on affected communities.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 1.1
+
+> Approaches and metrics for measurement of AI risks enumerated during the MAP function are selected for implementation starting with the most significant AI risks. The risks or trustworthiness characteristics that will not – or cannot – be measured are properly documented.
+
+**SCF Controls:** AAT-16.2, AAT-16.3, GOV-05
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VCF contributes to measuring the effectiveness of security controls for AI workloads through VCF Operations compliance dashboards that report on configuration conformance, hardening posture, and drift from baselines across the infrastructure hosting those workloads. VCF Operations generates health scores and compliance reports that can be reviewed to assess whether infrastructure-level controls are functioning. VCF Operations also monitors Kubernetes cluster health metrics, including node status and kubelet status, when the Supervisor is integrated as a data source, extending this infrastructure-level visibility to containerized workload environments.
+
+At the Consumption layer, VMware Kubernetes Service (VKS) and the vSphere Supervisor provide technical mechanisms that support ongoing assessment of control effectiveness across containerized workloads. Pod Security Admission (PSA) supports three enforcement modes, enforce, warn, and audit, applied per namespace. When a namespace is configured with the pod-security.kubernetes.io/audit or pod-security.kubernetes.io/warn labels, violations are recorded in the Kubernetes audit log or surfaced as warnings without blocking workload deployment. This allows organizations to evaluate the compliance impact of a security policy before moving to full enforcement, and the pod_security_evaluations_total metric tracks the number of policy evaluations occurring across namespaces, giving administrators a quantitative view of PSA activity.
+
+Kubernetes audit logging records all API server activity, including authentication outcomes, authorization decisions, and resource access patterns. The audit policy controls which events are captured and at what level of detail, and the resulting log stream can be delivered to a webhook backend or written to log files for integration with external monitoring and analysis platforms. Antrea NetworkPolicyStats, enabled via the NetworkPolicyStats feature flag, collects per-policy enforcement statistics including packet and flow counts for traffic matched by each network policy, allowing administrators to verify that policies are actively enforcing network boundaries and to identify policies with no traffic matches.
+
+VKS Policy Insights provides centralized visibility into the governance health of the VKS cluster estate and generates actionable data for troubleshooting and remediating policy enforcement issues. It surfaces Health alerts when infrastructure-level conditions prevent policy enforcement, such as an unhealthy policy operator or a failed Gatekeeper installation, and raises Incompatibility insights when a pre-existing Gatekeeper installation is detected outside of cluster management. Custom VKS Cluster Management Security Policies allow administrators to fine-tune security context parameters to match specific organizational requirements. The Prometheus standard package for VKS clusters measures API server availability as the ratio of successful requests to total requests over 30-day windows, with separate tracking for read and write verb categories, and also captures request duration and error rate metrics. The Telegraf standard package complements this by scraping metrics from service endpoints such as kube-state-metrics and node-exporter.
+
+MachineHealthCheck, a Cluster API resource configurable on VKS clusters, defines unhealthyConditions as an array of node condition types, statuses, and timeout thresholds, enabling declarative detection of nodes that have fallen outside expected health parameters. When a defined condition is met, the controller marks the node for remediation, creating a record of detected infrastructure failures against which administrators can assess the state of resilience controls. VKS cluster machine health conditions, including KubernetesReleaseCompatible, indicate when the Kubernetes release in use by a cluster is no longer compatible with the Supervisor, supporting assessment of upgrade readiness and compatibility posture. VCF's Network Inventory provides visibility into Kubernetes node health by surfacing standard node conditions including MemoryPressure, PIDPressure, DiskPressure, and the Ready condition, allowing administrators to assess node-level health as part of broader infrastructure reviews. The health status of VKS infrastructure components can also be observed directly by inspecting the running state and restart counts of system pods, including etcd, kube-apiserver, antrea-agent, antrea-controller, and coredns, running in the Supervisor cluster.
+
+Harbor Registry, available as a Supervisor Service and as a standard package on VKS clusters, provides vulnerability scanning, content trust, and policy-based access control for container images. Harbor Registry instances on the Supervisor are organized by vSphere Namespace and are automatically trusted by all VKS clusters on the same Supervisor, creating a consistent point of control for supply chain assessment. Security Technical Implementation Guides (STIGs) are available for Supervisor components and VKS Kubernetes releases, providing hardening benchmarks against which administrators can assess deployed cluster configuration and identify gaps. GitOps tooling, such as the Argo CD Supervisor Service, combined with infrastructure as code in version control, creates an audit trail of every authorized change to cluster configuration and supports retrospective review of configuration drift.
+
+Measuring the effectiveness of AI-specific controls such as model accuracy, bias detection, and output filtering is outside VCF's scope. The organization must define assessment cadences, review audit log data and vulnerability reports, track findings to resolution, and evaluate potential impacts on affected communities.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 1.2
+
+> Appropriateness of AI metrics and effectiveness of existing controls are regularly assessed and updated, including reports of errors and potential impacts on affected communities.
+
+**SCF Controls:** AAT-16.2, GOV-05
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VCF contributes to measuring the effectiveness of security controls for AI workloads through VCF Operations compliance dashboards that report on configuration conformance, hardening posture, and drift from baselines across the infrastructure hosting those workloads. VCF Operations generates health scores and compliance reports that can be reviewed to assess whether infrastructure-level controls are functioning. VCF Operations also monitors Kubernetes cluster health metrics, including node status and kubelet status, when the Supervisor is integrated as a data source, extending this infrastructure-level visibility to containerized workload environments.
+
+At the Consumption layer, VMware Kubernetes Service (VKS) and the vSphere Supervisor provide technical mechanisms that support ongoing assessment of control effectiveness across containerized workloads. Pod Security Admission (PSA) supports three enforcement modes, enforce, warn, and audit, applied per namespace. When a namespace is configured with the pod-security.kubernetes.io/audit or pod-security.kubernetes.io/warn labels, violations are recorded in the Kubernetes audit log or surfaced as warnings without blocking workload deployment. This allows organizations to evaluate the compliance impact of a security policy before moving to full enforcement, and the pod_security_evaluations_total metric tracks the number of policy evaluations occurring across namespaces, giving administrators a quantitative view of PSA activity.
+
+Kubernetes audit logging records all API server activity, including authentication outcomes, authorization decisions, and resource access patterns. The audit policy controls which events are captured and at what level of detail, and the resulting log stream can be delivered to a webhook backend or written to log files for integration with external monitoring and analysis platforms. Antrea NetworkPolicyStats, enabled via the NetworkPolicyStats feature flag, collects per-policy enforcement statistics including packet and flow counts for traffic matched by each network policy, allowing administrators to verify that policies are actively enforcing network boundaries and to identify policies with no traffic matches.
+
+VKS Policy Insights provides centralized visibility into the governance health of the VKS cluster estate and generates actionable data for troubleshooting and remediating policy enforcement issues. It surfaces Health alerts when infrastructure-level conditions prevent policy enforcement, such as an unhealthy policy operator or a failed Gatekeeper installation, and raises Incompatibility insights when a pre-existing Gatekeeper installation is detected outside of cluster management. Custom VKS Cluster Management Security Policies allow administrators to fine-tune security context parameters to match specific organizational requirements. The Prometheus standard package for VKS clusters measures API server availability as the ratio of successful requests to total requests over 30-day windows, with separate tracking for read and write verb categories, and also captures request duration and error rate metrics. The Telegraf standard package complements this by scraping metrics from service endpoints such as kube-state-metrics and node-exporter.
+
+MachineHealthCheck, a Cluster API resource configurable on VKS clusters, defines unhealthyConditions as an array of node condition types, statuses, and timeout thresholds, enabling declarative detection of nodes that have fallen outside expected health parameters. When a defined condition is met, the controller marks the node for remediation, creating a record of detected infrastructure failures against which administrators can assess the state of resilience controls. VKS cluster machine health conditions, including KubernetesReleaseCompatible, indicate when the Kubernetes release in use by a cluster is no longer compatible with the Supervisor, supporting assessment of upgrade readiness and compatibility posture. VCF's Network Inventory provides visibility into Kubernetes node health by surfacing standard node conditions including MemoryPressure, PIDPressure, DiskPressure, and the Ready condition, allowing administrators to assess node-level health as part of broader infrastructure reviews. The health status of VKS infrastructure components can also be observed directly by inspecting the running state and restart counts of system pods, including etcd, kube-apiserver, antrea-agent, antrea-controller, and coredns, running in the Supervisor cluster.
+
+Harbor Registry, available as a Supervisor Service and as a standard package on VKS clusters, provides vulnerability scanning, content trust, and policy-based access control for container images. Harbor Registry instances on the Supervisor are organized by vSphere Namespace and are automatically trusted by all VKS clusters on the same Supervisor, creating a consistent point of control for supply chain assessment. Security Technical Implementation Guides (STIGs) are available for Supervisor components and VKS Kubernetes releases, providing hardening benchmarks against which administrators can assess deployed cluster configuration and identify gaps. GitOps tooling, such as the Argo CD Supervisor Service, combined with infrastructure as code in version control, creates an audit trail of every authorized change to cluster configuration and supports retrospective review of configuration drift.
+
+Measuring the effectiveness of AI-specific controls such as model accuracy, bias detection, and output filtering is outside VCF's scope. The organization must define assessment cadences, review audit log data and vulnerability reports, track findings to resolution, and evaluate potential impacts on affected communities.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 1.3
+
+> Internal experts who did not serve as front-line developers for the system and/or independent assessors are involved in regular assessments and updates. Domain experts, users, AI actors external to the team that developed or deployed the AI system, and affected communities are consulted in support of assessments as necessary per organizational risk tolerance.
+
+**SCF Controls:** AAT-11.2
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 2.0
+
+> AI systems are evaluated for trustworthy characteristics.
+
+**SCF Controls:** AAT-10.1, AAT-10.3, IAO-02, IAO-06
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) provides infrastructure for evaluating AI systems for trustworthy behavior, specifically addressing the security dimension of trustworthiness assessment. The validate-then-publish workflow requires MLOps engineers to validate ML models against the security, privacy, and technical requirements of the organization before uploading them to the Model Gallery. This validation includes evaluating models for inference functionality using the Triton Inference Server and examining inference requests for malicious behavior, directly addressing the security evaluation component of trustworthiness.
+
+Deep learning VMs provisioned from PAIS images are isolated evaluation environments where data scientists and MLOps engineers can assess model behavior before production deployment. These DL VMs run on the same GPU-accelerated workload domains, vGPU profiles, and VM classes used in production, so trustworthiness evaluation occurs under conditions comparable to the deployment environment. Model integrity is verified through hash code validation and unique content digests on each revision, stored as OCI artifacts with immutable manifests, providing cryptographic verification that the evaluated model is the same artifact that reaches production.
+
+PAIS does not address the anonymization or disaggregation aspects of this control. Data anonymization, de-identification, and disaggregation of captured and stored data are application-layer data governance activities that fall outside the scope of infrastructure-level platform controls.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 2.1
+
+> Test sets, metrics, and details about the tools used during TEVV are documented.
+
+**SCF Controls:** AAT-10.2
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) provides specific, documentable tools for AI TEVV activities. Deep learning VMs are the primary validation environment, provisioned from PAIS images with pre-installed software stacks validated for running AI applications on NVIDIA GPUs. DL VMs support prototyping, fine-tuning, validation, and inference workloads in a single environment.
+
+The Triton Inference Server is the documented tool for model inference validation. Models are tested for inference functionality using Triton and evaluated for performance and safety against business use cases, including examination of inference requests for malicious behavior and functional testing. This provides a standardized, repeatable testing tool for model evaluation.
+
+For performance measurement, each DL VM includes a pre-installed NVIDIA DCGM Exporter that monitors GPU metrics and workload behavior. GPU metrics are collected by Prometheus at configurable scrape intervals (global scrape at 15 seconds, DCGM exporter scrape at 5 seconds) and visualized in Grafana dashboards. VCF Operations provides additional GPU metrics monitoring at the cluster, host system, and host properties levels. The vSphere Client provides GPU performance charts at both host and cluster levels.
+
+The vcf pais CLI provides model management tooling, including the vcf pais models list command for retrieving and displaying all models available in a model gallery. Harbor Registry provides the artifact management tooling for storing, versioning, and distributing model artifacts with integrity verification through hash codes and unique content digests.
+
+PAIS does not manage test datasets or test set documentation. The selection, curation, versioning, and documentation of test sets used during TEVV activities is an organizational responsibility.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 2.2
+
+> Evaluations involving human subjects meet applicable requirements (including human subject protection) and are representative of the relevant population.
+
+**SCF Controls:** AAT-10, AAT-17, AAT-17.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 2.3
+
+> AI system performance or assurance criteria are measured qualitatively or quantitatively and demonstrated for conditions similar to deployment setting(s). Measures are documented.
+
+**SCF Controls:** AAT-10.12
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) provides infrastructure mechanisms that allow AI workload validation to occur on the same VCF configuration used for production deployment. The Private AI Services Quickstart in VCF Automation generates catalog items for both deep learning VMs and AI applications on VMware Kubernetes Service (VKS) clusters, and the Quickstart prepares the environment for both workload platform models even when only one is planned for production. The same VCF Automation catalog items, default VM class, vGPU and GPU passthrough deployment modes, and Provider Management Region to Supervisor cluster associations are available to validation and production consumers within an organization namespace.
+
+Validation and production deployments draw from the same Harbor registry project created for PAIS deployment, so model and container artifacts used during testing are the same artifacts consumed in production. Deployment leases control how long an AI deployment can exist, which allows time-bound validation environments to be provisioned from the same catalog items as production. PAIS observability is activated through the spec.observability.prometheusRuntime section of the PAISConfiguration custom resource, and PAIS controller pod metrics are integrated into VCF Operations through a Telegraf ConfigMap in the vmware-system-monitoring namespace, with Grafana available to DevOps and MLOps engineers to visualize health and performance under conditions comparable to deployment settings. Setup workflows are documented for both connected and disconnected air-gapped environments, so validation in one connectivity mode can be replicated for the production deployment mode.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 2.4
+
+> The functionality and behavior of the AI system and its components – as identified in the MAP function – are monitored when in production.
+
+**SCF Controls:** AAT-10.13, AAT-16
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VCF contributes to post-deployment monitoring of AI workloads through VCF Operations, which provides continuous health, performance, and capacity monitoring for the infrastructure hosting those workloads. VCF Operations dashboards surface CPU, memory, storage, and network metrics for VMs running AI workloads. VCF Log Management aggregates and analyzes log data from VMware vCenter, VMware ESX, and NSX components. vCenter alarms provide threshold-based alerting for infrastructure conditions that could affect AI workload availability.
+
+For AI workloads running as containerized applications on VMware Kubernetes Service (VKS) clusters, the platform extends infrastructure-level observability to the Kubernetes layer. VKS clusters provisioned with the automated-monitoring label automatically receive monitoring configuration on each new node, integrating cluster telemetry with VCF Operations. The Prometheus standard package, installable on VKS clusters through the Supervisor Management Proxy Service, deploys kube-state-metrics, node-exporter, pushgateway, Prometheus, and Alertmanager as components. The prometheus-kube-state-metrics component monitors node status and capacity, ReplicaSet compliance, pod status, job and CronJob status, and resource requests and limits, providing continuous metric collection that can be directed at AI inference services or training job pods. Telegraf is available as a standard package that deploys as a Deployment component to scrape metrics from kube-state-metrics and node-exporter and forward them to external observability backends. Monitoring and alerting for Kubernetes deployments is also available through the Argo CD Supervisor Service using Grafana Operator and Prometheus.
+
+Kubernetes-native health probes and status tracking support workload condition detection at the pod level. Liveness and readiness probes can be configured on AI workload containers to detect unresponsive or overloaded model serving instances; a readiness probe removes the pod from service routing when it cannot handle requests, and a liveness probe triggers a container restart when the application becomes unresponsive. The Kubernetes Deployment controller continuously monitors running application instances and automatically replaces instances when nodes fail or are removed from service, providing a self-healing mechanism that addresses machine failure or maintenance. Kubernetes DeploymentStatus exposes observedGeneration and conditions fields with type, status, lastTransitionTime, and reason values, allowing operators to detect rollout failures, stuck deployments, or configuration drift from the expected specification. VKS cluster management proactively monitors the cluster estate to verify that assigned policies are enforced correctly, and generates Policy Insights when configuration conflicts or environmental errors are detected.
+
+For organizations using Harness CI/CD on VKS, Dynatrace integration provides full-stack observability including application performance monitoring, infrastructure monitoring, and digital experience monitoring. The Dynatrace operator automates deployment, scaling, and maintenance of the monitoring stack within VKS clusters, and automatically correlates application deployment service metrics with underlying VKS infrastructure including nodes, pods, and the network. The Dynatrace AI engine detects anomalies, identifies root causes, and provides intelligent alerts. Harness SRM monitors deployed services post-deployment to calculate a real-time health score based on transaction success and latency.
+
+The VCF Automation Monitor tab provides deployment health information drawn from VCF Operations, and deployment cards in the self-service catalog surface deployment state, last request status, and operational history for workload deployments. AI-specific behavior monitoring (model accuracy drift, output quality) requires application-level tooling outside VCF's scope.
+
+VMware Private AI Services (PAIS) provides AI-specific monitoring mechanisms that support continuous post-deployment observation of AI workloads on VCF.
+
+At the PAIS layer, observability is activated by updating the PAISConfiguration custom resource with parameters that enable metrics collection and forward large language model traces to an OpenTelemetry Collector. PAIS deploys a Prometheus server pod for metrics collection that must be ready and running for observability to function, configured with a chosen storage class and a configurable metrics retention period. PAIS controller pod metrics are integrated into observability platforms through Telegraf configuration in the Supervisor instance, and the telegraf-user-config ConfigMap in the vmware-system-monitoring namespace manages user-configured monitoring endpoints for PAIS. The PAIS Supervisor Service exposes service-level metrics through pais.vmware.com that VI administrators access to monitor the health of the service.
+
+DevOps engineers visualize PAIS health and performance metrics in observability platforms such as Grafana, where dashboards report pod restart frequency, vGPU licensing status, and idle or underutilized GPU devices in passthrough mode. VI administrators visualize PAIS controller pod operation metrics in VCF Operations using the same metrics pipeline. MLOps engineers and application developers track the health, quality, and behavior of AI applications and the models used in agents through Grafana, supporting continuous observation of inference behavior. Model Endpoint deployment status can be verified using the kubectl get modelendpoints command, which returns the Ready status for each deployed endpoint, and the vcf cluster command-line interface provides cluster provisioning monitoring, registration, and kubeconfig retrieval for VKS clusters that host AI workloads. PAIS deployment leases can be configured to bound how long a deployment can exist, supporting lifecycle oversight of catalog-deployed AI workloads.
+
+Enabling these observability features, defining retention and alerting policy, and acting on monitoring signals are organizational process responsibilities. PAIS provides the monitoring infrastructure and integration points, but continuous post-deployment monitoring as a practice requires the organization to assign operational ownership, review observability data on an ongoing basis, and respond to anomalies in AI workload behavior.
+
+#### VMware vDefend (Contributes)
+
+VMware vDefend (vDefend) contributes to proactive and continuous monitoring of deployed AI workloads running on VCF through multiple layers of ongoing network-level security monitoring.
+
+Security Intelligence continuously monitors for new flows between environments and alerts administrators to unauthorized or unexpected traffic, enabling ongoing policy adjustments as workloads evolve. It also monitors infrastructure services to detect newly deployed servers. A classification cron job runs automatically at 2:00 AM local time and repeats every 24 hours, evaluating traffic flows from the preceding 30 days to classify compute entities providing network infrastructure services. When the Recommendations Monitoring feature is enabled, Security Intelligence checks every hour for changes in the scope of monitored entities, allowing policy recommendations to remain current as AI workloads change. The Security Intelligence Flow Insights Dashboard supports detection and display of MITRE ATT&CK framework tactics and techniques, showing counts of detected suspicious events per tactic and technique during a selected time period.
+
+Segmentation Monitoring provides dedicated views for environment-level traffic flows, accessible through the Monitor & Plan interface. Administrators can monitor traffic between configured environment pairs, view flows related to detected infrastructure servers within specified time intervals, and export all unique flows to a CSV file for offline analysis or compliance evidence. The Environments monitoring window provides assessment of current security posture and enables improvement actions for environment pairs. When no protection policy is configured for an environment pair, Segmentation Monitoring offers a Run Recommendations option to generate policy recommendations, closing monitoring gaps around AI workloads.
+
+The Security Services Platform (SSP) collects metrics to monitor the readiness and performance of vDefend IDS/IPS in the environment. IDS/IPS engine statistics accessible per host include uptime, alert count, suppressed alerts, alert queue overflow status, engine ID, and last reload timestamp. IDS/IPS monitoring dashboards can be scoped to custom projects, displaying events triggered for that project only. For bare metal deployments, Bare Metal Agents stream metrics and detailed host-level telemetry to the SSP. The NDR Sensor periodically checks the status of activated features on the SSP every 15 minutes and updates its configuration accordingly.
+
+Intelligent Assist provides AI-assisted analysis within the NSX Manager UI and SSP UI, displaying on the IDS/IPS, Detections, and Campaigns pages to help administrators interpret monitoring data.
+
+Malware Prevention Service provides deployment status monitoring at the cluster level and per-node level, displaying deployment errors and individual transport node status. Network Detection and Response (NDR) applies behavioral analysis to detect suspicious activity targeting monitored workloads and correlates events into campaigns for investigation.
+
+Monitoring AI system functionality at the application layer, including model performance, output quality, and behavioral drift, is outside vDefend's domain.
+
+Not applicable for this control: VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 2.5
+
+> The AI system to be deployed is demonstrated to be valid and reliable. Limitations of the generalizability beyond the conditions under which the technology was developed are documented.
+
+**SCF Controls:** AAT-01.2, AAT-10.9
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) contributes to several of the design characteristics this control addresses, including reliability, security, resilience, and data privacy, through infrastructure-level mechanisms that apply to AI workloads deployed on VMware Cloud Foundation (VCF).
+
+Security. PAIS uses VCF SSO for identity and supports role separation across VI administrator, organization administrator, project administrator, DevOps engineer, data scientist, and MLOps engineer functions, with each role scoped to specific namespaces and operations. The Model Gallery is implemented as a Harbor project, and access to model artifacts is restricted to authorized users. Trust bundles establish authenticated HTTPS connections between PAIS components, the identity provider, the registry, and content management systems. GPU resource entitlements are scoped to the GPU-accelerated workload domain so capacity is not shared across domain boundaries.
+
+Reliability and resilience. PAIS workloads run on VCF, which provides vSphere High Availability for automatic VM restart on host failure, the Distributed Resource Scheduler for workload balancing, and vMotion for live migration of GPU-accelerated VMs when the supporting setting is configured. Cluster sizing guidance recommends maintaining unreserved GPU capacity and a dedicated failover host to accommodate planned upgrades and unplanned host failures. The Model Gallery stores ML models as OCI artifacts with immutable manifests and unique content digests, which supports rollback to a known-good model revision if a newly deployed model behaves incorrectly.
+
+Data privacy. PAIS isolates AI workloads in dedicated workload domains that can be deployed separately from the broader VCF environment. Namespace-scoped permissions restrict which users can access specific workloads and data. The Harbor registry replica architecture keeps the GPU-enabled workload domain isolated by proxying container images through a separate Internet-connected registry in a DMZ, with only registry push and pull traffic permitted between the two.
+
+Model integrity and validation. The validate-then-publish workflow requires MLOps engineers to validate ML models against the organization's security, privacy, and technical requirements before uploading them to the Model Gallery. PAIS scans models for serialization attacks before upload, and model integrity is verified through hash comparison of model files. Each revision pushed to the gallery receives a unique digest. Models can be validated for inference functionality and evaluated for performance and safety against business use cases before production deployment.
+
+PAIS does not address the fairness, transparency, or explainability characteristics this control names, because those properties belong to the AI models themselves rather than the infrastructure platform. Organizations must implement separate controls for bias testing, model interpretability, and output explainability at the application layer.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 2.6
+
+> The AI system is evaluated regularly for safety risks – as identified in the MAP function. The AI system to be deployed is demonstrated to be safe, its residual negative risk does not exceed the risk tolerance, and it can fail safely, particularly if made to operate beyond its knowledge limits. Safety metrics reflect system reliability and robustness, real-time monitoring, and response times for AI system failures.
+
+**SCF Controls:** AAT-10.13, AAT-10.4, AAT-11.2
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VCF contributes to post-deployment monitoring of AI workloads through VCF Operations, which provides continuous health, performance, and capacity monitoring for the infrastructure hosting those workloads. VCF Operations dashboards surface CPU, memory, storage, and network metrics for VMs running AI workloads. VCF Log Management aggregates and analyzes log data from VMware vCenter, VMware ESX, and NSX components. vCenter alarms provide threshold-based alerting for infrastructure conditions that could affect AI workload availability.
+
+For AI workloads running as containerized applications on VMware Kubernetes Service (VKS) clusters, the platform extends infrastructure-level observability to the Kubernetes layer. VKS clusters provisioned with the automated-monitoring label automatically receive monitoring configuration on each new node, integrating cluster telemetry with VCF Operations. The Prometheus standard package, installable on VKS clusters through the Supervisor Management Proxy Service, deploys kube-state-metrics, node-exporter, pushgateway, Prometheus, and Alertmanager as components. The prometheus-kube-state-metrics component monitors node status and capacity, ReplicaSet compliance, pod status, job and CronJob status, and resource requests and limits, providing continuous metric collection that can be directed at AI inference services or training job pods. Telegraf is available as a standard package that deploys as a Deployment component to scrape metrics from kube-state-metrics and node-exporter and forward them to external observability backends. Monitoring and alerting for Kubernetes deployments is also available through the Argo CD Supervisor Service using Grafana Operator and Prometheus.
+
+Kubernetes-native health probes and status tracking support workload condition detection at the pod level. Liveness and readiness probes can be configured on AI workload containers to detect unresponsive or overloaded model serving instances; a readiness probe removes the pod from service routing when it cannot handle requests, and a liveness probe triggers a container restart when the application becomes unresponsive. The Kubernetes Deployment controller continuously monitors running application instances and automatically replaces instances when nodes fail or are removed from service, providing a self-healing mechanism that addresses machine failure or maintenance. Kubernetes DeploymentStatus exposes observedGeneration and conditions fields with type, status, lastTransitionTime, and reason values, allowing operators to detect rollout failures, stuck deployments, or configuration drift from the expected specification. VKS cluster management proactively monitors the cluster estate to verify that assigned policies are enforced correctly, and generates Policy Insights when configuration conflicts or environmental errors are detected.
+
+For organizations using Harness CI/CD on VKS, Dynatrace integration provides full-stack observability including application performance monitoring, infrastructure monitoring, and digital experience monitoring. The Dynatrace operator automates deployment, scaling, and maintenance of the monitoring stack within VKS clusters, and automatically correlates application deployment service metrics with underlying VKS infrastructure including nodes, pods, and the network. The Dynatrace AI engine detects anomalies, identifies root causes, and provides intelligent alerts. Harness SRM monitors deployed services post-deployment to calculate a real-time health score based on transaction success and latency.
+
+The VCF Automation Monitor tab provides deployment health information drawn from VCF Operations, and deployment cards in the self-service catalog surface deployment state, last request status, and operational history for workload deployments. AI-specific behavior monitoring (model accuracy drift, output quality) requires application-level tooling outside VCF's scope.
+
+VMware Private AI Services (PAIS) provides AI-specific monitoring mechanisms that support continuous post-deployment observation of AI workloads on VCF.
+
+At the PAIS layer, observability is activated by updating the PAISConfiguration custom resource with parameters that enable metrics collection and forward large language model traces to an OpenTelemetry Collector. PAIS deploys a Prometheus server pod for metrics collection that must be ready and running for observability to function, configured with a chosen storage class and a configurable metrics retention period. PAIS controller pod metrics are integrated into observability platforms through Telegraf configuration in the Supervisor instance, and the telegraf-user-config ConfigMap in the vmware-system-monitoring namespace manages user-configured monitoring endpoints for PAIS. The PAIS Supervisor Service exposes service-level metrics through pais.vmware.com that VI administrators access to monitor the health of the service.
+
+DevOps engineers visualize PAIS health and performance metrics in observability platforms such as Grafana, where dashboards report pod restart frequency, vGPU licensing status, and idle or underutilized GPU devices in passthrough mode. VI administrators visualize PAIS controller pod operation metrics in VCF Operations using the same metrics pipeline. MLOps engineers and application developers track the health, quality, and behavior of AI applications and the models used in agents through Grafana, supporting continuous observation of inference behavior. Model Endpoint deployment status can be verified using the kubectl get modelendpoints command, which returns the Ready status for each deployed endpoint, and the vcf cluster command-line interface provides cluster provisioning monitoring, registration, and kubeconfig retrieval for VKS clusters that host AI workloads. PAIS deployment leases can be configured to bound how long a deployment can exist, supporting lifecycle oversight of catalog-deployed AI workloads.
+
+Enabling these observability features, defining retention and alerting policy, and acting on monitoring signals are organizational process responsibilities. PAIS provides the monitoring infrastructure and integration points, but continuous post-deployment monitoring as a practice requires the organization to assign operational ownership, review observability data on an ongoing basis, and respond to anomalies in AI workload behavior.
+
+#### VMware vDefend (Contributes)
+
+VMware vDefend (vDefend) contributes to proactive and continuous monitoring of deployed AI workloads running on VCF through multiple layers of ongoing network-level security monitoring.
+
+Security Intelligence continuously monitors for new flows between environments and alerts administrators to unauthorized or unexpected traffic, enabling ongoing policy adjustments as workloads evolve. It also monitors infrastructure services to detect newly deployed servers. A classification cron job runs automatically at 2:00 AM local time and repeats every 24 hours, evaluating traffic flows from the preceding 30 days to classify compute entities providing network infrastructure services. When the Recommendations Monitoring feature is enabled, Security Intelligence checks every hour for changes in the scope of monitored entities, allowing policy recommendations to remain current as AI workloads change. The Security Intelligence Flow Insights Dashboard supports detection and display of MITRE ATT&CK framework tactics and techniques, showing counts of detected suspicious events per tactic and technique during a selected time period.
+
+Segmentation Monitoring provides dedicated views for environment-level traffic flows, accessible through the Monitor & Plan interface. Administrators can monitor traffic between configured environment pairs, view flows related to detected infrastructure servers within specified time intervals, and export all unique flows to a CSV file for offline analysis or compliance evidence. The Environments monitoring window provides assessment of current security posture and enables improvement actions for environment pairs. When no protection policy is configured for an environment pair, Segmentation Monitoring offers a Run Recommendations option to generate policy recommendations, closing monitoring gaps around AI workloads.
+
+The Security Services Platform (SSP) collects metrics to monitor the readiness and performance of vDefend IDS/IPS in the environment. IDS/IPS engine statistics accessible per host include uptime, alert count, suppressed alerts, alert queue overflow status, engine ID, and last reload timestamp. IDS/IPS monitoring dashboards can be scoped to custom projects, displaying events triggered for that project only. For bare metal deployments, Bare Metal Agents stream metrics and detailed host-level telemetry to the SSP. The NDR Sensor periodically checks the status of activated features on the SSP every 15 minutes and updates its configuration accordingly.
+
+Intelligent Assist provides AI-assisted analysis within the NSX Manager UI and SSP UI, displaying on the IDS/IPS, Detections, and Campaigns pages to help administrators interpret monitoring data.
+
+Malware Prevention Service provides deployment status monitoring at the cluster level and per-node level, displaying deployment errors and individual transport node status. Network Detection and Response (NDR) applies behavioral analysis to detect suspicious activity targeting monitored workloads and correlates events into campaigns for investigation.
+
+Monitoring AI system functionality at the application layer, including model performance, output quality, and behavioral drift, is outside vDefend's domain.
+
+Not applicable for this control: VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 2.7
+
+> AI system security and resilience – as identified in the MAP function – are evaluated and documented.
+
+**SCF Controls:** AAT-10.5, SEA-01.2
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VCF contributes to evaluating the security and resilience of AI workloads through VCF Operations compliance dashboards that assess infrastructure security posture, configuration drift detection, and health monitoring across the compute, storage, and networking layers that AI workloads depend on. VCF Log Management aggregates event data that supports security assessment. The Security Configuration Guide and DISA STIG provide hardening baselines that can be validated against the infrastructure hosting AI workloads.
+
+The Consumption layer of the VCF platform, delivered through VMware Kubernetes Service (VKS) and vSphere Supervisor, provides pre-deployment evaluation mechanisms for AI and machine learning workloads. DISA STIGs are available for both the Supervisor control plane and VKS cluster VKr images, supplying a structured body of security requirements against which AI workload infrastructure can be evaluated before production deployment. AI and machine learning workloads on Supervisor run on Ubuntu-based Kubernetes release images (VKrs), which are the designated runtime for such workloads in VKS clusters. Cluster readiness assessment is built into the VKS Controller, which reports status conditions covering cluster phase and component health; administrators can query these conditions using kubectl to verify that the infrastructure meets defined readiness criteria before AI workloads are scheduled.
+
+Pod Security Admission is enforced on VKS clusters and provides a pre-execution gate for workload pods. Starting with VKr v1.25, the kubernetes.security.podSecurityStandard configuration variable selects Baseline, Restricted, or Privileged profiles to constrain what workload pods can execute. VKS Cluster Management adds a fleet-wide policy governance layer powered by OPA Gatekeeper, with out-of-box security policy templates that mirror industry-standard Pod Security Standards profiles; policies applied at the organization or project level are automatically inherited by all child resources, providing scalable governance across the VKS cluster estate. The VKS Cluster Management Policy Insights capability surfaces health alerts for infrastructure-level failures that would prevent policy enforcement, such as an unhealthy policy operator or a failed Gatekeeper installation, giving administrators visibility into the operational state of the security control.
+
+The Kubernetes security documentation available through Supervisor includes guidance for pre-deployment security evaluation: threat modeling to identify trust boundaries and risks, cloud-native security lifecycle checklists organized around the develop phase, and recommendations for advanced security assessment techniques such as fuzzing and security chaos engineering where appropriate. The Kubernetes Security Response Committee publishes CVE feeds and tracks vulnerabilities in the Kubernetes platform, acknowledging reports within three working days, which gives teams visibility into known security issues in the AI and machine learning runtime infrastructure. For high-trust environments where AI workloads handle sensitive data, Supervisor supports deploying workloads on confidential virtual machines, adding hardware-level memory isolation as an additional element of the security profile that can be evaluated during a pre-deployment review.
+
+The broader AI TEVV program, including evaluation criteria, result interpretation, and model-level testing for safety, fairness, and adversarial robustness, is an organizational responsibility. VCF provides the observable, policy-governed runtime environment that supports those activities but does not perform AI-specific evaluation itself.
+
+VMware Private AI Services (PAIS) supports pre-deployment security and resilience evaluation of AI workloads through PAIS-native mechanisms in the model lifecycle workflow. MLOps engineers validate ML models against the organization's security, privacy, and technical requirements before onboarding them to the PAIS model gallery, with deep learning VMs and the PAIS model runtime available as the validation environment for functional and behavioral testing.
+
+PAIS observability integrates with platforms such as Grafana and VCF Operations so that MLOps engineers, application developers, and VI administrators have ongoing visibility into model and component health, quality, and behavior in deployed AI applications. Metrics collection is activated through the PAISConfiguration custom resource, with a Prometheus runtime, a configurable storage class, a configurable retention period, and optional LLM traces forwarded through the OpenTelemetry (OTel) Collector. This telemetry provides the data inputs for continued security and resilience review of models in production, including tracking of anomalous model behavior over time.
+
+PAIS deployment leases bound how long an AI workload deployment can exist, providing a control for time-limited evaluation environments where candidate models can be exercised before broader rollout. PAIS supports both connected and disconnected (air-gapped) deployment models, allowing organizations to perform security evaluation of AI workloads in isolated environments. A Harbor or other OCI-compliant registry is used as the artifact source for models and container images, giving organizations a controlled location from which validated artifacts are retrieved.
+
+Resilience evaluation for AI workloads depends on the underlying VCF platform, which provides vSphere High Availability for automatic VM restart on host failure, Distributed Resource Scheduler for workload balancing, and vMotion for live migration of GPU-accelerated VMs. These capabilities are VCF platform mechanisms; see VCF Coverage for the underlying resilience infrastructure.
+
+#### VMware vDefend (Contributes)
+
+VMware vDefend contributes to evaluating the security and resilience of AI and autonomous technology workloads by providing continuous network-level security assessment capabilities that operate during and after deployment.
+
+The vDefend distributed firewall includes a dedicated Security Assessment workflow that generates Security Segmentation Reports and Blast Radius Reports. These reports identify at-risk workloads, communication chains, and traffic flows, providing structured input for evaluating whether network isolation is correctly applied to AI workload segments and identifying gaps in protection coverage.
+
+Security Intelligence offers traffic flow analysis, a quantitative Security Segmentation Score, and environment-level monitoring that can inform resilience assessments. The Security Segmentation Score calculates posture by evaluating Distributed Firewall configuration and traffic rules; score values from 0 to 50 indicate low security, 50 to 80 indicate medium security, and values above 80 indicate a highly secure environment. The score breakdown report details total environments and environment pairs, protection rule actions, and highlights environment pairs lacking inter-environment policies. Security Intelligence generates policy recommendations by analyzing VM traffic flows over specified time periods and boundary definitions, and monitors inter-environment traffic to detect leakage and support lockdown rule implementation. The Security Intelligence dashboard displays environments, environment pairs, and segmentation state to help administrators understand current security posture.
+
+The Security Services Platform collects and surfaces IDS/IPS readiness and performance metrics. Administrators can view intrusion details including severity, CVE identifiers, CVSS scores, and affected VMs through vDefend IDS/IPS to inform mitigation planning. Intelligent Assist assists with IDS policies, rules, and security profiles during remediation operations. The vDefend Threat Intelligence Service Portal supplies application-level threat intelligence that can inform distributed and gateway firewall policies targeting lateral and perimeter network threats.
+
+The broader TEVV program for AI security and resilience, including defining evaluation criteria, establishing test plans, and interpreting results against organizational risk thresholds, is an organizational responsibility outside vDefend's scope.
+
+#### VCF Protection and Recovery (Contributes)
+
+VCF Protection and Recovery (PNR) helps organizations achieve disaster recovery requirements for virtualized workloads by orchestrating virtual machine recovery at a secondary site. Recovery plans can be created with configurable properties to support disaster recovery operations, and replication classes are preconfigured with a Recovery Point Objective (RPO) that defines the acceptable amount of data loss after a disaster. PNR orchestrates both array-based replication and host-based replication.
+
+Recovery plans run under both planned circumstances for migration and unplanned circumstances for disaster recovery. Operators can test recovery plans before using them in production to validate recovery procedures. Multi-region deployments with separate management domains can be designed to contain the impact of a disaster event to one region.
+
+PNR exposes role-based access through specific roles such as SRM Recovery Plans Administrator and SRM Recovery Administrator, and role assignments must be configured on both the primary and secondary sites for consistent access control across the recovery environment. In Protection and Recovery for VCF Automation, Organization Administrators can perform multi-tenant disaster recovery operations on behalf of project administrators and project advanced users.
+
+Operational visibility is provided through VCF Operations dashboards for Protection and Recovery. The Protection Groups dashboard surfaces a critical health status when a serious issue occurs with a protection group or its replication, and PNR classifies health findings into Error, Warning, and Info categories so operators can diagnose, troubleshoot, and remediate issues that affect resilience.
+
+Cyber Recovery, part of the PNR suite, extends resilience to cyber incident scenarios. Integrated CrowdStrike vulnerability analysis applies the Exploitability and Predictive Risk Technology (ExPRT) rating to recommend immediate remediation of Critical vulnerabilities, timely remediation of Medium-severity vulnerabilities, and scheduled remediation of Low-severity findings. vSphere Replication supports point-in-time recovery for cyber resilience.
+
+Recovery sites should be located in a facility that is unlikely to be affected by environmental, infrastructure, or other disturbances that affect the protected site. Decisions about acceptable RPO thresholds, recovery site selection, and operational processes for declaring and executing recovery remain organizational responsibilities outside the product.
+
+#### VMware Data Services Manager (Contributes)
+
+VMware Data Services Manager (DSM) contributes to resilience through technical mechanisms at both the management plane and database levels, addressing both normal operations and adverse conditions such as node failures and site outages.
+
+The DSM Provider Appliance, which hosts the management plane, relies on vSphere High Availability for its own resilience. DSM requires that HA be activated on VMware vCenter clusters hosting database workloads as a prerequisite for infrastructure policy compliance, making HA an enforced platform dependency rather than an optional configuration.
+
+At the database level, DSM PostgreSQL deployments include a monitor node that orchestrates automatic failover. When the primary database node fails, the monitor node promotes the replica to primary without manual intervention. For environments requiring high availability across multiple failure domains, DSM provides a Cross vSphere Cluster HA topology that distributes PostgreSQL instances across multiple vSphere clusters, offering the highest availability and resilience for those configurations.
+
+For cross-site resilience, DSM supports multi-site deployments for PostgreSQL databases. Before establishing a multi-site deployment, administrators must configure remote replication on the primary instance and retrieve the Certificate Authority from the primary instance to add it to the DSM Provider VM that will host the secondary. Users with the DSM User role must manually establish trust between primary and secondary instances. Secondary PostgreSQL instances support read-only connections while replication is active. DSM requires that the values of max_connections, max_worker_processes, max_wal_senders, max_prepared_transactions, and max_locks_per_transaction on the secondary database be equal to or greater than those on the primary. When a site fails, DSM provides a switchover workflow that promotes the secondary instance to primary. DSM also provides a failback workflow that reverses the roles and restores the system to a fully operational state. During a switchover, DSM validates trust of the new primary database certificate before redirecting secondary instances. DSM requires that organizations define disaster recovery requirements, including whether to enable multi-site replication, before creating a PostgreSQL database.
+
+DSM extends high availability to MySQL deployments. DSM supports MySQL HA clusters and read replicas as distinct deployment topologies. A Cross vSphere Cluster HA configuration distributing a primary and two replicas across three vSphere clusters provides the highest availability for MySQL in multi-cluster environments. DSM requires that disaster recovery requirements be defined before creating a MySQL database.
+
+For recovery operations, restoring a PostgreSQL cluster to a different DSM control plane should use resources equal to or greater than those of the source cluster to maintain stability.
+
+DSM's technical mechanisms support but do not substitute for organizational resilience programs. Organizations must define recovery time and recovery point objectives, document and test disaster recovery procedures, and maintain runbooks for failover and failback operations.
+
+#### VMware Avi Load Balancer (Contributes)
+
+VMware Avi Load Balancer provides application-layer resilience mechanisms spanning the control plane, data plane, and geographic distribution layers. Organizations can use these mechanisms to satisfy resilience requirements for their application delivery infrastructure.
+
+Control-plane resilience is achieved through the Avi Controller cluster. Production deployments use a Controller cluster that maintains quorum and fault tolerance, allowing the control plane to remain available when one node is unavailable. Controller clusters can be deployed across two availability zones, with documented failure scenarios and recovery actions for each topology. When running a single-node Controller, the Backup and Restore feature must be used for disaster recovery. After a storage failure event, the Controller is restored from a configuration archive, and at least one Service Engine controller IP must match a previous controller IP to enable Service Engines to reconnect to the Controller after restoration. The Controller's backup and restore capability also supports configuration migration across Controller instances.
+
+For cross-site application failover, Avi Load Balancer includes Global Server Load Balancing (GSLB). Avi GSLB provides resilience when loss of a data center or network connection occurs, and supports an active disaster recovery deployment mode in which a geographically remote site receives application traffic when the primary site is unavailable. Where a deployment has only one active site, at least one geographically remote cloud should be designated as the GSLB disaster recovery target.
+
+At the data plane, Service Engine distribution and scaling provide resilience at the workload level. A scaled-out virtual service experiences no more than performance degradation if a single Service Engine in the group fails, making the scaled-out model preferable to legacy high availability modes for resilience. Availability Zones can be configured within each Service Engine Group, with two or three zones recommended per group. Each Availability Zone should be defined around a distinct fault domain associated with shared power supplies, shared networking devices, or other common infrastructure, and maps specific VMware vCenter (vCenter) instances, hosts, and datastores that share that fault domain. In multi-vCenter deployments, this spreads data-plane capacity across multiple infrastructure failure boundaries.
+
+For Kubernetes environments, the Avi Multi-Cluster Kubernetes Operator (AMKO) federation architecture supports designation of a leader cluster and multiple member clusters for disaster recovery and multi-cluster coordination. This extends Avi's resilience model to multi-cluster Kubernetes deployments, allowing application traffic management to continue across cluster failures.
+
+In VCF deployments, the Cloud Console's Central Licensing feature maintains a global capacity pool that removes the need for duplicate licenses in disaster recovery scenarios, reducing licensing barriers to activating DR sites.
+
+Achieving the resilience requirements in this control is an organizational process. The organization must define recovery objectives, validate failover procedures through testing, maintain configuration archives, and coordinate resilience activities across the underlying VCF platform. Avi's control-plane HA, GSLB, Availability Zone configuration, and AMKO multi-cluster federation capabilities directly support that process without substituting for it.
+
+### Control MEASURE 2.8
+
+> Risks associated with transparency and accountability – as identified in the MAP function – are examined and documented.
+
+**SCF Controls:** AAT-10.6
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 2.9
+
+> The AI model is explained, validated, and documented, and AI system output is interpreted within its context – as identified in the MAP function – to inform responsible use and governance.
+
+**SCF Controls:** AAT-10.9
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) provides a model validation workflow with dedicated tooling and environments. MLOps engineers validate ML models onboarded to PAIS against the security, privacy, and technical requirements of the organization before publishing them to the model gallery. Validation is performed using deep learning VMs (DL VMs) provisioned from PAIS images, which support AI prototyping, fine-tuning, validation, and inference workloads on the same GPU-accelerated infrastructure used in production. The recommended practice is to distribute models that were validated on a DL VM rather than models pulled directly from the Internet, which could contain malicious code or be tuned for malicious behavior.
+
+After validation, models are stored in a central model gallery backed by a Harbor registry service running in the Supervisor cluster, or in an OCI-compliant container registry from another vendor. Storage in Harbor requires authentication and certificate-based trust for model retrieval. The model gallery acts as a publication gate: only models that have been validated and uploaded to the gallery are available for inference, either directly in PAIS Model Endpoints or on a DL VM running a Triton Inference Server from the NVIDIA NGC catalog. Models in the gallery are available for automated CI/CD-based deployment of model runtimes.
+
+After a model is in service, PAIS provides mechanisms for monitoring and evaluating model behavior. Model Endpoints expose a REST API for application integration and support A/B testing so MLOps engineers can compare the real-world performance of different embedding models. PAIS observability is activated through the PAISConfiguration custom resource to collect Prometheus metrics and OpenTelemetry traces, and model health, quality, and behavior can be monitored through observability platforms such as Grafana.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 2.10
+
+> Privacy risk of the AI system – as identified in the MAP function – is examined and documented.
+
+**SCF Controls:** AAT-10.7, RSK-10
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 2.11
+
+> Fairness and bias – as identified in the MAP function – are evaluated and results are documented.
+
+**SCF Controls:** AAT-10.8
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 2.12
+
+> Environmental impact and sustainability of AI model training and management activities – as identified in the MAP function – are assessed and documented.
+
+**SCF Controls:** AAT-17.2
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) provides PAIS-native mechanisms that help organizations assess the environmental footprint of AI workloads. Metrics collection for PAIS is activated by uncommenting the spec.observability.prometheusRuntime section of the PAISConfiguration custom resource, after which DevOps and MLOps engineers can visualize PAIS health and performance metrics for components running in a VCF Automation namespace through observability platforms such as Grafana. The same observability pipeline lets MLOps engineers and application developers monitor models used in agents, giving operators visibility into the operational characteristics of individual AI workloads across deep learning VMs, VKS clusters, and RAG applications. This telemetry is the raw operational data that organizations use to quantify the energy and resource footprint of AI activity.
+
+PAIS also supports resource efficiency through deployment leases. A lease controls how long a PAIS deployment can exist, so that AI workloads provisioned from VCF Automation catalog items are reclaimed at the end of a defined period rather than continuing to consume GPU and compute resources indefinitely. Disconnected (air-gapped) and connected deployment modes both rely on the same observability and lease controls, so the same sustainability-relevant data and lifecycle controls apply regardless of connectivity model.
+
+Broader sustainability and green-metric monitoring at the cluster and host level is a VCF platform capability and is covered under VCF Coverage. The organizational activity of setting sustainability targets, analyzing collected metrics, and documenting environmental impact is a process obligation outside PAIS itself, which is why the rating is Contributes rather than Meets.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 2.13
+
+> Effectiveness of the employed TEVV metrics and processes in the MEASURE function are evaluated and documented.
+
+**SCF Controls:** AAT-10.10, AAT-10.11
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 3.0
+
+> Mechanisms for tracking identified AI risks over time are in place.
+
+**SCF Controls:** AAT-16.2, IAO-05, RSK-04.1
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VCF contributes to measuring the effectiveness of security controls for AI workloads through VCF Operations compliance dashboards that report on configuration conformance, hardening posture, and drift from baselines across the infrastructure hosting those workloads. VCF Operations generates health scores and compliance reports that can be reviewed to assess whether infrastructure-level controls are functioning. VCF Operations also monitors Kubernetes cluster health metrics, including node status and kubelet status, when the Supervisor is integrated as a data source, extending this infrastructure-level visibility to containerized workload environments.
+
+At the Consumption layer, VMware Kubernetes Service (VKS) and the vSphere Supervisor provide technical mechanisms that support ongoing assessment of control effectiveness across containerized workloads. Pod Security Admission (PSA) supports three enforcement modes, enforce, warn, and audit, applied per namespace. When a namespace is configured with the pod-security.kubernetes.io/audit or pod-security.kubernetes.io/warn labels, violations are recorded in the Kubernetes audit log or surfaced as warnings without blocking workload deployment. This allows organizations to evaluate the compliance impact of a security policy before moving to full enforcement, and the pod_security_evaluations_total metric tracks the number of policy evaluations occurring across namespaces, giving administrators a quantitative view of PSA activity.
+
+Kubernetes audit logging records all API server activity, including authentication outcomes, authorization decisions, and resource access patterns. The audit policy controls which events are captured and at what level of detail, and the resulting log stream can be delivered to a webhook backend or written to log files for integration with external monitoring and analysis platforms. Antrea NetworkPolicyStats, enabled via the NetworkPolicyStats feature flag, collects per-policy enforcement statistics including packet and flow counts for traffic matched by each network policy, allowing administrators to verify that policies are actively enforcing network boundaries and to identify policies with no traffic matches.
+
+VKS Policy Insights provides centralized visibility into the governance health of the VKS cluster estate and generates actionable data for troubleshooting and remediating policy enforcement issues. It surfaces Health alerts when infrastructure-level conditions prevent policy enforcement, such as an unhealthy policy operator or a failed Gatekeeper installation, and raises Incompatibility insights when a pre-existing Gatekeeper installation is detected outside of cluster management. Custom VKS Cluster Management Security Policies allow administrators to fine-tune security context parameters to match specific organizational requirements. The Prometheus standard package for VKS clusters measures API server availability as the ratio of successful requests to total requests over 30-day windows, with separate tracking for read and write verb categories, and also captures request duration and error rate metrics. The Telegraf standard package complements this by scraping metrics from service endpoints such as kube-state-metrics and node-exporter.
+
+MachineHealthCheck, a Cluster API resource configurable on VKS clusters, defines unhealthyConditions as an array of node condition types, statuses, and timeout thresholds, enabling declarative detection of nodes that have fallen outside expected health parameters. When a defined condition is met, the controller marks the node for remediation, creating a record of detected infrastructure failures against which administrators can assess the state of resilience controls. VKS cluster machine health conditions, including KubernetesReleaseCompatible, indicate when the Kubernetes release in use by a cluster is no longer compatible with the Supervisor, supporting assessment of upgrade readiness and compatibility posture. VCF's Network Inventory provides visibility into Kubernetes node health by surfacing standard node conditions including MemoryPressure, PIDPressure, DiskPressure, and the Ready condition, allowing administrators to assess node-level health as part of broader infrastructure reviews. The health status of VKS infrastructure components can also be observed directly by inspecting the running state and restart counts of system pods, including etcd, kube-apiserver, antrea-agent, antrea-controller, and coredns, running in the Supervisor cluster.
+
+Harbor Registry, available as a Supervisor Service and as a standard package on VKS clusters, provides vulnerability scanning, content trust, and policy-based access control for container images. Harbor Registry instances on the Supervisor are organized by vSphere Namespace and are automatically trusted by all VKS clusters on the same Supervisor, creating a consistent point of control for supply chain assessment. Security Technical Implementation Guides (STIGs) are available for Supervisor components and VKS Kubernetes releases, providing hardening benchmarks against which administrators can assess deployed cluster configuration and identify gaps. GitOps tooling, such as the Argo CD Supervisor Service, combined with infrastructure as code in version control, creates an audit trail of every authorized change to cluster configuration and supports retrospective review of configuration drift.
+
+Measuring the effectiveness of AI-specific controls such as model accuracy, bias detection, and output filtering is outside VCF's scope. The organization must define assessment cadences, review audit log data and vulnerability reports, track findings to resolution, and evaluate potential impacts on affected communities.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 3.1
+
+> Approaches, personnel, and documentation are in place to regularly identify and track existing, unanticipated, and emergent AI risks based on factors such as intended and actual performance in deployed contexts.
+
+**SCF Controls:** AAT-17, IAO-02.2, IAO-05, RSK-04.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 3.2
+
+> Risk tracking approaches are considered for settings where AI risks are difficult to assess using currently available measurement techniques or where metrics are not yet available.
+
+**SCF Controls:** AAT-18, IAO-02.2, IAO-05, RSK-04.1
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 3.3
+
+> Feedback processes for end users and impacted communities to report problems and appeal system outcomes are established and integrated into AI system evaluation metrics.
+
+**SCF Controls:** AAT-11.3
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 4.0
+
+> Feedback about efficacy of measurement is gathered and assessed.
+
+**SCF Controls:** AAT-16.4, GOV-05
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 4.1
+
+> Measurement approaches for identifying AI risks are connected to deployment context(s) and informed through consultation with domain experts and other end users. Approaches are documented.
+
+**SCF Controls:** AAT-16.1, GOV-05.1, GOV-05.2
+
+**Aggregate Coverage:** Not Applicable
+
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 4.2
+
+> Measurement results regarding AI system trustworthiness in deployment context(s) and across the AI lifecycle are informed by input from domain experts and relevant AI actors to validate whether the system is performing consistently as intended. Results are documented.
+
+**SCF Controls:** AAT-16.5
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS) supports domain expert validation through a structured role-based workflow built around a validated-model gallery, container-registry model storage, and approval gates for agent tooling. The platform separates responsibilities so that domain-appropriate experts review AI systems at each stage, with MLOps engineers acting as the designated domain expert for model quality and safety within the PAIS workflow.
+
+MLOps engineers validate ML models onboarded to PAIS against the security, privacy, and technical requirements of the organization before the models are made available for downstream use. Validated models are stored in a Harbor registry that acts as the model storage backend, with authentication and certificate-based trust for retrieval; OCI-compliant registries from other vendors are also supported, including in disconnected environments. A central model gallery is the recommended store for ML models, providing centralized management and consistency across deployment targets, which gives reviewers a single inventory to assess and approve before promotion.
+
+For agent-based AI applications, PAIS requires examination and approval of Model Context Protocol (MCP) server tools and capabilities before they are used in agents, and the Agent Builder maintains a list of approved tools for use when connecting to MCP servers. Deep learning VMs give domain experts hands-on environments to prototype, fine-tune, and validate model behavior before promotion. When deploying completion or embedding model endpoints, A/B testing is recommended so that reviewers can compare candidate models in real-world settings. Catalog items for AI applications provisioned through VCF Automation, together with PAIS observability surfaced in platforms such as Grafana, give reviewers the operational signals needed to validate that AI systems perform consistently after release.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+
+### Control MEASURE 4.3
+
+> Measurable performance improvements or declines based on consultations with relevant AI actors, including affected communities, and field data about contextrelevant risks and trustworthiness characteristics are identified and documented.
+
+**SCF Controls:** AAT-16.6, GOV-05, GOV-05.1, GOV-05.2
+
+**Aggregate Coverage:** Contributes
+
+#### VCF (Contributes)
+
+VMware Private AI Services (PAIS), the renamed Private AI Services in VCF, provides mechanisms that supply the observability data and validation gates domain experts and relevant stakeholders need to evaluate AI workload performance changes over time. PAIS publishes inference and resource metrics that DevOps engineers and application developers can monitor at LLM completion API response 95th percentile, inference engine tokens-per-second generation rate, and GPU compute and memory resource allocation, which together help identify undersized or oversized configurations and surface performance shifts across deployments. Inference engine pod memory usage is monitored during benchmarking activities, supporting structured comparison across model versions and configurations. PAIS controller pod metrics are integrated into observability platforms through Telegraf configuration in the Supervisor instance, and PAIS metrics from deep learning VMs and VKS clusters are visualized in observability platforms such as Grafana and VCF Operations. The resulting time-series data gives domain experts a consistent basis for comparing performance before and after a model or configuration change.
+
+PAIS supports two AI workload platform models, deep learning VMs and AI applications on VMware Kubernetes Service (VKS) clusters, running on GPU devices in vGPU or passthrough mode or on CPU-only configurations. Running candidate models on the same GPU-accelerated infrastructure used in production means performance comparisons reflect real deployment conditions. For model endpoints, PAIS guidance recommends A/B testing to compare different embedding models in real-world settings, and model selection should account for computational efficiency including inference speed, memory usage, and parameter count.
+
+The Model Gallery and validate-and-upload workflow apply a review gate before any model reaches inference deployment. MLOps engineers validate ML models onboarded to PAIS against organizational security, privacy, and technical requirements, evaluate performance and safety for the business use case by examining inference requests for malicious behavior, and perform hands-on functional tests before deployment. Organizations are guided to distribute models that have been validated on a deep learning VM rather than models pulled directly from the internet. The same validation gate applies to new and updated model versions, so domain experts review performance characteristics before changes propagate into production.
+
+Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.

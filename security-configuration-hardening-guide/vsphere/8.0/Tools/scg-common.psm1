@@ -18,7 +18,10 @@ function Write-Log {
         [string]$Level = "INFO",
 
         [Parameter(Mandatory=$false)]
-        [string]$OutputFileName
+        [string]$OutputFileName,
+
+        [Parameter(Mandatory=$false)]
+        [string]$CSVOutputFileName
     )
 
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
@@ -38,6 +41,15 @@ function Write-Log {
     # Append to file
     if ($OutputFileName) {
         $logEntry | Out-File -FilePath $OutputFileName -Append
+    }
+
+    # Append to CSV file
+    if ($CSVOutputFileName) {
+        [PSCustomObject]@{
+            Timestamp = $timestamp
+            Level     = $Level
+            Message   = $Message
+        } | Export-Csv -Path $CSVOutputFileName -Append -NoTypeInformation
     }
 }
 

@@ -8,7 +8,7 @@ While we strive for accuracy this is not a comprehensive list of ports and proto
 
 VMware vSphere 6.7 and newer default to only TLS 1.2. Earlier versions of vSphere have the “TLS Reconfiguration Utility” that can activate and deactivate TLS 1.0 and 1.1. Refer to the documentation for usage guidelines.
 
-Activating and deactivating cipher suites is beyond the scope of this document and not recommended except under the direct guidance of VMware Global Support Services. As you see below, vSphere TLS 1.2 implementations do not contain ciphers known to be insecure (DES, RC4, etc.), or ciphers less than 128 bits, and meet all current regulatory & compliance framework requirements.
+Activating and deactivating cipher suites is beyond the scope of this document and not recommended except under the direct guidance of VMware Global Support Services. As you see below, vSphere TLS 1.2 implementations do not contain ciphers known to be insecure (DES, RC4, etc.), or ciphers less than 128 bits, and align with the cipher strength requirements found in major regulatory and compliance frameworks.
 
 Requests for changes to cipher suite defaults are feature requests and should be done through your AE, SE, or TAM.
 

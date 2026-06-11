@@ -36,7 +36,7 @@ Organizations who do have perimeter security controls on their virtualization in
 
 First, check the VMSA to ensure you are running an affected version of vCenter Server. Organizations that updated to vCenter Server 7.0 Update 2c, for instance, may not be vulnerable to the critical vulnerability.
 
-If you can patch vCenter Server, do it. In general, this is the fastest way to resolve this problem, doesn’t involve editing files on the vCenter Server Appliance (VCSA), and removes the vulnerabilities completely. Patching also carries less technical debt and less risk than using a workaround.
+If you can patch vCenter Server, do it. In general, this is the fastest way to resolve this problem, doesn’t involve editing files on the vCenter Server Appliance (VCSA), and removes the vulnerabilities themselves. Patching also carries less technical debt and less risk than using a workaround.
 
 If you can’t patch right away there are workarounds linked from the VMSA for the critical vulnerability, but only the critical vulnerability. This involves editing a text file on the VCSA and restarting services and is documented as part of the VMSA link above.
 
@@ -204,7 +204,7 @@ Please use the VMSA to determine the product versions you need.
 
 This particular update does not cause a "Back in Time" upgrade issue.
 
-More information about "back in time" issues and the compatibility matrix can be found at [https://kb.vmware.com/s/article/67077](https://kb.vmware.com/s/article/67077).
+More information about "back in time" issues and the compatibility matrix can be found at [https://knowledge.broadcom.com/external/article?legacyId=67077](https://knowledge.broadcom.com/external/article?legacyId=67077).
 
 ### What are the CVE numbers involved in VMSA-2021-0020?
 

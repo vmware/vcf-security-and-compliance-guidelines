@@ -1,4 +1,8 @@
 # VMSA-2024-0019: Questions & Answers
+
+> [!WARNING]
+> This information is about an older security vulnerability and is not current. It is kept online for reference. Please review the [VMware Security Advisories web page](https://www.broadcom.com/support/vmware-security-advisories) for the latest information to protect yourself and your organizations. Thank you.
+
 Introduction
 ------------
 
@@ -20,7 +24,7 @@ Updated at 0930 PDT (-0700) on November 18, 2024.
 Next Expected Update
 --------------------
 
-There is not a regular update schedule for this document; will be updated as needed.
+There is not a regular update schedule for this document; it will be updated as needed.
 
 Relevant Links
 --------------
@@ -35,9 +39,9 @@ Relevant Links
 
 [VMware Security Advisory Mailing List](https://go-vmware.broadcom.com/vmsa_email_alert) (please subscribe for proactive notifications of security advisories)
 
-[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD) (advice for ensuring patching success)
+[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md) (advice for ensuring patching success)
 
-[VMware Ports & Protocols](https://ports.broadcom.com/) & [VMware vSphere Firewalling Helper](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-configuration-hardening-guide/vsphere/8.0/VMware%20vSphere%20Security%20Configuration%20Guide%208%20-%20Firewalling%20Helper.xlsx) (assistance in determining ingress & egress firewall rule sets)
+[VMware Ports & Protocols](https://ports.broadcom.com/) (assistance in determining ingress & egress firewall rule sets)
 
 [VMware vSphere Critical Patch Downloads](https://support.broadcom.com/group/ecx/productdownloads?subfamily=VMware+vSphere&tab=Solutions) (support.broadcom.com)
 
@@ -55,7 +59,7 @@ These issues would qualify under ITIL methodologies as an emergency change, requ
 
 ### What should I do to protect myself?
 
-To ensure full protection for yourself and your organization, install one of the update versions listed in the VMware Security Advisory.
+The most reliable way to remove the vulnerabilities is to install one of the update versions listed in the VMware Security Advisory.
 
 While other mitigations may be available depending on your organization’s security posture, defense-in-depth strategies, and firewall configurations, each organization must evaluate the adequacy of these protections independently.
 
@@ -101,7 +105,7 @@ Security updates are cumulative within a product branch. If you apply the latest
 
 Yes; vCenter is affected by this VMSA.
 
-See [“Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD)” for guidance on updating vSphere components.
+See [“Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)” for guidance on updating vSphere components.
 
 ### Do I have to update VMware ESXi?
 
@@ -139,7 +143,7 @@ A direct link to this location is in the links above. You may need to log in fir
 
 ### Are there workarounds for these vulnerabilities?
 
-Not as part of this advisory. There may be other mitigations and compensating controls available in your organization, depending on your security posture, defense-in-depth strategies, and conﬁgurations of perimeter firewalls and appliance firewalls. All organizations must decide for themselves whether to rely on those protections; VMware Global Support (GS) cannot decide for you what is appropriate for your organization.
+Not as part of this advisory. There may be other mitigations and compensating controls available in your organization, depending on your security posture, defense-in-depth strategies, and configurations of perimeter firewalls and appliance firewalls. All organizations must decide for themselves whether to rely on those protections; VMware Global Support (GS) cannot decide for you what is appropriate for your organization.
 
 For assistance that is tailored to your environment and organization please contact your account team about VMware Professional Services.
 
@@ -169,19 +173,19 @@ No. vCenter is the management interface to a vSphere cluster. You will lose the 
 
 Yes, the patch is available through the standard update mechanisms for VMware vSphere and VMware Cloud Foundation. Consult the product documentation for the version of the product you use.
 
-See “[Best Practices for Patching VMware vSphere”](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD) for additional guidance on updating vSphere components.
+See “[Best Practices for Patching VMware vSphere”](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md) for additional guidance on updating vSphere components.
 
 ### Are there any known issues with this patch?
 
 There are no known issues with the updates listed in VMSA-2024-0019.2.
 
-There was an issue with the original VMSA-2024-0019 update regarding session timeouts when accessing vCenter (with a workaround at [KB 377734.](https://knowledge.broadcom.com/external/article?articleNumber=377734). This is resolved with the re-release.
+There was an issue with the original VMSA-2024-0019 update regarding session timeouts when accessing vCenter (with a workaround at [KB 377734](https://knowledge.broadcom.com/external/article?articleNumber=377734)). This is resolved with the re-release.
 
 If you enable SSH on vCenter in order to implement the workaround, remember to disable it again afterwards.
 
 ### Does this impact VMware vSphere 6.5 or 6.7?
 
-Yes. Products that are past their End of General Support dates are not evaluated as part of security advisories. If your organization has extended support please use those processes to request assistance.
+Likely. Products that are past their End of General Support dates are not evaluated as part of security advisories, and versions not listed in the VMSA should be assumed to be affected. If your organization has extended support please use those processes to request assistance.
 
 ### Do I have to update to vCenter 8.0.3 to receive this patch?
 
@@ -195,7 +199,7 @@ Yes. vSphere 7 Update 3 was released in January 2022 and is considered the best 
 
 ### I am using a third-party solution such as HPE SimpliVity, Dell EMC VxRail, and so on. Is it safe for me to apply the update?
 
-Third-party engineered systems control their patch levels and conﬁgurations as part of their qualiﬁcation and testing processes. Using security guidance that is not explicitly for that product and product version is never advised. If you use engineered and integrated solutions please contact those vendors directly for guidance. Broadcom is not involved in, and cannot speak to, third-party product release schedules.
+Third-party engineered systems control their patch levels and configurations as part of their qualification and testing processes. Using security guidance that is not explicitly for that product and product version is never advised. If you use engineered and integrated solutions please contact those vendors directly for guidance. Broadcom is not involved in, and cannot speak to, third-party product release schedules.
 
 ### Are VMware Cloud and hosted products updated?
 

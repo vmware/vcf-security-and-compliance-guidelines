@@ -12,7 +12,7 @@ In short, patching VMware ESXi, Workstation, and Fusion are the fastest methods 
 
 As always, please subscribe to [our Security Advisories mailing list](https://go-vmware.broadcom.com/vmsa_email_alert) for immediate notification when there are new VMware Security Advisories released.
 
-New questions are answered at the end, so please read through or scan the index on the left of the page.
+New questions are answered at the end.
 
 Vulnerabilities generate a lot of calls to VMware Global Support Services. While VMware Support is always happy to answer questions, you will get "guidance" or "advisory" types of answers faster, and with more relevance to your own environments, if you ask your account team, Technical Account Manager (TAM), or Professional Services representatives first.
 
@@ -26,13 +26,13 @@ There will not be a regular update schedule for this document.
 Questions & Answers
 -------------------
 
-We add new questions and answers to the end of this document to preserve links into the subsections here. Please use the index on the left side to scan the questions -- the question you have might be near the end!
+We add new questions and answers to the end of this document to preserve links into the subsections here.
 
 ### Who is affected?
 
 A VMware Security Advisory will always list the specific supported products and versions that are affected. In this case it affects versions of VMware ESXi, Workstation, Fusion, and Cloud Foundation running in on-premises or colocated settings. If you have a version of these products running in your environment you are affected.
 
-Cloud-based VMware services have been protected [and are fully operational](https://status.vmware-services.io/). Customers of VMware Cloud on AWS are fully protected as well, and no additional work is needed to protect their cloud-based workloads.
+Cloud-based VMware services have been protected [and are fully operational](https://status.vmware-services.io/). VMware Cloud on AWS has been patched as well, and no additional work is needed to protect cloud-based workloads there.
 
 ### When do I need to act?
 
@@ -42,7 +42,7 @@ Organizations that practice change management using the ITIL definitions of chan
 
 ### What should I do to protect myself?
 
-To fully protect yourself and your organization please install one of the patch versions listed in the VMware Security Advisory, or use the workarounds listed in the VMSA.
+The most reliable way to remove the vulnerabilities is to install one of the patch versions listed in the VMware Security Advisory; the workarounds listed in the VMSA are also available.
 
 There may be other protections available in your organization, depending on your security posture, defense-in-depth strategies, and configurations of virtual machines. Reliance on those protections has to be a discussion within your organization.
 
@@ -74,7 +74,7 @@ There are patches for all affected products. Please refer to the VMSA itself for
 
 VMware refers to patches & updates as "back in time" when they update a product branch that is older than the latest version of that major release. In this case, the 7.0.3.x line is the top of the vSphere development tree, and the most current. Patches in the 7.0.1.x and 7.0.2.x are "back in time" because they are on older branches of vSphere 7.
 
-Please refer to [Knowledge Base article 87613](https://kb.vmware.com/s/article/87613) for upgrade options between ESXi versions.
+Please refer to [Knowledge Base article 87613](https://knowledge.broadcom.com/external/article?legacyId=87613) for upgrade options between ESXi versions.
 
 ### Will these "back in time" releases disrupt the upgrade to vSphere 7 we have planned?
 
@@ -82,7 +82,7 @@ Probably not but please consult the upgrade compatibility matrix for guidance.
 
 ### If we use the patch for vSphere 7 Update 2 (7.0.2) does that prevent us from updating to vSphere 7 Update 3c or newer?
 
-No, all vSphere 7 versions can be updated to the latest vSphere 7 release. See [Knowledge Base article 87613](https://kb.vmware.com/s/article/87613) for more information.
+No, all vSphere 7 versions can be updated to the latest vSphere 7 release. See [Knowledge Base article 87613](https://knowledge.broadcom.com/external/article?legacyId=87613) for more information.
 
 ### Are there any considerations to make when choosing the 7.0.1 or 7.0.2 patches?
 
@@ -156,7 +156,7 @@ VMware strongly recommends patching to the release listed in the VMSA, and conti
 
 ### I am at vSphere 7 Update 3c, do I need to patch?
 
-Please consult the VMSA for version information, but if you have fully applied the ESXi 7.0 Update 3c release from January 27, 2022, or a newer release, you are fully protected from this vulnerability.
+Please consult the VMSA for version information, but if you have fully applied the ESXi 7.0 Update 3c release from January 27, 2022, or a newer release, the vulnerability has already been remediated.
 
 ### I have extended support on an affected product. How can I get a patch for this?
 
@@ -238,7 +238,7 @@ Replace or assign a value to the $vmname variable, and uncomment the ReconfigVM 
 
 As with all code samples, we provide them to assist customers who wish to automate their work. **However, all environments are different, and VMware cannot take responsibility for the effects of this code sample in your environment. Please ensure that you have tested this in a controlled environment, understand the effects prior to using it in a production setting, have gained proper authorization to make these changes, and have communicated the changes to your organization prior to making them.**
 
-Snapshots also capture VM configuration, which means that you can take a snapshot of a VM for testing or to mitigate the risk of this change. It also means that snapshots of a virtual machine may contain USB controllers, so if they are reverted you may be vulnerable again. This is why patching ESXi is always recommended as the best method for securing the environment, as it eliminates the vulnerability completely. If you do take a snapshot, ensure that you remove it in a timely manner to avoid the common performance and capacity issues that can develop from long-term snapshots.
+Snapshots also capture VM configuration, which means that you can take a snapshot of a VM for testing or to mitigate the risk of this change. It also means that snapshots of a virtual machine may contain USB controllers, so if they are reverted you may be vulnerable again. This is why patching ESXi is always recommended as the best method for securing the environment, as it removes the vulnerability itself. If you do take a snapshot, ensure that you remove it in a timely manner to avoid the common performance and capacity issues that can develop from long-term snapshots.
 
 ### ESXi 6.7 is not impacted by some of these CVEs, is the risk lower?
 

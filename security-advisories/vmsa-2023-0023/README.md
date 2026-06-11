@@ -8,7 +8,7 @@ Introduction
 
 On October 24, 2023 VMware released a Critical security advisory, VMSA-2023-0023, addressing security vulnerabilities found and resolved in VMware vCenter Server, which is present in VMware vSphere and Cloud Foundation products.
 
-The VMSA will always be the source of truth for what products & versions are aﬀected, the workarounds, and proper patches to keep your organization secure. This document is a corollary to the advisory and includes self-service information to help you and your organization decide how to respond.
+The VMSA will always be the source of truth for what products & versions are affected, the workarounds, and proper patches to keep your organization secure. This document is a corollary to the advisory and includes self-service information to help you and your organization decide how to respond.
 
 These vulnerabilities are memory management and corruption issues which can be used as a remote code execution attack against VMware vCenter Server services.
 
@@ -22,7 +22,7 @@ Updated at 0800 PST (-0800) on January 19, 2024.
 Next Expected Update
 --------------------
 
-There is not a regular update schedule for this document; will be updated as needed.
+There is not a regular update schedule for this document; it will be updated as needed.
 
 Questions & Answers
 -------------------
@@ -33,8 +33,6 @@ Customers who have deployed a product listed in the VMSA (one that includes VMwa
 
 If you fall under the" _you must patch or update your vCenter category_", please refer to the VMSA to find the patch respective to your current version. 
 
-![image-20231025124848-2](https://images.core.vmware.com/sites/default/files/inline-images/image-20231025124848-2.png)
-
 **You are affected by this vulnerability if you are running any version of vSphere except the latest updates for vSphere 6.5, 6.7, 7.0, or 8.0. Please consult the VMSA itself for the definitive list of affected versions. If you have a question about whether you are affected it is likely that you are, and should take action immediately.**
 
 ### When do I need to act?
@@ -43,9 +41,9 @@ In ITIL parlance this would be considered an emergency change, and your organiza
 
 ### What should I do to protect myself?
 
-To fully protect yourself and your organization, please install one of the patch versions listed in the VMware Security Advisory. Follow the VMware documentation for patching procedures and considerations when using vCenter Server High Availability (not vSphere High Availability).
+The most reliable way to remove the vulnerabilities is to install one of the patch versions listed in the VMware Security Advisory. Follow the VMware documentation for patching procedures and considerations when using vCenter Server High Availability (not vSphere High Availability).
 
-There may be other mitigations available in your organization depending on your security posture, defense-in-depth strategies, and conﬁgurations of perimeter firewalls and appliance firewalls. All organizations must decide for themselves whether to rely on those protections.
+There may be other mitigations available in your organization depending on your security posture, defense-in-depth strategies, and configurations of perimeter firewalls and appliance firewalls. All organizations must decide for themselves whether to rely on those protections.
 
 ### What products are affected?
 
@@ -71,7 +69,7 @@ As of January 18, 2024 VMware is aware of exploitation “in the wild.” Please
 
 Yes; vCenter Server is affected by this VMSA.
 
-See "[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD)" for guidance on patching vSphere components.
+See "[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)" for guidance on patching vSphere components.
 
 ### Do I have to patch ESXi hosts?
 
@@ -89,7 +87,7 @@ Affected products and product versions are listed in the advisory, as well as th
 
 There are no workarounds for this advisory that remove the vulnerability.
 
-There may be other possible mitigations and compensating controls available in your organization, depending on your security posture, defense-in-depth strategies, and conﬁgurations of perimeter firewalls and appliance firewalls. All organizations must decide for themselves whether to rely on those protections, and how to configure those protections effectively for your environment.
+There may be other possible mitigations and compensating controls available in your organization, depending on your security posture, defense-in-depth strategies, and configurations of perimeter firewalls and appliance firewalls. All organizations must decide for themselves whether to rely on those protections, and how to configure those protections effectively for your environment.
 
 **VMware staff will always advise you to patch, as it is the only way to ensure the removal of the vulnerability. The decision to use other mitigations is something your organization must consider on its own. Similarly, configuration and validation of security controls, such as firewall rules, is an activity that is specific to your environment, and not something that VMware Global Support Services can assist with**. For assistance of that nature please contact your account team to enquire about VMware Professional Services.
 
@@ -105,210 +103,14 @@ The specific network ports involved in this vulnerability are 2012/tcp, 2014/tcp
 
 
 
-* Path Number: 1
-  * What You Are Running: Release
-  *  : 6.5 U3u or below
-  * You Should Move To...:  
-  *  : 7.0 U3o
-  * You Can Move To...:  
-  * 6.5 U3v
-* Path Number: Version
-  * What You Are Running: 6.5.0.41000
-  *  :  
-  * You Should Move To...: 7.0.3.01700
-  *  :  
-  * You Can Move To...: 6.5.0.42000
-* Path Number: Build Number
-  * What You Are Running: 20510539
-  *  :  
-  * You Should Move To...: 22357613
-  *  :  
-  * You Can Move To...: 22499743
-* Path Number: GA Date
-  * What You Are Running: October 6, 2022
-  *  :  
-  * You Should Move To...: September 28, 2023
-  *  :  
-  * You Can Move To...: October 24, 2023
-* Path Number:  
-  * What You Are Running: 
-  *  : 
-  * You Should Move To...: 
-  *  : 
-  * You Can Move To...: 
-* Path Number: 2
-  * What You Are Running: Release
-  *  : 6.7 U3s or below
-  * You Should Move To...:  
-  *  : 7.0 U3o
-  * You Can Move To...:  
-  * 6.7 U3t
-  * 8.0 U1d
-  * 8.0 U2
-* Path Number: Version
-  * What You Are Running: 6.7.0.54000
-  *  :  
-  * You Should Move To...: 7.0.3.01700
-  *  :  
-  * You Can Move To...: 6.7.0.55000
-  * 8.0.1.00400
-  * 8.0.2.00000
-* Path Number: Build Number
-  * What You Are Running: 20540798
-  *  :  
-  * You Should Move To...: 22357613
-  *  :  
-  * You Can Move To...: 22509723
-  * 22368047
-  * 22385739
-* Path Number: GA Date
-  * What You Are Running: October 6, 2022
-  *  :  
-  * You Should Move To...: September 28, 2023
-  *  :  
-  * You Can Move To...: October 24, 2023
-  * October 24, 2023
-  * September 21, 2023
-* Path Number:  
-  * What You Are Running: 
-  *  : 
-  * You Should Move To...: 
-  *  : 
-  * You Can Move To...: 
-* Path Number: 3
-  * What You Are Running: Release
-  *  : 7.0 U3n or below
-  * You Should Move To...:  
-  *  : 7.0 U3o
-  * You Can Move To...:  
-  *  
-  * 8.0 U1d
-  * 8.0 U2
-* Path Number: Version
-  * What You Are Running: 7.0.3.01600
-  *  :  
-  * You Should Move To...: 7.0.3.01700
-  *  :  
-  * You Can Move To...:  
-  * 8.0.1.00400
-  * 8.0.2.00000
-* Path Number: Build Number
-  * What You Are Running: 21958406
-  *  :  
-  * You Should Move To...: 22357613
-  *  :  
-  * You Can Move To...:  
-  * 22368047
-  * 22385739
-* Path Number: GA Date
-  * What You Are Running: July 7, 2023
-  *  :  
-  * You Should Move To...: September 28, 2023
-  *  :  
-  * You Can Move To...:  
-  * October 24, 2023
-  * September 21, 2023
-* Path Number:  
-  * What You Are Running: 
-  *  : 
-  * You Should Move To...: 
-  *  : 
-  * You Can Move To...: 
-* Path Number: 4
-  * What You Are Running: Release
-  *  : 8.0 U1c or below
-  * You Should Move To...:  
-  *  : 8.0 U1d
-  * You Can Move To...:  
-  *  
-  *  
-  * 8.0 U2
-* Path Number: Version
-  * What You Are Running: 8.0.1.00300
-  *  :  
-  * You Should Move To...: 8.0.1.00400
-  *  :  
-  * You Can Move To...:  
-  *  
-  * 8.0.2.00000
-* Path Number: Build Number
-  * What You Are Running: 22088981
-  *  :  
-  * You Should Move To...: 22368047
-  *  :  
-  * You Can Move To...:  
-  *  
-  * 22385739
-* Path Number: GA Date
-  * What You Are Running: July 27. 2023
-  *  :  
-  * You Should Move To...: October 24, 2023
-  *  :  
-  * You Can Move To...:  
-  *  
-  * September 21, 2023
-* Path Number:  
-  * What You Are Running: 
-  *  : 
-  * You Should Move To...: 
-  *  : 
-  * You Can Move To...: 
-* Path Number: 5
-  * What You Are Running: Release
-  *  : 7.0 U3o 
-  * You Should Move To...:  
-  *  : No Action Required
-  * You Can Move To...: 
-* Path Number: Version
-  * What You Are Running: 7.0.3.01700
-  *  :  
-  * You Should Move To...: 
-  *  : 
-  * You Can Move To...: 
-* Path Number: Build Number
-  * What You Are Running: 22357613
-  *  :  
-  * You Should Move To...: 
-  *  : 
-  * You Can Move To...: 
-* Path Number: GA Date
-  * What You Are Running: September 28, 2023
-  *  :  
-  * You Should Move To...: 
-  *  : 
-  * You Can Move To...: 
-* Path Number:  
-  * What You Are Running: 
-  *  : 
-  * You Should Move To...: 
-  *  : 
-  * You Can Move To...: 
-* Path Number: 6
-  * What You Are Running: Release
-  *  : 8.0 U2
-  * You Should Move To...:  
-  *  : No Action Required
-  * You Can Move To...: 
-* Path Number: Version
-  * What You Are Running: 8.0.2.00000
-  *  :  
-  * You Should Move To...: 
-  *  : 
-  * You Can Move To...: 
-* Path Number: Build Number
-  * What You Are Running: 22385739
-  *  :  
-  * You Should Move To...: 
-  *  : 
-  * You Can Move To...: 
-* Path Number: GA Date
-  * What You Are Running: September 21, 2023
-  *  :  
-  * You Should Move To...: 
-  *  : 
-  * You Can Move To...: 
-
-
+| Path | What You Are Running | You Should Move To | You Can Move To |
+|------|----------------------|--------------------|-----------------|
+| 1 | 6.5 U3u or below (6.5.0.41000, build 20510539, GA October 6, 2022) | 7.0 U3o (7.0.3.01700, build 22357613, GA September 28, 2023) | 6.5 U3v (6.5.0.42000, build 22499743, GA October 24, 2023) |
+| 2 | 6.7 U3s or below (6.7.0.54000, build 20540798, GA October 6, 2022) | 7.0 U3o (7.0.3.01700, build 22357613, GA September 28, 2023) | 6.7 U3t (6.7.0.55000, build 22509723, GA October 24, 2023); 8.0 U1d (8.0.1.00400, build 22368047, GA October 24, 2023); 8.0 U2 (8.0.2.00000, build 22385739, GA September 21, 2023) |
+| 3 | 7.0 U3n or below (7.0.3.01600, build 21958406, GA July 7, 2023) | 7.0 U3o (7.0.3.01700, build 22357613, GA September 28, 2023) | 8.0 U1d (8.0.1.00400, build 22368047, GA October 24, 2023); 8.0 U2 (8.0.2.00000, build 22385739, GA September 21, 2023) |
+| 4 | 8.0 U1c or below (8.0.1.00300, build 22088981, GA July 27, 2023) | 8.0 U1d (8.0.1.00400, build 22368047, GA October 24, 2023) | 8.0 U2 (8.0.2.00000, build 22385739, GA September 21, 2023) |
+| 5 | 7.0 U3o (7.0.3.01700, build 22357613, GA September 28, 2023) | No action required | |
+| 6 | 8.0 U2 (8.0.2.00000, build 22385739, GA September 21, 2023) | No action required | |
 The updates for vCenter Server 6.5 and 6.7 were tested against environments already running 6.5 Update 3 and 6.7 Update 3, respectively. VMware recommends that those deployments be brought to their respective Update 3 prior to applying this update.
 
 The recommendation to move to 8.0 U1d is helpful for VMware Cloud Foundation 5.0 customers, as well as to decouple the upgrade process from security remediation work.
@@ -353,7 +155,7 @@ No.
 
 Yes, the patch will be available through the standard update mechanisms on all vCenter Server versions listed in the VMSA.
 
-See "[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD)" for guidance on patching vSphere components.
+See "[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)" for guidance on patching vSphere components.
 
 ### Does this impact versions of vSphere older than 6.5?
 
@@ -373,7 +175,7 @@ Yes. vSphere 7 Update 3 was released in January 2022 and is considered the best 
 
 ### I am using a third-party solution such as HPE SimpliVity, Dell EMC VxRail, and so on. Is it safe for me to apply the update?
 
-Engineered and integrated solutions like HPE SimpliVity and Dell EMC VxRail control their patch levels and conﬁgurations as part of their qualiﬁcation and testing processes. Using security guidance that is not explicitly for that product and product version is never advised. If you use engineered and integrated solutions please contact those vendors directly for guidance.
+Engineered and integrated solutions like HPE SimpliVity and Dell EMC VxRail control their patch levels and configurations as part of their qualification and testing processes. Using security guidance that is not explicitly for that product and product version is never advised. If you use engineered and integrated solutions please contact those vendors directly for guidance.
 
 ### Are VMware Cloud and hosted products patched?
 
@@ -389,6 +191,8 @@ Changelog
 2023-10-25, 11:50 PDT (-0700): Updates to improve clarity.
 
 2023-10-31, 0930 PDT (-0700): Updates to the VMware Cloud messaging.
+
+2024-01-19, 0800 PST (-0800): Noted reports of exploitation in the wild.
 
 Disclaimer
 ----------
