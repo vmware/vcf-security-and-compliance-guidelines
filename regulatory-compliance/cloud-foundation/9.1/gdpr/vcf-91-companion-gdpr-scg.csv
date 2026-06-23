@@ -1,0 +1,6 @@
+SCG ID,Component,Title,Implementation Priority,Bridging SCF Controls,Mapped Framework Controls
+esx-9.entropy,ESX,The ESX host must use sufficient entropy for cryptographic operations.,P2,CRY-01,32.1(a)
+esx-9.hardware-cpu-amd-cc,ESX,"Enable AMD SEV-ES and SEV-SNP in system firmware where available, and size the SEV ASID pool appropriately.",P1,CRY-01,32.1(a)
+esx-9.hardware-cpu-intel-cc,ESX,Enable Intel SGX and TDX in system firmware where available.,P1,CRY-01,32.1(a)
+nsx-9.load-balancer-fips,NSX,Enable FIPS-validated cryptography for NSX load balancers.,P0,CRY-01,32.1(a)
+vcenter-9.snmp3,vCenter,Enforce SNMPv3 authentication and privacy where SNMP is enabled on vCenter.,"P0, Upon Feature Enablement",CRY-01,32.1(a)

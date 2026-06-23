@@ -1,0 +1,29 @@
+SCG ID,Component,Title,Implementation Priority,Bridging SCF Controls,Mapped Framework Controls
+automation-9.oidc-settings,Automation,Bound VCF Automation OIDC token lifetimes and keep redirect targets HTTPS-only.,P1,IAC-10,2
+automation-9.timeouts,Automation,Limit the VCF Automation API token lifetime.,P1,IAC-10,2
+esx-9.firewall-restrict-access,ESX,Configure the ESX host firewall to only allow traffic from authorized networks.,P0,END-05,1
+esx-9.hardware-firmware-updates,ESX,"Ensure all system and device firmware is auditable, authentic, and up to date.",P0,VPM-05,5
+esx-9.updates,ESX,The ESX host must have all available software updates and patches installed.,P0,VPM-05,5
+fleet-9.access-token,Operations,Limit the maximum lifetime of access tokens.,P0,IAC-10,2
+fleet-9.api-token,Operations,Limit the maximum lifetime of API tokens.,P1,IAC-10,2
+guest-9.tools-updates,ESX,The guest OS must run a current version of VMware Tools.,P0,VPM-05,5
+guest-9.tools-upgrade,ESX,"The guest OS must enable VMware Tools auto-upgrade, or use an equivalent external update path.",P2,VPM-05,5
+nsx-9.ibgp-source-loopback,NSX,Configure Tier-0 Gateway iBGP peering to use the loopback address as the source.,"P0, Upon Feature Enablement",NET-03,1
+nsx-9.reverse-path-forwarding,NSX,NSX Tier-0 Gateway must enable unicast Reverse Path Forwarding to drop spoofed-source packets.,"P0, Upon Feature Enablement",NET-03,1
+operations-9.firewall-hardening,Operations,VCF Operations must enable firewall hardening.,P0,NET-03,1
+operations-9.non-imported-vidm,Operations,Restrict VCF Operations access to imported identity-provider users.,P0,IAC-07,3
+sddc-9.basic-auth-disable,SDDC Manager,Disable HTTP Basic Authentication on the SDDC Manager API.,P0,IAC-10,2
+vcenter-9.network-mac-learning,vCenter,Disable MAC learning on distributed switch port groups unless a workload requires it.,P2,NET-03,1
+vcenter-9.network-reject-forged-transmit-dvportgroup,vCenter,Reject forged transmits on distributed switches and port groups.,P2,NET-03,1
+vcenter-9.network-reject-mac-changes-dvportgroup,vCenter,Reject guest MAC address changes on distributed switches and port groups.,P2,NET-03,1
+vcenter-9.network-reset-port,vCenter,Reset distributed switch port configuration when a virtual machine disconnects.,P2,NET-03,1
+vcenter-9.network-restrict-netflow-usage,vCenter,Send distributed switch NetFlow data only to authorized collectors.,P2,NET-03,1
+vcenter-9.network-restrict-port-level-overrides,vCenter,"Disallow per-port policy overrides on distributed port groups, except port blocking.",P2,NET-03,1
+vcenter-9.network-restrict-port-mirroring,vCenter,Remove unauthorized port mirroring sessions on distributed switches.,P2,NET-03,1
+vcenter-9.vami-firewall-restrict-access,vCenter,Configure the vCenter appliance firewall to allow inbound traffic only from authorized networks.,P0,END-05,1
+vcenter-9.vami-updates,vCenter,vCenter must have all available software updates and patches installed.,P0,VPM-05,5
+vcf-9.mfa,VCF,Integrate VMware Cloud Foundation with an identity provider that enforces multifactor authentication.,P0,IAC-02,2
+vcf-9.secure-baseline,VCF,"Apply the controls in this guidance, and document the rationale for any deviations.",P1,CFG-02,2
+vm-9.virtual-hardware,ESX,Virtual machines must use a minimum supported virtual hardware version.,P1,VPM-05,5
+vsan-9.hcl-internet,vSAN,Disable or proxy the vSAN Health Check Hardware Compatibility List (HCL) download.,P1,NET-03,1
+vsan-9.network-isolation-vsan-iscsi-target,vSAN,Isolate vSAN iSCSI Target traffic on dedicated VMkernel interfaces.,"P0, Upon Feature Enablement",NET-03,1

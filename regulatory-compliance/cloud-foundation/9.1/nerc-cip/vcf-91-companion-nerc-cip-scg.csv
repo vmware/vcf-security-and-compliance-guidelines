@@ -1,0 +1,140 @@
+SCG ID,Component,Title,Implementation Priority,Bridging SCF Controls,Mapped Framework Controls
+automation-9.activity-log,Automation,Retain the VCF Automation activity log for the audit window and keep debug output disabled.,P1,"CFG-03, MON-10","CIP-006-6 1.9, CIP-006-6 2.3, CIP-007-6 1.1, CIP-007-6 4.3"
+automation-9.oidc-settings,Automation,Bound VCF Automation OIDC token lifetimes and keep redirect targets HTTPS-only.,P1,IAC-10,CIP-007-6 5.6
+automation-9.timeouts,Automation,Limit the VCF Automation API token lifetime.,P1,IAC-10,CIP-007-6 5.6
+esx-9.account-lockout-duration,ESX,The ESX host must enforce an unlock timeout.,P2,IAC-22,CIP-007-6 5.7
+esx-9.account-lockout-max-attempts,ESX,The ESX host must enforce a limit on consecutive invalid logon attempts by a user.,P2,IAC-22,CIP-007-6 5.7
+esx-9.account-password-history,ESX,The ESX host must enforce password history for users.,P2,IAC-10.1,"CIP-007-6 5.5.1, CIP-007-6 5.5.2"
+esx-9.ad-admin-group-name,ESX,"The ESX host must not use the default ""ESX Admins"" Active Directory group.",P0,IAC-10.8,CIP-007-6 5.4
+esx-9.ad-admin-validate-interval,ESX,The ESX host must not disable validation of users and groups.,P2,IAC-17,"CIP-004-7 4.3, CIP-004-7 6.2, CIP-004-7 6.2.1, CIP-004-7 6.2.2"
+esx-9.api-soap-timeout,ESX,The ESX host must configure a session timeout for the vSphere API.,P1,IAC-25,"CIP-005-7 2.5, CIP-005-7 3.2"
+esx-9.ceip-disable,ESX,Disable the ESX Customer Experience Improvement Program.,P1,CFG-03,CIP-007-6 1.1
+esx-9.cpu-hyperthread-warning,ESX,The ESX host must not suppress warnings about unmitigated hyperthreading vulnerabilities.,P2,MON-01.4,"CIP-007-6 4.1, CIP-007-6 4.2"
+esx-9.dcui-timeout,ESX,Set a timeout to automatically terminate idle DCUI sessions on the ESX host.,P2,IAC-25,"CIP-005-7 2.5, CIP-005-7 3.2"
+esx-9.deactivate-mob,ESX,The ESX Managed Object Browser (MOB) must be disabled.,P2,CFG-03,CIP-007-6 1.1
+esx-9.deactivate-shell,ESX,The ESX Shell must be disabled.,P2,CFG-03,CIP-007-6 1.1
+esx-9.entropy,ESX,The ESX host must use sufficient entropy for cryptographic operations.,P2,CRY-01,CIP-006-6 1.10
+esx-9.forensic-snapshots,ESX,Leave forensic memory snapshots disabled except on hosts used for deliberate memory capture.,P2,"CFG-03, IRO-08","CIP-007-6 1.1, CIP-008-6 2.3, CIP-009-6 1.5"
+esx-9.hardware-cpu-amd-cc,ESX,"Enable AMD SEV-ES and SEV-SNP in system firmware where available, and size the SEV ASID pool appropriately.",P1,CRY-01,CIP-006-6 1.10
+esx-9.hardware-cpu-intel-cc,ESX,Enable Intel SGX and TDX in system firmware where available.,P1,CRY-01,CIP-006-6 1.10
+esx-9.hardware-firmware-updates,ESX,"Ensure all system and device firmware is auditable, authentic, and up to date.",P0,VPM-05,"CIP-007-6 1.3, CIP-007-6 2.3"
+esx-9.hardware-management-security,ESX,Harden integrated hardware management controllers.,P0,"CFG-03, IAC-10.8","CIP-007-6 1.1, CIP-007-6 5.4"
+esx-9.hardware-ports,ESX,Disable or physically protect unused external server ports.,P1,"CFG-03, END-12","CIP-007-6 1.1, CIP-007-6 1.2"
+esx-9.hardware-virtual-nic,ESX,The ESX host must not enable virtual hardware management network interfaces.,P0,CFG-03,CIP-007-6 1.1
+esx-9.iscsi-mutual-chap,ESX,Enable bidirectional/mutual CHAP authentication for iSCSI traffic.,"P0, Upon Feature Enablement",IAC-04,CIP-005-7 1.4
+esx-9.log-audit-local,ESX,The ESX host must enable audit record logging.,P0,MON-03,"CIP-007-6 4.1, CIP-007-6 4.1.1, CIP-007-6 4.1.2, CIP-007-6 4.1.3"
+esx-9.log-audit-local-capacity,ESX,The ESX host must store audit records for a time period consistent with your records retention policy.,P1,MON-10,"CIP-006-6 1.9, CIP-006-6 2.3, CIP-007-6 4.3"
+esx-9.log-audit-persistent,ESX,Configure a persistent log location for all locally stored audit records on the ESX host.,P0,MON-10,"CIP-006-6 1.9, CIP-006-6 2.3, CIP-007-6 4.3"
+esx-9.log-filter,ESX,The ESX host must not enable log filtering.,P2,MON-03,"CIP-007-6 4.1, CIP-007-6 4.1.1, CIP-007-6 4.1.2, CIP-007-6 4.1.3"
+esx-9.log-level,ESX,The ESX host must produce audit records containing information to establish what type of events occurred.,P2,MON-03,"CIP-007-6 4.1, CIP-007-6 4.1.1, CIP-007-6 4.1.2, CIP-007-6 4.1.3"
+esx-9.log-persistent,ESX,Configure a persistent log location for all locally stored logs on the ESX host.,P0,MON-10,"CIP-006-6 1.9, CIP-006-6 2.3, CIP-007-6 4.3"
+esx-9.network-bpdu,ESX,Enable the Bridge Protocol Data Unit (BPDU) filter on the ESX host.,P2,NET-04,CIP-005-7 1.3
+esx-9.network-dvfilter,ESX,Use of the dvFilter network APIs must be restricted on the ESX host.,P2,"CFG-03, NET-04","CIP-005-7 1.3, CIP-007-6 1.1"
+esx-9.network-rpf-promisc,ESX,The ESX host must perform reverse path forwarding checks on promiscuous mode port groups.,P2,NET-04,CIP-005-7 1.3
+esx-9.network-standard-reject-forged-transmit,ESX,Reject forged transmits on standard switches and port groups.,"P0, Upon Feature Enablement",NET-04,CIP-005-7 1.3
+esx-9.network-standard-reject-mac-changes,ESX,Reject guest MAC address changes on standard switches and port groups.,"P0, Upon Feature Enablement",NET-04,CIP-005-7 1.3
+esx-9.network-standard-reject-promiscuous-mode,ESX,Reject promiscuous mode on standard switches and port groups.,"P2, Upon Feature Enablement",NET-04,CIP-005-7 1.3
+esx-9.password-complexity,ESX,Enforce password complexity on ESX local accounts.,P0,IAC-10.1,"CIP-007-6 5.5.1, CIP-007-6 5.5.2"
+esx-9.password-max-age,ESX,The ESX host must be configured with an appropriate maximum password age.,P2,IAC-10.1,"CIP-007-6 5.5.1, CIP-007-6 5.5.2"
+esx-9.session-timeout,ESX,The ESX Host Client must enforce an idle session timeout.,P2,IAC-25,"CIP-005-7 2.5, CIP-005-7 3.2"
+esx-9.shell-interactive-timeout,ESX,Configure the inactivity timeout to automatically terminate idle ESX host shells.,P0,IAC-25,"CIP-005-7 2.5, CIP-005-7 3.2"
+esx-9.shell-timeout,ESX,Set a timeout to limit how long the ESX Shell and SSH services are allowed to run.,P0,IAC-25,"CIP-005-7 2.5, CIP-005-7 3.2"
+esx-9.shell-warning,ESX,The ESX host must not suppress warnings that the local or remote shell is enabled.,P2,MON-01.4,"CIP-007-6 4.1, CIP-007-6 4.2"
+esx-9.snmp,ESX,The SNMP service on the ESX host must not be configured to start automatically.,P0,CFG-03,CIP-007-6 1.1
+esx-9.ssh,ESX,The ESX host's SSH service must be deactivated except for temporary diagnostic use.,P2,CFG-03,CIP-007-6 1.1
+esx-9.updates,ESX,The ESX host must have all available software updates and patches installed.,P0,VPM-05,"CIP-007-6 1.3, CIP-007-6 2.3"
+fleet-9.access-token,Operations,Limit the maximum lifetime of access tokens.,P0,IAC-10,CIP-007-6 5.6
+fleet-9.api-token,Operations,Limit the maximum lifetime of API tokens.,P1,IAC-10,CIP-007-6 5.6
+fleet-9.password-policy,Operations,Configure a fleet-wide password policy.,P0,"IAC-10.1, IAC-22","CIP-007-6 5.5.1, CIP-007-6 5.5.2, CIP-007-6 5.7"
+guest-9.tools-deactivate-appinfo,ESX,The guest OS must deactivate Appinfo information gathering unless required.,P0,CFG-03,CIP-007-6 1.1
+guest-9.tools-deactivate-containerinfo,ESX,The guest OS must deactivate ContainerInfo unless required.,P0,CFG-03,CIP-007-6 1.1
+guest-9.tools-deactivate-guestoperations,ESX,The guest OS must deactivate Guest Operations unless required.,P1,CFG-03,CIP-007-6 1.1
+guest-9.tools-deactivate-gueststoreupgrade,ESX,The guest OS must deactivate Guest Store Upgrade operations unless required.,P0,CFG-03,CIP-007-6 1.1
+guest-9.tools-deactivate-servicediscovery,ESX,The guest OS must deactivate Service Discovery unless required.,P0,CFG-03,CIP-007-6 1.1
+guest-9.tools-logs,ESX,The guest OS must enable VMware Tools logging.,P2,MON-03,"CIP-007-6 4.1, CIP-007-6 4.1.1, CIP-007-6 4.1.2, CIP-007-6 4.1.3"
+guest-9.tools-updates,ESX,The guest OS must run a current version of VMware Tools.,P0,VPM-05,"CIP-007-6 1.3, CIP-007-6 2.3"
+guest-9.tools-upgrade,ESX,"The guest OS must enable VMware Tools auto-upgrade, or use an equivalent external update path.",P2,VPM-05,"CIP-007-6 1.3, CIP-007-6 2.3"
+installer-9.security,Installer,"The VCF Installer appliance must be removed or powered off after deployment completes, unless it has been converted into the SDDC Manager.",P0,"AST-30, CFG-03","CIP-007-6 1.1, CIP-011-3 2.2"
+networks-9.audit-identity,Operations for Networks,Capture user identity in VCF Operations for Networks audit logs.,P0,MON-03,"CIP-007-6 4.1, CIP-007-6 4.1.1, CIP-007-6 4.1.2, CIP-007-6 4.1.3"
+networks-9.session-timeout,Operations for Networks,VCF Operations for Networks must enforce an idle session timeout.,P0,IAC-25,"CIP-005-7 2.5, CIP-005-7 3.2"
+nsx-9.account-lockout-max-attempts,NSX,NSX Manager must enforce an account lockout after consecutive failed authentication attempts.,P0,IAC-22,CIP-007-6 5.7
+nsx-9.backup,NSX,Configure scheduled backups of NSX Manager.,P0,BCD-11,"CIP-009-6 1.3, CIP-009-6 1.4"
+nsx-9.ceip-disable,NSX,Disable the NSX Manager Customer Experience Improvement Program.,P1,CFG-03,CIP-007-6 1.1
+nsx-9.dhcp-disable,NSX,NSX Tier-0 Gateway must not enable DHCP unless it is required.,P2,CFG-03,CIP-007-6 1.1
+nsx-9.ibgp-source-loopback,NSX,Configure Tier-0 Gateway iBGP peering to use the loopback address as the source.,"P0, Upon Feature Enablement",NET-03,CIP-005-7 1.5
+nsx-9.load-balancer-fips,NSX,Enable FIPS-validated cryptography for NSX load balancers.,P0,CRY-01,CIP-006-6 1.10
+nsx-9.log-level,NSX,NSX Manager must set service logging levels to capture audit-relevant events.,P0,MON-03,"CIP-007-6 4.1, CIP-007-6 4.1.1, CIP-007-6 4.1.2, CIP-007-6 4.1.3"
+nsx-9.multicast-disable,NSX,NSX Tier-0 Gateway must disable multicast and PIM where they are not required.,P2,CFG-03,CIP-007-6 1.1
+nsx-9.password-complexity,NSX,Enforce password complexity on NSX Manager local accounts.,P0,IAC-10.1,"CIP-007-6 5.5.1, CIP-007-6 5.5.2"
+nsx-9.reverse-path-forwarding,NSX,NSX Tier-0 Gateway must enable unicast Reverse Path Forwarding to drop spoofed-source packets.,"P0, Upon Feature Enablement",NET-03,CIP-005-7 1.5
+nsx-9.session-timeout,NSX,NSX Manager must enforce an idle session timeout on its API and CLI.,P0,IAC-25,"CIP-005-7 2.5, CIP-005-7 3.2"
+nsx-9.snmp,NSX,NSX Manager must not use SNMP v1 or v2c.,P2,CFG-03,CIP-007-6 1.1
+nsx-9.ssh,NSX,The NSX Manager SSH service must be deactivated except for temporary diagnostic use.,P2,CFG-03,CIP-007-6 1.1
+nsx-9.t1-dhcp-disable,NSX,Disable Tier-1 Gateway DHCP service when not in use.,P2,CFG-03,CIP-007-6 1.1
+nsx-9.t1-multicast-disable,NSX,Disable Tier-1 Gateway multicast when not in use.,P2,CFG-03,CIP-007-6 1.1
+operations-9.account-lockout,Operations,VCF Operations must lock accounts after consecutive failed logon attempts.,P0,IAC-22,CIP-007-6 5.7
+operations-9.action-history-retention,Operations,Retain VCF Operations remediation action history for an appropriate interval.,P1,MON-10,"CIP-006-6 1.9, CIP-006-6 2.3, CIP-007-6 4.3"
+operations-9.ceip-disable,Operations,Disable the VCF Operations Customer Experience Improvement Program.,P1,CFG-03,CIP-007-6 1.1
+operations-9.firewall-hardening,Operations,VCF Operations must enable firewall hardening.,P0,NET-03,CIP-005-7 1.5
+operations-9.in-page-feedback,Operations,Disable VCF Operations in-page feedback.,P1,CFG-03,CIP-007-6 1.1
+operations-9.log-retention,Operations,Configure the VCF Operations log retention period.,P1,MON-10,"CIP-006-6 1.9, CIP-006-6 2.3, CIP-007-6 4.3"
+operations-9.non-imported-vidm,Operations,Restrict VCF Operations access to imported identity-provider users.,P0,IAC-07,"CIP-004-7 6.1.1, CIP-004-7 6.1.2, CIP-004-7 6.3"
+operations-9.password-complexity,Operations,Enforce password complexity on VCF Operations local accounts.,P2,IAC-10.1,"CIP-007-6 5.5.1, CIP-007-6 5.5.2"
+operations-9.session-timeout,Operations,VCF Operations must enforce an idle session timeout.,P0,IAC-25,"CIP-005-7 2.5, CIP-005-7 3.2"
+pnr-9.ssh,Protection and Recovery,The VCF Protection and Recovery appliance SSH service must be deactivated except for temporary diagnostic use.,P0,"CFG-03, NET-14","CIP-005-7 2.1, CIP-005-7 2.3, CIP-005-7 2.4, CIP-007-6 1.1"
+sddc-9.api-admin,SDDC Manager,SDDC Manager must configure the API admin account.,P2,IAC-10.8,CIP-007-6 5.4
+sddc-9.basic-auth-disable,SDDC Manager,Disable HTTP Basic Authentication on the SDDC Manager API.,P0,IAC-10,CIP-007-6 5.6
+vcenter-9.account-lockout-duration,vCenter,Set the vCenter account auto-unlock interval.,P2,IAC-22,CIP-007-6 5.7
+vcenter-9.account-lockout-max-attempts,vCenter,Lock vCenter accounts after repeated failed login attempts.,P2,IAC-22,CIP-007-6 5.7
+vcenter-9.account-lockout-reset,vCenter,Set the vCenter failed-login counting interval.,P1,IAC-22,CIP-007-6 5.7
+vcenter-9.administration-client-plugins,vCenter,Reduce or eliminate third-party vCenter plugins.,P1,TPM-03,"CIP-013-2 1.2.5, CIP-013-2 1.2.6"
+vcenter-9.administration-sso-groups,vCenter,VMware vCenter must separate authentication and authorization for administrators.,P0,IAC-01.2,CIP-007-6 5.1
+vcenter-9.bashshelladministrators,vCenter,VMware vCenter must restrict membership of the SystemConfiguration.BashShellAdministrators SSO group.,P0,IAC-15.5,CIP-007-6 5.3
+vcenter-9.ceip-disable,vCenter,Disable the vCenter Customer Experience Improvement Program.,P1,CFG-03,CIP-007-6 1.1
+vcenter-9.client-feedback,vCenter,Disable vSphere Client in-product feedback.,P1,CFG-03,CIP-007-6 1.1
+vcenter-9.client-telemetry,vCenter,Disable vSphere Client UI telemetry.,P1,CFG-03,CIP-007-6 1.1
+vcenter-9.events-database-retention,vCenter,VMware vCenter must retain task and event data for an appropriate interval.,P2,MON-10,"CIP-006-6 1.9, CIP-006-6 2.3, CIP-007-6 4.3"
+vcenter-9.logs-level-global,vCenter,Configure the vCenter logging level to capture security-relevant events.,P2,MON-03,"CIP-007-6 4.1, CIP-007-6 4.1.1, CIP-007-6 4.1.2, CIP-007-6 4.1.3"
+vcenter-9.network-mac-learning,vCenter,Disable MAC learning on distributed switch port groups unless a workload requires it.,P2,NET-03,CIP-005-7 1.5
+vcenter-9.network-reject-forged-transmit-dvportgroup,vCenter,Reject forged transmits on distributed switches and port groups.,P2,NET-03,CIP-005-7 1.5
+vcenter-9.network-reject-mac-changes-dvportgroup,vCenter,Reject guest MAC address changes on distributed switches and port groups.,P2,NET-03,CIP-005-7 1.5
+vcenter-9.network-reject-promiscuous-mode-dvportgroup,vCenter,Reject promiscuous mode on distributed switches and port groups.,P2,NET-04,CIP-005-7 1.3
+vcenter-9.network-reset-port,vCenter,Reset distributed switch port configuration when a virtual machine disconnects.,P2,NET-03,CIP-005-7 1.5
+vcenter-9.network-restrict-discovery-protocol,vCenter,Disable CDP/LLDP discovery protocols on distributed switches unless required.,P1,CFG-03,CIP-007-6 1.1
+vcenter-9.network-restrict-netflow-usage,vCenter,Send distributed switch NetFlow data only to authorized collectors.,P2,"NET-03, NET-04","CIP-005-7 1.3, CIP-005-7 1.5"
+vcenter-9.network-restrict-port-level-overrides,vCenter,"Disallow per-port policy overrides on distributed port groups, except port blocking.",P2,NET-03,CIP-005-7 1.5
+vcenter-9.network-restrict-port-mirroring,vCenter,Remove unauthorized port mirroring sessions on distributed switches.,P2,NET-03,CIP-005-7 1.5
+vcenter-9.network-vgt,vCenter,Restrict VLAN trunking (Virtual Guest Tagging) on distributed port groups to authorized VMs.,P2,NET-04,CIP-005-7 1.3
+vcenter-9.password-complexity,vCenter,Enforce password complexity for vCenter SSO accounts.,P0,IAC-10.1,"CIP-007-6 5.5.1, CIP-007-6 5.5.2"
+vcenter-9.password-history,vCenter,Restrict password reuse on vCenter SSO accounts.,P2,IAC-10.1,"CIP-007-6 5.5.1, CIP-007-6 5.5.2"
+vcenter-9.password-max-age,vCenter,Disable forced password expiration on vCenter SSO accounts.,P1,IAC-10.1,"CIP-007-6 5.5.1, CIP-007-6 5.5.2"
+vcenter-9.session-timeout,vCenter,Enforce an idle session timeout for the vSphere Client.,P0,IAC-25,"CIP-005-7 2.5, CIP-005-7 3.2"
+vcenter-9.snmp,vCenter,Disable SNMP v1 and v2c receivers on vCenter.,P2,CFG-03,CIP-007-6 1.1
+vcenter-9.snmp3,vCenter,Enforce SNMPv3 authentication and privacy where SNMP is enabled on vCenter.,"P0, Upon Feature Enablement",CRY-01,CIP-006-6 1.10
+vcenter-9.ssh,vCenter,Deactivate SSH access to the vCenter appliance except for temporary diagnostic use.,P2,CFG-03,CIP-007-6 1.1
+vcenter-9.vami-password-max-age,vCenter,Disable forced password expiration on the vCenter appliance root account.,P0,IAC-10.1,"CIP-007-6 5.5.1, CIP-007-6 5.5.2"
+vcenter-9.vami-updates,vCenter,vCenter must have all available software updates and patches installed.,P0,VPM-05,"CIP-007-6 1.3, CIP-007-6 2.3"
+vcenter-9.vds-health-check-disable,vCenter,Disable the vSphere Distributed Switch health check when not troubleshooting.,P2,CFG-03,CIP-007-6 1.1
+vcenter-9.vpxuser-length,vCenter,Keep the vpxuser password at or above its default length.,P2,IAC-10.1,"CIP-007-6 5.5.1, CIP-007-6 5.5.2"
+vcf-9.permissions-roles,VCF,"Review and right-size accounts, permissions, and role assignments across all VCF components.",P1,IAC-17,"CIP-004-7 4.3, CIP-004-7 6.2, CIP-004-7 6.2.1, CIP-004-7 6.2.2"
+vcf-9.secure-baseline,VCF,"Apply the controls in this guidance, and document the rationale for any deviations.",P1,"CFG-02, CFG-02.7","CIP-010-4 1.1, CIP-010-4 1.1.1, CIP-010-4 1.1.2, CIP-010-4 1.1.3, CIP-010-4 1.1.4, CIP-010-4 1.1.5, CIP-010-4 1.2, CIP-010-4 1.4, CIP-010-4 1.4.3, CIP-010-4 1.5, CIP-010-4 1.6, CIP-010-4 2.1"
+vm-9.deactivate-console-copy,ESX,Virtual machines must have console copy operations deactivated.,P2,CFG-03,CIP-007-6 1.1
+vm-9.deactivate-console-paste,ESX,Virtual machines must have console paste operations deactivated.,P2,CFG-03,CIP-007-6 1.1
+vm-9.deactivate-disk-shrinking-shrink,ESX,Virtual machines must have virtual disk shrinking operations deactivated.,P2,CFG-03,CIP-007-6 1.1
+vm-9.deactivate-disk-shrinking-wiper,ESX,Virtual machines must have virtual disk wiping operations deactivated.,P2,CFG-03,CIP-007-6 1.1
+vm-9.deactivate-non-essential-3d-features,ESX,Virtual machines must have 3D graphics features deactivated when not required.,P2,CFG-03,CIP-007-6 1.1
+vm-9.dvfilter,ESX,Virtual machines must limit access through the dvFilter API.,P2,"CFG-03, NET-04","CIP-005-7 1.3, CIP-007-6 1.1"
+vm-9.efi-boot-types,ESX,Virtual machines must prevent booting from unauthorized sources.,P0,CFG-03,CIP-007-6 1.1
+vm-9.isolation-device-connectable-deactivate,ESX,"Virtual machines must prevent unauthorized removal, connection, and modification of devices.",P2,CFG-03,CIP-007-6 1.1
+vm-9.isolation-tools-dnd-deactivate,ESX,Virtual machines must have console drag and drop operations deactivated.,P2,CFG-03,CIP-007-6 1.1
+vm-9.log-enable,ESX,Virtual machines must enable diagnostic logging.,P2,MON-03,"CIP-007-6 4.1, CIP-007-6 4.1.1, CIP-007-6 4.1.2, CIP-007-6 4.1.3"
+vm-9.log-retention,ESX,Virtual machines must limit the number of retained diagnostic logs.,P2,MON-10,"CIP-006-6 1.9, CIP-006-6 2.3, CIP-007-6 4.3"
+vm-9.pci-passthrough,ESX,Virtual machines must limit PCI device passthrough functionality.,P2,CFG-03,CIP-007-6 1.1
+vm-9.persistent-disk,ESX,"Virtual machines must not use independent, nonpersistent disks.",P2,CFG-03,CIP-007-6 1.1
+vm-9.remove-unnecessary-devices,ESX,Virtual machines must remove unnecessary virtual hardware.,P0,"CFG-03, END-12","CIP-007-6 1.1, CIP-007-6 1.2"
+vm-9.restrict-host-info,ESX,Virtual machines must not be able to obtain host information from the hypervisor.,P2,CFG-03,CIP-007-6 1.1
+vm-9.virtual-hardware,ESX,Virtual machines must use a minimum supported virtual hardware version.,P1,VPM-05,"CIP-007-6 1.3, CIP-007-6 2.3"
+vsan-9.file-services-access-control-nfs,vSAN,NFS file shares on vSAN File Services must be configured to restrict access.,"P0, Upon Feature Enablement",NET-04,CIP-005-7 1.3
+vsan-9.hcl-internet,vSAN,Disable or proxy the vSAN Health Check Hardware Compatibility List (HCL) download.,P1,"CFG-03, NET-03","CIP-005-7 1.5, CIP-007-6 1.1"
+vsan-9.iscsi-mutual-chap,vSAN,vSAN iSCSI target must enable bidirectional/mutual CHAP authentication.,"P0, Upon Feature Enablement",IAC-04,CIP-005-7 1.4
+vsan-9.network-isolation-vsan-iscsi-target,vSAN,Isolate vSAN iSCSI Target traffic on dedicated VMkernel interfaces.,"P0, Upon Feature Enablement",NET-03,CIP-005-7 1.5

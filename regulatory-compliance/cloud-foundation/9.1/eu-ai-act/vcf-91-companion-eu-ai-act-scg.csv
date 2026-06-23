@@ -1,0 +1,12 @@
+SCG ID,Component,Title,Implementation Priority,Bridging SCF Controls,Mapped Framework Controls
+automation-9.activity-log,Automation,Retain the VCF Automation activity log for the audit window and keep debug output disabled.,P1,MON-10,"19.1, 19.2"
+esx-9.cpu-hyperthread-warning,ESX,The ESX host must not suppress warnings about unmitigated hyperthreading vulnerabilities.,P2,MON-01.4,12.1
+esx-9.log-audit-local-capacity,ESX,The ESX host must store audit records for a time period consistent with your records retention policy.,P1,MON-10,"19.1, 19.2"
+esx-9.log-audit-persistent,ESX,Configure a persistent log location for all locally stored audit records on the ESX host.,P0,MON-10,"19.1, 19.2"
+esx-9.log-persistent,ESX,Configure a persistent log location for all locally stored logs on the ESX host.,P0,MON-10,"19.1, 19.2"
+esx-9.shell-warning,ESX,The ESX host must not suppress warnings that the local or remote shell is enabled.,P2,MON-01.4,12.1
+operations-9.action-history-retention,Operations,Retain VCF Operations remediation action history for an appropriate interval.,P1,MON-10,"19.1, 19.2"
+operations-9.log-retention,Operations,Configure the VCF Operations log retention period.,P1,MON-10,"19.1, 19.2"
+vcenter-9.events-database-retention,vCenter,VMware vCenter must retain task and event data for an appropriate interval.,P2,MON-10,"19.1, 19.2"
+vcf-9.secure-baseline,VCF,"Apply the controls in this guidance, and document the rationale for any deviations.",P1,CFG-02,17.1(e)
+vm-9.log-retention,ESX,Virtual machines must limit the number of retained diagnostic logs.,P2,MON-10,"19.1, 19.2"

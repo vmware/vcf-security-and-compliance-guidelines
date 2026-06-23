@@ -2,7 +2,7 @@
 
 ## Version
 
-910-20260612-01
+910-20260623-01
 
 ## Introduction
 
@@ -11,6 +11,10 @@ This document describes how VMware Cloud Foundation (VCF) 9.1 and the separately
 https://gdpr.eu/
 
 This guidance evolves. Please check the current revision at: https://brcm.tech/vcf-compliance
+
+## Additional Resources
+
+This is one of a library of companion guides that map VMware Cloud Foundation and its advanced services to security and compliance frameworks. For each framework, the guide is published as a spreadsheet, a CSV data file, a Markdown document, and a PDF, together with a Security Configuration Guide crosswalk that identifies the VCF technical hardening settings relevant to that framework. The companion guide library, the VMware Cloud Foundation Security Configuration Guide, and related security documentation, sample scripts, and Q&A are available at https://brcm.tech/vcf-security.
 
 ## Disclaimer
 
@@ -472,83 +476,9 @@ Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recover
 
 **SCF Controls:** CPL-01.3
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VCF (Contributes)
-
-VCF contributes to an organization's ability to demonstrate conformity with applicable cybersecurity and data protection requirements by providing built-in compliance measurement, scoring, reporting, and audit logging capabilities. The organizational processes for identifying applicable laws, regulations, and contractual obligations, and for managing the overall compliance program, fall outside the product's scope.
-
-VCF Operations includes a Compliance capability that surfaces core aspects of VCF security configuration in a single view. This capability continuously monitors whether objects in the environment meet industrial, governmental, regulatory, or internal standards, and calculates a compliance score as the ratio of compliant objects to the total number of objects assessed by a given benchmark, displayed as a percentage. When all objects are compliant, the score card displays 100. When objects are non-compliant, the number of non-compliant symptoms is shown in red alongside the total symptom count. The compliance score for an individual object is based on the most critical of the violated standards, and the score is calculated for all objects in the environment regardless of whether a given user has visibility into every object. This means the compliance posture reported reflects the true state of the environment, not a filtered view.
-
-The compliance engine detects violations, highlights risk areas, and provides actionable remediation recommendations. Compliance alerts appear as violations to the standard, and the triggered symptoms appear as violated rules, giving administrators clear evidence of where the environment stands against a given benchmark. VCF supports compliance measurement against multiple industry-standard security guidelines and benchmarks, including the DISA STIG. NSX also provides a compliance report that administrators can use to verify that the NSX networking environment adheres to organizational IT policies and industry standards.
-
-On the audit trail side, VCF components generate detailed logs of security-relevant events. Audit logs capture actions from the API, the user interface, and the CLI. Changes to user role assignments are automatically written to syslog and the audit log. VCF supports syslog forwarding to external monitoring systems for centralized log retention and long-term evidence preservation. VCF Log Management includes content packs for VCF components that provide pre-built dashboards, alerts, and queries for common compliance use cases such as failed login tracking, privilege escalation monitoring, and policy violation detection. Together, these logging and reporting capabilities allow organizations to produce and retain the technical evidence needed when demonstrating conformity to auditors or regulatory bodies.
-
-For workloads running within VMware Kubernetes Service (VKS) on the VCF platform, the Consumption layer contributes a set of policy enforcement and access control mechanisms that produce inspectable, auditable artifacts. Pod Security Admission enforces Pod Security Standards at the namespace level with three profiles: Privileged, Baseline, and Restricted. Each namespace can be independently configured with enforce, audit, and warn modes; when a namespace runs in audit mode, the Kubernetes API server records policy violations without blocking workloads, generating per-namespace records of how running pods compare to the configured security profile. This output can be presented as direct evidence that the environment evaluates workload security posture against a defined standard. For high-assurance environments, cryptographic protections can be applied to Kubernetes audit logs to make them tamper-evident and confidential. Kubernetes Role-Based Access Control stores Roles, ClusterRoles, RoleBindings, ClusterRoleBindings, and ServiceAccounts as standard API objects, making the current permission model fully inspectable and exportable at any point; IAM role trust policies can be scoped to specific service accounts and namespaces to enforce least privilege. ValidatingAdmissionPolicy resources define enforcement rules as versioned Kubernetes API objects that can be queried, compared across revisions, and archived as policy compliance snapshots, providing a mechanism for capturing what policy was in effect at a given point in time. Network policies govern ingress and egress traffic at the namespace level as declarative Kubernetes objects, constituting auditable documentation of the implemented network segmentation model. Access to download and manage VKS Cluster Management Security Policy templates requires assignment to the Organization Administrator or Organization Auditor role, maintaining separation between those who define policy and those who audit it. VCF Automation security policies apply constraints at the organization or project level, and those constraints are inherited by all child resources.
-
-To support resilience conformity, VMware vCenter and VCF Operations each support both file-based and image-based backup and restore. The vCenter backup schedule can be configured with backup location, recurrence, and retention parameters, providing administrators with a mechanism to document that scheduled, recoverable backups of the platform management layer are in operation. VKS cluster management supports backup and restore of an entire cluster, selected namespaces, or specific resources identified by a label. These operations are managed through the VCF Automation Tenant Portal under Manage & Govern > VCF Services > Kubernetes Management > Clusters > Data Protection, where backups can also be restored from a source cluster to a target cluster. VKS Supervisor state backup, including cluster node virtual machines, is activated through the vCenter backup feature in the vCenter Management Interface. For workload-level backup, Velero with the vSphere Plugin Snapshot or File System Backup method supports backup and restore of both stateless and stateful VKS cluster workloads; backup repositories support deduplication, compression, and encryption to protect backup integrity, and scheduled backup operations are available to support a regular recovery cadence. Organizations should maintain an etcd backup plan as part of demonstrating that cluster-state resilience capability exists.
-
-Demonstrating conformity with cybersecurity and data protection obligations is fundamentally an organizational responsibility. VCF's compliance scoring, alerting, and reporting capabilities provide a significant portion of the technical evidence needed, but the organization must maintain the broader compliance program, including policy documentation, control mapping to applicable regulations, periodic assessments, and remediation tracking. Additional tools or processes outside VCF are needed to cover areas such as personnel security, physical security, and governance that fall outside the scope of infrastructure platform controls.
-
-VMware Private AI Services (PAIS), formerly Private AI Services, provides several mechanisms that generate evidence relevant to demonstrating security and compliance conformity for AI infrastructure. Organizations can draw on these mechanisms when preparing documentation or responding to audits.
-
-The PAISConfiguration custom resource includes an observability section that activates Prometheus-based metrics collection from PAIS components. Administrators activate metrics collection by uncommenting the spec.observability.prometheusRuntime section of the PAISConfiguration CR. Observability is configured as part of PAIS activation in VCF Automation and must be verified as active in the PAIS instance namespace. Once activated, PAIS controller pod metrics can be sent to VCF Operations through a Telegraf agent running on the Supervisor instance, and metrics can also be visualized in third-party observability platforms such as Grafana. A single Grafana instance can visualize metrics from multiple PAIS instances when they share an OIDC provider, supporting consolidated operational evidence across deployments.
-
-PAIS observability also supports sending LLM traces to an OpenTelemetry Collector, providing a record of model inference activity within the platform. When activated, this trace data together with the Prometheus metrics gives MLOps engineers and auditors operational evidence of AI workload behavior.
-
-PAIS uses Harbor Registry as its model artifact store, with the Model Gallery integrated to Harbor for model storage and retrieval. Harbor project access capabilities restrict access to sensitive training data and model artifacts, and Harbor robot accounts are configured for image pulls when the registry requires authentication. MLOps engineers validate ML models onboarded to PAIS against the security, privacy, and technical requirements of the organization, and PAIS guidance directs users to distribute models validated on deep learning VMs rather than models retrieved directly from the Internet. These workflows produce records of which models entered the gallery and under what governance.
-
-Identity and access management for PAIS is coordinated with an external OIDC provider, including for Grafana integration. Within the platform, PAIS must be activated in organization namespaces by an organization administrator or MLOps engineer after namespace creation, establishing a documented authorization layer over GPU-accelerated workloads. VCF Automation Provider Management also requires trusted certificate import for vCenter certificate validation before integration with PAIS, supporting a documented trust layer. PAIS additionally requires examination and approval of MCP server tools and capabilities before use in agents, creating a review record for specialized data and capability integrations.
-
-Demonstrating conformity with applicable laws and regulations requires more than technical controls alone. The organization must define its compliance scope, identify applicable obligations, map platform capabilities to control requirements, and assemble evidence packages for auditors or regulators. PAIS's observability, model governance, access control, and identity integration mechanisms contribute to that evidence base but do not replace the organizational governance layer that frames and presents the evidence.
-
-#### VMware vDefend (Contributes)
-
-VMware vDefend (VMware vDefend) contributes to demonstrating conformity with cybersecurity obligations by providing auditable records of security policy configuration and enforcement.
-
-The Security Services Platform's Rule Analysis feature detects contradictions and redundancies in firewall policy by comparing effective group memberships and policy paths, allowing organizations to verify that implemented rules align with documented security requirements. Rule Analysis results can be reviewed in the Security Services Platform UI under System > Platform & Features, and the feature produces CSV reports for inclusion in compliance evidence packages. Rule Analysis access is governed by role-based permissions across five defined roles: Enterprise Admin, Auditor, Security Engineer, Security Operator, and Support Bundle Collector.
-
-Security Intelligence policy recommendations can be generated for environments and published as firewall policies applied to environment category pairs. These recommendations include security policies and security groups, creating a documented record of recommended and enforced controls that can be presented during audits.
-
-Role-based access controls include dedicated Auditor, Security Engineer, Security Operator, Enterprise Admin, and Support Bundle Collector roles with differentiated permissions that support segregation of duties during compliance assessments. The Auditor role provides read-only visibility into security configurations and activity, enabling independent review by compliance personnel without modification access. Privileged labels in the Distributed Firewall anchor firewall rules to immutable labels, providing a tamper-proof mechanism that helps administrators demonstrate workloads remain within their designated security groups as intended by policy.
-
-These capabilities help produce demonstrable evidence of security control implementation. Full conformity with legal and contractual obligations also depends on organizational governance, documentation practices, and audit workflows that extend beyond what vDefend provides directly.
-
-#### VCF Protection and Recovery (Contributes)
-
-VCF Protection and Recovery (PNR) generates technical artifacts and supports compliance-oriented subscription tiers that organizations can use as evidence when demonstrating conformity with disaster recovery and data protection requirements. PNR does not include a dedicated compliance management engine, framework mapping capability, or benchmark scoring system.
-
-The Advanced Cyber Compliance subscription, sold as a VCF advanced service, provides on-premises data protection and recovery capabilities designed for regulated environments. Advanced cyber protection and recovery capabilities within PNR require an Advanced Cyber Compliance per-core license in addition to VCF core capabilities, and an Advanced Cyber Compliance subscription is required to configure remote snapshots. The existence of this compliance-tier subscription reflects PNR's intended use in environments subject to regulatory and contractual data protection obligations.
-
-Protection groups and recovery plans constitute documented configurations that must be verified for connection and validity. These configurations identify which workloads are protected and the recovery objectives assigned to each workload. Maintaining verified protection groups and recovery plans produces artifacts that organizations can present to demonstrate that DR procedures are defined and operational.
-
-The Clean Room Orchestrator generates Events representing observations and issues raised by the system, providing information about situations that require attention or action. This event stream contributes to the operational audit record for recovery environment activities.
-
-Identifying which laws and regulations apply, mapping controls to requirements, and managing the overall compliance program are organizational responsibilities outside the scope of PNR.
-
-#### VMware Data Services Manager (Contributes)
-
-VMware Data Services Manager (DSM) contributes to an organization's ability to demonstrate conformity through several mechanisms: enforceable data service policies, per-policy compliance reporting, infrastructure policy guardrails with compliance alerting, configurable backup and retention controls, and audit event logging.
-
-DSM supports the creation and enforcement of data service policies that define organizational standards for database deployments, including PostgreSQL, MySQL, SQL Server, and MinIO databases. Administrators configure these policies and assign them to one or more organizations or tenants, creating a documented, repeatable configuration baseline. When integrated with VCF Automation, these policies can be enforced consistently across tenants to maintain a uniform security and compliance posture. Policy definitions can be tailored to specific organizational requirements, providing an auditable record of the standards applied to each tenant. The Infrastructure Policies view in the DSM dashboard provides visibility into which policies are active and which databases are associated with them.
-
-DSM provides a compliance report for each data service policy that displays policy violations, noncompliant databases, data services, and namespaces, giving administrators a structured view of deviations from defined organizational standards. DSM also generates infrastructure policy compliance alerts that allow administrators to monitor whether clusters are operating in conformance with defined infrastructure policies. Infrastructure policies create guardrails that restrict the quality and quantity of resources DSM users can consume from vSphere clusters, providing a mechanism for documented resource governance that can be presented to auditors as evidence of enforced controls.
-
-For resilience conformity, DSM supports automated database backups with configurable schedules (full and incremental), configurable retention periods, and configurable storage locations using S3-compatible object stores, local storage, or cloud targets. DSM retains automated backups of deleted databases until the configured retention policy is met, and administrators can edit the retention period for retained backups. Backups can be enabled or modified after database creation via the automated-backups setting. Control plane backups are stored in S3 object storage with unique identifiers corresponding to the control plane ID. Backup operations are logged at the error level to both console and file outputs, providing an operational audit trail for backup activity. These capabilities allow an organization to demonstrate that database resilience controls are in place and configured within defined parameters.
-
-Demonstrating conformity to applicable laws, regulations, or contractual obligations requires organizational processes beyond what DSM provides directly. Organizations must map DSM's configuration and operational evidence to the specific requirements of applicable frameworks, collect and maintain that evidence, and manage formal attestation processes. DSM provides technical controls and configuration visibility that form part of the evidentiary foundation, but formal compliance documentation, evidence management, and audit reporting remain organizational responsibilities.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer (Avi) provides configuration export, backup management, and auditable policy artifacts that organizations can use when demonstrating security capability conformity for their application delivery infrastructure.
-
-The Avi Controller CLI includes an export command to capture the full system configuration or an individual virtual service configuration. These exports document the security settings, WAF policies, and access control rules in effect at the time of capture and can be retained as part of a compliance documentation package. In VCF deployments, VCF Operations is used to configure the external backup server and storage path for Avi Load Balancer backups, and backups are stored on the same server as VCF Operations appliance backups by default. For deployments where the Controller runs as a single node, enabling periodic external configuration backups is a mandatory requirement to handle recovery in the case of a complete VM or disk failure.
-
-Configuration backup files can be protected with a passphrase, keeping audit artifacts secure in storage. When a restore is performed, the Controller requires that the passphrase match the one used when creating the backup, validates that all file objects from the backup configuration are present before the restore can proceed, and verifies that the FIPS mode of the backup configuration matches the controller environment. This set of integrity checks supports the reliability of configuration records used as audit documentation.
-
-For application security evidence, Avi's WAF Positive Security model allows administrators to define and document allowed application behavior through explicit policy rules, forming part of the evidence set for application security controls. Avi also provides User-Defined Metrics, which allow administrators to define and extract customized telemetry data required for specific compliance or reporting needs via API calls.
-
-On the administrative access side, Avi supports role-based access control with object-level permissions that can be applied to roles and inherited by user groups. The ability to export certificates and private keys is restricted to the fewest number of administrators possible. The Auth Mapping Profile feature supports LDAP group match rules and attribute-based role assignments, enabling a verifiable access control posture that can be reviewed during an audit.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 12.2
 
@@ -1892,83 +1822,9 @@ Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recover
 
 **SCF Controls:** CPL-01.3
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VCF (Contributes)
-
-VCF contributes to an organization's ability to demonstrate conformity with applicable cybersecurity and data protection requirements by providing built-in compliance measurement, scoring, reporting, and audit logging capabilities. The organizational processes for identifying applicable laws, regulations, and contractual obligations, and for managing the overall compliance program, fall outside the product's scope.
-
-VCF Operations includes a Compliance capability that surfaces core aspects of VCF security configuration in a single view. This capability continuously monitors whether objects in the environment meet industrial, governmental, regulatory, or internal standards, and calculates a compliance score as the ratio of compliant objects to the total number of objects assessed by a given benchmark, displayed as a percentage. When all objects are compliant, the score card displays 100. When objects are non-compliant, the number of non-compliant symptoms is shown in red alongside the total symptom count. The compliance score for an individual object is based on the most critical of the violated standards, and the score is calculated for all objects in the environment regardless of whether a given user has visibility into every object. This means the compliance posture reported reflects the true state of the environment, not a filtered view.
-
-The compliance engine detects violations, highlights risk areas, and provides actionable remediation recommendations. Compliance alerts appear as violations to the standard, and the triggered symptoms appear as violated rules, giving administrators clear evidence of where the environment stands against a given benchmark. VCF supports compliance measurement against multiple industry-standard security guidelines and benchmarks, including the DISA STIG. NSX also provides a compliance report that administrators can use to verify that the NSX networking environment adheres to organizational IT policies and industry standards.
-
-On the audit trail side, VCF components generate detailed logs of security-relevant events. Audit logs capture actions from the API, the user interface, and the CLI. Changes to user role assignments are automatically written to syslog and the audit log. VCF supports syslog forwarding to external monitoring systems for centralized log retention and long-term evidence preservation. VCF Log Management includes content packs for VCF components that provide pre-built dashboards, alerts, and queries for common compliance use cases such as failed login tracking, privilege escalation monitoring, and policy violation detection. Together, these logging and reporting capabilities allow organizations to produce and retain the technical evidence needed when demonstrating conformity to auditors or regulatory bodies.
-
-For workloads running within VMware Kubernetes Service (VKS) on the VCF platform, the Consumption layer contributes a set of policy enforcement and access control mechanisms that produce inspectable, auditable artifacts. Pod Security Admission enforces Pod Security Standards at the namespace level with three profiles: Privileged, Baseline, and Restricted. Each namespace can be independently configured with enforce, audit, and warn modes; when a namespace runs in audit mode, the Kubernetes API server records policy violations without blocking workloads, generating per-namespace records of how running pods compare to the configured security profile. This output can be presented as direct evidence that the environment evaluates workload security posture against a defined standard. For high-assurance environments, cryptographic protections can be applied to Kubernetes audit logs to make them tamper-evident and confidential. Kubernetes Role-Based Access Control stores Roles, ClusterRoles, RoleBindings, ClusterRoleBindings, and ServiceAccounts as standard API objects, making the current permission model fully inspectable and exportable at any point; IAM role trust policies can be scoped to specific service accounts and namespaces to enforce least privilege. ValidatingAdmissionPolicy resources define enforcement rules as versioned Kubernetes API objects that can be queried, compared across revisions, and archived as policy compliance snapshots, providing a mechanism for capturing what policy was in effect at a given point in time. Network policies govern ingress and egress traffic at the namespace level as declarative Kubernetes objects, constituting auditable documentation of the implemented network segmentation model. Access to download and manage VKS Cluster Management Security Policy templates requires assignment to the Organization Administrator or Organization Auditor role, maintaining separation between those who define policy and those who audit it. VCF Automation security policies apply constraints at the organization or project level, and those constraints are inherited by all child resources.
-
-To support resilience conformity, VMware vCenter and VCF Operations each support both file-based and image-based backup and restore. The vCenter backup schedule can be configured with backup location, recurrence, and retention parameters, providing administrators with a mechanism to document that scheduled, recoverable backups of the platform management layer are in operation. VKS cluster management supports backup and restore of an entire cluster, selected namespaces, or specific resources identified by a label. These operations are managed through the VCF Automation Tenant Portal under Manage & Govern > VCF Services > Kubernetes Management > Clusters > Data Protection, where backups can also be restored from a source cluster to a target cluster. VKS Supervisor state backup, including cluster node virtual machines, is activated through the vCenter backup feature in the vCenter Management Interface. For workload-level backup, Velero with the vSphere Plugin Snapshot or File System Backup method supports backup and restore of both stateless and stateful VKS cluster workloads; backup repositories support deduplication, compression, and encryption to protect backup integrity, and scheduled backup operations are available to support a regular recovery cadence. Organizations should maintain an etcd backup plan as part of demonstrating that cluster-state resilience capability exists.
-
-Demonstrating conformity with cybersecurity and data protection obligations is fundamentally an organizational responsibility. VCF's compliance scoring, alerting, and reporting capabilities provide a significant portion of the technical evidence needed, but the organization must maintain the broader compliance program, including policy documentation, control mapping to applicable regulations, periodic assessments, and remediation tracking. Additional tools or processes outside VCF are needed to cover areas such as personnel security, physical security, and governance that fall outside the scope of infrastructure platform controls.
-
-VMware Private AI Services (PAIS), formerly Private AI Services, provides several mechanisms that generate evidence relevant to demonstrating security and compliance conformity for AI infrastructure. Organizations can draw on these mechanisms when preparing documentation or responding to audits.
-
-The PAISConfiguration custom resource includes an observability section that activates Prometheus-based metrics collection from PAIS components. Administrators activate metrics collection by uncommenting the spec.observability.prometheusRuntime section of the PAISConfiguration CR. Observability is configured as part of PAIS activation in VCF Automation and must be verified as active in the PAIS instance namespace. Once activated, PAIS controller pod metrics can be sent to VCF Operations through a Telegraf agent running on the Supervisor instance, and metrics can also be visualized in third-party observability platforms such as Grafana. A single Grafana instance can visualize metrics from multiple PAIS instances when they share an OIDC provider, supporting consolidated operational evidence across deployments.
-
-PAIS observability also supports sending LLM traces to an OpenTelemetry Collector, providing a record of model inference activity within the platform. When activated, this trace data together with the Prometheus metrics gives MLOps engineers and auditors operational evidence of AI workload behavior.
-
-PAIS uses Harbor Registry as its model artifact store, with the Model Gallery integrated to Harbor for model storage and retrieval. Harbor project access capabilities restrict access to sensitive training data and model artifacts, and Harbor robot accounts are configured for image pulls when the registry requires authentication. MLOps engineers validate ML models onboarded to PAIS against the security, privacy, and technical requirements of the organization, and PAIS guidance directs users to distribute models validated on deep learning VMs rather than models retrieved directly from the Internet. These workflows produce records of which models entered the gallery and under what governance.
-
-Identity and access management for PAIS is coordinated with an external OIDC provider, including for Grafana integration. Within the platform, PAIS must be activated in organization namespaces by an organization administrator or MLOps engineer after namespace creation, establishing a documented authorization layer over GPU-accelerated workloads. VCF Automation Provider Management also requires trusted certificate import for vCenter certificate validation before integration with PAIS, supporting a documented trust layer. PAIS additionally requires examination and approval of MCP server tools and capabilities before use in agents, creating a review record for specialized data and capability integrations.
-
-Demonstrating conformity with applicable laws and regulations requires more than technical controls alone. The organization must define its compliance scope, identify applicable obligations, map platform capabilities to control requirements, and assemble evidence packages for auditors or regulators. PAIS's observability, model governance, access control, and identity integration mechanisms contribute to that evidence base but do not replace the organizational governance layer that frames and presents the evidence.
-
-#### VMware vDefend (Contributes)
-
-VMware vDefend (VMware vDefend) contributes to demonstrating conformity with cybersecurity obligations by providing auditable records of security policy configuration and enforcement.
-
-The Security Services Platform's Rule Analysis feature detects contradictions and redundancies in firewall policy by comparing effective group memberships and policy paths, allowing organizations to verify that implemented rules align with documented security requirements. Rule Analysis results can be reviewed in the Security Services Platform UI under System > Platform & Features, and the feature produces CSV reports for inclusion in compliance evidence packages. Rule Analysis access is governed by role-based permissions across five defined roles: Enterprise Admin, Auditor, Security Engineer, Security Operator, and Support Bundle Collector.
-
-Security Intelligence policy recommendations can be generated for environments and published as firewall policies applied to environment category pairs. These recommendations include security policies and security groups, creating a documented record of recommended and enforced controls that can be presented during audits.
-
-Role-based access controls include dedicated Auditor, Security Engineer, Security Operator, Enterprise Admin, and Support Bundle Collector roles with differentiated permissions that support segregation of duties during compliance assessments. The Auditor role provides read-only visibility into security configurations and activity, enabling independent review by compliance personnel without modification access. Privileged labels in the Distributed Firewall anchor firewall rules to immutable labels, providing a tamper-proof mechanism that helps administrators demonstrate workloads remain within their designated security groups as intended by policy.
-
-These capabilities help produce demonstrable evidence of security control implementation. Full conformity with legal and contractual obligations also depends on organizational governance, documentation practices, and audit workflows that extend beyond what vDefend provides directly.
-
-#### VCF Protection and Recovery (Contributes)
-
-VCF Protection and Recovery (PNR) generates technical artifacts and supports compliance-oriented subscription tiers that organizations can use as evidence when demonstrating conformity with disaster recovery and data protection requirements. PNR does not include a dedicated compliance management engine, framework mapping capability, or benchmark scoring system.
-
-The Advanced Cyber Compliance subscription, sold as a VCF advanced service, provides on-premises data protection and recovery capabilities designed for regulated environments. Advanced cyber protection and recovery capabilities within PNR require an Advanced Cyber Compliance per-core license in addition to VCF core capabilities, and an Advanced Cyber Compliance subscription is required to configure remote snapshots. The existence of this compliance-tier subscription reflects PNR's intended use in environments subject to regulatory and contractual data protection obligations.
-
-Protection groups and recovery plans constitute documented configurations that must be verified for connection and validity. These configurations identify which workloads are protected and the recovery objectives assigned to each workload. Maintaining verified protection groups and recovery plans produces artifacts that organizations can present to demonstrate that DR procedures are defined and operational.
-
-The Clean Room Orchestrator generates Events representing observations and issues raised by the system, providing information about situations that require attention or action. This event stream contributes to the operational audit record for recovery environment activities.
-
-Identifying which laws and regulations apply, mapping controls to requirements, and managing the overall compliance program are organizational responsibilities outside the scope of PNR.
-
-#### VMware Data Services Manager (Contributes)
-
-VMware Data Services Manager (DSM) contributes to an organization's ability to demonstrate conformity through several mechanisms: enforceable data service policies, per-policy compliance reporting, infrastructure policy guardrails with compliance alerting, configurable backup and retention controls, and audit event logging.
-
-DSM supports the creation and enforcement of data service policies that define organizational standards for database deployments, including PostgreSQL, MySQL, SQL Server, and MinIO databases. Administrators configure these policies and assign them to one or more organizations or tenants, creating a documented, repeatable configuration baseline. When integrated with VCF Automation, these policies can be enforced consistently across tenants to maintain a uniform security and compliance posture. Policy definitions can be tailored to specific organizational requirements, providing an auditable record of the standards applied to each tenant. The Infrastructure Policies view in the DSM dashboard provides visibility into which policies are active and which databases are associated with them.
-
-DSM provides a compliance report for each data service policy that displays policy violations, noncompliant databases, data services, and namespaces, giving administrators a structured view of deviations from defined organizational standards. DSM also generates infrastructure policy compliance alerts that allow administrators to monitor whether clusters are operating in conformance with defined infrastructure policies. Infrastructure policies create guardrails that restrict the quality and quantity of resources DSM users can consume from vSphere clusters, providing a mechanism for documented resource governance that can be presented to auditors as evidence of enforced controls.
-
-For resilience conformity, DSM supports automated database backups with configurable schedules (full and incremental), configurable retention periods, and configurable storage locations using S3-compatible object stores, local storage, or cloud targets. DSM retains automated backups of deleted databases until the configured retention policy is met, and administrators can edit the retention period for retained backups. Backups can be enabled or modified after database creation via the automated-backups setting. Control plane backups are stored in S3 object storage with unique identifiers corresponding to the control plane ID. Backup operations are logged at the error level to both console and file outputs, providing an operational audit trail for backup activity. These capabilities allow an organization to demonstrate that database resilience controls are in place and configured within defined parameters.
-
-Demonstrating conformity to applicable laws, regulations, or contractual obligations requires organizational processes beyond what DSM provides directly. Organizations must map DSM's configuration and operational evidence to the specific requirements of applicable frameworks, collect and maintain that evidence, and manage formal attestation processes. DSM provides technical controls and configuration visibility that form part of the evidentiary foundation, but formal compliance documentation, evidence management, and audit reporting remain organizational responsibilities.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer (Avi) provides configuration export, backup management, and auditable policy artifacts that organizations can use when demonstrating security capability conformity for their application delivery infrastructure.
-
-The Avi Controller CLI includes an export command to capture the full system configuration or an individual virtual service configuration. These exports document the security settings, WAF policies, and access control rules in effect at the time of capture and can be retained as part of a compliance documentation package. In VCF deployments, VCF Operations is used to configure the external backup server and storage path for Avi Load Balancer backups, and backups are stored on the same server as VCF Operations appliance backups by default. For deployments where the Controller runs as a single node, enabling periodic external configuration backups is a mandatory requirement to handle recovery in the case of a complete VM or disk failure.
-
-Configuration backup files can be protected with a passphrase, keeping audit artifacts secure in storage. When a restore is performed, the Controller requires that the passphrase match the one used when creating the backup, validates that all file objects from the backup configuration are present before the restore can proceed, and verifies that the FIPS mode of the backup configuration matches the controller environment. This set of integrity checks supports the reliability of configuration records used as audit documentation.
-
-For application security evidence, Avi's WAF Positive Security model allows administrators to define and document allowed application behavior through explicit policy rules, forming part of the evidence set for application security controls. Avi also provides User-Defined Metrics, which allow administrators to define and extract customized telemetry data required for specific compliance or reporting needs via API calls.
-
-On the administrative access side, Avi supports role-based access control with object-level permissions that can be applied to roles and inherited by user groups. The ability to export certificates and private keys is restricted to the fewest number of administrators possible. The Auth Mapping Profile feature supports LDAP group match rules and attribute-based role assignments, enabling a verifiable access control posture that can be reviewed during an audit.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 31
 
@@ -2116,69 +1972,33 @@ Not applicable for this control: VCF Protection and Recovery, VMware Data Servic
 
 #### VCF (Contributes)
 
-VCF implements cryptographic protections across its component stack using publicly standardized, validated cryptographic modules and algorithms.
+VCF provides multiple layers of logical security safeguards that contribute to protecting the confidentiality and integrity of data, including personal data, hosted on the platform. These controls span encryption, access management, workload isolation, network security, host hardening, and privacy-aware features, giving organizations a strong technical foundation on which to build privacy-protective deployments.
 
-Multiple VCF components rely on cryptographic modules validated through the NIST Cryptographic Module Validation Program (CMVP) to FIPS 140-2 and FIPS 140-3 standards. NSX is configured to use FIPS 140-3 validated cryptographic modules by default, and NSX Manager uses FIPS 140 approved algorithms for authentication to its cryptographic module. Specific NSX validated modules include IKE with Rambus Safezone 2.0 (Certificate #4898), VMware OpenSSL 3.0.9 (Certificate #4861), VMware BouncyCastle 2.0.0 (Certificate #4986), and VMware BoringCrypto 6.0 (Certificate #4694). VCF Automation uses the BouncyCastle FIPS 2.0.0 cryptographic module, which holds FIPS 140-3 Certificate #4743. VCF Operations for Networks uses BC-FJA (Bouncy Castle FIPS Java API) version 2.0.0 with FIPS 140-2 Certificate #37009 as its validated cryptographic module. This consistent use of FIPS-validated modules across the platform means that organizations deploying VCF in regulated environments can rely on cryptographic implementations that have undergone independent validation against well-known public standards. The VMware Kubernetes Service (VKS) consumption layer also supports FIPS mode: VKS ClusterClass configurations include a fips.enabled variable that, when set, restricts cryptographic operations on cluster nodes to approved algorithm implementations. FIPS-enabled Kubernetes release images, identified by a -fips suffix in the release reference name, are available for organizations that require FIPS-validated cryptography across their containerized workloads.
+VCF supports encryption for data at rest and data in transit across several components. Virtual Machine Encryption provides data-at-rest encryption for virtual machine data and disks, with support for different encryption keys for VM home and virtual disk, allowing granular control over which components are encrypted. Individual virtual machines can also be provisioned with a virtual Trusted Platform Module (vTPM), which exposes TPM 2.0 functionality within the VM to support hardware-backed key storage and attestation for workloads that handle sensitive data. vSAN data-at-rest encryption protects data on storage devices in the event that a device is removed from the cluster, while vSAN data-in-transit encryption protects data as it moves between hosts within the cluster. Fault Tolerance log traffic, which replicates protected virtual machine memory state between hosts, can also be encrypted to prevent sensitive VM data from being exposed in transit. The Supervisor component encrypts all secrets stored in its etcd database, adding a layer of protection for sensitive configuration data. Administrators can configure HTTPS for databus transport in VCF Operations on-premises environments so that data is encrypted during transport. For cryptographic operations requiring higher assurance, VCF supports external entropy sources through hardware security modules (HSMs) that are FIPS 140-3 and EAL4 certified.
 
-At the protocol and algorithm level, VCF enforces modern cryptographic standards throughout. Starting in vSphere 9.0, all TLS profiles are FIPS compliant; the COMPATIBLE profile supports modern TLS cipher suites with standardized elliptic curves. Monitoring infrastructure such as Telegraf enforces a modern TLS minimum version for secure communication. The NSX L2 VPN FIPS compliance suite uses AES-GCM encryption with Perfect Forward Secrecy and Diffie-Hellman Group 20. NSX also supports ECDSA (Elliptic Curve Digital Signature Algorithm) encryption for environments with high-assurance cryptographic requirements. VCF Operations for Networks supports several encryption algorithms and ciphers for its data sources. VCF Operations provides a FIPS Security Mode that, when enabled, applies additional algorithm and cipher prerequisites across the management domain. All system management network communications are encrypted by default using standardized cipher suites. At the VKS layer, Kubernetes control plane components expose parameters for restricting permitted TLS configurations: the kube-apiserver --tls-cipher-suites parameter, the kubelet tlsCipherSuites configuration field, and the equivalent parameter on the kube-scheduler each restrict the set of permitted cipher suites, allowing administrators to exclude deprecated or weak algorithms. The kubelet tlsMinVersion field and the --tls-min-version parameter on the kube-apiserver enforce a minimum TLS protocol version floor for inbound connections. The Antrea networking component and vSphere Cloud Provider Interface on VKS clusters also support configurable TLS cipher suites for component-to-component communication. Kubernetes hardening guidance identifies specific preferred cipher suites and calls out cipher suite configuration on the kube-scheduler as a required hardening step. VKS clusters support the Istio service mesh package, which provides mutual TLS between workloads within the mesh; the meshMTLS.minProtocolVersion setting controls the minimum protocol version for inter-service communication, defaulting to TLS 1.2 with support for configuring TLS 1.3.
+VCF isolates workloads at multiple levels. Each virtual machine runs in its own execution environment, preventing interference between tenants and enforcing data separation. vSphere Namespaces provide isolated sandboxes with enforced resource limits, storage policies, and per-namespace access controls that scope which users and groups can reach a given namespace. Workloads running in vSphere Pods or VMware Kubernetes Service clusters have default firewall isolation rules that restrict communication. VCF Automation supports app isolation policies through on-demand security group firewall rules that restrict traffic to only internal resources provisioned by a given cloud template.
 
-Data-in-transit protections using TLS have customizable PKI keypair and certificate options. These range from fully automated within VCF to semi-automated using certificates from enterprise PKI infrastructure or fully custom certificates installed manually. Automated certificate issuance is supported with Microsoft Active Directory Certificate Services. Trust establishment uses standard PKI management with multiple certificate options including Root CA certificates, CSR-based certificates, and direct certificate uploads. VCF Operations provides centralized certificate lifecycle management for all VCF components, enabling automated certificate renewal, monitoring, and replacement across the infrastructure. Organizations should be aware that if self-signed certificates and private keys are generated using OpenSSL, those certificates and private keys are not FIPS-compatible. Environments operating under FIPS requirements should use certificate authorities and key generation methods that produce FIPS-compliant artifacts. For FIPS environments, certificates should use key sizes of 2048 or 3072 bits; key sizes greater than 3072 bits have not been tested with FIPS. At the VKS layer, the cert-manager package manages the lifecycle of certificates issued to workloads and ingress endpoints. VKS clusters maintain TLS certificates for component-to-component communication across their control and data planes. The Contour ingress package supports minimum TLS version configuration through the tls.minimum-protocol-version parameter. Harbor, when deployed as a Supervisor Service, accepts custom TLS certificate configuration through the tlsCertificate.tls.crt and tlsCertificate.tls.key fields, allowing organizations to supply certificates from their enterprise certificate authority rather than relying on self-signed certificates. The Supervisor secret injection agent automatically configures mutual TLS for communication with the vault-agent-injector service using auto-generated certificates.
+Access control mechanisms restrict who can reach sensitive data and administrative functions. VCF supports identity provider federation with multi-factor authentication (MFA), strengthening authentication for access to infrastructure management. LDAP integration provides centralized authentication through an external directory service, giving organizations a single point of control for user lifecycle management. Role-based access control (RBAC) in vCenter allows administrators to scope privileges to specific objects and operations, limiting exposure of data to authorized personnel. The platform tracks user authentication events, including successful and failed login attempts, through its audit logging capabilities in VCF Operations.
 
-Data-at-rest encryption uses vSAN cluster-based encryption or VM Encryption on non-vSAN storage. vSAN encryption uses AES-NI CPU offloading for efficient processing, and VMware ESX hosts encrypt vSAN disk data using the industry standard AES-256 XTS mode. Encryption keys are managed through KMIP 1.1-compatible external Key Management Servers (KMS) or vSphere Native Key Provider (NKP), which is included in all vSphere editions and does not require an external key server. VCF implements a three-element domain of trust comprising the key provider, VMware vCenter, and vSAN hosts. Key Encryption Keys (KEK) wrap Disk Encryption Keys (DEK) for secure key management; ESX hosts use the KEK to encrypt their internal keys and store only the encrypted internal keys on disk, not the KEK itself.
+Network-level controls provide logical isolation for workloads and their data. ESX does not allow guest virtual machines to have direct access to a physical network unless an administrator explicitly configures a virtual switch with a network interface attached to specific physical network interfaces. This default-deny posture restricts lateral movement and limits the pathways through which data can be accessed.
 
-VCF Standard Key Providers have key wrapping capabilities that let organizations store a single wrapping key in their KMS, protecting multiple Key Encryption Keys within the VCF environment. This creates a three-tier key hierarchy: the Data Encryption Key encrypts object data, the Key Encryption Key protects the DEK, and the wrapping key protects the KEK. This approach reduces the number of keys stored in external KMS systems while maintaining cryptographic separation. Key wrapping includes automatic key rotation with configurable intervals from 30 days to 10 years.
+At the host level, the vSphere Security Configuration Guide provides recommendations for hardening ESX hosts, including configuring authentication and authorization settings, disabling unnecessary services, and enabling security features such as Secure Boot and Trusted Platform Module (TPM). TPM modules, when present, should be running the latest 2.0 firmware.
 
-With key persistence enabled, ESX hosts can persist encryption keys in the Trusted Platform Module (TPM) across reboots, allowing encryption operations to continue when the key server is unavailable. Each ESX host obtains the encryption keys initially and retains them in its key cache; if the ESX host has a TPM, the encryption keys are persisted in the TPM across reboots. Key persistence can be enabled using the esxcli system security keypersistence enable command.
+Storage security best practices documented in the platform guidance address securing access to storage devices, implementing storage encryption, and protecting virtual machine data. Administrators should be aware that core files and audit logs can contain sensitive information such as passwords or encryption keys, requiring appropriate access restrictions on those artifacts. Sensitive data such as passwords or private keys should not be stored in plain text in data sets.
 
-VCF supports guest-level security features including virtual Trusted Platform Module (vTPM) 2.0 for VMs. This enables in-guest encryption capabilities such as Windows BitLocker, Linux disk encryption, and other operating system-native security features. Secure Boot provides UEFI verification to help ensure only signed and trusted code runs during the VM boot process. These features work independently of or in combination with infrastructure-level encryption, allowing organizations to implement defense-in-depth strategies.
+VCF Automation includes a privacy-aware feature that controls whether full user names (first and last name) are displayed in the user interface. This toggle allows organizations to manage explicit consent for exposing personal user data, supporting alignment with global privacy regulations that require consent before displaying personally identifiable information. Deactivating the display revokes consent and prevents user names from appearing in the interface.
 
-vSAN offers Data-in-Transit (DIT) encryption as a cluster-wide setting that encrypts all data and metadata traffic as it transits across hosts. For vSAN Original Storage Architecture (OSA), data-at-rest encryption occurs at the Local Object Manager (LSOM) layer on the target host, making DIT encryption strongly recommended to restrict network-level interception. For vSAN Express Storage Architecture (ESA) in HCI mode, data is encrypted at the VM host before network transmission, making DIT encryption optional based on compliance requirements and risk tolerance. DIT encryption operates without requiring external key management servers and provides independent key rotation from data-at-rest encryption.
-
-Encrypted vSphere vMotion secures confidentiality, integrity, and authenticity of data transferred during VM migrations. For encrypted VMs, vMotion always uses encryption. For unencrypted VMs, encrypted vMotion can be set to Disabled, Opportunistic (default), or Required. Cross-vCenter vMotion is supported when using shared key providers or backup/import of Native Key Provider. VCF uses one-time keys (nonces) for each migration session so that captured traffic cannot be replayed or decrypted after migration completes.
-
-Memory Tiering encryption provides protection for tiered memory without requiring external key management. VCF generates random 256-bit AES-XTS keys at the kernel level during VM power-on, unique to each VM instance or per host depending on configuration.
-
-VM Encryption provides protection across all datastore types including vSAN, iSCSI, NFS, and Fibre Channel. Disk encryption uses XTS-AES-256 keys as the disk encryption key. This encryption occurs before data reaches the storage layer, providing both data-at-rest and data-in-transit protection.
-
-Kubernetes on VKS supports encryption at rest for data stored within the control plane. Operators configure the encryption provider and manage key access for control plane secrets; when relying on a managed key provider, administrators retain responsibility for access controls over the managed key material. The VCF Automation consumption layer includes VCF Encryption Management, which grants organization administrators the ability to use encryption keys from their own key providers for encryption of virtual machines and disks in their VCF environment, extending the platform's cryptographic key management to tenant-level operations.
-
-For storage protocols, VCF provides varying levels of native encryption support. iSCSI includes CHAP for session authentication. Fibre Channel Gen 7 supports end-to-end encryption with secure HBAs. For NFS datastores, version 4.1 supports Kerberos authentication with three security levels: krb5 (authentication only), krb5i (authentication plus integrity checking), and krb5p (authentication plus privacy with full encryption).
-
-ESX stores configuration data in encrypted form on boot devices. When the host has a TPM 2.0 enabled and configured, the configuration encryption key is stored in the TPM. The encryption mode can be configured using the esxcli system settings encryption set command with the --mode=TPM parameter.
-
-Cryptographic operations are controlled through fine-grained privileges in vCenter. Only users assigned the Cryptographic Operations privileges can perform cryptographic operations. A dedicated No Cryptography Administrator role enables standard VM and infrastructure management while restricting unauthorized encryption changes. This role can be cloned and customized to grant only specific Cryptographic Operations privileges, such as allowing encryption but not decryption, supporting the principle of least privilege for encryption tasks. The CryptoManager and CryptoManagerKmip managed objects provide programmatic interfaces for handling cryptographic keys and integrating with key management server infrastructure. vSAN encryption key management requires specific permissions including Cryptographer.ManageEncryptionPolicy, Cryptographer.ManageKeyServers, and Cryptographer.ManageKeys.
-
-vSAN includes secure disk wipe capabilities for proper media sanitization when decommissioning storage, supporting the Erase disks before use option during encryption configuration and disk management operations.
-
-Defining the organization's cryptographic policy (algorithm selection, key strength, rotation schedules, KMS architecture, FIPS-mode activation decisions) and the key lifecycle management standards that govern key creation, distribution, storage, archive, and destruction sit with the organization above the platform. VCF supplies the validated cryptographic modules and protocol enforcement; the organizational cryptographic governance program determines how those mechanisms apply across the environment. Security Technical Implementation Guides (STIGs) for Supervisor and VKS releases are available to guide cryptographic hardening of the consumption layer.
-
-VMware Private AI Services (PAIS) provides cryptographic controls across its AI infrastructure components, building on the cryptographic foundation of VCF.
-
-GPU-accelerated VMware Kubernetes Service (VKS) clusters deployed for PAIS workloads use a FIPS-enabled Kubernetes runtime. The VKS cluster topology version applied to both control plane and worker deployments uses a FIPS-enabled VKR build running on Ubuntu 24.04, so AI workloads on PAIS VKS clusters operate within a FIPS-compliant Kubernetes runtime.
-
-PAIS endpoints use TLS for service communication. The PAISConfiguration custom resource supports configurable CA bundle references through spec.clientTls.caBundleRefs for OIDC provider and Harbor registry authentication. The Supervisor endpoint communication for PAIS uses HTTPS on port 6443 with certificate-based authentication. The PAIS Prometheus metrics endpoint uses self-signed certificate authentication with TLS, where the CA certificate is retrieved from the pais-ingress-default Secret in the PAIS namespace and configured in base64-decoded form. Prometheus TLS client authentication and certificate validation are off by default; auditors should verify that client authentication is enabled in production deployments where mutual certificate validation is required.
-
-PAIS requires CA trust bundles to be configured for all external HTTPS connections, including OIDC providers, Harbor registries, content management systems used as data sources in the Data Indexing and Retrieval service (such as Confluence or SharePoint), MCP servers that provide tools to agents, and the pgvector database server used for vector storage. Trust bundle material is obtained from each external system's administrator either as a certificate file or as a ConfigMap stored in the namespace where PAIS is deployed, and PAIS recommends maintaining separate trust bundles per application with periodic updates before certificate expiration. Administrators add trusted certificates through the VCF Automation Provider Management UI under Certificate Management and Trusted Certificates. The issuer certificate of the Harbor registry must also be added to the certificate trust store on Deep Learning VMs that pull models from the registry. When connecting to an MCP server over HTTPS, the MCP server issuer certificate must be added as a CA trust bundle.
-
-The underlying cryptographic algorithms, cipher suites, and platform-level key management are provided by VCF and VKS. Organizations are responsible for selecting and enforcing approved cryptographic standards at the VCF and infrastructure level, while PAIS provides the certificate management and trust chain configuration mechanisms specific to AI service endpoints.
+While VCF provides these technical safeguards, protecting personal data also requires organizational policies, data classification schemes, data loss prevention tooling, and privacy-specific operational procedures that fall outside the platform's scope. Physical security of the underlying infrastructure and the identification, classification, and handling rules for personal data must be defined and enforced by the organization. VCF supplies the infrastructure-level controls that underpin a privacy program, but the organizational governance layer is a separate responsibility.
 
 #### VMware vDefend (Contributes)
 
-VMware vDefend contributes to the implementation of cryptographic protection controls by using known public standards and trusted cryptographic technologies across its component stack for securing inter-component communications and providing cryptographic inspection capabilities for network traffic.
+VMware vDefend contributes to protecting personal data through network-level security controls applied to workloads that store, process, or transmit personal data. The vDefend distributed firewall (DFW) enforces microsegmentation policies that isolate workloads handling personal data, restricting lateral movement and limiting which systems can communicate with sensitive data flows. Security profiles can be applied to Virtual Private Clouds (VPCs) to define and manage the security posture of personal data environments.
 
-Security Services Platform (SSP), the control-plane component of vDefend, secures communications between vDefend product components using certificates and current TLS protocol versions with approved cipher suites. SSP and the SSP Installer deploy with the most current TLS version by default and also support the prior major TLS version. The TLS versions and cipher suites allowed on SSP Installer and SSP are fixed and cannot be modified, which enforces a consistent cryptographic baseline across deployments.
+The Security Services Platform (SSP) provides security segmentation assessment capabilities that identify risky application protocols transporting data in cleartext, and generate reports highlighting exposure of critical infrastructure servers such as DNS, DHCP, NTP, and LDAP. Organizations can use these assessments to restrict or block cleartext protocols and enforce secure protocol versions across their environments.
 
-SSP components, including the SSP Installer and the NDR Sensor for vDefend, implement FIPS 140-2 and FIPS 140-3 cryptographic module standards. SSP uses the VMware BouncyCastle Module (NIST CMVP Certificate #4943) and the VMware OpenSSL FIPS provider Object Module (NIST CMVP Certificate #4861) for its cryptographic operations. SSP actively enforces cryptographic hygiene by rejecting any certificate or TLS configuration that uses deprecated algorithms, short keys, or legacy protocol versions, returning a validation error rather than permitting degraded connections.
+vDefend IDS/IPS provides signature-based threat detection for network attacks targeting systems holding personal data, including detection and prevention of SQL injection attempts against databases. The vDefend Network Detection and Response (NDR) capability anonymizes sensitive customer information when sharing telemetry to cloud services, directly supporting privacy within the analytics pipeline.
 
-Certificate management within SSP provides lifecycle controls including certificate export, certificate signing request (CSR) generation, and CA-signed certificate replacement. SSP monitors and manages several certificate types used to identify client and host machines, establish trust between components, secure communications, and control access levels. Administrators can retrieve and validate LDAP certificates using standard tools to establish secure LDAPS connections for platform authentication. These capabilities allow organizations to integrate vDefend into their broader PKI infrastructure and follow standard certificate lifecycle practices.
-
-vDefend provides TLS Inspection capabilities that allow the firewall to decrypt, inspect, and re-encrypt TLS-protected traffic. Without TLS Inspection, encrypted traffic cannot be examined or enforced against security policies even when other advanced security features are enabled. With TLS Inspection enabled, vDefend gains visibility into encrypted traffic flows, supporting more effective access control and threat detection. TLS Inspection also supports importing or generating trusted and untrusted proxy certificate authorities for external decryption profiles, giving administrators control over the CA chain used in inspection.
-
-TLS Inspection includes a Crypto Enforcement option within decryption action profiles that allows administrators to set minimum and maximum protocol version and cipher suite constraints for both client and server connections. Profiles can be configured in Transparent or Enforce modes; the Enforce mode requires compliance with the configured cryptographic constraints.
-
-vDefend IDS/IPS signature rules extend cryptographic visibility by supporting protocol version matching and certificate Subject field matching, enabling enforcement decisions based on certificate metadata in encrypted traffic. IDS/IPS rules also support storing TLS/SSL certificates to disk for forensic analysis and threat investigation. SSP guidance recommends that organizations restrict or block protocols that carry data in cleartext and enforce minimum secure protocol versions as part of their network security practices.
-
-vDefend does not itself provide the underlying key management infrastructure (KMS), platform-wide PKI lifecycle management, or the broader VCF platform's cryptographic controls; those responsibilities belong to VCF. However, vDefend's consistent use of approved cryptographic standards for its own operations and its ability to perform cryptographic inspection of network traffic contribute to an organization's overall implementation of cryptographic protection controls.
+Physical safeguards, data classification, encryption at rest for workload data, and content-level data loss prevention remain outside vDefend's scope and require controls at other layers of the stack.
 
 #### VCF Protection and Recovery (Contributes)
 
@@ -2208,17 +2028,15 @@ For local user credential storage, DSM encrypts passwords using PGP symmetric en
 
 #### VMware Avi Load Balancer (Contributes)
 
-VMware Avi Load Balancer provides configurable SSL/TLS profiles that control which cipher suites, protocol versions, and key exchange algorithms are permitted for application traffic termination. The SSL/TLS Profile, configured under Templates > Security > SSL/TLS Profile, contains the accepted protocol version list and a prioritized cipher suite list applied to virtual services. Administrators can create custom profiles or select from built-in templates; the documentation notes that the choice of accepted ciphers and protocol versions involves trade-offs between security, client compatibility, and computational expense. SSL profiles in 9.1 include a Post Quantum Cryptography section with support for modern cipher suites. Controller SSL/TLS certificates support elliptic curve (EC) or RSA algorithms, with EC recommended for new deployments.
+VMware Avi Load Balancer provides application-layer logical security mechanisms that help protect traffic carrying personal data. At the transport layer, Avi supports SSL/TLS termination with certificate management, securing connections between clients and the application proxy and helping protect sensitive data from unauthorized interception or modification in transit (CLI Access Settings > Certificates). For Kubernetes workloads, the Avi Kubernetes Operator (AKO) supports PKIProfile configuration, which enables secure communication with backend services through certificate-based authentication and encryption (Designing and Deploying AKO > Setting up Routing Rules using CRDs > PKIProfile).
 
-For environments subject to cryptographic module validation requirements, Avi supports a FIPS mode backed by the OpenSSL FIPS Provider, which has been validated at FIPS 140-3 Security Level 1 and awarded Certificate #4985 by the Cryptographic Module Validation Program (CMVP). When FIPS mode is activated on the Controller cluster, Avi restricts cryptographic operations to FIPS-compliant algorithms only. FIPS 140-3 also requires stricter handling of sensitive security parameters including keys, authentication data, and random number generation. FIPS mode is enabled at the Controller cluster level through the Controller settings. Note that FIPS mode does not support SSL Client Hello events in Avi DataScript, which may affect certain scripted traffic inspection use cases.
+For application logging, the Avi Analytics Profile supports the creation of a sensitive log profile that governs how sensitive data is handled within client-side logs (Load Balancing > Analytics Profile > Client Log). Administrators can configure which fields are captured in client logs to limit inadvertent recording of personal data transmitted through applications. TLS persistence data, used to maintain session affinity across Service Engines, is stored in an encrypted format that a Service Engine can read if a client reconnects to a different Service Engine, reducing exposure of session-bound data throughout the persistence lifetime (Load Balancing > Persistence > TLS Persistence).
 
-Avi Controller allows administrators to restrict specific key exchange algorithms and ciphers for management session access. The Allowed Ciphers field restricts management session ciphers to a specified subset, and the kex_algorithm_exclude field under Controller Settings excludes specific key exchange methods for SSH-based administrative access. Internal communications between the Avi Controller and Service Engines also use SSL/TLS, and custom certificates can be selected for this Secure Channel connection via the Access tab certificate field.
+Client access to applications can be controlled through authentication profiles. Avi supports LDAP Authentication Profiles configurable with LDAPS for encrypted directory connections, validating user identities against a directory service before granting access to application resources (User Authentication and Authorization > Authentication Profile > LDAP Authentication Profile). Avi also supports OAuth 2.0 and OpenID Connect (OIDC) for secure delegated client authentication, enabling identity providers to issue tokens to third-party applications without exposing user credentials directly (Security > Client Authentication > OAuth and OIDC).
 
-For certificate management, Avi integrates with Hardware Security Modules (HSMs), including the Thales Luna (formerly SafeNet Luna) HSM, for cryptographic key storage and management. The Controller is set up as an HSM client and can create keys and certificates directly on the HSM through client libraries, supporting high-availability HSM configurations. Automated certificate lifecycle management is available through Let's Encrypt integration using the ACME protocol. Avi's App Transport Security feature supports integration with the Venafi Trust Protection Platform for certificate administration across tenants, with the Trust Protection Platform pushing signed certificates and required chain certificates to Avi Load Balancer.
+Multi-tenant data plane isolation depends on context configuration. When Tenant Context is used, Avi provides both control plane and data plane isolation, scoping application traffic to designated tenant resources and supporting multi-tenant deployments where each tenant's traffic remains separated. When Provider Context is used, only control plane isolation is provided; organizations requiring full data plane separation should configure Tenant Context accordingly (Tenant Settings > Tenants Versus SE Group Isolation).
 
-For Kubernetes deployments, the Avi Kubernetes Operator (AKO) supports PKIProfile-based certificate validation and trust management for backend services. The PKIProfile, configured through custom resources, enables secure communication with backend services through certificate-based authentication and encryption. In VCF environments, the Avi PKI Profile defines the list of trusted certificate authorities permitted to sign client certificates and can be used to implement Zero Trust security between servers and clients.
-
-Data-at-rest encryption for Avi Controller and Service Engine VMs is provided by VCF at the platform layer, not by Avi itself. Organizations must configure Avi SSL/TLS profiles, select appropriate cipher suites, and enable FIPS mode where cryptographic module validation requirements apply to activate these controls.
+Health monitor probes in secure environments should use encrypted credentials; Avi supports reconfiguring existing health monitors from plaintext credentials to encrypted form when encrypted authentication is required (Load Balancing > Health Monitoring > HTTP Health Monitor). For deployments with stringent cryptographic requirements, Avi supports FIPS 140-3 compliance, which requires stricter handling of keys, authentication data, and random number generation to help protect sensitive security parameters (FIPS Compliance in Avi Load Balancer > FIPS 140-3 Compliance). For Avi Controller deployments automated via Ansible, Ansible Vault can be used to securely store sensitive variables such as passwords and API tokens, reducing the risk of credential exposure during automated provisioning (Automation Tools Overview > Ansible).
 
 ### Control 32.1(b)
 
@@ -2568,31 +2386,9 @@ Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VM
 
 **SCF Controls:** IRO-10.2
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VCF (Contributes)
-
-VCF provides detection, monitoring, alerting, notification delivery, and investigation capabilities through VCF Operations that support timely identification and reporting of incidents involving sensitive or regulated data. While the organizational process of formally reporting such incidents to regulators, affected individuals, or other stakeholders falls outside the platform's scope, VCF supplies the technical foundation that enables an organization to detect incidents quickly, gather evidence, and route information to the people and systems responsible for response.
-
-VCF Operations event auditing provides visibility into platform interaction changes across the VCF infrastructure and surfaces suspicious access events and policy violations. This capability allows security teams to identify unauthorized or anomalous activity that may indicate a data incident. VCF Operations also provides audit tracking that identifies who made changes to the data center during a specific time range, which is important for establishing the scope and timeline of an incident involving sensitive data.
-
-VCF Operations compliance management continuously monitors infrastructure by evaluating collected data against defined policies. When a compliance alert is triggered on VMware vCenter instances, VMware ESX hosts, virtual machines, distributed port groups, or distributed switches, compliance violations are recorded for investigation. This automated detection of deviations from compliance baselines helps organizations identify potential data-related incidents as they occur rather than discovering them after the fact. Compliance management also highlights risk areas and provides actionable remediation recommendations, supporting the triage process that precedes formal incident reporting.
-
-VCF Operations generates alerts based on configurable thresholds and event definitions. When an alert fires, VCF Operations can deliver notifications through multiple outbound channels: SNMP traps to network management platforms, webhook calls to REST-enabled systems (in JSON or XML format), a ServiceNow plug-in that automatically creates incidents in the ServiceNow ticketing system, a Slack plug-in that forwards alerts to Slack channels with links to alert details, and email. Notification rules let administrators filter which alerts are forwarded and to which endpoints, so that events potentially involving data exposure reach the right teams without delay.
-
-All VCF components support syslog forwarding to external log aggregation and SIEM platforms. vCenter syslog forwarding can be configured through the vCenter Management API, and ESX hosts send syslog feeds through Log Collections configuration. VCF Log Management ingests and indexes these events from across the stack, providing real-time analytics to search and filter logs instantly for troubleshooting or auditing. Users can collect and analyze log feeds, view log-related metrics, and dynamically extract fields from log messages based on customized queries. This centralized log management gives security operations teams the ability to correlate events across the environment.
-
-Accurate log correlation depends on synchronized clocks across all components. The vSphere documentation notes that incorrect time settings in vCenter and ESX hosts make it difficult to inspect and correlate log files to detect attacks and render auditing inaccurate; NTP should be configured on all vCenter instances and ESX hosts so that log timestamps are reliable for incident investigation and reporting.
-
-The Diagnostic Findings feature provides a consolidated view of known product issues, VMSA-based security exposures, and industry best-practice recommendations across the VCF environment. Diagnostic Findings are alerts without notifications that result from a scan of the platform against known issues, logs, and properties. This provides an additional signal that may be relevant during incident triage, helping teams determine whether an observed event is related to a known vulnerability.
-
-For incident tracking and investigation, VCF Operations provides capabilities at multiple levels. The Troubleshooting Incident Page in VCF Network Operations displays information related to incidents, including status, root cause metrics, closing remarks, and timestamps for when incidents were created. During investigation, analysts can flag metrics and mark root causes, creating a documented trail that supports the incident reporting process. Incident status can be tracked as resolved or unresolved within the platform. VCF Operations also supports scheduled automated reports at regular intervals to track current resources and identify potential risks to the environment, which can feed an organization's incident reporting workflow.
-
-VCF Operations Data and Site Resiliency Monitoring provides centralized visibility into data protection metrics across private clouds, giving organizations awareness of the state of their data protection posture. VCF Automation includes data compliance controls that require explicit consent before exposing user names. This supports organizations that must track access to personally identifiable information.
-
-To satisfy this control fully, organizations must establish incident response procedures that define reporting timelines, designate responsible personnel, identify the authorities and regulators to notify, and specify the content and format of incident reports. VCF provides the detection, correlation, notification delivery, and evidence-gathering layer, but the reporting process itself requires organizational policies, communication channels, and human decision-making.
-
-Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 33.3(c)
 
@@ -2600,31 +2396,9 @@ Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VM
 
 **SCF Controls:** IRO-10.2
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VCF (Contributes)
-
-VCF provides detection, monitoring, alerting, notification delivery, and investigation capabilities through VCF Operations that support timely identification and reporting of incidents involving sensitive or regulated data. While the organizational process of formally reporting such incidents to regulators, affected individuals, or other stakeholders falls outside the platform's scope, VCF supplies the technical foundation that enables an organization to detect incidents quickly, gather evidence, and route information to the people and systems responsible for response.
-
-VCF Operations event auditing provides visibility into platform interaction changes across the VCF infrastructure and surfaces suspicious access events and policy violations. This capability allows security teams to identify unauthorized or anomalous activity that may indicate a data incident. VCF Operations also provides audit tracking that identifies who made changes to the data center during a specific time range, which is important for establishing the scope and timeline of an incident involving sensitive data.
-
-VCF Operations compliance management continuously monitors infrastructure by evaluating collected data against defined policies. When a compliance alert is triggered on VMware vCenter instances, VMware ESX hosts, virtual machines, distributed port groups, or distributed switches, compliance violations are recorded for investigation. This automated detection of deviations from compliance baselines helps organizations identify potential data-related incidents as they occur rather than discovering them after the fact. Compliance management also highlights risk areas and provides actionable remediation recommendations, supporting the triage process that precedes formal incident reporting.
-
-VCF Operations generates alerts based on configurable thresholds and event definitions. When an alert fires, VCF Operations can deliver notifications through multiple outbound channels: SNMP traps to network management platforms, webhook calls to REST-enabled systems (in JSON or XML format), a ServiceNow plug-in that automatically creates incidents in the ServiceNow ticketing system, a Slack plug-in that forwards alerts to Slack channels with links to alert details, and email. Notification rules let administrators filter which alerts are forwarded and to which endpoints, so that events potentially involving data exposure reach the right teams without delay.
-
-All VCF components support syslog forwarding to external log aggregation and SIEM platforms. vCenter syslog forwarding can be configured through the vCenter Management API, and ESX hosts send syslog feeds through Log Collections configuration. VCF Log Management ingests and indexes these events from across the stack, providing real-time analytics to search and filter logs instantly for troubleshooting or auditing. Users can collect and analyze log feeds, view log-related metrics, and dynamically extract fields from log messages based on customized queries. This centralized log management gives security operations teams the ability to correlate events across the environment.
-
-Accurate log correlation depends on synchronized clocks across all components. The vSphere documentation notes that incorrect time settings in vCenter and ESX hosts make it difficult to inspect and correlate log files to detect attacks and render auditing inaccurate; NTP should be configured on all vCenter instances and ESX hosts so that log timestamps are reliable for incident investigation and reporting.
-
-The Diagnostic Findings feature provides a consolidated view of known product issues, VMSA-based security exposures, and industry best-practice recommendations across the VCF environment. Diagnostic Findings are alerts without notifications that result from a scan of the platform against known issues, logs, and properties. This provides an additional signal that may be relevant during incident triage, helping teams determine whether an observed event is related to a known vulnerability.
-
-For incident tracking and investigation, VCF Operations provides capabilities at multiple levels. The Troubleshooting Incident Page in VCF Network Operations displays information related to incidents, including status, root cause metrics, closing remarks, and timestamps for when incidents were created. During investigation, analysts can flag metrics and mark root causes, creating a documented trail that supports the incident reporting process. Incident status can be tracked as resolved or unresolved within the platform. VCF Operations also supports scheduled automated reports at regular intervals to track current resources and identify potential risks to the environment, which can feed an organization's incident reporting workflow.
-
-VCF Operations Data and Site Resiliency Monitoring provides centralized visibility into data protection metrics across private clouds, giving organizations awareness of the state of their data protection posture. VCF Automation includes data compliance controls that require explicit consent before exposing user names. This supports organizations that must track access to personally identifiable information.
-
-To satisfy this control fully, organizations must establish incident response procedures that define reporting timelines, designate responsible personnel, identify the authorities and regulators to notify, and specify the content and format of incident reports. VCF provides the detection, correlation, notification delivery, and evidence-gathering layer, but the reporting process itself requires organizational policies, communication channels, and human decision-making.
-
-Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 33.3(d)
 
@@ -2664,31 +2438,9 @@ Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VM
 
 **SCF Controls:** IRO-10.2
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VCF (Contributes)
-
-VCF provides detection, monitoring, alerting, notification delivery, and investigation capabilities through VCF Operations that support timely identification and reporting of incidents involving sensitive or regulated data. While the organizational process of formally reporting such incidents to regulators, affected individuals, or other stakeholders falls outside the platform's scope, VCF supplies the technical foundation that enables an organization to detect incidents quickly, gather evidence, and route information to the people and systems responsible for response.
-
-VCF Operations event auditing provides visibility into platform interaction changes across the VCF infrastructure and surfaces suspicious access events and policy violations. This capability allows security teams to identify unauthorized or anomalous activity that may indicate a data incident. VCF Operations also provides audit tracking that identifies who made changes to the data center during a specific time range, which is important for establishing the scope and timeline of an incident involving sensitive data.
-
-VCF Operations compliance management continuously monitors infrastructure by evaluating collected data against defined policies. When a compliance alert is triggered on VMware vCenter instances, VMware ESX hosts, virtual machines, distributed port groups, or distributed switches, compliance violations are recorded for investigation. This automated detection of deviations from compliance baselines helps organizations identify potential data-related incidents as they occur rather than discovering them after the fact. Compliance management also highlights risk areas and provides actionable remediation recommendations, supporting the triage process that precedes formal incident reporting.
-
-VCF Operations generates alerts based on configurable thresholds and event definitions. When an alert fires, VCF Operations can deliver notifications through multiple outbound channels: SNMP traps to network management platforms, webhook calls to REST-enabled systems (in JSON or XML format), a ServiceNow plug-in that automatically creates incidents in the ServiceNow ticketing system, a Slack plug-in that forwards alerts to Slack channels with links to alert details, and email. Notification rules let administrators filter which alerts are forwarded and to which endpoints, so that events potentially involving data exposure reach the right teams without delay.
-
-All VCF components support syslog forwarding to external log aggregation and SIEM platforms. vCenter syslog forwarding can be configured through the vCenter Management API, and ESX hosts send syslog feeds through Log Collections configuration. VCF Log Management ingests and indexes these events from across the stack, providing real-time analytics to search and filter logs instantly for troubleshooting or auditing. Users can collect and analyze log feeds, view log-related metrics, and dynamically extract fields from log messages based on customized queries. This centralized log management gives security operations teams the ability to correlate events across the environment.
-
-Accurate log correlation depends on synchronized clocks across all components. The vSphere documentation notes that incorrect time settings in vCenter and ESX hosts make it difficult to inspect and correlate log files to detect attacks and render auditing inaccurate; NTP should be configured on all vCenter instances and ESX hosts so that log timestamps are reliable for incident investigation and reporting.
-
-The Diagnostic Findings feature provides a consolidated view of known product issues, VMSA-based security exposures, and industry best-practice recommendations across the VCF environment. Diagnostic Findings are alerts without notifications that result from a scan of the platform against known issues, logs, and properties. This provides an additional signal that may be relevant during incident triage, helping teams determine whether an observed event is related to a known vulnerability.
-
-For incident tracking and investigation, VCF Operations provides capabilities at multiple levels. The Troubleshooting Incident Page in VCF Network Operations displays information related to incidents, including status, root cause metrics, closing remarks, and timestamps for when incidents were created. During investigation, analysts can flag metrics and mark root causes, creating a documented trail that supports the incident reporting process. Incident status can be tracked as resolved or unresolved within the platform. VCF Operations also supports scheduled automated reports at regular intervals to track current resources and identify potential risks to the environment, which can feed an organization's incident reporting workflow.
-
-VCF Operations Data and Site Resiliency Monitoring provides centralized visibility into data protection metrics across private clouds, giving organizations awareness of the state of their data protection posture. VCF Automation includes data compliance controls that require explicit consent before exposing user names. This supports organizations that must track access to personally identifiable information.
-
-To satisfy this control fully, organizations must establish incident response procedures that define reporting timelines, designate responsible personnel, identify the authorities and regulators to notify, and specify the content and format of incident reports. VCF provides the detection, correlation, notification delivery, and evidence-gathering layer, but the reporting process itself requires organizational policies, communication channels, and human decision-making.
-
-Not applicable for this control: VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 33.5
 
@@ -3234,29 +2986,9 @@ Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data S
 
 **SCF Controls:** DCH-25
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VMware vDefend (Contributes)
-
-VMware vDefend (DFW) and Gateway Firewall enable network-level policy enforcement that restricts east-west and north-south connections, including outbound transfers to unauthorized or geographically prohibited destinations. Gateway Firewall rules can deny all inter-project communication except for infrastructure protocols such as DHCP, DNS, NTP, and ICMP, providing a mechanism to prevent sensitive workloads from transferring data to unauthorized external destinations. URL filtering and TLS inspection extend these controls by enabling policy-based blocking or inspection of outbound connections based on category, reputation, or destination.
-
-Security Intelligence, part of the Security Services Platform (SSP), provides flow visibility and audit capabilities that support compliance documentation for data transfer governance. The Export All Flows capability exports network flow data to a CSV file for analysis and compliance documentation. Security Intelligence also exports user-defined label assignments, which associate compute entities with classification tags, to CSV, supporting audit documentation of which workloads are subject to data handling policies. Policy recommendations generated by Security Intelligence can be exported in JSON or CSV format for further analysis. SSP stores processed, enriched, and correlated flow data, with aggregated flow records updated every six hours.
-
-Network Detection and Response (NDR) anonymizes sensitive customer information when sharing data to cloud services, providing a privacy control over what platform telemetry leaves the environment. SSP regions can also be associated with security and network policies to control policy scope across multiple geographic locations, supporting governance of which security rules apply where.
-
-vDefend operates at the network layer and does not enforce data residency, contractual, or legal compliance obligations directly. Those obligations require complementary governance frameworks and organizational processes that extend beyond network-level enforcement.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer provides geographic enforcement mechanisms at the application delivery layer that help organizations restrict application traffic flows by source geography. The Geo-DB feature allows administrators to define named groups of geographic entities, including specific country lists and regional groupings such as embargo country sets, which can then be applied as match conditions in virtual service traffic policies. This allows Avi to block, log, or redirect requests based on the geographic origin of the connection.
-
-The Avi Web Application Firewall (WAF), built on the ModSecurity rules engine, extends geographic enforcement through the t:IPtoCountryCode transformation. This transformation converts a client IP address to its corresponding country code within WAF rule expressions, enabling administrators to write rules that match and act on traffic associated with specific jurisdictions. Geo-DB policy groups and WAF country-code rules can be layered to create enforcement at the application proxy boundary.
-
-The Avi Analytics Profile supports configuration of a sensitive log profile that controls how sensitive data appearing in client logs is handled. This limits inadvertent exposure of regulated data within Avi's own telemetry and complements the traffic enforcement mechanisms described above.
-
-Effective use requires that the organization identify which applications process data subject to cross-border transfer regulations, determine which jurisdictions are restricted or permitted, and then configure the corresponding Geo-DB groups and WAF rules. Avi provides the enforcement mechanism; the underlying data classification and jurisdictional analysis are organizational responsibilities.
-
-Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 46.2(a)
 
@@ -3264,29 +2996,9 @@ Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data S
 
 **SCF Controls:** DCH-25
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VMware vDefend (Contributes)
-
-VMware vDefend (DFW) and Gateway Firewall enable network-level policy enforcement that restricts east-west and north-south connections, including outbound transfers to unauthorized or geographically prohibited destinations. Gateway Firewall rules can deny all inter-project communication except for infrastructure protocols such as DHCP, DNS, NTP, and ICMP, providing a mechanism to prevent sensitive workloads from transferring data to unauthorized external destinations. URL filtering and TLS inspection extend these controls by enabling policy-based blocking or inspection of outbound connections based on category, reputation, or destination.
-
-Security Intelligence, part of the Security Services Platform (SSP), provides flow visibility and audit capabilities that support compliance documentation for data transfer governance. The Export All Flows capability exports network flow data to a CSV file for analysis and compliance documentation. Security Intelligence also exports user-defined label assignments, which associate compute entities with classification tags, to CSV, supporting audit documentation of which workloads are subject to data handling policies. Policy recommendations generated by Security Intelligence can be exported in JSON or CSV format for further analysis. SSP stores processed, enriched, and correlated flow data, with aggregated flow records updated every six hours.
-
-Network Detection and Response (NDR) anonymizes sensitive customer information when sharing data to cloud services, providing a privacy control over what platform telemetry leaves the environment. SSP regions can also be associated with security and network policies to control policy scope across multiple geographic locations, supporting governance of which security rules apply where.
-
-vDefend operates at the network layer and does not enforce data residency, contractual, or legal compliance obligations directly. Those obligations require complementary governance frameworks and organizational processes that extend beyond network-level enforcement.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer provides geographic enforcement mechanisms at the application delivery layer that help organizations restrict application traffic flows by source geography. The Geo-DB feature allows administrators to define named groups of geographic entities, including specific country lists and regional groupings such as embargo country sets, which can then be applied as match conditions in virtual service traffic policies. This allows Avi to block, log, or redirect requests based on the geographic origin of the connection.
-
-The Avi Web Application Firewall (WAF), built on the ModSecurity rules engine, extends geographic enforcement through the t:IPtoCountryCode transformation. This transformation converts a client IP address to its corresponding country code within WAF rule expressions, enabling administrators to write rules that match and act on traffic associated with specific jurisdictions. Geo-DB policy groups and WAF country-code rules can be layered to create enforcement at the application proxy boundary.
-
-The Avi Analytics Profile supports configuration of a sensitive log profile that controls how sensitive data appearing in client logs is handled. This limits inadvertent exposure of regulated data within Avi's own telemetry and complements the traffic enforcement mechanisms described above.
-
-Effective use requires that the organization identify which applications process data subject to cross-border transfer regulations, determine which jurisdictions are restricted or permitted, and then configure the corresponding Geo-DB groups and WAF rules. Avi provides the enforcement mechanism; the underlying data classification and jurisdictional analysis are organizational responsibilities.
-
-Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 46.2(b)
 
@@ -3314,29 +3026,9 @@ Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recover
 
 **SCF Controls:** DCH-25
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VMware vDefend (Contributes)
-
-VMware vDefend (DFW) and Gateway Firewall enable network-level policy enforcement that restricts east-west and north-south connections, including outbound transfers to unauthorized or geographically prohibited destinations. Gateway Firewall rules can deny all inter-project communication except for infrastructure protocols such as DHCP, DNS, NTP, and ICMP, providing a mechanism to prevent sensitive workloads from transferring data to unauthorized external destinations. URL filtering and TLS inspection extend these controls by enabling policy-based blocking or inspection of outbound connections based on category, reputation, or destination.
-
-Security Intelligence, part of the Security Services Platform (SSP), provides flow visibility and audit capabilities that support compliance documentation for data transfer governance. The Export All Flows capability exports network flow data to a CSV file for analysis and compliance documentation. Security Intelligence also exports user-defined label assignments, which associate compute entities with classification tags, to CSV, supporting audit documentation of which workloads are subject to data handling policies. Policy recommendations generated by Security Intelligence can be exported in JSON or CSV format for further analysis. SSP stores processed, enriched, and correlated flow data, with aggregated flow records updated every six hours.
-
-Network Detection and Response (NDR) anonymizes sensitive customer information when sharing data to cloud services, providing a privacy control over what platform telemetry leaves the environment. SSP regions can also be associated with security and network policies to control policy scope across multiple geographic locations, supporting governance of which security rules apply where.
-
-vDefend operates at the network layer and does not enforce data residency, contractual, or legal compliance obligations directly. Those obligations require complementary governance frameworks and organizational processes that extend beyond network-level enforcement.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer provides geographic enforcement mechanisms at the application delivery layer that help organizations restrict application traffic flows by source geography. The Geo-DB feature allows administrators to define named groups of geographic entities, including specific country lists and regional groupings such as embargo country sets, which can then be applied as match conditions in virtual service traffic policies. This allows Avi to block, log, or redirect requests based on the geographic origin of the connection.
-
-The Avi Web Application Firewall (WAF), built on the ModSecurity rules engine, extends geographic enforcement through the t:IPtoCountryCode transformation. This transformation converts a client IP address to its corresponding country code within WAF rule expressions, enabling administrators to write rules that match and act on traffic associated with specific jurisdictions. Geo-DB policy groups and WAF country-code rules can be layered to create enforcement at the application proxy boundary.
-
-The Avi Analytics Profile supports configuration of a sensitive log profile that controls how sensitive data appearing in client logs is handled. This limits inadvertent exposure of regulated data within Avi's own telemetry and complements the traffic enforcement mechanisms described above.
-
-Effective use requires that the organization identify which applications process data subject to cross-border transfer regulations, determine which jurisdictions are restricted or permitted, and then configure the corresponding Geo-DB groups and WAF rules. Avi provides the enforcement mechanism; the underlying data classification and jurisdictional analysis are organizational responsibilities.
-
-Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 49.1(a)
 
@@ -3344,29 +3036,9 @@ Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data S
 
 **SCF Controls:** DCH-25
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VMware vDefend (Contributes)
-
-VMware vDefend (DFW) and Gateway Firewall enable network-level policy enforcement that restricts east-west and north-south connections, including outbound transfers to unauthorized or geographically prohibited destinations. Gateway Firewall rules can deny all inter-project communication except for infrastructure protocols such as DHCP, DNS, NTP, and ICMP, providing a mechanism to prevent sensitive workloads from transferring data to unauthorized external destinations. URL filtering and TLS inspection extend these controls by enabling policy-based blocking or inspection of outbound connections based on category, reputation, or destination.
-
-Security Intelligence, part of the Security Services Platform (SSP), provides flow visibility and audit capabilities that support compliance documentation for data transfer governance. The Export All Flows capability exports network flow data to a CSV file for analysis and compliance documentation. Security Intelligence also exports user-defined label assignments, which associate compute entities with classification tags, to CSV, supporting audit documentation of which workloads are subject to data handling policies. Policy recommendations generated by Security Intelligence can be exported in JSON or CSV format for further analysis. SSP stores processed, enriched, and correlated flow data, with aggregated flow records updated every six hours.
-
-Network Detection and Response (NDR) anonymizes sensitive customer information when sharing data to cloud services, providing a privacy control over what platform telemetry leaves the environment. SSP regions can also be associated with security and network policies to control policy scope across multiple geographic locations, supporting governance of which security rules apply where.
-
-vDefend operates at the network layer and does not enforce data residency, contractual, or legal compliance obligations directly. Those obligations require complementary governance frameworks and organizational processes that extend beyond network-level enforcement.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer provides geographic enforcement mechanisms at the application delivery layer that help organizations restrict application traffic flows by source geography. The Geo-DB feature allows administrators to define named groups of geographic entities, including specific country lists and regional groupings such as embargo country sets, which can then be applied as match conditions in virtual service traffic policies. This allows Avi to block, log, or redirect requests based on the geographic origin of the connection.
-
-The Avi Web Application Firewall (WAF), built on the ModSecurity rules engine, extends geographic enforcement through the t:IPtoCountryCode transformation. This transformation converts a client IP address to its corresponding country code within WAF rule expressions, enabling administrators to write rules that match and act on traffic associated with specific jurisdictions. Geo-DB policy groups and WAF country-code rules can be layered to create enforcement at the application proxy boundary.
-
-The Avi Analytics Profile supports configuration of a sensitive log profile that controls how sensitive data appearing in client logs is handled. This limits inadvertent exposure of regulated data within Avi's own telemetry and complements the traffic enforcement mechanisms described above.
-
-Effective use requires that the organization identify which applications process data subject to cross-border transfer regulations, determine which jurisdictions are restricted or permitted, and then configure the corresponding Geo-DB groups and WAF rules. Avi provides the enforcement mechanism; the underlying data classification and jurisdictional analysis are organizational responsibilities.
-
-Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 49.1(b)
 
@@ -3374,29 +3046,9 @@ Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data S
 
 **SCF Controls:** DCH-25
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VMware vDefend (Contributes)
-
-VMware vDefend (DFW) and Gateway Firewall enable network-level policy enforcement that restricts east-west and north-south connections, including outbound transfers to unauthorized or geographically prohibited destinations. Gateway Firewall rules can deny all inter-project communication except for infrastructure protocols such as DHCP, DNS, NTP, and ICMP, providing a mechanism to prevent sensitive workloads from transferring data to unauthorized external destinations. URL filtering and TLS inspection extend these controls by enabling policy-based blocking or inspection of outbound connections based on category, reputation, or destination.
-
-Security Intelligence, part of the Security Services Platform (SSP), provides flow visibility and audit capabilities that support compliance documentation for data transfer governance. The Export All Flows capability exports network flow data to a CSV file for analysis and compliance documentation. Security Intelligence also exports user-defined label assignments, which associate compute entities with classification tags, to CSV, supporting audit documentation of which workloads are subject to data handling policies. Policy recommendations generated by Security Intelligence can be exported in JSON or CSV format for further analysis. SSP stores processed, enriched, and correlated flow data, with aggregated flow records updated every six hours.
-
-Network Detection and Response (NDR) anonymizes sensitive customer information when sharing data to cloud services, providing a privacy control over what platform telemetry leaves the environment. SSP regions can also be associated with security and network policies to control policy scope across multiple geographic locations, supporting governance of which security rules apply where.
-
-vDefend operates at the network layer and does not enforce data residency, contractual, or legal compliance obligations directly. Those obligations require complementary governance frameworks and organizational processes that extend beyond network-level enforcement.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer provides geographic enforcement mechanisms at the application delivery layer that help organizations restrict application traffic flows by source geography. The Geo-DB feature allows administrators to define named groups of geographic entities, including specific country lists and regional groupings such as embargo country sets, which can then be applied as match conditions in virtual service traffic policies. This allows Avi to block, log, or redirect requests based on the geographic origin of the connection.
-
-The Avi Web Application Firewall (WAF), built on the ModSecurity rules engine, extends geographic enforcement through the t:IPtoCountryCode transformation. This transformation converts a client IP address to its corresponding country code within WAF rule expressions, enabling administrators to write rules that match and act on traffic associated with specific jurisdictions. Geo-DB policy groups and WAF country-code rules can be layered to create enforcement at the application proxy boundary.
-
-The Avi Analytics Profile supports configuration of a sensitive log profile that controls how sensitive data appearing in client logs is handled. This limits inadvertent exposure of regulated data within Avi's own telemetry and complements the traffic enforcement mechanisms described above.
-
-Effective use requires that the organization identify which applications process data subject to cross-border transfer regulations, determine which jurisdictions are restricted or permitted, and then configure the corresponding Geo-DB groups and WAF rules. Avi provides the enforcement mechanism; the underlying data classification and jurisdictional analysis are organizational responsibilities.
-
-Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 49.1(c)
 
@@ -3404,29 +3056,9 @@ Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data S
 
 **SCF Controls:** DCH-25
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VMware vDefend (Contributes)
-
-VMware vDefend (DFW) and Gateway Firewall enable network-level policy enforcement that restricts east-west and north-south connections, including outbound transfers to unauthorized or geographically prohibited destinations. Gateway Firewall rules can deny all inter-project communication except for infrastructure protocols such as DHCP, DNS, NTP, and ICMP, providing a mechanism to prevent sensitive workloads from transferring data to unauthorized external destinations. URL filtering and TLS inspection extend these controls by enabling policy-based blocking or inspection of outbound connections based on category, reputation, or destination.
-
-Security Intelligence, part of the Security Services Platform (SSP), provides flow visibility and audit capabilities that support compliance documentation for data transfer governance. The Export All Flows capability exports network flow data to a CSV file for analysis and compliance documentation. Security Intelligence also exports user-defined label assignments, which associate compute entities with classification tags, to CSV, supporting audit documentation of which workloads are subject to data handling policies. Policy recommendations generated by Security Intelligence can be exported in JSON or CSV format for further analysis. SSP stores processed, enriched, and correlated flow data, with aggregated flow records updated every six hours.
-
-Network Detection and Response (NDR) anonymizes sensitive customer information when sharing data to cloud services, providing a privacy control over what platform telemetry leaves the environment. SSP regions can also be associated with security and network policies to control policy scope across multiple geographic locations, supporting governance of which security rules apply where.
-
-vDefend operates at the network layer and does not enforce data residency, contractual, or legal compliance obligations directly. Those obligations require complementary governance frameworks and organizational processes that extend beyond network-level enforcement.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer provides geographic enforcement mechanisms at the application delivery layer that help organizations restrict application traffic flows by source geography. The Geo-DB feature allows administrators to define named groups of geographic entities, including specific country lists and regional groupings such as embargo country sets, which can then be applied as match conditions in virtual service traffic policies. This allows Avi to block, log, or redirect requests based on the geographic origin of the connection.
-
-The Avi Web Application Firewall (WAF), built on the ModSecurity rules engine, extends geographic enforcement through the t:IPtoCountryCode transformation. This transformation converts a client IP address to its corresponding country code within WAF rule expressions, enabling administrators to write rules that match and act on traffic associated with specific jurisdictions. Geo-DB policy groups and WAF country-code rules can be layered to create enforcement at the application proxy boundary.
-
-The Avi Analytics Profile supports configuration of a sensitive log profile that controls how sensitive data appearing in client logs is handled. This limits inadvertent exposure of regulated data within Avi's own telemetry and complements the traffic enforcement mechanisms described above.
-
-Effective use requires that the organization identify which applications process data subject to cross-border transfer regulations, determine which jurisdictions are restricted or permitted, and then configure the corresponding Geo-DB groups and WAF rules. Avi provides the enforcement mechanism; the underlying data classification and jurisdictional analysis are organizational responsibilities.
-
-Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 49.1(d)
 
@@ -3434,29 +3066,9 @@ Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data S
 
 **SCF Controls:** DCH-25
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VMware vDefend (Contributes)
-
-VMware vDefend (DFW) and Gateway Firewall enable network-level policy enforcement that restricts east-west and north-south connections, including outbound transfers to unauthorized or geographically prohibited destinations. Gateway Firewall rules can deny all inter-project communication except for infrastructure protocols such as DHCP, DNS, NTP, and ICMP, providing a mechanism to prevent sensitive workloads from transferring data to unauthorized external destinations. URL filtering and TLS inspection extend these controls by enabling policy-based blocking or inspection of outbound connections based on category, reputation, or destination.
-
-Security Intelligence, part of the Security Services Platform (SSP), provides flow visibility and audit capabilities that support compliance documentation for data transfer governance. The Export All Flows capability exports network flow data to a CSV file for analysis and compliance documentation. Security Intelligence also exports user-defined label assignments, which associate compute entities with classification tags, to CSV, supporting audit documentation of which workloads are subject to data handling policies. Policy recommendations generated by Security Intelligence can be exported in JSON or CSV format for further analysis. SSP stores processed, enriched, and correlated flow data, with aggregated flow records updated every six hours.
-
-Network Detection and Response (NDR) anonymizes sensitive customer information when sharing data to cloud services, providing a privacy control over what platform telemetry leaves the environment. SSP regions can also be associated with security and network policies to control policy scope across multiple geographic locations, supporting governance of which security rules apply where.
-
-vDefend operates at the network layer and does not enforce data residency, contractual, or legal compliance obligations directly. Those obligations require complementary governance frameworks and organizational processes that extend beyond network-level enforcement.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer provides geographic enforcement mechanisms at the application delivery layer that help organizations restrict application traffic flows by source geography. The Geo-DB feature allows administrators to define named groups of geographic entities, including specific country lists and regional groupings such as embargo country sets, which can then be applied as match conditions in virtual service traffic policies. This allows Avi to block, log, or redirect requests based on the geographic origin of the connection.
-
-The Avi Web Application Firewall (WAF), built on the ModSecurity rules engine, extends geographic enforcement through the t:IPtoCountryCode transformation. This transformation converts a client IP address to its corresponding country code within WAF rule expressions, enabling administrators to write rules that match and act on traffic associated with specific jurisdictions. Geo-DB policy groups and WAF country-code rules can be layered to create enforcement at the application proxy boundary.
-
-The Avi Analytics Profile supports configuration of a sensitive log profile that controls how sensitive data appearing in client logs is handled. This limits inadvertent exposure of regulated data within Avi's own telemetry and complements the traffic enforcement mechanisms described above.
-
-Effective use requires that the organization identify which applications process data subject to cross-border transfer regulations, determine which jurisdictions are restricted or permitted, and then configure the corresponding Geo-DB groups and WAF rules. Avi provides the enforcement mechanism; the underlying data classification and jurisdictional analysis are organizational responsibilities.
-
-Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 49.1(e)
 
@@ -3464,29 +3076,9 @@ Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data S
 
 **SCF Controls:** DCH-25
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VMware vDefend (Contributes)
-
-VMware vDefend (DFW) and Gateway Firewall enable network-level policy enforcement that restricts east-west and north-south connections, including outbound transfers to unauthorized or geographically prohibited destinations. Gateway Firewall rules can deny all inter-project communication except for infrastructure protocols such as DHCP, DNS, NTP, and ICMP, providing a mechanism to prevent sensitive workloads from transferring data to unauthorized external destinations. URL filtering and TLS inspection extend these controls by enabling policy-based blocking or inspection of outbound connections based on category, reputation, or destination.
-
-Security Intelligence, part of the Security Services Platform (SSP), provides flow visibility and audit capabilities that support compliance documentation for data transfer governance. The Export All Flows capability exports network flow data to a CSV file for analysis and compliance documentation. Security Intelligence also exports user-defined label assignments, which associate compute entities with classification tags, to CSV, supporting audit documentation of which workloads are subject to data handling policies. Policy recommendations generated by Security Intelligence can be exported in JSON or CSV format for further analysis. SSP stores processed, enriched, and correlated flow data, with aggregated flow records updated every six hours.
-
-Network Detection and Response (NDR) anonymizes sensitive customer information when sharing data to cloud services, providing a privacy control over what platform telemetry leaves the environment. SSP regions can also be associated with security and network policies to control policy scope across multiple geographic locations, supporting governance of which security rules apply where.
-
-vDefend operates at the network layer and does not enforce data residency, contractual, or legal compliance obligations directly. Those obligations require complementary governance frameworks and organizational processes that extend beyond network-level enforcement.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer provides geographic enforcement mechanisms at the application delivery layer that help organizations restrict application traffic flows by source geography. The Geo-DB feature allows administrators to define named groups of geographic entities, including specific country lists and regional groupings such as embargo country sets, which can then be applied as match conditions in virtual service traffic policies. This allows Avi to block, log, or redirect requests based on the geographic origin of the connection.
-
-The Avi Web Application Firewall (WAF), built on the ModSecurity rules engine, extends geographic enforcement through the t:IPtoCountryCode transformation. This transformation converts a client IP address to its corresponding country code within WAF rule expressions, enabling administrators to write rules that match and act on traffic associated with specific jurisdictions. Geo-DB policy groups and WAF country-code rules can be layered to create enforcement at the application proxy boundary.
-
-The Avi Analytics Profile supports configuration of a sensitive log profile that controls how sensitive data appearing in client logs is handled. This limits inadvertent exposure of regulated data within Avi's own telemetry and complements the traffic enforcement mechanisms described above.
-
-Effective use requires that the organization identify which applications process data subject to cross-border transfer regulations, determine which jurisdictions are restricted or permitted, and then configure the corresponding Geo-DB groups and WAF rules. Avi provides the enforcement mechanism; the underlying data classification and jurisdictional analysis are organizational responsibilities.
-
-Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 49.1(f)
 
@@ -3494,29 +3086,9 @@ Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data S
 
 **SCF Controls:** DCH-25
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VMware vDefend (Contributes)
-
-VMware vDefend (DFW) and Gateway Firewall enable network-level policy enforcement that restricts east-west and north-south connections, including outbound transfers to unauthorized or geographically prohibited destinations. Gateway Firewall rules can deny all inter-project communication except for infrastructure protocols such as DHCP, DNS, NTP, and ICMP, providing a mechanism to prevent sensitive workloads from transferring data to unauthorized external destinations. URL filtering and TLS inspection extend these controls by enabling policy-based blocking or inspection of outbound connections based on category, reputation, or destination.
-
-Security Intelligence, part of the Security Services Platform (SSP), provides flow visibility and audit capabilities that support compliance documentation for data transfer governance. The Export All Flows capability exports network flow data to a CSV file for analysis and compliance documentation. Security Intelligence also exports user-defined label assignments, which associate compute entities with classification tags, to CSV, supporting audit documentation of which workloads are subject to data handling policies. Policy recommendations generated by Security Intelligence can be exported in JSON or CSV format for further analysis. SSP stores processed, enriched, and correlated flow data, with aggregated flow records updated every six hours.
-
-Network Detection and Response (NDR) anonymizes sensitive customer information when sharing data to cloud services, providing a privacy control over what platform telemetry leaves the environment. SSP regions can also be associated with security and network policies to control policy scope across multiple geographic locations, supporting governance of which security rules apply where.
-
-vDefend operates at the network layer and does not enforce data residency, contractual, or legal compliance obligations directly. Those obligations require complementary governance frameworks and organizational processes that extend beyond network-level enforcement.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer provides geographic enforcement mechanisms at the application delivery layer that help organizations restrict application traffic flows by source geography. The Geo-DB feature allows administrators to define named groups of geographic entities, including specific country lists and regional groupings such as embargo country sets, which can then be applied as match conditions in virtual service traffic policies. This allows Avi to block, log, or redirect requests based on the geographic origin of the connection.
-
-The Avi Web Application Firewall (WAF), built on the ModSecurity rules engine, extends geographic enforcement through the t:IPtoCountryCode transformation. This transformation converts a client IP address to its corresponding country code within WAF rule expressions, enabling administrators to write rules that match and act on traffic associated with specific jurisdictions. Geo-DB policy groups and WAF country-code rules can be layered to create enforcement at the application proxy boundary.
-
-The Avi Analytics Profile supports configuration of a sensitive log profile that controls how sensitive data appearing in client logs is handled. This limits inadvertent exposure of regulated data within Avi's own telemetry and complements the traffic enforcement mechanisms described above.
-
-Effective use requires that the organization identify which applications process data subject to cross-border transfer regulations, determine which jurisdictions are restricted or permitted, and then configure the corresponding Geo-DB groups and WAF rules. Avi provides the enforcement mechanism; the underlying data classification and jurisdictional analysis are organizational responsibilities.
-
-Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 49.1(g)
 
@@ -3524,29 +3096,9 @@ Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data S
 
 **SCF Controls:** DCH-25
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VMware vDefend (Contributes)
-
-VMware vDefend (DFW) and Gateway Firewall enable network-level policy enforcement that restricts east-west and north-south connections, including outbound transfers to unauthorized or geographically prohibited destinations. Gateway Firewall rules can deny all inter-project communication except for infrastructure protocols such as DHCP, DNS, NTP, and ICMP, providing a mechanism to prevent sensitive workloads from transferring data to unauthorized external destinations. URL filtering and TLS inspection extend these controls by enabling policy-based blocking or inspection of outbound connections based on category, reputation, or destination.
-
-Security Intelligence, part of the Security Services Platform (SSP), provides flow visibility and audit capabilities that support compliance documentation for data transfer governance. The Export All Flows capability exports network flow data to a CSV file for analysis and compliance documentation. Security Intelligence also exports user-defined label assignments, which associate compute entities with classification tags, to CSV, supporting audit documentation of which workloads are subject to data handling policies. Policy recommendations generated by Security Intelligence can be exported in JSON or CSV format for further analysis. SSP stores processed, enriched, and correlated flow data, with aggregated flow records updated every six hours.
-
-Network Detection and Response (NDR) anonymizes sensitive customer information when sharing data to cloud services, providing a privacy control over what platform telemetry leaves the environment. SSP regions can also be associated with security and network policies to control policy scope across multiple geographic locations, supporting governance of which security rules apply where.
-
-vDefend operates at the network layer and does not enforce data residency, contractual, or legal compliance obligations directly. Those obligations require complementary governance frameworks and organizational processes that extend beyond network-level enforcement.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer provides geographic enforcement mechanisms at the application delivery layer that help organizations restrict application traffic flows by source geography. The Geo-DB feature allows administrators to define named groups of geographic entities, including specific country lists and regional groupings such as embargo country sets, which can then be applied as match conditions in virtual service traffic policies. This allows Avi to block, log, or redirect requests based on the geographic origin of the connection.
-
-The Avi Web Application Firewall (WAF), built on the ModSecurity rules engine, extends geographic enforcement through the t:IPtoCountryCode transformation. This transformation converts a client IP address to its corresponding country code within WAF rule expressions, enabling administrators to write rules that match and act on traffic associated with specific jurisdictions. Geo-DB policy groups and WAF country-code rules can be layered to create enforcement at the application proxy boundary.
-
-The Avi Analytics Profile supports configuration of a sensitive log profile that controls how sensitive data appearing in client logs is handled. This limits inadvertent exposure of regulated data within Avi's own telemetry and complements the traffic enforcement mechanisms described above.
-
-Effective use requires that the organization identify which applications process data subject to cross-border transfer regulations, determine which jurisdictions are restricted or permitted, and then configure the corresponding Geo-DB groups and WAF rules. Avi provides the enforcement mechanism; the underlying data classification and jurisdictional analysis are organizational responsibilities.
-
-Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 49.2
 
@@ -3554,29 +3106,9 @@ Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data S
 
 **SCF Controls:** DCH-25
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VMware vDefend (Contributes)
-
-VMware vDefend (DFW) and Gateway Firewall enable network-level policy enforcement that restricts east-west and north-south connections, including outbound transfers to unauthorized or geographically prohibited destinations. Gateway Firewall rules can deny all inter-project communication except for infrastructure protocols such as DHCP, DNS, NTP, and ICMP, providing a mechanism to prevent sensitive workloads from transferring data to unauthorized external destinations. URL filtering and TLS inspection extend these controls by enabling policy-based blocking or inspection of outbound connections based on category, reputation, or destination.
-
-Security Intelligence, part of the Security Services Platform (SSP), provides flow visibility and audit capabilities that support compliance documentation for data transfer governance. The Export All Flows capability exports network flow data to a CSV file for analysis and compliance documentation. Security Intelligence also exports user-defined label assignments, which associate compute entities with classification tags, to CSV, supporting audit documentation of which workloads are subject to data handling policies. Policy recommendations generated by Security Intelligence can be exported in JSON or CSV format for further analysis. SSP stores processed, enriched, and correlated flow data, with aggregated flow records updated every six hours.
-
-Network Detection and Response (NDR) anonymizes sensitive customer information when sharing data to cloud services, providing a privacy control over what platform telemetry leaves the environment. SSP regions can also be associated with security and network policies to control policy scope across multiple geographic locations, supporting governance of which security rules apply where.
-
-vDefend operates at the network layer and does not enforce data residency, contractual, or legal compliance obligations directly. Those obligations require complementary governance frameworks and organizational processes that extend beyond network-level enforcement.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer provides geographic enforcement mechanisms at the application delivery layer that help organizations restrict application traffic flows by source geography. The Geo-DB feature allows administrators to define named groups of geographic entities, including specific country lists and regional groupings such as embargo country sets, which can then be applied as match conditions in virtual service traffic policies. This allows Avi to block, log, or redirect requests based on the geographic origin of the connection.
-
-The Avi Web Application Firewall (WAF), built on the ModSecurity rules engine, extends geographic enforcement through the t:IPtoCountryCode transformation. This transformation converts a client IP address to its corresponding country code within WAF rule expressions, enabling administrators to write rules that match and act on traffic associated with specific jurisdictions. Geo-DB policy groups and WAF country-code rules can be layered to create enforcement at the application proxy boundary.
-
-The Avi Analytics Profile supports configuration of a sensitive log profile that controls how sensitive data appearing in client logs is handled. This limits inadvertent exposure of regulated data within Avi's own telemetry and complements the traffic enforcement mechanisms described above.
-
-Effective use requires that the organization identify which applications process data subject to cross-border transfer regulations, determine which jurisdictions are restricted or permitted, and then configure the corresponding Geo-DB groups and WAF rules. Avi provides the enforcement mechanism; the underlying data classification and jurisdictional analysis are organizational responsibilities.
-
-Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 49.3
 
@@ -3584,29 +3116,9 @@ Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data S
 
 **SCF Controls:** DCH-25
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VMware vDefend (Contributes)
-
-VMware vDefend (DFW) and Gateway Firewall enable network-level policy enforcement that restricts east-west and north-south connections, including outbound transfers to unauthorized or geographically prohibited destinations. Gateway Firewall rules can deny all inter-project communication except for infrastructure protocols such as DHCP, DNS, NTP, and ICMP, providing a mechanism to prevent sensitive workloads from transferring data to unauthorized external destinations. URL filtering and TLS inspection extend these controls by enabling policy-based blocking or inspection of outbound connections based on category, reputation, or destination.
-
-Security Intelligence, part of the Security Services Platform (SSP), provides flow visibility and audit capabilities that support compliance documentation for data transfer governance. The Export All Flows capability exports network flow data to a CSV file for analysis and compliance documentation. Security Intelligence also exports user-defined label assignments, which associate compute entities with classification tags, to CSV, supporting audit documentation of which workloads are subject to data handling policies. Policy recommendations generated by Security Intelligence can be exported in JSON or CSV format for further analysis. SSP stores processed, enriched, and correlated flow data, with aggregated flow records updated every six hours.
-
-Network Detection and Response (NDR) anonymizes sensitive customer information when sharing data to cloud services, providing a privacy control over what platform telemetry leaves the environment. SSP regions can also be associated with security and network policies to control policy scope across multiple geographic locations, supporting governance of which security rules apply where.
-
-vDefend operates at the network layer and does not enforce data residency, contractual, or legal compliance obligations directly. Those obligations require complementary governance frameworks and organizational processes that extend beyond network-level enforcement.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer provides geographic enforcement mechanisms at the application delivery layer that help organizations restrict application traffic flows by source geography. The Geo-DB feature allows administrators to define named groups of geographic entities, including specific country lists and regional groupings such as embargo country sets, which can then be applied as match conditions in virtual service traffic policies. This allows Avi to block, log, or redirect requests based on the geographic origin of the connection.
-
-The Avi Web Application Firewall (WAF), built on the ModSecurity rules engine, extends geographic enforcement through the t:IPtoCountryCode transformation. This transformation converts a client IP address to its corresponding country code within WAF rule expressions, enabling administrators to write rules that match and act on traffic associated with specific jurisdictions. Geo-DB policy groups and WAF country-code rules can be layered to create enforcement at the application proxy boundary.
-
-The Avi Analytics Profile supports configuration of a sensitive log profile that controls how sensitive data appearing in client logs is handled. This limits inadvertent exposure of regulated data within Avi's own telemetry and complements the traffic enforcement mechanisms described above.
-
-Effective use requires that the organization identify which applications process data subject to cross-border transfer regulations, determine which jurisdictions are restricted or permitted, and then configure the corresponding Geo-DB groups and WAF rules. Avi provides the enforcement mechanism; the underlying data classification and jurisdictional analysis are organizational responsibilities.
-
-Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 49.4
 
@@ -3614,29 +3126,9 @@ Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data S
 
 **SCF Controls:** DCH-25
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VMware vDefend (Contributes)
-
-VMware vDefend (DFW) and Gateway Firewall enable network-level policy enforcement that restricts east-west and north-south connections, including outbound transfers to unauthorized or geographically prohibited destinations. Gateway Firewall rules can deny all inter-project communication except for infrastructure protocols such as DHCP, DNS, NTP, and ICMP, providing a mechanism to prevent sensitive workloads from transferring data to unauthorized external destinations. URL filtering and TLS inspection extend these controls by enabling policy-based blocking or inspection of outbound connections based on category, reputation, or destination.
-
-Security Intelligence, part of the Security Services Platform (SSP), provides flow visibility and audit capabilities that support compliance documentation for data transfer governance. The Export All Flows capability exports network flow data to a CSV file for analysis and compliance documentation. Security Intelligence also exports user-defined label assignments, which associate compute entities with classification tags, to CSV, supporting audit documentation of which workloads are subject to data handling policies. Policy recommendations generated by Security Intelligence can be exported in JSON or CSV format for further analysis. SSP stores processed, enriched, and correlated flow data, with aggregated flow records updated every six hours.
-
-Network Detection and Response (NDR) anonymizes sensitive customer information when sharing data to cloud services, providing a privacy control over what platform telemetry leaves the environment. SSP regions can also be associated with security and network policies to control policy scope across multiple geographic locations, supporting governance of which security rules apply where.
-
-vDefend operates at the network layer and does not enforce data residency, contractual, or legal compliance obligations directly. Those obligations require complementary governance frameworks and organizational processes that extend beyond network-level enforcement.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer provides geographic enforcement mechanisms at the application delivery layer that help organizations restrict application traffic flows by source geography. The Geo-DB feature allows administrators to define named groups of geographic entities, including specific country lists and regional groupings such as embargo country sets, which can then be applied as match conditions in virtual service traffic policies. This allows Avi to block, log, or redirect requests based on the geographic origin of the connection.
-
-The Avi Web Application Firewall (WAF), built on the ModSecurity rules engine, extends geographic enforcement through the t:IPtoCountryCode transformation. This transformation converts a client IP address to its corresponding country code within WAF rule expressions, enabling administrators to write rules that match and act on traffic associated with specific jurisdictions. Geo-DB policy groups and WAF country-code rules can be layered to create enforcement at the application proxy boundary.
-
-The Avi Analytics Profile supports configuration of a sensitive log profile that controls how sensitive data appearing in client logs is handled. This limits inadvertent exposure of regulated data within Avi's own telemetry and complements the traffic enforcement mechanisms described above.
-
-Effective use requires that the organization identify which applications process data subject to cross-border transfer regulations, determine which jurisdictions are restricted or permitted, and then configure the corresponding Geo-DB groups and WAF rules. Avi provides the enforcement mechanism; the underlying data classification and jurisdictional analysis are organizational responsibilities.
-
-Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
 
 ### Control 49.6
 
@@ -3644,26 +3136,6 @@ Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data S
 
 **SCF Controls:** DCH-25
 
-**Aggregate Coverage:** Contributes
+**Aggregate Coverage:** Not Applicable
 
-#### VMware vDefend (Contributes)
-
-VMware vDefend (DFW) and Gateway Firewall enable network-level policy enforcement that restricts east-west and north-south connections, including outbound transfers to unauthorized or geographically prohibited destinations. Gateway Firewall rules can deny all inter-project communication except for infrastructure protocols such as DHCP, DNS, NTP, and ICMP, providing a mechanism to prevent sensitive workloads from transferring data to unauthorized external destinations. URL filtering and TLS inspection extend these controls by enabling policy-based blocking or inspection of outbound connections based on category, reputation, or destination.
-
-Security Intelligence, part of the Security Services Platform (SSP), provides flow visibility and audit capabilities that support compliance documentation for data transfer governance. The Export All Flows capability exports network flow data to a CSV file for analysis and compliance documentation. Security Intelligence also exports user-defined label assignments, which associate compute entities with classification tags, to CSV, supporting audit documentation of which workloads are subject to data handling policies. Policy recommendations generated by Security Intelligence can be exported in JSON or CSV format for further analysis. SSP stores processed, enriched, and correlated flow data, with aggregated flow records updated every six hours.
-
-Network Detection and Response (NDR) anonymizes sensitive customer information when sharing data to cloud services, providing a privacy control over what platform telemetry leaves the environment. SSP regions can also be associated with security and network policies to control policy scope across multiple geographic locations, supporting governance of which security rules apply where.
-
-vDefend operates at the network layer and does not enforce data residency, contractual, or legal compliance obligations directly. Those obligations require complementary governance frameworks and organizational processes that extend beyond network-level enforcement.
-
-#### VMware Avi Load Balancer (Contributes)
-
-VMware Avi Load Balancer provides geographic enforcement mechanisms at the application delivery layer that help organizations restrict application traffic flows by source geography. The Geo-DB feature allows administrators to define named groups of geographic entities, including specific country lists and regional groupings such as embargo country sets, which can then be applied as match conditions in virtual service traffic policies. This allows Avi to block, log, or redirect requests based on the geographic origin of the connection.
-
-The Avi Web Application Firewall (WAF), built on the ModSecurity rules engine, extends geographic enforcement through the t:IPtoCountryCode transformation. This transformation converts a client IP address to its corresponding country code within WAF rule expressions, enabling administrators to write rules that match and act on traffic associated with specific jurisdictions. Geo-DB policy groups and WAF country-code rules can be layered to create enforcement at the application proxy boundary.
-
-The Avi Analytics Profile supports configuration of a sensitive log profile that controls how sensitive data appearing in client logs is handled. This limits inadvertent exposure of regulated data within Avi's own telemetry and complements the traffic enforcement mechanisms described above.
-
-Effective use requires that the organization identify which applications process data subject to cross-border transfer regulations, determine which jurisdictions are restricted or permitted, and then configure the corresponding Geo-DB groups and WAF rules. Avi provides the enforcement mechanism; the underlying data classification and jurisdictional analysis are organizational responsibilities.
-
-Not applicable for this control: VCF, VCF Protection and Recovery, VMware Data Services Manager. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.
+Not applicable for this control: VCF, VMware vDefend, VCF Protection and Recovery, VMware Data Services Manager, VMware Avi Load Balancer. This control addresses an end user activity or process, a design decision, or activity outside the scope of these products.

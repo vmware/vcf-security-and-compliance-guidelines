@@ -1,0 +1,4 @@
+Control ID,Description,Bridging SCF Controls,Relevant SCG Controls
+32.1(a),"Taking into account the state of the art, the costs of implementation and the nature, scope, context and purposes of processing as well as the risk of varying likelihood and severity for the rights and freedoms of natural persons, the controller and the processor shall implement appropriate technical and organisational measures to ensure a level of security appropriate to the risk, including inter alia as appropriate:
+a. the pseudonymisation and encryption of personal data;
+",CRY-01,"esx-9.entropy, esx-9.hardware-cpu-amd-cc, esx-9.hardware-cpu-intel-cc, nsx-9.load-balancer-fips, vcenter-9.snmp3"

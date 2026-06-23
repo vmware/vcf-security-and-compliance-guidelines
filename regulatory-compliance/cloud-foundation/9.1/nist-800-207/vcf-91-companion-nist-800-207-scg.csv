@@ -1,0 +1,69 @@
+SCG ID,Component,Title,Implementation Priority,Bridging SCF Controls,Mapped Framework Controls
+automation-9.oidc-settings,Automation,Bound VCF Automation OIDC token lifetimes and keep redirect targets HTTPS-only.,P1,CRY-03,Tenet 2
+esx-9.ad-admin-group-autoadd,ESX,The ESX host must not automatically grant administrative permissions to Active Directory groups.,P2,IAC-21,Tenet 3
+esx-9.cpu-hyperthread-warning,ESX,The ESX host must not suppress warnings about unmitigated hyperthreading vulnerabilities.,P2,MON-01.4,Tenet 7
+esx-9.entropy,ESX,The ESX host must use sufficient entropy for cryptographic operations.,P2,CRY-01,Tenet 2
+esx-9.firewall-incoming-default,ESX,The ESX host must configure the firewall to block network traffic by default.,P2,NET-04.1,Tenet 4
+esx-9.firewall-restrict-access,ESX,Configure the ESX host firewall to only allow traffic from authorized networks.,P0,NET-04.1,Tenet 4
+esx-9.hardware-cpu-amd-cc,ESX,"Enable AMD SEV-ES and SEV-SNP in system firmware where available, and size the SEV ASID pool appropriately.",P1,CRY-01,Tenet 2
+esx-9.hardware-cpu-intel-cc,ESX,Enable Intel SGX and TDX in system firmware where available.,P1,CRY-01,Tenet 2
+esx-9.hardware-management-log-forwarding,ESX,Forward hardware management controller logs to a central log server.,P0,"MON-02, MON-02.2","Tenet 5, Tenet 7"
+esx-9.iscsi-mutual-chap,ESX,Enable bidirectional/mutual CHAP authentication for iSCSI traffic.,"P0, Upon Feature Enablement",IAC-04,"Tenet 2, Tenet 3, Tenet 4"
+esx-9.lockdown-dcui-access,ESX,Maintain the DCUI.Access list for administrative recovery if Lockdown Mode isolates the host.,P2,IAC-21,Tenet 3
+esx-9.lockdown-exception-users,ESX,Keep the Lockdown Mode Exception Users list to the minimum necessary.,P2,IAC-21,Tenet 3
+esx-9.log-audit-forwarding,ESX,The ESX host must transmit audit records to a remote host.,P0,MON-02,"Tenet 5, Tenet 7"
+esx-9.log-forwarding,ESX,The ESX host must forward system and audit logs to a remote log collection point.,P0,MON-02,"Tenet 5, Tenet 7"
+esx-9.log-forwarding-tls-ciphers,ESX,The ESX host must verify certificates for TLS remote logging endpoints.,P2,CRY-03,Tenet 2
+esx-9.network-bpdu,ESX,Enable the Bridge Protocol Data Unit (BPDU) filter on the ESX host.,P2,NET-04,Tenet 4
+esx-9.network-dvfilter,ESX,Use of the dvFilter network APIs must be restricted on the ESX host.,P2,NET-04,Tenet 4
+esx-9.network-rpf-promisc,ESX,The ESX host must perform reverse path forwarding checks on promiscuous mode port groups.,P2,NET-04,Tenet 4
+esx-9.network-standard-reject-forged-transmit,ESX,Reject forged transmits on standard switches and port groups.,"P0, Upon Feature Enablement",NET-04,Tenet 4
+esx-9.network-standard-reject-mac-changes,ESX,Reject guest MAC address changes on standard switches and port groups.,"P0, Upon Feature Enablement",NET-04,Tenet 4
+esx-9.network-standard-reject-promiscuous-mode,ESX,Reject promiscuous mode on standard switches and port groups.,"P2, Upon Feature Enablement",NET-04,Tenet 4
+esx-9.nfs-traffic-protection,ESX,Protect NFS datastore traffic on the ESX host using encryption or network isolation.,"P1, Upon Feature Enablement",CRY-03,Tenet 2
+esx-9.shell-warning,ESX,The ESX host must not suppress warnings that the local or remote shell is enabled.,P2,MON-01.4,Tenet 7
+esx-9.tls-ciphers,ESX,"The ESX host's TLS profile must restrict negotiated ciphers and protocols to a modern, approved set.",P0,CRY-03,Tenet 2
+esx-9.vmk-storage,ESX,The ESX host must protect the confidentiality and integrity of transmitted storage traffic.,P0,CRY-03,Tenet 2
+esx-9.vmk-vmotion,ESX,The ESX host must protect the confidentiality and integrity of transmitted vMotion traffic.,P0,CRY-03,Tenet 2
+esx-9.vmotion-encryption-offload,ESX,Accelerate vMotion encryption using available hardware offload on ESX hosts.,P2,CRY-03,Tenet 2
+guest-9.tools-log-forwarding,ESX,The guest OS must send VMware Tools logs to the system log service.,P0,MON-02,"Tenet 5, Tenet 7"
+nsx-9.bgp-encryption,NSX,Enable BGP authentication on Tier-0 Gateway peers with a unique password per autonomous system.,"P0, Upon Feature Enablement",CRY-04,Tenet 2
+nsx-9.load-balancer-fips,NSX,Enable FIPS-validated cryptography for NSX load balancers.,P0,"CRY-01, CRY-03",Tenet 2
+nsx-9.ospf-encryption,NSX,NSX Tier-0 Gateway must enable OSPF authentication.,"P0, Upon Feature Enablement",CRY-04,Tenet 2
+nsx-9.tls-ciphers,NSX,NSX Manager must use TLS with approved protocol versions and cipher suites.,P2,CRY-03,Tenet 2
+operations-9.credential-ownership-enforcement,Operations,VCF Operations must enable credential ownership enforcement.,P0,CFG-08,Tenet 4
+operations-9.firewall-hardening,Operations,VCF Operations must enable firewall hardening.,P0,NET-04.1,Tenet 4
+operations-9.log-collection,Operations,Configure VCF Operations log collection for all deployed components.,P0,"MON-02, MON-02.2","Tenet 5, Tenet 7"
+operations-9.logs-authenticated-ingestion,Operations,Require authenticated log ingestion in VCF Operations.,P0,NET-04.12,Tenet 4
+operations-9.logs-ssl-api,Operations,Enable SSL for API log ingestion in VCF Operations.,P2,"CRY-03, CRY-04",Tenet 2
+operations-9.logs-ssl-syslog,Operations,Enable SSL for syslog log ingestion in VCF Operations.,P2,"CRY-03, CRY-04",Tenet 2
+pnr-9.log-forwarding,Protection and Recovery,The VCF Protection and Recovery appliance must forward its logs to a central log server.,P0,MON-02,"Tenet 5, Tenet 7"
+vcenter-9.administration-sso-groups,vCenter,VMware vCenter must separate authentication and authorization for administrators.,P0,IAC-01.2,"Tenet 2, Tenet 3, Tenet 4, Tenet 6"
+vcenter-9.content-library-authentication,vCenter,VMware vCenter must require authentication for published content libraries.,"P0, Upon Feature Enablement",IAC-20.1,Tenet 3
+vcenter-9.log-forwarding,vCenter,VMware vCenter must forward its logs to a central log server.,P0,MON-02,"Tenet 5, Tenet 7"
+vcenter-9.network-reject-promiscuous-mode-dvportgroup,vCenter,Reject promiscuous mode on distributed switches and port groups.,P2,NET-04,Tenet 4
+vcenter-9.network-reset-port,vCenter,Reset distributed switch port configuration when a virtual machine disconnects.,P2,CFG-06,Tenet 5
+vcenter-9.network-restrict-netflow-usage,vCenter,Send distributed switch NetFlow data only to authorized collectors.,P2,NET-04,Tenet 4
+vcenter-9.network-restrict-port-level-overrides,vCenter,"Disallow per-port policy overrides on distributed port groups, except port blocking.",P2,CFG-06,Tenet 5
+vcenter-9.network-vgt,vCenter,Restrict VLAN trunking (Virtual Guest Tagging) on distributed port groups to authorized VMs.,P2,NET-04,Tenet 4
+vcenter-9.smtp,vCenter,Send vCenter notification email over a secure SMTP connection.,"P0, Upon Feature Enablement",CRY-03,Tenet 2
+vcenter-9.snmp3,vCenter,Enforce SNMPv3 authentication and privacy where SNMP is enabled on vCenter.,"P0, Upon Feature Enablement",CRY-01,Tenet 2
+vcenter-9.tls-ciphers,vCenter,"vCenter's TLS profile must restrict negotiated ciphers and protocols to a modern, approved set.",P0,CRY-03,Tenet 2
+vcenter-9.vami-firewall-restrict-access,vCenter,Configure the vCenter appliance firewall to allow inbound traffic only from authorized networks.,P0,NET-04.1,Tenet 4
+vcf-9.mfa,VCF,Integrate VMware Cloud Foundation with an identity provider that enforces multifactor authentication.,P0,IAC-02,Tenet 3
+vcf-9.perimeter-firewall,VCF,Limit access to VCF component management interfaces with perimeter firewalls.,P0,NET-04.1,Tenet 4
+vcf-9.permissions-roles,VCF,"Review and right-size accounts, permissions, and role assignments across all VCF components.",P1,IAC-21,Tenet 3
+vcf-9.secure-baseline,VCF,"Apply the controls in this guidance, and document the rationale for any deviations.",P1,"CFG-02, CFG-02.7",Tenet 5
+vm-9.dvfilter,ESX,Virtual machines must limit access through the dvFilter API.,P2,NET-04,Tenet 4
+vm-9.ft-encrypted,ESX,Virtual machines must require encryption for Fault Tolerance.,P1,"CRY-03, CRY-04",Tenet 2
+vm-9.isolation-device-connectable-deactivate,ESX,"Virtual machines must prevent unauthorized removal, connection, and modification of devices.",P2,IAC-21,Tenet 3
+vm-9.pci-passthrough,ESX,Virtual machines must limit PCI device passthrough functionality.,P2,IAC-21,Tenet 3
+vm-9.vmotion-encrypted,ESX,Virtual machines must require encryption for vMotion.,P1,"CRY-03, CRY-04",Tenet 2
+vsan-9.auto-policy-management,vSAN,vSAN automatic policy management must remain disabled.,P2,CHG-02,Tenet 5
+vsan-9.encryption-transit-esa,vSAN,vSAN must protect data in transit between hosts.,P2,"CRY-03, CRY-04",Tenet 2
+vsan-9.encryption-transit-osa,vSAN,vSAN must protect data in transit between hosts.,P0,"CRY-03, CRY-04",Tenet 2
+vsan-9.file-services-access-control-nfs,vSAN,NFS file shares on vSAN File Services must be configured to restrict access.,"P0, Upon Feature Enablement","NET-04, NET-04.1",Tenet 4
+vsan-9.file-services-authentication-smb,vSAN,SMB file shares on vSAN File Services must require protocol encryption.,"P0, Upon Feature Enablement","CRY-03, CRY-04",Tenet 2
+vsan-9.force-provisioning,vSAN,vSAN must not provision storage when storage policy requirements cannot be met.,P2,CFG-06,Tenet 5
+vsan-9.iscsi-mutual-chap,vSAN,vSAN iSCSI target must enable bidirectional/mutual CHAP authentication.,"P0, Upon Feature Enablement",IAC-04,"Tenet 2, Tenet 3, Tenet 4"
+vsan-9.storage-cluster-traffic-protection,vSAN,vSAN Storage Cluster compute-to-storage traffic must be encrypted or isolated.,"P0, Upon Feature Enablement",CRY-03,Tenet 2

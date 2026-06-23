@@ -34,9 +34,6 @@ Demonstrates how to migrate a vCenter Server from one key provider to another, p
 .\change-keyprovider.ps1 -NewKeyProviderName "NEW-PROVIDER"
 ```
 
-## Support
-Please see [SUPPORT.md](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/SUPPORT.md).
-
 ## License
 Please see [LICENSE.md](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/LICENSE.md).
 

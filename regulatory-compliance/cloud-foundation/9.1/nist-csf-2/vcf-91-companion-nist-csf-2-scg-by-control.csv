@@ -1,0 +1,171 @@
+Control ID,Description,Bridging SCF Controls,Relevant SCG Controls
+DE.AE-03,Information is correlated from multiple sources,MON-02,"esx-9.hardware-management-log-forwarding, esx-9.log-audit-forwarding, esx-9.log-forwarding, guest-9.tools-log-forwarding, operations-9.log-collection, pnr-9.log-forwarding, vcenter-9.log-forwarding"
+DE.AE-06,"Information on adverse events is provided to authorized staff and tools
+
+[Withdrawn: Incorporated into DE.AE-06]",MON-02,"esx-9.hardware-management-log-forwarding, esx-9.log-audit-forwarding, esx-9.log-forwarding, guest-9.tools-log-forwarding, operations-9.log-collection, pnr-9.log-forwarding, vcenter-9.log-forwarding"
+DE.CM-01,"Networks and network services are monitored to find potentially adverse events
+
+[Withdrawn: Incorporated into DE.CM-01, DE.CM-09]
+
+[Withdrawn: Incorporated into DE.CM-01, DE.CM-03, DE.CM-06, DE.CM-09]",MON-01.4,"esx-9.cpu-hyperthread-warning, esx-9.shell-warning"
+GV.SC,"A cybersecurity supply chain risk management program, strategy, objectives, policies, and processes are established and agreed to by organizational stakeholders
+
+Cybersecurity roles and responsibilities for suppliers, customers, and partners are established, communicated, and coordinated internally and externally
+
+Cybersecurity supply chain risk management is integrated into cybersecurity and enterprise risk management, risk assessment, and improvement processes
+
+Suppliers are known and prioritized by criticality
+
+Requirements to address cybersecurity risks in supply chains are established, prioritized, and integrated into contracts and other types of agreements with suppliers and other relevant third parties
+
+Planning and due diligence are performed to reduce risks before entering into formal supplier or other third-party relationships
+
+The risks posed by a supplier, their products and services, and other third parties are understood, recorded, prioritized, assessed, responded to, and monitored over the course of the relationship
+
+Relevant suppliers and other third parties are included in incident planning, response, and recovery activities
+
+Supply chain security practices are integrated into cybersecurity and enterprise risk management programs, and their performance is monitored throughout the technology product and service life cycle
+
+Cybersecurity supply chain risk management plans include provisions for activities that occur after the conclusion of a partnership or service agreement
+
+[Withdrawn: Incorporated into GV.RR-02, GV.SC-02]
+
+[Withdrawn: Incorporated into GV.RM-05, GV.SC-01, GV.SC-06, GV.SC-09, GV.SC-10]
+
+[Withdrawn: Incorporated into GV.OC-02, GV.SC-03, GV.SC-04, GV.SC-07, ID.RA-10]
+
+[Withdrawn: Moved to GV.SC-05]
+
+[Withdrawn: Incorporated into GV.SC-07, ID.RA-10]
+
+[Withdrawn: Incorporated into GV.SC-08, ID.IM-02]",TPM-03,vcenter-9.administration-client-plugins
+GV.SC-06,"Planning and due diligence are performed to reduce risks before entering into formal supplier or other third-party relationships
+
+[Withdrawn: Incorporated into GV.RM-05, GV.SC-01, GV.SC-06, GV.SC-09, GV.SC-10]","TPM-03, TPM-04",vcenter-9.administration-client-plugins
+GV.SC-07,"The risks posed by a supplier, their products and services, and other third parties are understood, recorded, prioritized, assessed, responded to, and monitored over the course of the relationship
+
+[Withdrawn: Incorporated into GV.OC-02, GV.SC-03, GV.SC-04, GV.SC-07, ID.RA-10]
+
+[Withdrawn: Incorporated into GV.SC-07, ID.RA-10]","TPM-03, TPM-04",vcenter-9.administration-client-plugins
+ID.RA-07,"Changes and exceptions are managed, assessed for risk impact, recorded, and tracked
+
+[Withdrawn: Incorporated into PR.PS-01, ID.RA-07]","CHG-02, CHG-04","esx-9.hardware-management-config-lock, guest-9.tools-add-feature, guest-9.tools-allow-transforms, guest-9.tools-globalconf, guest-9.tools-prevent-recustomization, guest-9.tools-remove-feature, vsan-9.auto-policy-management, vsan-9.managed-disk-claim"
+ID.RA-09,"The authenticity and integrity of hardware and software are assessed prior to acquisition and use
+
+[Withdrawn: Incorporated into ID.RA-09, DE.CM-09]","AST-18, TDA-01.2","esx-9.hardware-tpm, esx-9.vib-acceptance-level-supported, operations-9.unsigned-pak"
+PR.AA,"Identities and credentials for authorized users, services, and hardware are managed by the organization
+
+Identities are proofed and bound to credentials based on the context of interactions
+
+Users, services, and hardware are authenticated
+
+Identity assertions are protected, conveyed, and verified
+
+Access permissions, entitlements, and authorizations are defined in a policy, managed, enforced, and reviewed, and incorporate the principles of least privilege and separation of duties
+
+Physical access to assets is managed, monitored, and enforced commensurate with risk
+
+[Withdrawn: Incorporated into PR.AA-01, PR.AA-05]
+
+[Withdrawn: Moved to PR.AA-06]
+
+[Withdrawn: Incorporated into PR.AA-03, PR.AA-05, PR.IR-01]
+
+[Withdrawn: Moved to PR.AA-05]
+
+[Withdrawn: Moved to PR.AA-02]
+
+[Withdrawn: Moved to PR.AA-03]
+
+[Withdrawn: Incorporated into PR.AA-06, PR.IR-01]",IAC-01.2,vcenter-9.administration-sso-groups
+PR.AA-01,"Identities and credentials for authorized users, services, and hardware are managed by the organization
+
+[Withdrawn: Incorporated into PR.AA-01, PR.AA-05]","IAC-02, IAC-04","esx-9.iscsi-mutual-chap, vcf-9.mfa, vsan-9.iscsi-mutual-chap"
+PR.AA-03,"Users, services, and hardware are authenticated
+
+[Withdrawn: Incorporated into PR.AA-03, PR.AA-05, PR.IR-01]
+
+[Withdrawn: Moved to PR.AA-03]","IAC-01.2, IAC-02, IAC-04","esx-9.iscsi-mutual-chap, vcenter-9.administration-sso-groups, vcf-9.mfa, vsan-9.iscsi-mutual-chap"
+PR.AA-04,"Identity assertions are protected, conveyed, and verified",IAC-01.2,vcenter-9.administration-sso-groups
+PR.AA-05,"Access permissions, entitlements, and authorizations are defined in a policy, managed, enforced, and reviewed, and incorporate the principles of least privilege and separation of duties
+
+[Withdrawn: Incorporated into PR.AA-01, PR.AA-05]
+
+[Withdrawn: Incorporated into PR.AA-03, PR.AA-05, PR.IR-01]
+
+[Withdrawn: Moved to PR.AA-05]","IAC-01.2, IAC-02, IAC-04, IAC-21","esx-9.ad-admin-group-autoadd, esx-9.iscsi-mutual-chap, esx-9.lockdown-dcui-access, esx-9.lockdown-exception-users, vcenter-9.administration-sso-groups, vcf-9.mfa, vcf-9.permissions-roles, vm-9.isolation-device-connectable-deactivate, vm-9.pci-passthrough, vsan-9.iscsi-mutual-chap"
+PR.DS-01,"The confidentiality, integrity, and availability of data-at-rest are protected
+
+[Withdrawn: Incorporated into PR.DS-01, PR.DS-02, PR.DS-10]
+
+[Withdrawn: Incorporated into PR.DS-01, DE.CM-09]
+
+[Withdrawn: Incorporated into PR.DS-01, PR.PS-01]","CRY-01, CRY-01.1, CRY-05","esx-9.entropy, esx-9.hardware-cpu-amd-cc, esx-9.hardware-cpu-intel-cc, esx-9.memory-tiering-encryption, esx-9.tpm-configuration, nsx-9.load-balancer-fips, vcenter-9.snmp3, vsan-9.encryption-rest"
+PR.DS-02,"The confidentiality, integrity, and availability of data-in-transit are protected
+
+[Withdrawn: Incorporated into PR.DS-01, PR.DS-02, PR.DS-10]","CRY-01, CRY-03, CRY-04","automation-9.oidc-settings, esx-9.entropy, esx-9.hardware-cpu-amd-cc, esx-9.hardware-cpu-intel-cc, esx-9.log-forwarding-tls-ciphers, esx-9.nfs-traffic-protection, esx-9.tls-ciphers, esx-9.vmk-storage, esx-9.vmk-vmotion, esx-9.vmotion-encryption-offload, nsx-9.bgp-encryption, nsx-9.load-balancer-fips, nsx-9.ospf-encryption, nsx-9.tls-ciphers, operations-9.logs-ssl-api, operations-9.logs-ssl-syslog, vcenter-9.smtp, vcenter-9.snmp3, vcenter-9.tls-ciphers, vm-9.ft-encrypted, vm-9.vmotion-encrypted, vsan-9.encryption-transit-esa, vsan-9.encryption-transit-osa, vsan-9.file-services-authentication-smb, vsan-9.storage-cluster-traffic-protection"
+PR.DS-10,"[Withdrawn: Incorporated into PR.DS-01, PR.DS-02, PR.DS-10]
+
+The confidentiality, integrity, and availability of data-in-use are protected","CFG-02, CRY-01, IAC-21","esx-9.ad-admin-group-autoadd, esx-9.entropy, esx-9.hardware-cpu-amd-cc, esx-9.hardware-cpu-intel-cc, esx-9.lockdown-dcui-access, esx-9.lockdown-exception-users, nsx-9.load-balancer-fips, vcenter-9.snmp3, vcf-9.permissions-roles, vcf-9.secure-baseline, vm-9.isolation-device-connectable-deactivate, vm-9.pci-passthrough"
+PR.DS-11,"Backups of data are created, protected, maintained, and tested
+
+[Withdrawn: Moved to PR.DS-11]",BCD-11,nsx-9.backup
+PR.IR-04,"[Withdrawn: Moved to PR.IR-04]
+
+Adequate resource capacity to ensure availability is maintained","CAP-01, CAP-02","automation-9.operation-limits, nsx-9.api-rate-limits, vcenter-9.drs, vcenter-9.network-nioc, vm-9.deactivate-disk-shrinking-shrink, vm-9.deactivate-disk-shrinking-wiper, vm-9.limit-setinfo-size, vsan-9.automatic-rebalance, vsan-9.operations-reserve"
+PR.PS,"[Withdrawn: Incorporated into ID.AM-08, PR.PS-03]
+
+Configuration management practices are established and applied
+
+Software is maintained, replaced, and removed commensurate with risk
+
+Hardware is maintained, replaced, and removed commensurate with risk
+
+Log records are generated and made available for continuous monitoring
+
+Installation and execution of unauthorized software are prevented
+
+Secure software development practices are integrated, and their performance is monitored throughout the software development life cycle
+
+[Withdrawn: Incorporated into PR.PS-01]
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-06]
+
+[Withdrawn: Incorporated into PR.PS-01, ID.RA-07]
+
+[Withdrawn: Incorporated into ID.RA-01, PR.PS-02]
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-02]
+
+[Withdrawn: Incorporated into PR.PS-04]
+
+[Withdrawn: Incorporated into PR.DS-01, PR.PS-01]",CFG-02,vcf-9.secure-baseline
+PR.PS-02,"Software is maintained, replaced, and removed commensurate with risk
+
+[Withdrawn: Incorporated into ID.RA-01, PR.PS-02]
+
+[Withdrawn: Incorporated into ID.AM-08, PR.PS-02]","TDA-17, VPM-05","esx-9.hardware-firmware-updates, esx-9.supported, esx-9.updates, guest-9.tools-updates, guest-9.tools-upgrade, vcenter-9.supported, vcenter-9.vami-updates, vm-9.virtual-hardware"
+PR.PS-03,"[Withdrawn: Incorporated into ID.AM-08, PR.PS-03]
+
+Hardware is maintained, replaced, and removed commensurate with risk",TDA-17,"esx-9.supported, vcenter-9.supported"
+PR.PS-04,"Log records are generated and made available for continuous monitoring
+
+[Withdrawn: Incorporated into PR.PS-04]","MON-01.4, MON-03","esx-9.cpu-hyperthread-warning, esx-9.log-audit-local, esx-9.log-filter, esx-9.log-level, esx-9.shell-warning, guest-9.tools-logs, networks-9.audit-identity, nsx-9.log-level, vcenter-9.logs-level-global, vm-9.log-enable"
+PR.PS-05,Installation and execution of unauthorized software are prevented,"CFG-02, CFG-03, CFG-03.2","automation-9.activity-log, esx-9.ceip-disable, esx-9.deactivate-mob, esx-9.deactivate-shell, esx-9.forensic-snapshots, esx-9.hardware-management-security, esx-9.hardware-ports, esx-9.hardware-virtual-nic, esx-9.network-dvfilter, esx-9.snmp, esx-9.ssh, esx-9.vib-trusted-binaries, guest-9.tools-deactivate-appinfo, guest-9.tools-deactivate-containerinfo, guest-9.tools-deactivate-guestoperations, guest-9.tools-deactivate-gueststoreupgrade, guest-9.tools-deactivate-servicediscovery, installer-9.security, nsx-9.ceip-disable, nsx-9.dhcp-disable, nsx-9.multicast-disable, nsx-9.snmp, nsx-9.ssh, nsx-9.t1-dhcp-disable, nsx-9.t1-multicast-disable, operations-9.ceip-disable, operations-9.in-page-feedback, pnr-9.ssh, vcenter-9.ceip-disable, vcenter-9.client-feedback, vcenter-9.client-telemetry, vcenter-9.network-restrict-discovery-protocol, vcenter-9.snmp, vcenter-9.ssh, vcenter-9.vds-health-check-disable, vcf-9.secure-baseline, vm-9.deactivate-console-copy, vm-9.deactivate-console-paste, vm-9.deactivate-disk-shrinking-shrink, vm-9.deactivate-disk-shrinking-wiper, vm-9.deactivate-non-essential-3d-features, vm-9.dvfilter, vm-9.efi-boot-types, vm-9.isolation-device-connectable-deactivate, vm-9.isolation-tools-dnd-deactivate, vm-9.pci-passthrough, vm-9.persistent-disk, vm-9.remove-unnecessary-devices, vm-9.restrict-host-info, vsan-9.hcl-internet"
+RS.AN,"[Withdrawn: Incorporated into RS.MA-02]
+
+[Withdrawn: Incorporated into RS.MA-02, RS.MA-03, RS.MA-04]
+
+Analysis is performed to establish what has taken place during an incident and the root cause of the incident
+
+[Withdrawn: Moved to RS.MA-03]
+
+[Withdrawn: Moved to ID.RA-08]
+
+Actions performed during an investigation are recorded, and the records' integrity and provenance are preserved
+
+Incident data and metadata are collected, and their integrity and provenance are preserved
+
+An incident's magnitude is estimated and validated",IRO-08,esx-9.forensic-snapshots
+RS.AN-06,"Actions performed during an investigation are recorded, and the records' integrity and provenance are preserved",IRO-08,esx-9.forensic-snapshots
+RS.AN-07,"Incident data and metadata are collected, and their integrity and provenance are preserved",IRO-08,esx-9.forensic-snapshots

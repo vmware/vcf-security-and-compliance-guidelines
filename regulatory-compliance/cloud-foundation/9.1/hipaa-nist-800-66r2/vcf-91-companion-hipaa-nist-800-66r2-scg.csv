@@ -1,0 +1,64 @@
+SCG ID,Component,Title,Implementation Priority,Bridging SCF Controls,Mapped Framework Controls
+automation-9.oidc-settings,Automation,Bound VCF Automation OIDC token lifetimes and keep redirect targets HTTPS-only.,P1,CRY-03,164.312(e)(1)
+esx-9.ad-admin-group-autoadd,ESX,The ESX host must not automatically grant administrative permissions to Active Directory groups.,P2,IAC-21,"164.308(a)(3)(i), 164.312(a)(1)"
+esx-9.ad-admin-validate-interval,ESX,The ESX host must not disable validation of users and groups.,P2,IAC-17,164.308(a)(3)(ii)(B)
+esx-9.api-soap-timeout,ESX,The ESX host must configure a session timeout for the vSphere API.,P1,IAC-25,164.312(a)(2)(iii)
+esx-9.cpu-hyperthread-warning,ESX,The ESX host must not suppress warnings about unmitigated hyperthreading vulnerabilities.,P2,MON-01.4,164.312(b)
+esx-9.dcui-timeout,ESX,Set a timeout to automatically terminate idle DCUI sessions on the ESX host.,P2,IAC-25,164.312(a)(2)(iii)
+esx-9.entropy,ESX,The ESX host must use sufficient entropy for cryptographic operations.,P2,CRY-01,"164.312(a)(2)(iv), 164.312(e)(2)(ii)"
+esx-9.hardware-cpu-amd-cc,ESX,"Enable AMD SEV-ES and SEV-SNP in system firmware where available, and size the SEV ASID pool appropriately.",P1,CRY-01,"164.312(a)(2)(iv), 164.312(e)(2)(ii)"
+esx-9.hardware-cpu-intel-cc,ESX,Enable Intel SGX and TDX in system firmware where available.,P1,CRY-01,"164.312(a)(2)(iv), 164.312(e)(2)(ii)"
+esx-9.lockdown-dcui-access,ESX,Maintain the DCUI.Access list for administrative recovery if Lockdown Mode isolates the host.,P2,IAC-21,"164.308(a)(3)(i), 164.312(a)(1)"
+esx-9.lockdown-exception-users,ESX,Keep the Lockdown Mode Exception Users list to the minimum necessary.,P2,IAC-21,"164.308(a)(3)(i), 164.312(a)(1)"
+esx-9.log-audit-local,ESX,The ESX host must enable audit record logging.,P0,MON-03,164.312(b)
+esx-9.log-filter,ESX,The ESX host must not enable log filtering.,P2,MON-03,164.312(b)
+esx-9.log-forwarding-tls-ciphers,ESX,The ESX host must verify certificates for TLS remote logging endpoints.,P2,CRY-03,164.312(e)(1)
+esx-9.log-level,ESX,The ESX host must produce audit records containing information to establish what type of events occurred.,P2,MON-03,164.312(b)
+esx-9.nfs-traffic-protection,ESX,Protect NFS datastore traffic on the ESX host using encryption or network isolation.,"P1, Upon Feature Enablement",CRY-03,164.312(e)(1)
+esx-9.session-timeout,ESX,The ESX Host Client must enforce an idle session timeout.,P2,IAC-25,164.312(a)(2)(iii)
+esx-9.shell-interactive-timeout,ESX,Configure the inactivity timeout to automatically terminate idle ESX host shells.,P0,IAC-25,164.312(a)(2)(iii)
+esx-9.shell-timeout,ESX,Set a timeout to limit how long the ESX Shell and SSH services are allowed to run.,P0,IAC-25,164.312(a)(2)(iii)
+esx-9.shell-warning,ESX,The ESX host must not suppress warnings that the local or remote shell is enabled.,P2,MON-01.4,164.312(b)
+esx-9.tls-ciphers,ESX,"The ESX host's TLS profile must restrict negotiated ciphers and protocols to a modern, approved set.",P0,CRY-03,164.312(e)(1)
+esx-9.vmk-storage,ESX,The ESX host must protect the confidentiality and integrity of transmitted storage traffic.,P0,CRY-03,164.312(e)(1)
+esx-9.vmk-vmotion,ESX,The ESX host must protect the confidentiality and integrity of transmitted vMotion traffic.,P0,CRY-03,164.312(e)(1)
+esx-9.vmotion-encryption-offload,ESX,Accelerate vMotion encryption using available hardware offload on ESX hosts.,P2,CRY-03,164.312(e)(1)
+guest-9.tools-logs,ESX,The guest OS must enable VMware Tools logging.,P2,MON-03,164.312(b)
+networks-9.audit-identity,Operations for Networks,Capture user identity in VCF Operations for Networks audit logs.,P0,MON-03,164.312(b)
+networks-9.session-timeout,Operations for Networks,VCF Operations for Networks must enforce an idle session timeout.,P0,IAC-25,164.312(a)(2)(iii)
+nsx-9.backup,NSX,Configure scheduled backups of NSX Manager.,P0,BCD-11,"164.308(a)(7)(ii)(A), 164.310(d)(2)(iv)"
+nsx-9.bgp-encryption,NSX,Enable BGP authentication on Tier-0 Gateway peers with a unique password per autonomous system.,"P0, Upon Feature Enablement",CRY-04,164.312(e)(2)(i)
+nsx-9.load-balancer-fips,NSX,Enable FIPS-validated cryptography for NSX load balancers.,P0,"CRY-01, CRY-03","164.312(a)(2)(iv), 164.312(e)(1), 164.312(e)(2)(ii)"
+nsx-9.log-level,NSX,NSX Manager must set service logging levels to capture audit-relevant events.,P0,MON-03,164.312(b)
+nsx-9.ospf-encryption,NSX,NSX Tier-0 Gateway must enable OSPF authentication.,"P0, Upon Feature Enablement",CRY-04,164.312(e)(2)(i)
+nsx-9.session-timeout,NSX,NSX Manager must enforce an idle session timeout on its API and CLI.,P0,IAC-25,164.312(a)(2)(iii)
+nsx-9.tls-ciphers,NSX,NSX Manager must use TLS with approved protocol versions and cipher suites.,P2,CRY-03,164.312(e)(1)
+operations-9.credential-ownership-enforcement,Operations,VCF Operations must enable credential ownership enforcement.,P0,CFG-08,"164.308(a)(3)(i), 164.312(c)(2)"
+operations-9.logs-ssl-api,Operations,Enable SSL for API log ingestion in VCF Operations.,P2,"CRY-03, CRY-04","164.312(e)(1), 164.312(e)(2)(i)"
+operations-9.logs-ssl-syslog,Operations,Enable SSL for syslog log ingestion in VCF Operations.,P2,"CRY-03, CRY-04","164.312(e)(1), 164.312(e)(2)(i)"
+operations-9.non-imported-vidm,Operations,Restrict VCF Operations access to imported identity-provider users.,P0,IAC-07,164.308(a)(3)(ii)(C)
+operations-9.session-timeout,Operations,VCF Operations must enforce an idle session timeout.,P0,IAC-25,164.312(a)(2)(iii)
+sddc-9.api-admin,SDDC Manager,SDDC Manager must configure the API admin account.,P2,IAC-15.9,164.312(a)(2)(ii)
+vcenter-9.administration-client-plugins,vCenter,Reduce or eliminate third-party vCenter plugins.,P1,TPM-04,164.308(b)(1)
+vcenter-9.drs,vCenter,VMware vCenter must enable the Distributed Resource Scheduler for resilience and to enable automated patching.,P0,BCD-02.2,164.308(a)(7)(ii)(C)
+vcenter-9.logs-level-global,vCenter,Configure the vCenter logging level to capture security-relevant events.,P2,MON-03,164.312(b)
+vcenter-9.service-resilience-evc,vCenter,Enable Enhanced vMotion Compatibility on vCenter clusters.,P1,BCD-02.2,164.308(a)(7)(ii)(C)
+vcenter-9.service-resilience-ha,vCenter,Enable vSphere High Availability on clusters.,P0,BCD-02.2,164.308(a)(7)(ii)(C)
+vcenter-9.service-resilience-vmotion,vCenter,Enable vMotion for live workload migration.,P0,BCD-02.2,164.308(a)(7)(ii)(C)
+vcenter-9.session-timeout,vCenter,Enforce an idle session timeout for the vSphere Client.,P0,IAC-25,164.312(a)(2)(iii)
+vcenter-9.smtp,vCenter,Send vCenter notification email over a secure SMTP connection.,"P0, Upon Feature Enablement",CRY-03,164.312(e)(1)
+vcenter-9.snmp3,vCenter,Enforce SNMPv3 authentication and privacy where SNMP is enabled on vCenter.,"P0, Upon Feature Enablement",CRY-01,"164.312(a)(2)(iv), 164.312(e)(2)(ii)"
+vcenter-9.tls-ciphers,vCenter,"vCenter's TLS profile must restrict negotiated ciphers and protocols to a modern, approved set.",P0,CRY-03,164.312(e)(1)
+vcf-9.mfa,VCF,Integrate VMware Cloud Foundation with an identity provider that enforces multifactor authentication.,P0,IAC-02,164.312(a)(2)(i)
+vcf-9.permissions-roles,VCF,"Review and right-size accounts, permissions, and role assignments across all VCF components.",P1,"IAC-17, IAC-21","164.308(a)(3)(i), 164.308(a)(3)(ii)(B), 164.312(a)(1)"
+vcf-9.secure-baseline,VCF,"Apply the controls in this guidance, and document the rationale for any deviations.",P1,CFG-02,"164.312(a)(2)(iii), 164.312(e)(1), 164.312(e)(2)(i), 164.312(e)(2)(ii)"
+vm-9.ft-encrypted,ESX,Virtual machines must require encryption for Fault Tolerance.,P1,"CRY-03, CRY-04","164.312(e)(1), 164.312(e)(2)(i)"
+vm-9.isolation-device-connectable-deactivate,ESX,"Virtual machines must prevent unauthorized removal, connection, and modification of devices.",P2,IAC-21,"164.308(a)(3)(i), 164.312(a)(1)"
+vm-9.log-enable,ESX,Virtual machines must enable diagnostic logging.,P2,MON-03,164.312(b)
+vm-9.pci-passthrough,ESX,Virtual machines must limit PCI device passthrough functionality.,P2,IAC-21,"164.308(a)(3)(i), 164.312(a)(1)"
+vm-9.vmotion-encrypted,ESX,Virtual machines must require encryption for vMotion.,P1,"CRY-03, CRY-04","164.312(e)(1), 164.312(e)(2)(i)"
+vsan-9.auto-raid,vSAN,vSAN ESA automatic RAID management must remain enabled.,P2,BCD-02.2,164.308(a)(7)(ii)(C)
+vsan-9.encryption-transit-esa,vSAN,vSAN must protect data in transit between hosts.,P2,"CRY-03, CRY-04","164.312(e)(1), 164.312(e)(2)(i)"
+vsan-9.encryption-transit-osa,vSAN,vSAN must protect data in transit between hosts.,P0,"CRY-03, CRY-04","164.312(e)(1), 164.312(e)(2)(i)"
+vsan-9.file-services-authentication-smb,vSAN,SMB file shares on vSAN File Services must require protocol encryption.,"P0, Upon Feature Enablement","CRY-03, CRY-04","164.312(e)(1), 164.312(e)(2)(i)"
+vsan-9.storage-cluster-traffic-protection,vSAN,vSAN Storage Cluster compute-to-storage traffic must be encrypted or isolated.,"P0, Upon Feature Enablement",CRY-03,164.312(e)(1)

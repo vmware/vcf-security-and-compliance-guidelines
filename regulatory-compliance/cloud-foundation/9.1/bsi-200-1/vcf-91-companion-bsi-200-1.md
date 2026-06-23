@@ -2,7 +2,7 @@
 
 ## Version
 
-910-20260612-01
+910-20260623-01
 
 ## Introduction
 
@@ -11,6 +11,10 @@ This document describes how VMware Cloud Foundation (VCF) 9.1 and the separately
 https://www.bsi.bund.de/EN/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/IT-Grundschutz/BSI-Standards/bsi-standards_node.html
 
 This guidance evolves. Please check the current revision at: https://brcm.tech/vcf-compliance
+
+## Additional Resources
+
+This is one of a library of companion guides that map VMware Cloud Foundation and its advanced services to security and compliance frameworks. For each framework, the guide is published as a spreadsheet, a CSV data file, a Markdown document, and a PDF, together with a Security Configuration Guide crosswalk that identifies the VCF technical hardening settings relevant to that framework. The companion guide library, the VMware Cloud Foundation Security Configuration Guide, and related security documentation, sample scripts, and Q&A are available at https://brcm.tech/vcf-security.
 
 ## Disclaimer
 

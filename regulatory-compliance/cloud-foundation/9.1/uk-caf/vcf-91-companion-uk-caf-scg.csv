@@ -1,0 +1,49 @@
+SCG ID,Component,Title,Implementation Priority,Bridging SCF Controls,Mapped Framework Controls
+automation-9.activity-log,Automation,Retain the VCF Automation activity log for the audit window and keep debug output disabled.,P1,MON-10,C1.b
+automation-9.oidc-settings,Automation,Bound VCF Automation OIDC token lifetimes and keep redirect targets HTTPS-only.,P1,CRY-03,B3.b
+esx-9.ad-admin-group-autoadd,ESX,The ESX host must not automatically grant administrative permissions to Active Directory groups.,P2,IAC-16,B2.c
+esx-9.cpu-hyperthread-warning,ESX,The ESX host must not suppress warnings about unmitigated hyperthreading vulnerabilities.,P2,MON-01.4,"C1.a, C1.c"
+esx-9.iscsi-mutual-chap,ESX,Enable bidirectional/mutual CHAP authentication for iSCSI traffic.,"P0, Upon Feature Enablement",IAC-04,B2.b
+esx-9.log-audit-local,ESX,The ESX host must enable audit record logging.,P0,MON-03,C1.a
+esx-9.log-audit-local-capacity,ESX,The ESX host must store audit records for a time period consistent with your records retention policy.,P1,MON-10,C1.b
+esx-9.log-audit-persistent,ESX,Configure a persistent log location for all locally stored audit records on the ESX host.,P0,"MON-08, MON-10",C1.b
+esx-9.log-filter,ESX,The ESX host must not enable log filtering.,P2,"MON-03, MON-08","C1.a, C1.b"
+esx-9.log-forwarding-tls-ciphers,ESX,The ESX host must verify certificates for TLS remote logging endpoints.,P2,CRY-03,B3.b
+esx-9.log-level,ESX,The ESX host must produce audit records containing information to establish what type of events occurred.,P2,MON-03,C1.a
+esx-9.log-persistent,ESX,Configure a persistent log location for all locally stored logs on the ESX host.,P0,"MON-08, MON-10",C1.b
+esx-9.memory-tiering-encryption,ESX,The ESX host should encrypt data written to tiered memory devices.,P0,CRY-05,B3.c
+esx-9.nfs-traffic-protection,ESX,Protect NFS datastore traffic on the ESX host using encryption or network isolation.,"P1, Upon Feature Enablement",CRY-03,B3.b
+esx-9.shell-warning,ESX,The ESX host must not suppress warnings that the local or remote shell is enabled.,P2,MON-01.4,"C1.a, C1.c"
+esx-9.tls-ciphers,ESX,"The ESX host's TLS profile must restrict negotiated ciphers and protocols to a modern, approved set.",P0,CRY-03,B3.b
+esx-9.tpm-configuration,ESX,The ESX host must require TPM-based configuration encryption.,P2,CRY-05,B3.c
+esx-9.vmk-storage,ESX,The ESX host must protect the confidentiality and integrity of transmitted storage traffic.,P0,CRY-03,B3.b
+esx-9.vmk-vmotion,ESX,The ESX host must protect the confidentiality and integrity of transmitted vMotion traffic.,P0,CRY-03,B3.b
+esx-9.vmotion-encryption-offload,ESX,Accelerate vMotion encryption using available hardware offload on ESX hosts.,P2,CRY-03,B3.b
+guest-9.tools-logs,ESX,The guest OS must enable VMware Tools logging.,P2,MON-03,C1.a
+networks-9.audit-identity,Operations for Networks,Capture user identity in VCF Operations for Networks audit logs.,P0,MON-03,C1.a
+nsx-9.backup,NSX,Configure scheduled backups of NSX Manager.,P0,BCD-11,B5.c
+nsx-9.load-balancer-fips,NSX,Enable FIPS-validated cryptography for NSX load balancers.,P0,CRY-03,B3.b
+nsx-9.log-level,NSX,NSX Manager must set service logging levels to capture audit-relevant events.,P0,MON-03,C1.a
+nsx-9.tls-ciphers,NSX,NSX Manager must use TLS with approved protocol versions and cipher suites.,P2,CRY-03,B3.b
+operations-9.action-history-retention,Operations,Retain VCF Operations remediation action history for an appropriate interval.,P1,MON-10,C1.b
+operations-9.log-retention,Operations,Configure the VCF Operations log retention period.,P1,MON-10,C1.b
+operations-9.logs-authenticated-ingestion,Operations,Require authenticated log ingestion in VCF Operations.,P0,MON-08,C1.b
+operations-9.logs-ssl-api,Operations,Enable SSL for API log ingestion in VCF Operations.,P2,CRY-03,B3.b
+operations-9.logs-ssl-syslog,Operations,Enable SSL for syslog log ingestion in VCF Operations.,P2,CRY-03,B3.b
+vcenter-9.bashshelladministrators,vCenter,VMware vCenter must restrict membership of the SystemConfiguration.BashShellAdministrators SSO group.,P0,IAC-16,B2.c
+vcenter-9.events-database-retention,vCenter,VMware vCenter must retain task and event data for an appropriate interval.,P2,MON-10,C1.b
+vcenter-9.logs-level-global,vCenter,Configure the vCenter logging level to capture security-relevant events.,P2,MON-03,C1.a
+vcenter-9.smtp,vCenter,Send vCenter notification email over a secure SMTP connection.,"P0, Upon Feature Enablement",CRY-03,B3.b
+vcenter-9.tls-ciphers,vCenter,"vCenter's TLS profile must restrict negotiated ciphers and protocols to a modern, approved set.",P0,CRY-03,B3.b
+vcf-9.mfa,VCF,Integrate VMware Cloud Foundation with an identity provider that enforces multifactor authentication.,P0,IAC-02,B2.a
+vcf-9.secure-baseline,VCF,"Apply the controls in this guidance, and document the rationale for any deviations.",P1,CFG-02,"B4, B4.b"
+vm-9.ft-encrypted,ESX,Virtual machines must require encryption for Fault Tolerance.,P1,CRY-03,B3.b
+vm-9.log-enable,ESX,Virtual machines must enable diagnostic logging.,P2,MON-03,C1.a
+vm-9.log-retention,ESX,Virtual machines must limit the number of retained diagnostic logs.,P2,MON-10,C1.b
+vm-9.vmotion-encrypted,ESX,Virtual machines must require encryption for vMotion.,P1,CRY-03,B3.b
+vsan-9.encryption-rest,vSAN,vSAN must protect data at rest.,P0,CRY-05,B3.c
+vsan-9.encryption-transit-esa,vSAN,vSAN must protect data in transit between hosts.,P2,CRY-03,B3.b
+vsan-9.encryption-transit-osa,vSAN,vSAN must protect data in transit between hosts.,P0,CRY-03,B3.b
+vsan-9.file-services-authentication-smb,vSAN,SMB file shares on vSAN File Services must require protocol encryption.,"P0, Upon Feature Enablement",CRY-03,B3.b
+vsan-9.iscsi-mutual-chap,vSAN,vSAN iSCSI target must enable bidirectional/mutual CHAP authentication.,"P0, Upon Feature Enablement",IAC-04,B2.b
+vsan-9.storage-cluster-traffic-protection,vSAN,vSAN Storage Cluster compute-to-storage traffic must be encrypted or isolated.,"P0, Upon Feature Enablement",CRY-03,B3.b

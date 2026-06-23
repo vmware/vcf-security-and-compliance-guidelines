@@ -1,0 +1,8 @@
+SCG ID,Component,Title,Implementation Priority,Bridging SCF Controls,Mapped Framework Controls
+esx-9.ad-admin-group-autoadd,ESX,The ESX host must not automatically grant administrative permissions to Active Directory groups.,P2,IAC-21,Annex I Part I (2)(g)
+esx-9.lockdown-dcui-access,ESX,Maintain the DCUI.Access list for administrative recovery if Lockdown Mode isolates the host.,P2,IAC-21,Annex I Part I (2)(g)
+esx-9.lockdown-exception-users,ESX,Keep the Lockdown Mode Exception Users list to the minimum necessary.,P2,IAC-21,Annex I Part I (2)(g)
+vcenter-9.administration-client-plugins,vCenter,Reduce or eliminate third-party vCenter plugins.,P1,TPM-03,13.5
+vcf-9.permissions-roles,VCF,"Review and right-size accounts, permissions, and role assignments across all VCF components.",P1,IAC-21,Annex I Part I (2)(g)
+vm-9.isolation-device-connectable-deactivate,ESX,"Virtual machines must prevent unauthorized removal, connection, and modification of devices.",P2,IAC-21,Annex I Part I (2)(g)
+vm-9.pci-passthrough,ESX,Virtual machines must limit PCI device passthrough functionality.,P2,IAC-21,Annex I Part I (2)(g)

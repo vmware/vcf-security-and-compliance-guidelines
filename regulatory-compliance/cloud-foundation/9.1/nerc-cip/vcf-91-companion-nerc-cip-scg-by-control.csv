@@ -1,0 +1,281 @@
+Control ID,Description,Bridging SCF Controls,Relevant SCG Controls
+CIP-004-7 4.3,"For electronic access, verify at least
+once every 15 calendar months that
+all user accounts, user account
+groups, or user role categories, and
+their specific, associated privileges are
+correct and are those that the
+Responsible Entity determines are
+necessary.",IAC-17,"esx-9.ad-admin-validate-interval, vcf-9.permissions-roles"
+CIP-004-7 6.1.1,"Prior to provisioning, authorize (unless
+already authorized according to Part
+4.1.) based on need, as determined by
+the Responsible Entity, except for CIP
+Exceptional Circumstances:
+6.1.1. Provisioned electronic access to
+electronic BCSI; and
+",IAC-07,operations-9.non-imported-vidm
+CIP-004-7 6.1.2,"Prior to provisioning, authorize (unless
+already authorized according to Part
+4.1.) based on need, as determined by
+the Responsible Entity, except for CIP
+Exceptional Circumstances:
+
+6.1.2. Provisioned physical access to
+physical BCSI.",IAC-07,operations-9.non-imported-vidm
+CIP-004-7 6.2,"Verify at least once every 15 calendar
+months that all individuals with
+provisioned access to BCSI:
+6.2.1. have an authorization record;
+and
+6.2.2. still need the provisioned access
+to perform their current work
+functions, as determined by the
+Responsible Entity.",IAC-17,"esx-9.ad-admin-validate-interval, vcf-9.permissions-roles"
+CIP-004-7 6.2.1,"Verify at least once every 15 calendar
+months that all individuals with
+provisioned access to BCSI:
+6.2.1. have an authorization record;
+",IAC-17,"esx-9.ad-admin-validate-interval, vcf-9.permissions-roles"
+CIP-004-7 6.2.2,"Verify at least once every 15 calendar
+months that all individuals with
+provisioned access to BCSI:
+
+6.2.2. still need the provisioned access
+to perform their current work
+functions, as determined by the
+Responsible Entity.",IAC-17,"esx-9.ad-admin-validate-interval, vcf-9.permissions-roles"
+CIP-004-7 6.3,"For termination actions, remove the
+individual’s ability to use provisioned
+access to BCSI (unless already revoked
+according to Part 5.1) by the end of the
+next calendar day following the
+effective date of the termination
+action.",IAC-07,operations-9.non-imported-vidm
+CIP-005-7 1.3,"Require inbound and outbound access
+permissions, including the reason for
+granting access, and deny all other access
+by default.",NET-04,"esx-9.network-bpdu, esx-9.network-dvfilter, esx-9.network-rpf-promisc, esx-9.network-standard-reject-forged-transmit, esx-9.network-standard-reject-mac-changes, esx-9.network-standard-reject-promiscuous-mode, vcenter-9.network-reject-promiscuous-mode-dvportgroup, vcenter-9.network-restrict-netflow-usage, vcenter-9.network-vgt, vm-9.dvfilter, vsan-9.file-services-access-control-nfs"
+CIP-005-7 1.4,"Where technically feasible, perform
+authentication when establishing Dial-up
+Connectivity with applicable Cyber Assets.",IAC-04,"esx-9.iscsi-mutual-chap, vsan-9.iscsi-mutual-chap"
+CIP-005-7 1.5,"Have one or more methods for detecting
+known or suspected malicious
+communications for both inbound and
+outbound communications. ",NET-03,"nsx-9.ibgp-source-loopback, nsx-9.reverse-path-forwarding, operations-9.firewall-hardening, vcenter-9.network-mac-learning, vcenter-9.network-reject-forged-transmit-dvportgroup, vcenter-9.network-reject-mac-changes-dvportgroup, vcenter-9.network-reset-port, vcenter-9.network-restrict-netflow-usage, vcenter-9.network-restrict-port-level-overrides, vcenter-9.network-restrict-port-mirroring, vsan-9.hcl-internet, vsan-9.network-isolation-vsan-iscsi-target"
+CIP-005-7 2.1,"For all Interactive Remote Access, utilize
+an Intermediate System such that the
+Cyber Asset initiating Interactive Remote
+Access does not directly access an
+applicable Cyber Asset.",NET-14,pnr-9.ssh
+CIP-005-7 2.3,"Require multi-factor authentication for all
+Interactive Remote Access sessions.",NET-14,pnr-9.ssh
+CIP-005-7 2.4,"Have one or more methods for
+determining active vendor remote access
+sessions (including Interactive Remote
+Access and system-to-system remote
+access).",NET-14,pnr-9.ssh
+CIP-005-7 2.5,"Have one or more method(s) to disable
+active vendor remote access (including
+Interactive Remote Access and systemto-system remote access).",IAC-25,"esx-9.api-soap-timeout, esx-9.dcui-timeout, esx-9.session-timeout, esx-9.shell-interactive-timeout, esx-9.shell-timeout, networks-9.session-timeout, nsx-9.session-timeout, operations-9.session-timeout, vcenter-9.session-timeout"
+CIP-005-7 3.2,"Have one or more method(s) to
+terminate authenticated vendor-initiated
+remote connections and control the
+ability to reconnect. ",IAC-25,"esx-9.api-soap-timeout, esx-9.dcui-timeout, esx-9.session-timeout, esx-9.shell-interactive-timeout, esx-9.shell-timeout, networks-9.session-timeout, nsx-9.session-timeout, operations-9.session-timeout, vcenter-9.session-timeout"
+CIP-006-6 1.9,"Retain physical access logs of entry of
+individuals with authorized unescorted
+physical access into each Physical Security
+Perimeter for at least ninety calendar
+days.",MON-10,"automation-9.activity-log, esx-9.log-audit-local-capacity, esx-9.log-audit-persistent, esx-9.log-persistent, operations-9.action-history-retention, operations-9.log-retention, vcenter-9.events-database-retention, vm-9.log-retention"
+CIP-006-6 1.10,"Restrict physical access to cabling and other
+nonprogrammable communication
+components used for connection between
+applicable Cyber Assets within the same
+Electronic Security Perimeter in those
+instances when such cabling and components
+are located outside of a Physical Security
+Perimeter.
+Where physical access restrictions to such
+cabling and components are not
+implemented, the Responsible Entity shall
+document and implement one or more of the
+following:
+ encryption of data that transits such
+cabling and components; or
+ monitoring the status of the
+communication link composed of
+such cabling and components and
+issuing an alarm or alert in response
+to detected communication failures
+to the personnel identified in the BES
+Cyber Security Incident response plan
+within 15 minutes of detection; or
+ an equally effective logical
+protection.",CRY-01,"esx-9.entropy, esx-9.hardware-cpu-amd-cc, esx-9.hardware-cpu-intel-cc, nsx-9.load-balancer-fips, vcenter-9.snmp3"
+CIP-006-6 2.3,"Retain visitor logs for at least ninety
+calendar days.",MON-10,"automation-9.activity-log, esx-9.log-audit-local-capacity, esx-9.log-audit-persistent, esx-9.log-persistent, operations-9.action-history-retention, operations-9.log-retention, vcenter-9.events-database-retention, vm-9.log-retention"
+CIP-007-6 1.1,"Where technically feasible, enable only
+logical network accessible ports that
+have been determined to be needed by
+the Responsible Entity, including port
+ranges or services where needed to
+handle dynamic ports. If a device has
+no provision for disabling or restricting
+logical ports on the device then those
+ports that are open are deemed
+needed.",CFG-03,"automation-9.activity-log, esx-9.ceip-disable, esx-9.deactivate-mob, esx-9.deactivate-shell, esx-9.forensic-snapshots, esx-9.hardware-management-security, esx-9.hardware-ports, esx-9.hardware-virtual-nic, esx-9.network-dvfilter, esx-9.snmp, esx-9.ssh, guest-9.tools-deactivate-appinfo, guest-9.tools-deactivate-containerinfo, guest-9.tools-deactivate-guestoperations, guest-9.tools-deactivate-gueststoreupgrade, guest-9.tools-deactivate-servicediscovery, installer-9.security, nsx-9.ceip-disable, nsx-9.dhcp-disable, nsx-9.multicast-disable, nsx-9.snmp, nsx-9.ssh, nsx-9.t1-dhcp-disable, nsx-9.t1-multicast-disable, operations-9.ceip-disable, operations-9.in-page-feedback, pnr-9.ssh, vcenter-9.ceip-disable, vcenter-9.client-feedback, vcenter-9.client-telemetry, vcenter-9.network-restrict-discovery-protocol, vcenter-9.snmp, vcenter-9.ssh, vcenter-9.vds-health-check-disable, vm-9.deactivate-console-copy, vm-9.deactivate-console-paste, vm-9.deactivate-disk-shrinking-shrink, vm-9.deactivate-disk-shrinking-wiper, vm-9.deactivate-non-essential-3d-features, vm-9.dvfilter, vm-9.efi-boot-types, vm-9.isolation-device-connectable-deactivate, vm-9.isolation-tools-dnd-deactivate, vm-9.pci-passthrough, vm-9.persistent-disk, vm-9.remove-unnecessary-devices, vm-9.restrict-host-info, vsan-9.hcl-internet"
+CIP-007-6 1.2,"Protect against the use of unnecessary
+physical input/output ports used for
+network connectivity, console
+commands, or Removable Media.",END-12,"esx-9.hardware-ports, vm-9.remove-unnecessary-devices"
+CIP-007-6 1.3,"A patch management process for
+tracking, evaluating, and installing
+cyber security patches for applicable
+Cyber Assets. The tracking portion
+shall include the identification of a
+source or sources that the
+Responsible Entity tracks for the
+release of cyber security patches for
+applicable Cyber Assets that are
+updateable and for which a patching
+source exists.",VPM-05,"esx-9.hardware-firmware-updates, esx-9.updates, guest-9.tools-updates, guest-9.tools-upgrade, vcenter-9.vami-updates, vm-9.virtual-hardware"
+CIP-007-6 2.3,"For applicable patches identified in
+Part 2.2, within 35 calendar days of
+the evaluation completion, take one
+of the following actions:
+ Apply the applicable patches; or
+ Create a dated mitigation plan;
+or
+ Revise an existing mitigation
+plan.
+Mitigation plans shall include the
+Responsible Entity’s planned actions
+to mitigate the vulnerabilities
+addressed by each security patch and
+a timeframe to complete these
+mitigations. ",VPM-05,"esx-9.hardware-firmware-updates, esx-9.updates, guest-9.tools-updates, guest-9.tools-upgrade, vcenter-9.vami-updates, vm-9.virtual-hardware"
+CIP-007-6 4.1,"Log events at the BES Cyber System level (per BES Cyber System capability) or at the Cyber Asset level (per Cyber Asset capability) for identification of, and after-the-fact investigations of, Cyber Security Incidents that includes, as a minimum, each of the following types of events:
+4.1.1. Detected successful login attempts;
+4.1.2. Detected failed access attempts and failed login attempts;
+4.1.3. Detected malicious code.","MON-01.4, MON-03","esx-9.cpu-hyperthread-warning, esx-9.log-audit-local, esx-9.log-filter, esx-9.log-level, esx-9.shell-warning, guest-9.tools-logs, networks-9.audit-identity, nsx-9.log-level, vcenter-9.logs-level-global, vm-9.log-enable"
+CIP-007-6 4.1.1,"Log events at the BES Cyber System level (per BES Cyber System capability) or at the Cyber Asset level (per Cyber Asset capability) for identification of, and after-the-fact investigations of, Cyber Security Incidents that includes, as a minimum, each of the following types of events:
+4.1.1. Detected successful login attempts;
+",MON-03,"esx-9.log-audit-local, esx-9.log-filter, esx-9.log-level, guest-9.tools-logs, networks-9.audit-identity, nsx-9.log-level, vcenter-9.logs-level-global, vm-9.log-enable"
+CIP-007-6 4.1.2,"Log events at the BES Cyber System level (per BES Cyber System capability) or at the Cyber Asset level (per Cyber Asset capability) for identification of, and after-the-fact investigations of, Cyber Security Incidents that includes, as a minimum, each of the following types of events:
+
+4.1.2. Detected failed access attempts and failed login attempts;
+",MON-03,"esx-9.log-audit-local, esx-9.log-filter, esx-9.log-level, guest-9.tools-logs, networks-9.audit-identity, nsx-9.log-level, vcenter-9.logs-level-global, vm-9.log-enable"
+CIP-007-6 4.1.3,"Log events at the BES Cyber System level (per BES Cyber System capability) or at the Cyber Asset level (per Cyber Asset capability) for identification of, and after-the-fact investigations of, Cyber Security Incidents that includes, as a minimum, each of the following types of events:
+
+4.1.3. Detected malicious code.",MON-03,"esx-9.log-audit-local, esx-9.log-filter, esx-9.log-level, guest-9.tools-logs, networks-9.audit-identity, nsx-9.log-level, vcenter-9.logs-level-global, vm-9.log-enable"
+CIP-007-6 4.2,"Generate alerts for security events that the Responsible Entity determines necessitates an alert, that includes, as a minimum, each of the following types of events (per Cyber Asset or BES Cyber System capability):
+4.2.1. Detected malicious code from Part 4.1; and
+4.2.2. Detected failure of Part 4.1 event logging.",MON-01.4,"esx-9.cpu-hyperthread-warning, esx-9.shell-warning"
+CIP-007-6 4.3,"Where technically feasible, retain
+applicable event logs identified in Part
+4.1 for at least the last 90 consecutive
+calendar days except under CIP
+Exceptional Circumstances.",MON-10,"automation-9.activity-log, esx-9.log-audit-local-capacity, esx-9.log-audit-persistent, esx-9.log-persistent, operations-9.action-history-retention, operations-9.log-retention, vcenter-9.events-database-retention, vm-9.log-retention"
+CIP-007-6 5.1,"Have a method(s) to enforce
+authentication of interactive user access,
+where technically feasible.",IAC-01.2,vcenter-9.administration-sso-groups
+CIP-007-6 5.3,"Identify individuals who have authorized
+access to shared accounts.",IAC-15.5,vcenter-9.bashshelladministrators
+CIP-007-6 5.4,"Change known default passwords, per
+Cyber Asset capability",IAC-10.8,"esx-9.ad-admin-group-name, esx-9.hardware-management-security, sddc-9.api-admin"
+CIP-007-6 5.5.1,"For password-only authentication for interactive user access, either technically or procedurally enforce the following password parameters:
+5.5.1. Password length that is, at least, the lesser of eight characters or the maximum length supported by the Cyber Asset; and
+",IAC-10.1,"esx-9.account-password-history, esx-9.password-complexity, esx-9.password-max-age, fleet-9.password-policy, nsx-9.password-complexity, operations-9.password-complexity, vcenter-9.password-complexity, vcenter-9.password-history, vcenter-9.password-max-age, vcenter-9.vami-password-max-age, vcenter-9.vpxuser-length"
+CIP-007-6 5.5.2,"For password-only authentication for interactive user access, either technically or procedurally enforce the following password parameters:
+
+5.5.2. Minimum password complexity that is the lesser of three or more different types of characters (e.g., uppercase alphabetic, lowercase alphabetic, numeric, nonalphanumeric) or the maximum complexity supported by the Cyber Asset.",IAC-10.1,"esx-9.account-password-history, esx-9.password-complexity, esx-9.password-max-age, fleet-9.password-policy, nsx-9.password-complexity, operations-9.password-complexity, vcenter-9.password-complexity, vcenter-9.password-history, vcenter-9.password-max-age, vcenter-9.vami-password-max-age, vcenter-9.vpxuser-length"
+CIP-007-6 5.6,"Where technically feasible, for
+password-only authentication for
+interactive user access, either
+technically or procedurally enforce
+password changes or an obligation to
+change the password at least once
+every 15 calendar months.",IAC-10,"automation-9.oidc-settings, automation-9.timeouts, fleet-9.access-token, fleet-9.api-token, sddc-9.basic-auth-disable"
+CIP-007-6 5.7,"Where technically feasible, either:
+ Limit the number of
+unsuccessful authentication
+attempts; or
+ Generate alerts after a
+threshold of unsuccessful
+authentication attempts.",IAC-22,"esx-9.account-lockout-duration, esx-9.account-lockout-max-attempts, fleet-9.password-policy, nsx-9.account-lockout-max-attempts, operations-9.account-lockout, vcenter-9.account-lockout-duration, vcenter-9.account-lockout-max-attempts, vcenter-9.account-lockout-reset"
+CIP-008-6 2.3,"Retain records related to Reportable
+Cyber Security Incidents and Cyber
+Security Incidents that attempted to
+compromise a system identified in the
+“Applicable Systems” column for this Part
+as per the Cyber Security Incident
+response plan(s) under Requirement R1.",IRO-08,esx-9.forensic-snapshots
+CIP-009-6 1.3,"One or more processes for the backup
+and storage of information required to
+recover BES Cyber System functionality. ",BCD-11,nsx-9.backup
+CIP-009-6 1.4,"One or more processes to verify the
+successful completion of the backup
+processes in Part 1.3 and to address any
+backup failures. ",BCD-11,nsx-9.backup
+CIP-009-6 1.5,"One or more processes to preserve data,
+per Cyber Asset capability, for
+determining the cause of a Cyber
+Security Incident that triggers activation
+of the recovery plan(s). Data
+preservation should not impede or
+restrict recovery. ",IRO-08,esx-9.forensic-snapshots
+CIP-010-4 1.1,"Develop a baseline configuration, individually or by group, which shall include the following items:
+1.1.1. Operating system(s) (including version) or firmware where no independent operating system exists;
+1.1.2. Any commercially available or open-source application software (including version) intentionally installed;
+1.1.3. Any custom software installed;
+1.1.4. Any logical network accessible ports; and
+1.1.5. Any security patches applied.",CFG-02,vcf-9.secure-baseline
+CIP-010-4 1.1.1,"Develop a baseline configuration, individually or by group, which shall include the following items:
+1.1.1. Operating system(s) (including version) or firmware where no independent operating system exists;
+",CFG-02,vcf-9.secure-baseline
+CIP-010-4 1.1.2,"Develop a baseline configuration, individually or by group, which shall include the following items:
+
+1.1.2. Any commercially available or open-source application software (including version) intentionally installed;",CFG-02,vcf-9.secure-baseline
+CIP-010-4 1.1.3,"Develop a baseline configuration, individually or by group, which shall include the following items:
+
+1.1.3. Any custom software installed;
+",CFG-02,vcf-9.secure-baseline
+CIP-010-4 1.1.4,"Develop a baseline configuration, individually or by group, which shall include the following items:
+
+1.1.4. Any logical network accessible ports; and
+",CFG-02,vcf-9.secure-baseline
+CIP-010-4 1.1.5,"Develop a baseline configuration, individually or by group, which shall include the following items:
+
+1.1.5. Any security patches applied.",CFG-02,vcf-9.secure-baseline
+CIP-010-4 1.2,Authorize and document changes that deviate from the existing baseline configuration. ,CFG-02.7,vcf-9.secure-baseline
+CIP-010-4 1.4,"For a change that deviates from the existing baseline configuration:
+1.4.1. Prior to the change, determine required cyber security controls in CIP-005 and CIP-007 that could be impacted by the change;
+1.4.2. Following the change, verify that required cyber security controls determined in 1.4.1 are not adversely affected; and
+1.4.3. Document the results of the verification. ",CFG-02.7,vcf-9.secure-baseline
+CIP-010-4 1.4.3,"For a change that deviates from the existing baseline configuration:
+
+1.4.3. Document the results of the verification. ",CFG-02.7,vcf-9.secure-baseline
+CIP-010-4 1.5,"Where technically feasible, for each change that deviates from the existing baseline configuration:
+1.5.1. Prior to implementing any change in the production environment, test the changes in a test environment or test the changes in a production environment where the test is performed in a manner that minimizes adverse effects, that models the baseline configuration to ensure that required cyber security controls in CIP-005 and CIP-007 are not adversely affected; and
+1.5.2. Document the results of the testing and, if a test environment was used, the differences between the test environment and the production environment, including a description of the measures used to account for any differences in operation between the test and production environments",CFG-02.7,vcf-9.secure-baseline
+CIP-010-4 1.6,"Prior to a change that deviates from the existing baseline configuration associated with baseline items in Parts 1.1.1, 1.1.2, and 1.1.5, and when the method to do so is available to the Responsible Entity from the software source:
+1.6.1. Verify the identity of the software source; and
+1.6.2. Verify the integrity of the software obtained from the software source.",CFG-02.7,vcf-9.secure-baseline
+CIP-010-4 2.1,"Monitor at least once every 35 calendar
+days for changes to the baseline
+configuration (as described in Requirement
+R1, Part 1.1). Document and investigate
+detected unauthorized changes. ",CFG-02,vcf-9.secure-baseline
+CIP-011-3 2.2,"Prior to the disposal of applicable
+Cyber Assets that contain BCSI, the
+Responsible Entity shall take action to
+prevent the unauthorized retrieval of
+BCSI from the Cyber Asset or destroy
+the data storage media.",AST-30,installer-9.security
+CIP-013-2 1.2.5," One or more process(es) used in procuring BES Cyber Systems, and their associated EACMS and PACS, that address the following, as applicable:
+
+1.2.5. Verification of software integrity and authenticity of all software and patches provided by the vendor for use in the BES Cyber System and their associated EACMS and PACS; and
+",TPM-03,vcenter-9.administration-client-plugins
+CIP-013-2 1.2.6," One or more process(es) used in procuring BES Cyber Systems, and their associated EACMS and PACS, that address the following, as applicable:
+
+1.2.6. Coordination of controls for vendor-initiated remote access",TPM-03,vcenter-9.administration-client-plugins

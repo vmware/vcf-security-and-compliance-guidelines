@@ -1,0 +1,20 @@
+SCG ID,Component,Title,Implementation Priority,Bridging SCF Controls,Mapped Framework Controls
+esx-9.ad-admin-group-autoadd,ESX,The ESX host must not automatically grant administrative permissions to Active Directory groups.,P2,IAC-21,9.4(c)
+esx-9.hardware-firmware-updates,ESX,"Ensure all system and device firmware is auditable, authentic, and up to date.",P0,VPM-05,9.4(f)
+esx-9.lockdown-dcui-access,ESX,Maintain the DCUI.Access list for administrative recovery if Lockdown Mode isolates the host.,P2,IAC-21,9.4(c)
+esx-9.lockdown-exception-users,ESX,Keep the Lockdown Mode Exception Users list to the minimum necessary.,P2,IAC-21,9.4(c)
+esx-9.updates,ESX,The ESX host must have all available software updates and patches installed.,P0,VPM-05,9.4(f)
+guest-9.tools-updates,ESX,The guest OS must run a current version of VMware Tools.,P0,VPM-05,9.4(f)
+guest-9.tools-upgrade,ESX,"The guest OS must enable VMware Tools auto-upgrade, or use an equivalent external update path.",P2,VPM-05,9.4(f)
+nsx-9.backup,NSX,Configure scheduled backups of NSX Manager.,P0,BCD-11,"12.1, 12.1(a), 12.1(b), 12.2"
+nsx-9.service-resilience,NSX,"When NSX Manager runs as a multi-node cluster, DRS anti-affinity rules must separate the nodes across hosts.","P0, Upon Feature Enablement","BCD-11.7, BCD-12.2",12.4
+operations-9.service-resilience,Operations,"When VCF Operations runs as a multi-node cluster, DRS anti-affinity rules must separate the nodes across hosts.","P0, Upon Feature Enablement","BCD-11.7, BCD-12.2",12.4
+vcenter-9.administration-client-plugins,vCenter,Reduce or eliminate third-party vCenter plugins.,P1,"TPM-03, TPM-04","29.1, 30.3(f)"
+vcenter-9.service-resilience-ha,vCenter,Enable vSphere High Availability on clusters.,P0,BCD-12.2,12.4
+vcenter-9.vami-updates,vCenter,vCenter must have all available software updates and patches installed.,P0,VPM-05,9.4(f)
+vcf-9.permissions-roles,VCF,"Review and right-size accounts, permissions, and role assignments across all VCF components.",P1,IAC-21,9.4(c)
+vcf-9.secure-baseline,VCF,"Apply the controls in this guidance, and document the rationale for any deviations.",P1,CFG-02,"9.3(a), 9.3(b), 9.3(c), 9.3(d)"
+vm-9.isolation-device-connectable-deactivate,ESX,"Virtual machines must prevent unauthorized removal, connection, and modification of devices.",P2,IAC-21,9.4(c)
+vm-9.pci-passthrough,ESX,Virtual machines must limit PCI device passthrough functionality.,P2,IAC-21,9.4(c)
+vm-9.virtual-hardware,ESX,Virtual machines must use a minimum supported virtual hardware version.,P1,VPM-05,9.4(f)
+vsan-9.auto-policy-management,vSAN,vSAN automatic policy management must remain disabled.,P2,CHG-02,9.4(e)

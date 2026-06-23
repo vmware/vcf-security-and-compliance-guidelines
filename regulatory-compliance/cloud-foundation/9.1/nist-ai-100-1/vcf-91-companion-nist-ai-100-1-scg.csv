@@ -1,0 +1,4 @@
+SCG ID,Component,Title,Implementation Priority,Bridging SCF Controls,Mapped Framework Controls
+esx-9.supported,ESX,The ESX host must run a build of ESX that has not reached End of General Support.,P2,TDA-17,GOVERN 1.7
+installer-9.security,Installer,"The VCF Installer appliance must be removed or powered off after deployment completes, unless it has been converted into the SDDC Manager.",P0,AST-30,GOVERN 1.7
+vcenter-9.supported,vCenter,vCenter must run a version that has not reached End of General Support.,P2,TDA-17,GOVERN 1.7

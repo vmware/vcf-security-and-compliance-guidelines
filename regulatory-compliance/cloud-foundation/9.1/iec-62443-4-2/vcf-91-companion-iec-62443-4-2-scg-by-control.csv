@@ -1,0 +1,233 @@
+Control ID,Description,Bridging SCF Controls,Relevant SCG Controls
+CR 1.1,"Human user identification and authentication: Provide the capability to identify and authenticate all human users on all interfaces capable of human user access.
+
+Unique identification and authentication: Capability to uniquely identify and authenticate all human users.
+
+Multifactor authentication for untrusted networks: Capability to employ multi-factor authentication for all human user access from an untrusted network.
+
+Authenticator feedback: Obscure feedback of authentication information (e.g., asterisks) during entry.
+
+Unsuccessful login attempts: Enforce a limit of consecutive invalid login attempts before lockout or delay.
+
+System use notification: Display a notification message before establishing user identification.
+
+Access via untrusted networks: Monitor and control all access attempts from untrusted networks.
+
+Strength of symmetric key-based authentication: Capability to manage symmetric keys securely.
+
+Symmetric key protection: Hardware-based protection for symmetric keys.",IAC-02,vcf-9.mfa
+CR 1.2,"Software process and device identification and authentication: Capability to identify and authenticate all software processes and devices.
+
+Unique identification and authentication: Capability to uniquely identify and authenticate all software processes and devices.",IAC-04,"esx-9.iscsi-mutual-chap, vsan-9.iscsi-mutual-chap"
+CR 1.2(1),"Software process and device identification and authentication: Capability to identify and authenticate all software processes and devices.
+
+Unique identification and authentication: Capability to uniquely identify and authenticate all software processes and devices.",IAC-04,"esx-9.iscsi-mutual-chap, vsan-9.iscsi-mutual-chap"
+CR 1.5,"Authenticator management: Support the management of authenticators (passwords, tokens, keys) used by the component.
+
+Hardware security for authenticators: Capability to protect authenticators using hardware mechanisms (e.g., TPM).
+
+Authenticator management enhancement: Additional requirements for secure authenticator storage.",IAC-10,"automation-9.oidc-settings, automation-9.timeouts, fleet-9.access-token, fleet-9.api-token, sddc-9.basic-auth-disable"
+CR 1.5(a),Sub-item (a) of CR 1.5 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 1.5 requirement in the standard.,IAC-10.8,"esx-9.ad-admin-group-name, esx-9.hardware-management-security, sddc-9.api-admin"
+CR 1.5(b),Sub-item (b) of CR 1.5 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 1.5 requirement in the standard.,IAC-10.8,"esx-9.ad-admin-group-name, esx-9.hardware-management-security, sddc-9.api-admin"
+CR 1.5(c),Sub-item (c) of CR 1.5 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 1.5 requirement in the standard.,IAC-10.1,"esx-9.account-password-history, esx-9.password-complexity, esx-9.password-max-age, fleet-9.password-policy, nsx-9.password-complexity, operations-9.password-complexity, vcenter-9.password-complexity, vcenter-9.password-history, vcenter-9.password-max-age, vcenter-9.vami-password-max-age, vcenter-9.vpxuser-length"
+CR 1.7,"Password strength enhancement: Capability to enforce specific password complexity rules.
+
+Strength of password-based authentication: Enforce configurable password strength requirements.",IAC-10.1,"esx-9.account-password-history, esx-9.password-complexity, esx-9.password-max-age, fleet-9.password-policy, nsx-9.password-complexity, operations-9.password-complexity, vcenter-9.password-complexity, vcenter-9.password-history, vcenter-9.password-max-age, vcenter-9.vami-password-max-age, vcenter-9.vpxuser-length"
+CR 1.7(1),"Password strength enhancement: Capability to enforce specific password complexity rules.
+
+Strength of password-based authentication: Enforce configurable password strength requirements.",IAC-10.1,"esx-9.account-password-history, esx-9.password-complexity, esx-9.password-max-age, fleet-9.password-policy, nsx-9.password-complexity, operations-9.password-complexity, vcenter-9.password-complexity, vcenter-9.password-history, vcenter-9.password-max-age, vcenter-9.vami-password-max-age, vcenter-9.vpxuser-length"
+CR 1.7(2),Requirement enhancement (2) of CR 1.7 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 1.7 requirement in the standard.,IAC-10.1,"esx-9.account-password-history, esx-9.password-complexity, esx-9.password-max-age, fleet-9.password-policy, nsx-9.password-complexity, operations-9.password-complexity, vcenter-9.password-complexity, vcenter-9.password-history, vcenter-9.password-max-age, vcenter-9.vami-password-max-age, vcenter-9.vpxuser-length"
+CR 1.9,"Strength of function: Ensure that authentication mechanisms are robust against brute force attacks.
+
+Strength of function enhancement: Specific metrics for resistance to automated login attempts.",IAC-10,"automation-9.oidc-settings, automation-9.timeouts, fleet-9.access-token, fleet-9.api-token, sddc-9.basic-auth-disable"
+CR 1.9(a),Sub-item (a) of CR 1.9 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 1.9 requirement in the standard.,IAC-10.2,"esx-9.log-forwarding-tls-ciphers, esx-9.log-forwarding-tls-x509, operations-9.certificates-validation"
+CR 1.9(b),Sub-item (b) of CR 1.9 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 1.9 requirement in the standard.,IAC-10.2,"esx-9.log-forwarding-tls-ciphers, esx-9.log-forwarding-tls-x509, operations-9.certificates-validation"
+CR 1.9(c),Sub-item (c) of CR 1.9 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 1.9 requirement in the standard.,IAC-10.2,"esx-9.log-forwarding-tls-ciphers, esx-9.log-forwarding-tls-x509, operations-9.certificates-validation"
+CR 1.9(d),Sub-item (d) of CR 1.9 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 1.9 requirement in the standard.,CRY-09,"esx-9.hardware-tpm, esx-9.key-persistence, esx-9.tpm-recovery-key-backup, vsan-9.rekey-interval"
+CR 1.9(e),Sub-item (e) of CR 1.9 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 1.9 requirement in the standard.,CRY-09,"esx-9.hardware-tpm, esx-9.key-persistence, esx-9.tpm-recovery-key-backup, vsan-9.rekey-interval"
+CR 1.9(f),Sub-item (f) of CR 1.9 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 1.9 requirement in the standard.,CRY-09,"esx-9.hardware-tpm, esx-9.key-persistence, esx-9.tpm-recovery-key-backup, vsan-9.rekey-interval"
+CR 1.11,Unsuccessful login attempts: Enforce a limit of consecutive invalid login attempts before lockout or delay.,IAC-22,"esx-9.account-lockout-duration, esx-9.account-lockout-max-attempts, fleet-9.password-policy, nsx-9.account-lockout-max-attempts, operations-9.account-lockout, vcenter-9.account-lockout-duration, vcenter-9.account-lockout-max-attempts, vcenter-9.account-lockout-reset"
+CR 1.11(a),Sub-item (a) of CR 1.11 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 1.11 requirement in the standard.,IAC-22,"esx-9.account-lockout-duration, esx-9.account-lockout-max-attempts, fleet-9.password-policy, nsx-9.account-lockout-max-attempts, operations-9.account-lockout, vcenter-9.account-lockout-duration, vcenter-9.account-lockout-max-attempts, vcenter-9.account-lockout-reset"
+CR 1.11(b),Sub-item (b) of CR 1.11 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 1.11 requirement in the standard.,IAC-22,"esx-9.account-lockout-duration, esx-9.account-lockout-max-attempts, fleet-9.password-policy, nsx-9.account-lockout-max-attempts, operations-9.account-lockout, vcenter-9.account-lockout-duration, vcenter-9.account-lockout-max-attempts, vcenter-9.account-lockout-reset"
+CR 1.12,System use notification: Display a notification message before establishing user identification.,SEA-18,"esx-9.etc-issue, esx-9.login-message, networks-9.login-message, nsx-9.login-message, operations-9.login-message, vcenter-9.etc-issue, vcenter-9.login-message"
+CR 2.2,Wireless use control: Capability to authorize and restrict the use of wireless communications.,"CFG-02, CFG-03","automation-9.activity-log, esx-9.ceip-disable, esx-9.deactivate-mob, esx-9.deactivate-shell, esx-9.forensic-snapshots, esx-9.hardware-management-security, esx-9.hardware-ports, esx-9.hardware-virtual-nic, esx-9.network-dvfilter, esx-9.snmp, esx-9.ssh, guest-9.tools-deactivate-appinfo, guest-9.tools-deactivate-containerinfo, guest-9.tools-deactivate-guestoperations, guest-9.tools-deactivate-gueststoreupgrade, guest-9.tools-deactivate-servicediscovery, installer-9.security, nsx-9.ceip-disable, nsx-9.dhcp-disable, nsx-9.multicast-disable, nsx-9.snmp, nsx-9.ssh, nsx-9.t1-dhcp-disable, nsx-9.t1-multicast-disable, operations-9.ceip-disable, operations-9.in-page-feedback, pnr-9.ssh, vcenter-9.ceip-disable, vcenter-9.client-feedback, vcenter-9.client-telemetry, vcenter-9.network-restrict-discovery-protocol, vcenter-9.snmp, vcenter-9.ssh, vcenter-9.vds-health-check-disable, vcf-9.secure-baseline, vm-9.deactivate-console-copy, vm-9.deactivate-console-paste, vm-9.deactivate-disk-shrinking-shrink, vm-9.deactivate-disk-shrinking-wiper, vm-9.deactivate-non-essential-3d-features, vm-9.dvfilter, vm-9.efi-boot-types, vm-9.isolation-device-connectable-deactivate, vm-9.isolation-tools-dnd-deactivate, vm-9.pci-passthrough, vm-9.persistent-disk, vm-9.remove-unnecessary-devices, vm-9.restrict-host-info, vsan-9.hcl-internet"
+CR 2.5,Session lock: Inhibit further access to the component after a period of inactivity.,IAC-24,vm-9.vmrc-lock
+CR 2.5(a),Sub-item (a) of CR 2.5 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 2.5 requirement in the standard.,IAC-24,vm-9.vmrc-lock
+CR 2.5(b),Sub-item (b) of CR 2.5 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 2.5 requirement in the standard.,IAC-24,vm-9.vmrc-lock
+CR 2.7,Session termination: Automatically terminate local/remote sessions after defined conditions.,IAC-23,"operations-9.concurrent-sessions, vm-9.limit-console-connections"
+CR 2.8,Auditable events: Capability to generate audit records for security-relevant events.,"MON-01.4, MON-03","esx-9.cpu-hyperthread-warning, esx-9.log-audit-local, esx-9.log-filter, esx-9.log-level, esx-9.shell-warning, guest-9.tools-logs, networks-9.audit-identity, nsx-9.log-level, vcenter-9.logs-level-global, vm-9.log-enable"
+CR 2.9(a),Sub-item (a) of CR 2.9 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 2.9 requirement in the standard.,MON-04,"esx-9.hardware-boot, esx-9.log-audit-local-capacity, vm-9.log-retention, vm-9.log-rotation-size"
+CR 2.9(b),Sub-item (b) of CR 2.9 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 2.9 requirement in the standard.,MON-04,"esx-9.hardware-boot, esx-9.log-audit-local-capacity, vm-9.log-retention, vm-9.log-rotation-size"
+CR 2.10(b),Sub-item (b) of CR 2.10 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 2.10 requirement in the standard.,BCD-12.2,"nsx-9.service-resilience, operations-9.service-resilience, vcenter-9.service-resilience-ha"
+CR 2.11,"Timestamps: Capability to include timestamps in audit records.
+
+Time synchronization: Capability to synchronize the component clock with an NTP source.
+
+Time synchronization protection: Protect the time synchronization process from tampering.",MON-07,nsx-9.timezone-utc
+CR 2.11(1),"Timestamps: Capability to include timestamps in audit records.
+
+Time synchronization: Capability to synchronize the component clock with an NTP source.
+
+Time synchronization protection: Protect the time synchronization process from tampering.",MON-07.1,"esx-9.hardware-management-time, esx-9.time, fleet-9.time, pnr-9.time, vcenter-9.time"
+CR 2.11(2),"Timestamps: Capability to include timestamps in audit records.
+
+Time synchronization: Capability to synchronize the component clock with an NTP source.
+
+Time synchronization protection: Protect the time synchronization process from tampering.",SEA-20,"esx-9.hardware-management-time, esx-9.time, fleet-9.time, pnr-9.time, vcenter-9.time"
+CR 3.1,"Communication integrity: Components shall provide the capability to protect the integrity of data in transit.
+
+Communication integrity enhancement: Use of cryptographic mechanisms to protect integrity.
+
+Support for updates: Provide a mechanism to verify and apply security updates.
+
+Physical tamper resistance/detection: Capability to detect or resist physical tampering.
+
+Provisioning Product: Ensure secure provisioning of the product during manufacturing.
+
+Integrity of the boot process: Verify the integrity of the boot process (Secure Boot).
+
+Integrity of data at rest: Protect the integrity of sensitive data stored on the component.",CRY-04,"nsx-9.bgp-encryption, nsx-9.ospf-encryption, operations-9.logs-ssl-api, operations-9.logs-ssl-syslog, vm-9.ft-encrypted, vm-9.vmotion-encrypted, vsan-9.encryption-transit-esa, vsan-9.encryption-transit-osa, vsan-9.file-services-authentication-smb"
+CR 3.1(1),"Communication integrity: Components shall provide the capability to protect the integrity of data in transit.
+
+Communication integrity enhancement: Use of cryptographic mechanisms to protect integrity.
+
+Support for updates: Provide a mechanism to verify and apply security updates.
+
+Physical tamper resistance/detection: Capability to detect or resist physical tampering.
+
+Provisioning Product: Ensure secure provisioning of the product during manufacturing.
+
+Integrity of the boot process: Verify the integrity of the boot process (Secure Boot).
+
+Integrity of data at rest: Protect the integrity of sensitive data stored on the component.",CRY-04,"nsx-9.bgp-encryption, nsx-9.ospf-encryption, operations-9.logs-ssl-api, operations-9.logs-ssl-syslog, vm-9.ft-encrypted, vm-9.vmotion-encrypted, vsan-9.encryption-transit-esa, vsan-9.encryption-transit-osa, vsan-9.file-services-authentication-smb"
+CR 3.4(1),"Software and information integrity: Provide the capability to verify the integrity of software, firmware, and data at rest.
+
+Authenticity of software/firmware: Capability to verify the authenticity of software and firmware before installation.
+
+Automated notification of integrity violations: Provide automated notification if integrity violations are detected.",CHG-04.2,"esx-9.vib-acceptance-level-supported, operations-9.unsigned-pak, vcenter-9.content-library-ovf"
+CR 3.8,Requirement CR 3.8 in IEC 62443-4-2. The licensed standard text is not reproduced here; refer to the standard.,NET-09,"nsx-9.bgp-encryption, nsx-9.ospf-encryption"
+CR 3.8(a),"Session integrity: Protect the integrity of communication sessions at the application layer.
+
+Invalidate session identifiers: Capability to invalidate session identifiers upon logout or timeout.
+
+Unique session identifiers: Generate unique session identifiers.",NET-09,"nsx-9.bgp-encryption, nsx-9.ospf-encryption"
+CR 3.8(b),"Session integrity: Protect the integrity of communication sessions at the application layer.
+
+Invalidate session identifiers: Capability to invalidate session identifiers upon logout or timeout.
+
+Unique session identifiers: Generate unique session identifiers.",NET-09,"nsx-9.bgp-encryption, nsx-9.ospf-encryption"
+CR 3.8(c),"Session integrity: Protect the integrity of communication sessions at the application layer.
+
+Invalidate session identifiers: Capability to invalidate session identifiers upon logout or timeout.
+
+Unique session identifiers: Generate unique session identifiers.",NET-09,"nsx-9.bgp-encryption, nsx-9.ospf-encryption"
+CR 3.9,"Audit storage capacity: Ensure sufficient storage for audit records and define behavior when full.
+
+Warning on capacity: Provide a warning when audit storage reaches a defined threshold.",MON-08,"esx-9.log-audit-persistent, esx-9.log-filter, esx-9.log-persistent, operations-9.logs-authenticated-ingestion"
+CR 3.14,Integrity of data at rest: Protect the integrity of sensitive data stored on the component.,END-06.5,"esx-9.hardware-boot-order, esx-9.hardware-cpu-intel-txt, esx-9.hardware-secureboot, esx-9.hardware-tpm, esx-9.secureboot-enforcement, esx-9.tpm-trusted-binaries, vm-9.efi-boot-types, vm-9.secure-boot"
+CR 4.1(a),Data in transit confidentiality: Protect the confidentiality of sensitive data in transit.,CRY-05,"esx-9.memory-tiering-encryption, esx-9.tpm-configuration, vsan-9.encryption-rest"
+CR 4.1(b),Sub-item (b) of CR 4.1 in IEC 62443-4-2. The licensed standard text is not reproduced at this granularity; refer to the CR 4.1 requirement in the standard.,CRY-03,"automation-9.oidc-settings, esx-9.log-forwarding-tls-ciphers, esx-9.nfs-traffic-protection, esx-9.tls-ciphers, esx-9.vmk-storage, esx-9.vmk-vmotion, esx-9.vmotion-encryption-offload, nsx-9.load-balancer-fips, nsx-9.tls-ciphers, operations-9.logs-ssl-api, operations-9.logs-ssl-syslog, vcenter-9.smtp, vcenter-9.tls-ciphers, vm-9.ft-encrypted, vm-9.vmotion-encrypted, vsan-9.encryption-transit-esa, vsan-9.encryption-transit-osa, vsan-9.file-services-authentication-smb, vsan-9.storage-cluster-traffic-protection"
+CR 4.3,Use of cryptography: Use industry-recognized cryptographic standards and algorithms.,CRY-01,"esx-9.entropy, esx-9.hardware-cpu-amd-cc, esx-9.hardware-cpu-intel-cc, nsx-9.load-balancer-fips, vcenter-9.snmp3"
+CR 5.1,Network segmentation: Capability to support logical or physical network segmentation.,NET-06,"esx-9.nfs-traffic-protection, esx-9.vmk-storage, esx-9.vmk-vmotion, vsan-9.network-isolation-vsan-iscsi-target, vsan-9.storage-cluster-traffic-protection"
+CR 5.2,Zone boundary protection: Control data flow through zone boundaries.,NET-03,"nsx-9.ibgp-source-loopback, nsx-9.reverse-path-forwarding, operations-9.firewall-hardening, vcenter-9.network-mac-learning, vcenter-9.network-reject-forged-transmit-dvportgroup, vcenter-9.network-reject-mac-changes-dvportgroup, vcenter-9.network-reset-port, vcenter-9.network-restrict-netflow-usage, vcenter-9.network-restrict-port-level-overrides, vcenter-9.network-restrict-port-mirroring, vsan-9.hcl-internet, vsan-9.network-isolation-vsan-iscsi-target"
+CR 5.3,"General purpose person-to-person communication: Restrict person-to-person communication (e.g., email) from IACS components.",NET-04.1,"esx-9.firewall-incoming-default, esx-9.firewall-restrict-access, operations-9.firewall-hardening, vcenter-9.vami-firewall-restrict-access, vcf-9.perimeter-firewall, vsan-9.file-services-access-control-nfs"
+CR 6.1,"Audit reporting: Capability to report audit records to a centralized repository.
+
+Automated reporting: Provide automated transmission of audit records.",MON-08,"esx-9.log-audit-persistent, esx-9.log-filter, esx-9.log-persistent, operations-9.logs-authenticated-ingestion"
+CR 6.1(1),"Audit reporting: Capability to report audit records to a centralized repository.
+
+Automated reporting: Provide automated transmission of audit records.",MON-08,"esx-9.log-audit-persistent, esx-9.log-filter, esx-9.log-persistent, operations-9.logs-authenticated-ingestion"
+CR 7.1,"Denial of service protection: Capability to maintain essential functions during a DoS attack.
+
+Resource management: Manage resources to prevent exhaustion.","BCD-12.2, NET-02.1","esx-9.network-bpdu, nsx-9.bgp-max-prefixes, nsx-9.reverse-path-forwarding, nsx-9.service-resilience, nsx-9.t0-ipv6-hop-limit, nsx-9.t1-ipv6-hop-limit, operations-9.service-resilience, vcenter-9.network-nioc, vcenter-9.service-resilience-ha"
+CR 7.1(1),"Denial of service protection: Capability to maintain essential functions during a DoS attack.
+
+Resource management: Manage resources to prevent exhaustion.",NET-02.1,"esx-9.network-bpdu, nsx-9.bgp-max-prefixes, nsx-9.reverse-path-forwarding, nsx-9.t0-ipv6-hop-limit, nsx-9.t1-ipv6-hop-limit, vcenter-9.network-nioc"
+CR 7.2,Resource management: Allocate resources to prioritize essential functions.,CAP-01,"vcenter-9.drs, vsan-9.automatic-rebalance, vsan-9.operations-reserve"
+CR 7.3,"Control system backup: Support the backup of configuration and user data.
+
+Verify backup integrity: Capability to verify the integrity of backups.",BCD-11,nsx-9.backup
+CR 7.6,"Network and security configuration settings: Protect configuration settings from unauthorized changes.
+
+Automated configuration monitoring: Monitor for unauthorized configuration changes.",CFG-02,vcf-9.secure-baseline
+CR 7.7,"Least functionality: Disable unnecessary ports, protocols, and services.",CFG-03,"automation-9.activity-log, esx-9.ceip-disable, esx-9.deactivate-mob, esx-9.deactivate-shell, esx-9.forensic-snapshots, esx-9.hardware-management-security, esx-9.hardware-ports, esx-9.hardware-virtual-nic, esx-9.network-dvfilter, esx-9.snmp, esx-9.ssh, guest-9.tools-deactivate-appinfo, guest-9.tools-deactivate-containerinfo, guest-9.tools-deactivate-guestoperations, guest-9.tools-deactivate-gueststoreupgrade, guest-9.tools-deactivate-servicediscovery, installer-9.security, nsx-9.ceip-disable, nsx-9.dhcp-disable, nsx-9.multicast-disable, nsx-9.snmp, nsx-9.ssh, nsx-9.t1-dhcp-disable, nsx-9.t1-multicast-disable, operations-9.ceip-disable, operations-9.in-page-feedback, pnr-9.ssh, vcenter-9.ceip-disable, vcenter-9.client-feedback, vcenter-9.client-telemetry, vcenter-9.network-restrict-discovery-protocol, vcenter-9.snmp, vcenter-9.ssh, vcenter-9.vds-health-check-disable, vm-9.deactivate-console-copy, vm-9.deactivate-console-paste, vm-9.deactivate-disk-shrinking-shrink, vm-9.deactivate-disk-shrinking-wiper, vm-9.deactivate-non-essential-3d-features, vm-9.dvfilter, vm-9.efi-boot-types, vm-9.isolation-device-connectable-deactivate, vm-9.isolation-tools-dnd-deactivate, vm-9.pci-passthrough, vm-9.persistent-disk, vm-9.remove-unnecessary-devices, vm-9.restrict-host-info, vsan-9.hcl-internet"
+EDR 2.4(1),"Mobile code integrity: Verify the integrity of mobile code before execution.
+
+Mobile code authenticity: Verify the authenticity of mobile code before execution.
+
+Mobile code authorization: Allow only authorized mobile code to execute.
+
+Mobile code security: Provide the capability to enforce a security policy for mobile code.
+
+Mobile code execution environment: Run mobile code in a confined environment.",CHG-04.2,"esx-9.vib-acceptance-level-supported, operations-9.unsigned-pak, vcenter-9.content-library-ovf"
+EDR 3.12,Provisioning Product: Ensure secure unique identity provisioning during manufacturing.,AST-18,esx-9.hardware-tpm
+EDR 3.13(a),"Integrity of boot process: Verify firmware integrity before execution.
+
+Boot process authenticity: Verify firmware authenticity before execution.
+
+Secure boot: Provide a hardware-rooted secure boot process.",AST-18,esx-9.hardware-tpm
+EDR 3.13(b),"Integrity of boot process: Verify firmware integrity before execution.
+
+Boot process authenticity: Verify firmware authenticity before execution.
+
+Secure boot: Provide a hardware-rooted secure boot process.",AST-18,esx-9.hardware-tpm
+EDR 3.14,"Integrity of data at rest: Protect embedded storage from unauthorized modification.
+
+Cryptographic integrity: Use cryptography to protect data at rest integrity.",END-06.5,"esx-9.hardware-boot-order, esx-9.hardware-cpu-intel-txt, esx-9.hardware-secureboot, esx-9.hardware-tpm, esx-9.secureboot-enforcement, esx-9.tpm-trusted-binaries, vm-9.efi-boot-types, vm-9.secure-boot"
+EDR 3.14(1),"Integrity of data at rest: Protect embedded storage from unauthorized modification.
+
+Cryptographic integrity: Use cryptography to protect data at rest integrity.",END-06.6,"esx-9.hardware-cpu-intel-txt, esx-9.hardware-secureboot, esx-9.secureboot-enforcement, vm-9.secure-boot"
+HDR 3.10(1),"Host update support: Capability to update host OS and applications.
+
+Verified host updates: Verify authenticity/integrity of host updates.",CHG-04.2,"esx-9.vib-acceptance-level-supported, operations-9.unsigned-pak, vcenter-9.content-library-ovf"
+HDR 3.12,Host provisioning: Securely provision host unique identifiers.,AST-18,esx-9.hardware-tpm
+HDR 3.13(a),"Host boot integrity: Verify integrity of the host OS bootloader.
+
+Host boot authenticity: Verify authenticity of the host OS bootloader.",AST-18,esx-9.hardware-tpm
+HDR 3.14,"Host data at rest integrity: Protect host file system integrity.
+
+Host storage encryption: Use cryptography for host data at rest.",END-06.5,"esx-9.hardware-boot-order, esx-9.hardware-cpu-intel-txt, esx-9.hardware-secureboot, esx-9.hardware-tpm, esx-9.secureboot-enforcement, esx-9.tpm-trusted-binaries, vm-9.efi-boot-types, vm-9.secure-boot"
+HDR 3.14(1),"Host data at rest integrity: Protect host file system integrity.
+
+Host storage encryption: Use cryptography for host data at rest.",END-06.6,"esx-9.hardware-cpu-intel-txt, esx-9.hardware-secureboot, esx-9.secureboot-enforcement, vm-9.secure-boot"
+NDR 1.13(1),"Untrusted network access: Control network traffic from untrusted zones.
+
+Network access control (NAC): Implement NAC for untrusted devices.","NET-04, NET-04.1","esx-9.firewall-incoming-default, esx-9.firewall-restrict-access, esx-9.network-bpdu, esx-9.network-dvfilter, esx-9.network-rpf-promisc, esx-9.network-standard-reject-forged-transmit, esx-9.network-standard-reject-mac-changes, esx-9.network-standard-reject-promiscuous-mode, operations-9.firewall-hardening, vcenter-9.network-reject-promiscuous-mode-dvportgroup, vcenter-9.network-restrict-netflow-usage, vcenter-9.network-vgt, vcenter-9.vami-firewall-restrict-access, vcf-9.perimeter-firewall, vm-9.dvfilter, vsan-9.file-services-access-control-nfs"
+NDR 3.10(1),"Network device updates: Support secure updates for network device firmware.
+
+Verified network updates: Cryptographically verify network firmware updates.",CHG-04.2,"esx-9.vib-acceptance-level-supported, operations-9.unsigned-pak, vcenter-9.content-library-ovf"
+NDR 3.12,Network provisioning: Securely provision network device identities.,AST-18,esx-9.hardware-tpm
+NDR 3.13(a),"Network boot integrity: Verify network device bootloader integrity.
+
+Network boot authenticity: Verify network device bootloader authenticity.",AST-18,esx-9.hardware-tpm
+NDR 3.13(b),"Network boot integrity: Verify network device bootloader integrity.
+
+Network boot authenticity: Verify network device bootloader authenticity.",AST-18,esx-9.hardware-tpm
+NDR 3.14,"Network data at rest: Protect sensitive data stored on network devices.
+
+Network config encryption: Encrypt stored configuration files.",END-06.5,"esx-9.hardware-boot-order, esx-9.hardware-cpu-intel-txt, esx-9.hardware-secureboot, esx-9.hardware-tpm, esx-9.secureboot-enforcement, esx-9.tpm-trusted-binaries, vm-9.efi-boot-types, vm-9.secure-boot"
+NDR 3.14(1),"Network data at rest: Protect sensitive data stored on network devices.
+
+Network config encryption: Encrypt stored configuration files.",END-06.6,"esx-9.hardware-cpu-intel-txt, esx-9.hardware-secureboot, esx-9.secureboot-enforcement, vm-9.secure-boot"
+NDR 5.2,"Zone boundary protection: Control flow between different security zones.
+
+Deny by default: Implement a ""deny all, permit by exception"" policy.
+
+Stateful inspection: Use stateful traffic filtering at boundaries.
+
+Fail close: Ensure boundary protection fails to a secure (closed) state.",NET-03,"nsx-9.ibgp-source-loopback, nsx-9.reverse-path-forwarding, operations-9.firewall-hardening, vcenter-9.network-mac-learning, vcenter-9.network-reject-forged-transmit-dvportgroup, vcenter-9.network-reject-mac-changes-dvportgroup, vcenter-9.network-reset-port, vcenter-9.network-restrict-netflow-usage, vcenter-9.network-restrict-port-level-overrides, vcenter-9.network-restrict-port-mirroring, vsan-9.hcl-internet, vsan-9.network-isolation-vsan-iscsi-target"
+NDR 5.2(1),"Zone boundary protection: Control flow between different security zones.
+
+Deny by default: Implement a ""deny all, permit by exception"" policy.
+
+Stateful inspection: Use stateful traffic filtering at boundaries.
+
+Fail close: Ensure boundary protection fails to a secure (closed) state.",NET-04.1,"esx-9.firewall-incoming-default, esx-9.firewall-restrict-access, operations-9.firewall-hardening, vcenter-9.vami-firewall-restrict-access, vcf-9.perimeter-firewall, vsan-9.file-services-access-control-nfs"
+NDR 5.2(2),"Zone boundary protection: Control flow between different security zones.
+
+Deny by default: Implement a ""deny all, permit by exception"" policy.
+
+Stateful inspection: Use stateful traffic filtering at boundaries.
+
+Fail close: Ensure boundary protection fails to a secure (closed) state.",NET-04.1,"esx-9.firewall-incoming-default, esx-9.firewall-restrict-access, operations-9.firewall-hardening, vcenter-9.vami-firewall-restrict-access, vcf-9.perimeter-firewall, vsan-9.file-services-access-control-nfs"
+NDR 5.3,Network communication restriction: Block general purpose person-to-person traffic.,NET-04.1,"esx-9.firewall-incoming-default, esx-9.firewall-restrict-access, operations-9.firewall-hardening, vcenter-9.vami-firewall-restrict-access, vcf-9.perimeter-firewall, vsan-9.file-services-access-control-nfs"

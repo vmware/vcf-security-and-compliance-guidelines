@@ -22,9 +22,6 @@ This repository is structured to accommodate different types of content, and wil
 * security-design: information useful when designing secure VMware Cloud Foundation environments.
 * threat-resources: information on defending against ransomware, malware, and other threats.
 
-## Support
-Please see [SUPPORT.md](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/SUPPORT.md).
-
 ## License
 Please see [LICENSE.md](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/LICENSE.md).
 

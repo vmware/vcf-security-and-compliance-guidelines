@@ -1,0 +1,4 @@
+Control ID,Description,Bridging SCF Controls,Relevant SCG Controls
+GOVERN 1.7,Processes and procedures are in place for decommissioning and phasing out AI systems safely and in a manner that does not increase risks or decrease the organization’s trustworthiness.,AST-30,installer-9.security
+GV-6.2-002,"Document incidents involving third-party GAI data and systems, including open- data and open-source software.",TPM-04,vcenter-9.administration-client-plugins
+MS-2.3-001,Consider baseline model performance on suites of benchmarks when selecting a model for ﬁne tuning or enhancement with retrieval-augmented generation.,CFG-02,vcf-9.secure-baseline

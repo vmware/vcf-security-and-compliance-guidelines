@@ -37,7 +37,16 @@ To download these files from the GitHub web interface, use the "Raw" or "Downloa
 
 The CSV version can be used to view changes over time via GitHub's built-in history and diff functions.
 
-Security hardening guides, additional security documentation, Q&A, sample scripts, and more can be found at [https://brcm.tech/vcf-security](https://brcm.tech/vcf-security).
+These materials, along with security hardening guides, additional security documentation, Q&A, and sample scripts, are published at [https://brcm.tech/vcf-security](https://brcm.tech/vcf-security), the definitive location for VMware Cloud Foundation security and compliance materials.
+
+## Security Configuration Guide Crosswalk
+
+These files map the VMware Cloud Foundation Security Configuration Guide 9.1 hardening controls to this framework through their shared Secure Controls Framework (SCF) identifiers. They are provided in two orientations: one listing the SCG hardening controls relevant to the framework, and one listing each framework control alongside the SCG hardening controls relevant to it. The crosswalk is mechanical, derived from the SCF identifiers each SCG control carries; the SCG describes platform configuration, so a framework's coverage here reflects how much of it is addressed through hardening settings. The Security Configuration Guide itself is available at [https://brcm.tech/vcf-scg](https://brcm.tech/vcf-scg).
+
+- [SCG hardening controls relevant to this framework (CSV)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/9.1/uk-caf/vcf-91-companion-uk-caf-scg.csv) -- direct download
+- [SCG hardening controls relevant to this framework (Markdown)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/9.1/uk-caf/vcf-91-companion-uk-caf-scg.md) -- direct download
+- [Framework controls by relevant SCG hardening control (CSV)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/9.1/uk-caf/vcf-91-companion-uk-caf-scg-by-control.csv) -- direct download
+- [Framework controls by relevant SCG hardening control (Markdown)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/9.1/uk-caf/vcf-91-companion-uk-caf-scg-by-control.md) -- direct download
 
 ## External Resources
 

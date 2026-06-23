@@ -16,9 +16,6 @@ Additional security information can be found throughout this entire repository:
 
 Also visit [LINKS.md](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/LINKS.md) for more information and links to additional resources.
 
-## Support
-Please see [SUPPORT.md](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/SUPPORT.md).
-
 ## License
 Please see [LICENSE.md](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/LICENSE.md).
 

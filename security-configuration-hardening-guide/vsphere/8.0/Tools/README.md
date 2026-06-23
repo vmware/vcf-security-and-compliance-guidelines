@@ -310,7 +310,3 @@ Remediate a virtual machine against the VMware Security Configuration Guide.
 Please use the issue tracker in our GitHub repository to submit feedback:
 
 <https://github.com/vmware/vcf-security-and-compliance-guidelines/issues>
-
-For support, review the policy found at:
-
-<https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/SUPPORT.md>

@@ -1,0 +1,18 @@
+SCG ID,Component,Title,Implementation Priority,Bridging SCF Controls,Mapped Framework Controls
+esx-9.entropy,ESX,The ESX host must use sufficient entropy for cryptographic operations.,P2,CRY-01,SOV-3
+esx-9.hardware-cpu-amd-cc,ESX,"Enable AMD SEV-ES and SEV-SNP in system firmware where available, and size the SEV ASID pool appropriately.",P1,CRY-01,SOV-3
+esx-9.hardware-cpu-intel-cc,ESX,Enable Intel SGX and TDX in system firmware where available.,P1,CRY-01,SOV-3
+esx-9.hardware-firmware-updates,ESX,"Ensure all system and device firmware is auditable, authentic, and up to date.",P0,VPM-05,SOV-7
+esx-9.hardware-tpm,ESX,Install and enable a TPM 2.0 on each ESX host.,P0,CRY-09,SOV-3
+esx-9.key-persistence,ESX,Disable Key Persistence on ESX hosts that do not have controlled physical access.,"P2, Upon Feature Enablement",CRY-09,SOV-3
+esx-9.tpm-recovery-key-backup,ESX,The ESX host configuration encryption recovery key must be backed up to a secure off-host location.,"P0, Upon Feature Enablement",CRY-09,SOV-3
+esx-9.updates,ESX,The ESX host must have all available software updates and patches installed.,P0,VPM-05,SOV-7
+guest-9.tools-updates,ESX,The guest OS must run a current version of VMware Tools.,P0,VPM-05,SOV-7
+guest-9.tools-upgrade,ESX,"The guest OS must enable VMware Tools auto-upgrade, or use an equivalent external update path.",P2,VPM-05,SOV-7
+nsx-9.load-balancer-fips,NSX,Enable FIPS-validated cryptography for NSX load balancers.,P0,CRY-01,SOV-3
+vcenter-9.administration-client-plugins,vCenter,Reduce or eliminate third-party vCenter plugins.,P1,"TPM-03, TPM-04","SOV-1, SOV-5"
+vcenter-9.events-remote-logging,vCenter,Enable remote logging of vCenter events.,P2,MON-02.7,SOV-3
+vcenter-9.snmp3,vCenter,Enforce SNMPv3 authentication and privacy where SNMP is enabled on vCenter.,"P0, Upon Feature Enablement",CRY-01,SOV-3
+vcenter-9.vami-updates,vCenter,vCenter must have all available software updates and patches installed.,P0,VPM-05,SOV-7
+vm-9.virtual-hardware,ESX,Virtual machines must use a minimum supported virtual hardware version.,P1,VPM-05,SOV-7
+vsan-9.rekey-interval,vSAN,Re-issue vSAN encryption Key Encryption Keys (KEKs) on a regular schedule.,P1,CRY-09,SOV-3

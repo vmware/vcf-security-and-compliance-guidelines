@@ -1,0 +1,169 @@
+SCG ID,Component,Title,Implementation Priority,Bridging SCF Controls,Mapped Framework Controls
+automation-9.activity-log,Automation,Retain the VCF Automation activity log for the audit window and keep debug output disabled.,P1,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+automation-9.oidc-settings,Automation,Bound VCF Automation OIDC token lifetimes and keep redirect targets HTTPS-only.,P1,"CRY-03, IAC-10","M2.05, M9.04, M10.10, M11.32, M13.10, M13.20"
+automation-9.timeouts,Automation,Limit the VCF Automation API token lifetime.,P1,IAC-10,M2.05
+esx-9.account-password-history,ESX,The ESX host must enforce password history for users.,P2,IAC-10.1,M9.01
+esx-9.ad-admin-group-autoadd,ESX,The ESX host must not automatically grant administrative permissions to Active Directory groups.,P2,"IAC-16, IAC-21","M4.06, M6.02, M11.02, M11.04, M11.05, M11.06, M11.07, M11.09, M11.12, M11.15, M11.24, M11.25, M11.35, M13.20, M13.23, M13.24, M13.26, M15.06, M15.07, M17.01, M19.05"
+esx-9.ad-admin-group-name,ESX,"The ESX host must not use the default ""ESX Admins"" Active Directory group.",P0,IAC-10.8,"M2.05, M6.05, M8.06, M9.01"
+esx-9.ad-admin-validate-interval,ESX,The ESX host must not disable validation of users and groups.,P2,IAC-17,"M2.01, M6.01"
+esx-9.ceip-disable,ESX,Disable the ESX Customer Experience Improvement Program.,P1,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+esx-9.deactivate-mob,ESX,The ESX Managed Object Browser (MOB) must be disabled.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+esx-9.deactivate-shell,ESX,The ESX Shell must be disabled.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+esx-9.disable-accounts-dcui,ESX,The ESX host must disable shell access for the dcui account.,P0,IAC-15.7,M6.05
+esx-9.entropy,ESX,The ESX host must use sufficient entropy for cryptographic operations.,P2,CRY-01,M11.34
+esx-9.firewall-incoming-default,ESX,The ESX host must configure the firewall to block network traffic by default.,P2,NET-04.1,"M3.05, M3.06, M3.10, M3.15, M3.16, M3.18, M7.01, M9.06"
+esx-9.firewall-restrict-access,ESX,Configure the ESX host firewall to only allow traffic from authorized networks.,P0,NET-04.1,"M3.05, M3.06, M3.10, M3.15, M3.16, M3.18, M7.01, M9.06"
+esx-9.forensic-snapshots,ESX,Leave forensic memory snapshots disabled except on hosts used for deliberate memory capture.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+esx-9.hardware-cpu-amd-cc,ESX,"Enable AMD SEV-ES and SEV-SNP in system firmware where available, and size the SEV ASID pool appropriately.",P1,CRY-01,M11.34
+esx-9.hardware-cpu-intel-cc,ESX,Enable Intel SGX and TDX in system firmware where available.,P1,CRY-01,M11.34
+esx-9.hardware-firmware-updates,ESX,"Ensure all system and device firmware is auditable, authentic, and up to date.",P0,VPM-05,"M8.08, M10.47, M10.51, M10.52, M10.53, M11.27, M11.28, M13.01, M15.01"
+esx-9.hardware-management-authentication,ESX,"Use strong, isolated identity management on hardware management controllers.",P0,IAC-16.2,M13.24
+esx-9.hardware-management-config-lock,ESX,Lock the hardware management controller configuration after provisioning.,P1,CHG-04,M8.16
+esx-9.hardware-management-log-forwarding,ESX,Forward hardware management controller logs to a central log server.,P0,MON-02,"M8.07, M10.32, M10.34, M14.02, M16.12, M16.17"
+esx-9.hardware-management-security,ESX,Harden integrated hardware management controllers.,P0,"CFG-03, IAC-10.8","M2.04, M2.05, M6.05, M8.06, M9.01, M10.31, M10.48, M11.14, M11.18, M13.03"
+esx-9.hardware-ports,ESX,Disable or physically protect unused external server ports.,P1,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+esx-9.hardware-tpm,ESX,Install and enable a TPM 2.0 on each ESX host.,P0,CRY-09,"M4.06, M8.10, M8.11, M8.13, M8.15, M11.02, M11.03, M19.01"
+esx-9.hardware-virtual-nic,ESX,The ESX host must not enable virtual hardware management network interfaces.,P0,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+esx-9.iscsi-mutual-chap,ESX,Enable bidirectional/mutual CHAP authentication for iSCSI traffic.,"P0, Upon Feature Enablement",IAC-04,"M3.07, M8.16"
+esx-9.key-persistence,ESX,Disable Key Persistence on ESX hosts that do not have controlled physical access.,"P2, Upon Feature Enablement",CRY-09,"M4.06, M8.10, M8.11, M8.13, M8.15, M11.02, M11.03, M19.01"
+esx-9.lockdown-dcui-access,ESX,Maintain the DCUI.Access list for administrative recovery if Lockdown Mode isolates the host.,P2,"END-15, IAC-21","M4.06, M19.07"
+esx-9.lockdown-exception-users,ESX,Keep the Lockdown Mode Exception Users list to the minimum necessary.,P2,IAC-21,M4.06
+esx-9.lockdown-mode,ESX,The ESX host must enable Lockdown Mode.,P0,"END-15, IAC-20","M11.08, M13.25, M19.07"
+esx-9.log-audit-forwarding,ESX,The ESX host must transmit audit records to a remote host.,P0,MON-02,"M8.07, M10.32, M10.34, M14.02, M16.12, M16.17"
+esx-9.log-forwarding,ESX,The ESX host must forward system and audit logs to a remote log collection point.,P0,MON-02,"M8.07, M10.32, M10.34, M14.02, M16.12, M16.17"
+esx-9.log-forwarding-tls-ciphers,ESX,The ESX host must verify certificates for TLS remote logging endpoints.,P2,CRY-03,"M9.04, M10.10, M11.32, M13.10, M13.20"
+esx-9.memory-tiering-encryption,ESX,The ESX host should encrypt data written to tiered memory devices.,P0,CRY-05,"M11.30, M13.09"
+esx-9.network-bpdu,ESX,Enable the Bridge Protocol Data Unit (BPDU) filter on the ESX host.,P2,NET-04,"M3.09, M3.10, M3.12, M3.15, M3.18, M3.19, M9.03"
+esx-9.network-dvfilter,ESX,Use of the dvFilter network APIs must be restricted on the ESX host.,P2,"CFG-03, NET-04","M2.04, M3.09, M3.10, M3.12, M3.15, M3.18, M3.19, M9.03, M10.31, M10.48, M11.14, M11.18, M13.03"
+esx-9.network-rpf-promisc,ESX,The ESX host must perform reverse path forwarding checks on promiscuous mode port groups.,P2,NET-04,"M3.09, M3.10, M3.12, M3.15, M3.18, M3.19, M9.03"
+esx-9.network-standard-reject-forged-transmit,ESX,Reject forged transmits on standard switches and port groups.,"P0, Upon Feature Enablement",NET-04,"M3.09, M3.10, M3.12, M3.15, M3.18, M3.19, M9.03"
+esx-9.network-standard-reject-mac-changes,ESX,Reject guest MAC address changes on standard switches and port groups.,"P0, Upon Feature Enablement",NET-04,"M3.09, M3.10, M3.12, M3.15, M3.18, M3.19, M9.03"
+esx-9.network-standard-reject-promiscuous-mode,ESX,Reject promiscuous mode on standard switches and port groups.,"P2, Upon Feature Enablement",NET-04,"M3.09, M3.10, M3.12, M3.15, M3.18, M3.19, M9.03"
+esx-9.nfs-traffic-protection,ESX,Protect NFS datastore traffic on the ESX host using encryption or network isolation.,"P1, Upon Feature Enablement","CRY-03, NET-06","M1.04, M1.06, M9.04, M10.10, M11.32, M13.10, M13.20, M18.03, M18.06"
+esx-9.password-complexity,ESX,Enforce password complexity on ESX local accounts.,P0,IAC-10.1,M9.01
+esx-9.password-max-age,ESX,The ESX host must be configured with an appropriate maximum password age.,P2,IAC-10.1,M9.01
+esx-9.snmp,ESX,The SNMP service on the ESX host must not be configured to start automatically.,P0,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+esx-9.ssh,ESX,The ESX host's SSH service must be deactivated except for temporary diagnostic use.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+esx-9.supported,ESX,The ESX host must run a build of ESX that has not reached End of General Support.,P2,TDA-17,"M4.03, M4.04, M4.08, M8.05, M9.02, M14.01, M15.01"
+esx-9.tls-ciphers,ESX,"The ESX host's TLS profile must restrict negotiated ciphers and protocols to a modern, approved set.",P0,"CRY-01.5, CRY-03","M4.07, M4.08, M9.04, M10.10, M11.32, M13.10, M13.20"
+esx-9.tpm-configuration,ESX,The ESX host must require TPM-based configuration encryption.,P2,CRY-05,"M11.30, M13.09"
+esx-9.tpm-recovery-key-backup,ESX,The ESX host configuration encryption recovery key must be backed up to a secure off-host location.,"P0, Upon Feature Enablement",CRY-09,"M4.06, M8.10, M8.11, M8.13, M8.15, M11.02, M11.03, M19.01"
+esx-9.updates,ESX,The ESX host must have all available software updates and patches installed.,P0,VPM-05,"M8.08, M10.47, M10.51, M10.52, M10.53, M11.27, M11.28, M13.01, M15.01"
+esx-9.vib-trusted-binaries,ESX,The ESX host must only execute binaries delivered through a signed VIB.,P2,CFG-03.2,M11.29
+esx-9.vmk-storage,ESX,The ESX host must protect the confidentiality and integrity of transmitted storage traffic.,P0,"CRY-03, NET-06","M1.04, M1.06, M9.04, M10.10, M11.32, M13.10, M13.20, M18.03, M18.06"
+esx-9.vmk-vmotion,ESX,The ESX host must protect the confidentiality and integrity of transmitted vMotion traffic.,P0,"CRY-03, NET-06","M1.04, M1.06, M9.04, M10.10, M11.32, M13.10, M13.20, M18.03, M18.06"
+esx-9.vmotion-encryption-offload,ESX,Accelerate vMotion encryption using available hardware offload on ESX hosts.,P2,CRY-03,"M9.04, M10.10, M11.32, M13.10, M13.20"
+fleet-9.access-token,Operations,Limit the maximum lifetime of access tokens.,P0,IAC-10,M2.05
+fleet-9.all-users-group,Operations,Do not automatically include all users in role assignments.,P2,IAC-20,"M11.08, M13.25"
+fleet-9.api-token,Operations,Limit the maximum lifetime of API tokens.,P1,IAC-10,M2.05
+fleet-9.password-policy,Operations,Configure a fleet-wide password policy.,P0,IAC-10.1,M9.01
+guest-9.tools-add-feature,ESX,The guest OS must disable automatic addition of optional VMware Tools features.,P0,CHG-04,M8.16
+guest-9.tools-allow-transforms,ESX,The guest OS must disable MSI transforms in VMware Tools auto-upgrades.,P2,CHG-04,M8.16
+guest-9.tools-deactivate-appinfo,ESX,The guest OS must deactivate Appinfo information gathering unless required.,P0,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+guest-9.tools-deactivate-containerinfo,ESX,The guest OS must deactivate ContainerInfo unless required.,P0,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+guest-9.tools-deactivate-guestoperations,ESX,The guest OS must deactivate Guest Operations unless required.,P1,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+guest-9.tools-deactivate-gueststoreupgrade,ESX,The guest OS must deactivate Guest Store Upgrade operations unless required.,P0,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+guest-9.tools-deactivate-servicediscovery,ESX,The guest OS must deactivate Service Discovery unless required.,P0,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+guest-9.tools-globalconf,ESX,The guest OS must deactivate GlobalConf unless required.,P2,CHG-04,M8.16
+guest-9.tools-log-forwarding,ESX,The guest OS must send VMware Tools logs to the system log service.,P0,MON-02,"M8.07, M10.32, M10.34, M14.02, M16.12, M16.17"
+guest-9.tools-prevent-recustomization,ESX,The guest OS must prevent re-customization of an already-deployed VM.,P0,CHG-04,M8.16
+guest-9.tools-remove-feature,ESX,The guest OS must disable automatic removal of optional VMware Tools features.,P0,CHG-04,M8.16
+guest-9.tools-updates,ESX,The guest OS must run a current version of VMware Tools.,P0,VPM-05,"M8.08, M10.47, M10.51, M10.52, M10.53, M11.27, M11.28, M13.01, M15.01"
+guest-9.tools-upgrade,ESX,"The guest OS must enable VMware Tools auto-upgrade, or use an equivalent external update path.",P2,VPM-05,"M8.08, M10.47, M10.51, M10.52, M10.53, M11.27, M11.28, M13.01, M15.01"
+installer-9.security,Installer,"The VCF Installer appliance must be removed or powered off after deployment completes, unless it has been converted into the SDDC Manager.",P0,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+nsx-9.backup,NSX,Configure scheduled backups of NSX Manager.,P0,BCD-11,M5.03
+nsx-9.bgp-encryption,NSX,Enable BGP authentication on Tier-0 Gateway peers with a unique password per autonomous system.,"P0, Upon Feature Enablement","CRY-04, NET-09","M3.07, M7.03, M7.04, M10.10"
+nsx-9.ceip-disable,NSX,Disable the NSX Manager Customer Experience Improvement Program.,P1,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+nsx-9.dhcp-disable,NSX,NSX Tier-0 Gateway must not enable DHCP unless it is required.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+nsx-9.disable-accounts,NSX,Disable unused NSX Manager local accounts.,P0,IAC-15.7,M6.05
+nsx-9.ibgp-source-loopback,NSX,Configure Tier-0 Gateway iBGP peering to use the loopback address as the source.,"P0, Upon Feature Enablement",NET-03,"M1.01, M1.05, M3.01, M3.09, M3.11, M7.01, M9.05, M9.06, M10.23, M10.27, M11.14, M11.16, M11.18, M11.24, M11.25, M13.03, M13.19, M14.02, M15.08, M15.13, M18.01"
+nsx-9.inactive-interfaces,NSX,NSX Tier-0 Gateway must remove inactive interfaces.,P1,CFG-03.1,"M2.04, M8.06"
+nsx-9.load-balancer-fips,NSX,Enable FIPS-validated cryptography for NSX load balancers.,P0,"CRY-01, CRY-03","M9.04, M10.10, M11.32, M11.34, M13.10, M13.20"
+nsx-9.multicast-disable,NSX,NSX Tier-0 Gateway must disable multicast and PIM where they are not required.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+nsx-9.ospf-encryption,NSX,NSX Tier-0 Gateway must enable OSPF authentication.,"P0, Upon Feature Enablement","CRY-04, NET-09","M3.07, M7.03, M7.04, M10.10"
+nsx-9.password-complexity,NSX,Enforce password complexity on NSX Manager local accounts.,P0,IAC-10.1,M9.01
+nsx-9.reverse-path-forwarding,NSX,NSX Tier-0 Gateway must enable unicast Reverse Path Forwarding to drop spoofed-source packets.,"P0, Upon Feature Enablement",NET-03,"M1.01, M1.05, M3.01, M3.09, M3.11, M7.01, M9.05, M9.06, M10.23, M10.27, M11.14, M11.16, M11.18, M11.24, M11.25, M13.03, M13.19, M14.02, M15.08, M15.13, M18.01"
+nsx-9.routing-protocols-unused,NSX,Disable Tier-0 Gateway routing protocols that are not in use.,P2,CFG-03.1,"M2.04, M8.06"
+nsx-9.snmp,NSX,NSX Manager must not use SNMP v1 or v2c.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+nsx-9.ssh,NSX,The NSX Manager SSH service must be deactivated except for temporary diagnostic use.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+nsx-9.t1-dhcp-disable,NSX,Disable Tier-1 Gateway DHCP service when not in use.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+nsx-9.t1-inactive-interfaces,NSX,Remove inactive interfaces and stale linked segments from Tier-1 Gateways.,P1,CFG-03.1,"M2.04, M8.06"
+nsx-9.t1-multicast-disable,NSX,Disable Tier-1 Gateway multicast when not in use.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+nsx-9.tls-ciphers,NSX,NSX Manager must use TLS with approved protocol versions and cipher suites.,P2,"CRY-01.5, CRY-03","M4.07, M4.08, M9.04, M10.10, M11.32, M13.10, M13.20"
+operations-9.ceip-disable,Operations,Disable the VCF Operations Customer Experience Improvement Program.,P1,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+operations-9.firewall-hardening,Operations,VCF Operations must enable firewall hardening.,P0,"NET-03, NET-04.1","M1.01, M1.05, M3.01, M3.05, M3.06, M3.09, M3.10, M3.11, M3.15, M3.16, M3.18, M7.01, M9.05, M9.06, M10.23, M10.27, M11.14, M11.16, M11.18, M11.24, M11.25, M13.03, M13.19, M14.02, M15.08, M15.13, M18.01"
+operations-9.in-page-feedback,Operations,Disable VCF Operations in-page feedback.,P1,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+operations-9.log-collection,Operations,Configure VCF Operations log collection for all deployed components.,P0,MON-02,"M8.07, M10.32, M10.34, M14.02, M16.12, M16.17"
+operations-9.logs-authenticated-ingestion,Operations,Require authenticated log ingestion in VCF Operations.,P0,NET-04.12,"M7.03, M7.04, M18.04"
+operations-9.logs-ssl-api,Operations,Enable SSL for API log ingestion in VCF Operations.,P2,"CRY-03, CRY-04","M9.04, M10.10, M11.32, M13.10, M13.20"
+operations-9.logs-ssl-syslog,Operations,Enable SSL for syslog log ingestion in VCF Operations.,P2,"CRY-03, CRY-04","M9.04, M10.10, M11.32, M13.10, M13.20"
+operations-9.non-imported-vidm,Operations,Restrict VCF Operations access to imported identity-provider users.,P0,IAC-20,"M11.08, M13.25"
+operations-9.password-complexity,Operations,Enforce password complexity on VCF Operations local accounts.,P2,IAC-10.1,M9.01
+pnr-9.log-forwarding,Protection and Recovery,The VCF Protection and Recovery appliance must forward its logs to a central log server.,P0,MON-02,"M8.07, M10.32, M10.34, M14.02, M16.12, M16.17"
+pnr-9.ssh,Protection and Recovery,The VCF Protection and Recovery appliance SSH service must be deactivated except for temporary diagnostic use.,P0,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+sddc-9.api-admin,SDDC Manager,SDDC Manager must configure the API admin account.,P2,"IAC-10.8, IAC-15.9","M2.05, M6.04, M6.05, M8.06, M9.01, M11.11, M11.12"
+sddc-9.basic-auth-disable,SDDC Manager,Disable HTTP Basic Authentication on the SDDC Manager API.,P0,IAC-10,M2.05
+vcenter-9.administration-client-plugins,vCenter,Reduce or eliminate third-party vCenter plugins.,P1,"TPM-03, TPM-04","M3.08, M8.12, M10.05, M10.06, M10.08, M10.18, M10.36, M10.37, M10.43, M16.03"
+vcenter-9.administration-sso-groups,vCenter,VMware vCenter must separate authentication and authorization for administrators.,P0,"IAC-01.2, IAC-16.2","M6.01, M13.24"
+vcenter-9.bashshelladministrators,vCenter,VMware vCenter must restrict membership of the SystemConfiguration.BashShellAdministrators SSO group.,P0,IAC-16,"M6.02, M11.02, M11.04, M11.05, M11.06, M11.07, M11.09, M11.12, M11.15, M11.24, M11.25, M11.35, M13.20, M13.23, M13.24, M13.26, M15.06, M15.07, M17.01, M19.05"
+vcenter-9.ceip-disable,vCenter,Disable the vCenter Customer Experience Improvement Program.,P1,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+vcenter-9.client-feedback,vCenter,Disable vSphere Client in-product feedback.,P1,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+vcenter-9.client-telemetry,vCenter,Disable vSphere Client UI telemetry.,P1,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+vcenter-9.disable-accounts,vCenter,VMware vCenter must have unnecessary or unused user accounts disabled or removed.,P0,IAC-15.7,M6.05
+vcenter-9.log-forwarding,vCenter,VMware vCenter must forward its logs to a central log server.,P0,MON-02,"M8.07, M10.32, M10.34, M14.02, M16.12, M16.17"
+vcenter-9.network-mac-learning,vCenter,Disable MAC learning on distributed switch port groups unless a workload requires it.,P2,NET-03,"M1.01, M1.05, M3.01, M3.09, M3.11, M7.01, M9.05, M9.06, M10.23, M10.27, M11.14, M11.16, M11.18, M11.24, M11.25, M13.03, M13.19, M14.02, M15.08, M15.13, M18.01"
+vcenter-9.network-reject-forged-transmit-dvportgroup,vCenter,Reject forged transmits on distributed switches and port groups.,P2,NET-03,"M1.01, M1.05, M3.01, M3.09, M3.11, M7.01, M9.05, M9.06, M10.23, M10.27, M11.14, M11.16, M11.18, M11.24, M11.25, M13.03, M13.19, M14.02, M15.08, M15.13, M18.01"
+vcenter-9.network-reject-mac-changes-dvportgroup,vCenter,Reject guest MAC address changes on distributed switches and port groups.,P2,NET-03,"M1.01, M1.05, M3.01, M3.09, M3.11, M7.01, M9.05, M9.06, M10.23, M10.27, M11.14, M11.16, M11.18, M11.24, M11.25, M13.03, M13.19, M14.02, M15.08, M15.13, M18.01"
+vcenter-9.network-reject-promiscuous-mode-dvportgroup,vCenter,Reject promiscuous mode on distributed switches and port groups.,P2,NET-04,"M3.09, M3.10, M3.12, M3.15, M3.18, M3.19, M9.03"
+vcenter-9.network-reset-port,vCenter,Reset distributed switch port configuration when a virtual machine disconnects.,P2,NET-03,"M1.01, M1.05, M3.01, M3.09, M3.11, M7.01, M9.05, M9.06, M10.23, M10.27, M11.14, M11.16, M11.18, M11.24, M11.25, M13.03, M13.19, M14.02, M15.08, M15.13, M18.01"
+vcenter-9.network-restrict-discovery-protocol,vCenter,Disable CDP/LLDP discovery protocols on distributed switches unless required.,P1,"CFG-03, NET-03.3","M2.04, M7.02, M10.31, M10.48, M11.14, M11.18, M13.03"
+vcenter-9.network-restrict-netflow-usage,vCenter,Send distributed switch NetFlow data only to authorized collectors.,P2,"NET-03, NET-04","M1.01, M1.05, M3.01, M3.09, M3.10, M3.11, M3.12, M3.15, M3.18, M3.19, M7.01, M9.03, M9.05, M9.06, M10.23, M10.27, M11.14, M11.16, M11.18, M11.24, M11.25, M13.03, M13.19, M14.02, M15.08, M15.13, M18.01"
+vcenter-9.network-restrict-port-level-overrides,vCenter,"Disallow per-port policy overrides on distributed port groups, except port blocking.",P2,NET-03,"M1.01, M1.05, M3.01, M3.09, M3.11, M7.01, M9.05, M9.06, M10.23, M10.27, M11.14, M11.16, M11.18, M11.24, M11.25, M13.03, M13.19, M14.02, M15.08, M15.13, M18.01"
+vcenter-9.network-restrict-port-mirroring,vCenter,Remove unauthorized port mirroring sessions on distributed switches.,P2,NET-03,"M1.01, M1.05, M3.01, M3.09, M3.11, M7.01, M9.05, M9.06, M10.23, M10.27, M11.14, M11.16, M11.18, M11.24, M11.25, M13.03, M13.19, M14.02, M15.08, M15.13, M18.01"
+vcenter-9.network-vgt,vCenter,Restrict VLAN trunking (Virtual Guest Tagging) on distributed port groups to authorized VMs.,P2,NET-04,"M3.09, M3.10, M3.12, M3.15, M3.18, M3.19, M9.03"
+vcenter-9.password-complexity,vCenter,Enforce password complexity for vCenter SSO accounts.,P0,IAC-10.1,M9.01
+vcenter-9.password-history,vCenter,Restrict password reuse on vCenter SSO accounts.,P2,IAC-10.1,M9.01
+vcenter-9.password-max-age,vCenter,Disable forced password expiration on vCenter SSO accounts.,P1,IAC-10.1,M9.01
+vcenter-9.smtp,vCenter,Send vCenter notification email over a secure SMTP connection.,"P0, Upon Feature Enablement",CRY-03,"M9.04, M10.10, M11.32, M13.10, M13.20"
+vcenter-9.snmp,vCenter,Disable SNMP v1 and v2c receivers on vCenter.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+vcenter-9.snmp3,vCenter,Enforce SNMPv3 authentication and privacy where SNMP is enabled on vCenter.,"P0, Upon Feature Enablement",CRY-01,M11.34
+vcenter-9.ssh,vCenter,Deactivate SSH access to the vCenter appliance except for temporary diagnostic use.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+vcenter-9.supported,vCenter,vCenter must run a version that has not reached End of General Support.,P2,TDA-17,"M4.03, M4.04, M4.08, M8.05, M9.02, M14.01, M15.01"
+vcenter-9.tls-ciphers,vCenter,"vCenter's TLS profile must restrict negotiated ciphers and protocols to a modern, approved set.",P0,"CRY-01.5, CRY-03","M4.07, M4.08, M9.04, M10.10, M11.32, M13.10, M13.20"
+vcenter-9.vami-firewall-restrict-access,vCenter,Configure the vCenter appliance firewall to allow inbound traffic only from authorized networks.,P0,NET-04.1,"M3.05, M3.06, M3.10, M3.15, M3.16, M3.18, M7.01, M9.06"
+vcenter-9.vami-password-max-age,vCenter,Disable forced password expiration on the vCenter appliance root account.,P0,IAC-10.1,M9.01
+vcenter-9.vami-updates,vCenter,vCenter must have all available software updates and patches installed.,P0,VPM-05,"M8.08, M10.47, M10.51, M10.52, M10.53, M11.27, M11.28, M13.01, M15.01"
+vcenter-9.vds-health-check-disable,vCenter,Disable the vSphere Distributed Switch health check when not troubleshooting.,P2,"CFG-03, NET-03.3","M2.04, M7.02, M10.31, M10.48, M11.14, M11.18, M13.03"
+vcenter-9.vpxuser-length,vCenter,Keep the vpxuser password at or above its default length.,P2,IAC-10.1,M9.01
+vcf-9.mfa,VCF,Integrate VMware Cloud Foundation with an identity provider that enforces multifactor authentication.,P0,"IAC-02, IAC-06.1","M6.01, M6.03"
+vcf-9.perimeter-firewall,VCF,Limit access to VCF component management interfaces with perimeter firewalls.,P0,NET-04.1,"M3.05, M3.06, M3.10, M3.15, M3.16, M3.18, M7.01, M9.06"
+vcf-9.permissions-roles,VCF,"Review and right-size accounts, permissions, and role assignments across all VCF components.",P1,"IAC-17, IAC-21","M2.01, M4.06, M6.01"
+vcf-9.secure-baseline,VCF,"Apply the controls in this guidance, and document the rationale for any deviations.",P1,"CFG-02, CFG-02.7","M8.11, M9.05, M10.29, M10.41, M10.48, M10.49, M10.53, M13.01, M13.07, M13.08, M13.11, M13.12, M13.14, M13.17, M13.21, M15.01, M19.02"
+vm-9.deactivate-console-copy,ESX,Virtual machines must have console copy operations deactivated.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+vm-9.deactivate-console-paste,ESX,Virtual machines must have console paste operations deactivated.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+vm-9.deactivate-disk-shrinking-shrink,ESX,Virtual machines must have virtual disk shrinking operations deactivated.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+vm-9.deactivate-disk-shrinking-wiper,ESX,Virtual machines must have virtual disk wiping operations deactivated.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+vm-9.deactivate-non-essential-3d-features,ESX,Virtual machines must have 3D graphics features deactivated when not required.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+vm-9.dvfilter,ESX,Virtual machines must limit access through the dvFilter API.,P2,"CFG-03, NET-04","M2.04, M3.09, M3.10, M3.12, M3.15, M3.18, M3.19, M9.03, M10.31, M10.48, M11.14, M11.18, M13.03"
+vm-9.efi-boot-types,ESX,Virtual machines must prevent booting from unauthorized sources.,P0,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+vm-9.ft-encrypted,ESX,Virtual machines must require encryption for Fault Tolerance.,P1,"CRY-03, CRY-04","M9.04, M10.10, M11.32, M13.10, M13.20"
+vm-9.isolation-device-connectable-deactivate,ESX,"Virtual machines must prevent unauthorized removal, connection, and modification of devices.",P2,"CFG-03, IAC-21","M2.04, M4.06, M10.31, M10.48, M11.14, M11.18, M13.03"
+vm-9.isolation-tools-dnd-deactivate,ESX,Virtual machines must have console drag and drop operations deactivated.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+vm-9.pci-passthrough,ESX,Virtual machines must limit PCI device passthrough functionality.,P2,"CFG-03, IAC-21","M2.04, M4.06, M10.31, M10.48, M11.14, M11.18, M13.03"
+vm-9.persistent-disk,ESX,"Virtual machines must not use independent, nonpersistent disks.",P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+vm-9.remove-unnecessary-devices,ESX,Virtual machines must remove unnecessary virtual hardware.,P0,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+vm-9.restrict-host-info,ESX,Virtual machines must not be able to obtain host information from the hypervisor.,P2,CFG-03,"M2.04, M10.31, M10.48, M11.14, M11.18, M13.03"
+vm-9.virtual-hardware,ESX,Virtual machines must use a minimum supported virtual hardware version.,P1,VPM-05,"M8.08, M10.47, M10.51, M10.52, M10.53, M11.27, M11.28, M13.01, M15.01"
+vm-9.vmotion-encrypted,ESX,Virtual machines must require encryption for vMotion.,P1,"CRY-03, CRY-04","M9.04, M10.10, M11.32, M13.10, M13.20"
+vsan-9.auto-policy-management,vSAN,vSAN automatic policy management must remain disabled.,P2,CHG-02,"M5.02, M10.51, M11.01, M13.02, M16.05"
+vsan-9.encryption-rest,vSAN,vSAN must protect data at rest.,P0,CRY-05,"M11.30, M13.09"
+vsan-9.encryption-transit-esa,vSAN,vSAN must protect data in transit between hosts.,P2,"CRY-03, CRY-04","M9.04, M10.10, M11.32, M13.10, M13.20"
+vsan-9.encryption-transit-osa,vSAN,vSAN must protect data in transit between hosts.,P0,"CRY-03, CRY-04","M9.04, M10.10, M11.32, M13.10, M13.20"
+vsan-9.file-services-access-control-nfs,vSAN,NFS file shares on vSAN File Services must be configured to restrict access.,"P0, Upon Feature Enablement","NET-04, NET-04.1","M3.05, M3.06, M3.09, M3.10, M3.12, M3.15, M3.16, M3.18, M3.19, M7.01, M9.03, M9.06"
+vsan-9.file-services-authentication-smb,vSAN,SMB file shares on vSAN File Services must require protocol encryption.,"P0, Upon Feature Enablement","CRY-03, CRY-04","M9.04, M10.10, M11.32, M13.10, M13.20"
+vsan-9.hcl-internet,vSAN,Disable or proxy the vSAN Health Check Hardware Compatibility List (HCL) download.,P1,"CFG-03, NET-03","M1.01, M1.05, M2.04, M3.01, M3.09, M3.11, M7.01, M9.05, M9.06, M10.23, M10.27, M10.31, M10.48, M11.14, M11.16, M11.18, M11.24, M11.25, M13.03, M13.19, M14.02, M15.08, M15.13, M18.01"
+vsan-9.iscsi-mutual-chap,vSAN,vSAN iSCSI target must enable bidirectional/mutual CHAP authentication.,"P0, Upon Feature Enablement",IAC-04,"M3.07, M8.16"
+vsan-9.managed-disk-claim,vSAN,vSAN must disable managed disk claims.,P0,CHG-04,M8.16
+vsan-9.network-isolation-vsan-iscsi-target,vSAN,Isolate vSAN iSCSI Target traffic on dedicated VMkernel interfaces.,"P0, Upon Feature Enablement","NET-03, NET-06","M1.01, M1.04, M1.05, M1.06, M3.01, M3.09, M3.11, M7.01, M9.05, M9.06, M10.23, M10.27, M11.14, M11.16, M11.18, M11.24, M11.25, M13.03, M13.19, M14.02, M15.08, M15.13, M18.01, M18.03, M18.06"
+vsan-9.rekey-interval,vSAN,Re-issue vSAN encryption Key Encryption Keys (KEKs) on a regular schedule.,P1,CRY-09,"M4.06, M8.10, M8.11, M8.13, M8.15, M11.02, M11.03, M19.01"
+vsan-9.storage-cluster-traffic-protection,vSAN,vSAN Storage Cluster compute-to-storage traffic must be encrypted or isolated.,"P0, Upon Feature Enablement","CRY-03, NET-06","M1.04, M1.06, M9.04, M10.10, M11.32, M13.10, M13.20, M18.03, M18.06"

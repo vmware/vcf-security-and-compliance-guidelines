@@ -18,6 +18,15 @@ There are many engineered data center & hybrid cloud infrastructure products tha
 ## Download
 The [VMware Cloud Foundation 4.5 documentation](https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/4-5/introducing-security-and-compliance-for-vmware-cloud-foundation-4-5/compliance-kits.html) describes the compliance kit structure; per-version documentation pages for earlier kits are no longer hosted. The audit guides and workbook artifacts are available as a download from this repository.
 
+### Files in This Kit
+
+- [1. Introducing Security and Compliance for VMware Cloud Foundation 4.2 (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/4.2/compliance-kit/1.%20Introducing%20Security%20and%20Compliance%20for%20VMware%20Cloud%20Foundation%204.2.pdf) -- direct download
+- [2. Security and Compliance Configuration for VMware Cloud Foundation 4.2 (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/4.2/compliance-kit/2.%20Security%20and%20Compliance%20Configuration%20for%20VMware%20Cloud%20Foundation%204.2.pdf) -- direct download
+- [3. VMware Cloud Foundation 4.2 Audit Guide (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/4.2/compliance-kit/3.%20VMware%20Cloud%20Foundation%204.2%20Audit%20Guide.pdf) -- direct download
+- [4. VMware Cloud Foundation 4.2 Audit Guide Appendix (XLSX)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/4.2/compliance-kit/4.%20VMware%20Cloud%20Foundation%204.2%20Audit%20Guide%20Appendix.xlsx) -- direct download
+
+To download these files from the GitHub web interface, use the "Download raw file" button on the file's page.
+
 If you want to link to this content we maintain a permanent redirect:
 
 https://brcm.tech/vcf-security

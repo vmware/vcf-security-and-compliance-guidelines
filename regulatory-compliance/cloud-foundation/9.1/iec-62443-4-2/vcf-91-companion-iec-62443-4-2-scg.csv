@@ -1,0 +1,187 @@
+SCG ID,Component,Title,Implementation Priority,Bridging SCF Controls,Mapped Framework Controls
+automation-9.activity-log,Automation,Retain the VCF Automation activity log for the audit window and keep debug output disabled.,P1,CFG-03,"CR 2.2, CR 7.7"
+automation-9.oidc-settings,Automation,Bound VCF Automation OIDC token lifetimes and keep redirect targets HTTPS-only.,P1,"CRY-03, IAC-10","CR 1.5, CR 1.9, CR 4.1(b)"
+automation-9.timeouts,Automation,Limit the VCF Automation API token lifetime.,P1,IAC-10,"CR 1.5, CR 1.9"
+esx-9.account-lockout-duration,ESX,The ESX host must enforce an unlock timeout.,P2,IAC-22,"CR 1.11, CR 1.11(a), CR 1.11(b)"
+esx-9.account-lockout-max-attempts,ESX,The ESX host must enforce a limit on consecutive invalid logon attempts by a user.,P2,IAC-22,"CR 1.11, CR 1.11(a), CR 1.11(b)"
+esx-9.account-password-history,ESX,The ESX host must enforce password history for users.,P2,IAC-10.1,"CR 1.5(c), CR 1.7, CR 1.7(1), CR 1.7(2)"
+esx-9.ad-admin-group-name,ESX,"The ESX host must not use the default ""ESX Admins"" Active Directory group.",P0,IAC-10.8,"CR 1.5(a), CR 1.5(b)"
+esx-9.ceip-disable,ESX,Disable the ESX Customer Experience Improvement Program.,P1,CFG-03,"CR 2.2, CR 7.7"
+esx-9.cpu-hyperthread-warning,ESX,The ESX host must not suppress warnings about unmitigated hyperthreading vulnerabilities.,P2,MON-01.4,CR 2.8
+esx-9.deactivate-mob,ESX,The ESX Managed Object Browser (MOB) must be disabled.,P2,CFG-03,"CR 2.2, CR 7.7"
+esx-9.deactivate-shell,ESX,The ESX Shell must be disabled.,P2,CFG-03,"CR 2.2, CR 7.7"
+esx-9.entropy,ESX,The ESX host must use sufficient entropy for cryptographic operations.,P2,CRY-01,CR 4.3
+esx-9.etc-issue,ESX,Configure the login banner for ESX host SSH connections.,P1,SEA-18,CR 1.12
+esx-9.firewall-incoming-default,ESX,The ESX host must configure the firewall to block network traffic by default.,P2,NET-04.1,"CR 5.3, NDR 1.13(1), NDR 5.2(1), NDR 5.2(2), NDR 5.3"
+esx-9.firewall-restrict-access,ESX,Configure the ESX host firewall to only allow traffic from authorized networks.,P0,NET-04.1,"CR 5.3, NDR 1.13(1), NDR 5.2(1), NDR 5.2(2), NDR 5.3"
+esx-9.forensic-snapshots,ESX,Leave forensic memory snapshots disabled except on hosts used for deliberate memory capture.,P2,CFG-03,"CR 2.2, CR 7.7"
+esx-9.hardware-boot,ESX,"The environment must use adequately sized persistent, non-SD, non-USB devices for ESX boot volumes.",P0,MON-04,"CR 2.9(a), CR 2.9(b)"
+esx-9.hardware-boot-order,ESX,Restrict the server firmware boot order to authorized boot devices.,P1,END-06.5,"CR 3.14, EDR 3.14, HDR 3.14, NDR 3.14"
+esx-9.hardware-cpu-amd-cc,ESX,"Enable AMD SEV-ES and SEV-SNP in system firmware where available, and size the SEV ASID pool appropriately.",P1,CRY-01,CR 4.3
+esx-9.hardware-cpu-intel-cc,ESX,Enable Intel SGX and TDX in system firmware where available.,P1,CRY-01,CR 4.3
+esx-9.hardware-cpu-intel-txt,ESX,Enable Intel TXT in system firmware where available.,P1,"END-06.5, END-06.6","CR 3.14, EDR 3.14, EDR 3.14(1), HDR 3.14, HDR 3.14(1), NDR 3.14, NDR 3.14(1)"
+esx-9.hardware-management-security,ESX,Harden integrated hardware management controllers.,P0,"CFG-03, IAC-10.8","CR 1.5(a), CR 1.5(b), CR 2.2, CR 7.7"
+esx-9.hardware-management-time,ESX,Synchronize hardware management controller time with organizational reference sources.,P0,"MON-07.1, SEA-20","CR 2.11(1), CR 2.11(2)"
+esx-9.hardware-ports,ESX,Disable or physically protect unused external server ports.,P1,CFG-03,"CR 2.2, CR 7.7"
+esx-9.hardware-secureboot,ESX,Enable UEFI Secure Boot.,P0,"END-06.5, END-06.6","CR 3.14, EDR 3.14, EDR 3.14(1), HDR 3.14, HDR 3.14(1), NDR 3.14, NDR 3.14(1)"
+esx-9.hardware-tpm,ESX,Install and enable a TPM 2.0 on each ESX host.,P0,"AST-18, CRY-09, END-06.5","CR 1.9(d), CR 1.9(e), CR 1.9(f), CR 3.14, EDR 3.12, EDR 3.13(a), EDR 3.13(b), EDR 3.14, HDR 3.12, HDR 3.13(a), HDR 3.14, NDR 3.12, NDR 3.13(a), NDR 3.13(b), NDR 3.14"
+esx-9.hardware-virtual-nic,ESX,The ESX host must not enable virtual hardware management network interfaces.,P0,CFG-03,"CR 2.2, CR 7.7"
+esx-9.iscsi-mutual-chap,ESX,Enable bidirectional/mutual CHAP authentication for iSCSI traffic.,"P0, Upon Feature Enablement",IAC-04,"CR 1.2, CR 1.2(1)"
+esx-9.key-persistence,ESX,Disable Key Persistence on ESX hosts that do not have controlled physical access.,"P2, Upon Feature Enablement",CRY-09,"CR 1.9(d), CR 1.9(e), CR 1.9(f)"
+esx-9.log-audit-local,ESX,The ESX host must enable audit record logging.,P0,MON-03,CR 2.8
+esx-9.log-audit-local-capacity,ESX,The ESX host must store audit records for a time period consistent with your records retention policy.,P1,MON-04,"CR 2.9(a), CR 2.9(b)"
+esx-9.log-audit-persistent,ESX,Configure a persistent log location for all locally stored audit records on the ESX host.,P0,MON-08,"CR 3.9, CR 6.1, CR 6.1(1)"
+esx-9.log-filter,ESX,The ESX host must not enable log filtering.,P2,"MON-03, MON-08","CR 2.8, CR 3.9, CR 6.1, CR 6.1(1)"
+esx-9.log-forwarding-tls-ciphers,ESX,The ESX host must verify certificates for TLS remote logging endpoints.,P2,"CRY-03, IAC-10.2","CR 1.9(a), CR 1.9(b), CR 1.9(c), CR 4.1(b)"
+esx-9.log-forwarding-tls-x509,ESX,The ESX host must use strict x509 verification for TLS-enabled remote logging endpoints.,P0,IAC-10.2,"CR 1.9(a), CR 1.9(b), CR 1.9(c)"
+esx-9.log-level,ESX,The ESX host must produce audit records containing information to establish what type of events occurred.,P2,MON-03,CR 2.8
+esx-9.log-persistent,ESX,Configure a persistent log location for all locally stored logs on the ESX host.,P0,MON-08,"CR 3.9, CR 6.1, CR 6.1(1)"
+esx-9.login-message,ESX,Configure the ESX host login banner for the DCUI and Host Client.,P1,SEA-18,CR 1.12
+esx-9.memory-tiering-encryption,ESX,The ESX host should encrypt data written to tiered memory devices.,P0,CRY-05,CR 4.1(a)
+esx-9.network-bpdu,ESX,Enable the Bridge Protocol Data Unit (BPDU) filter on the ESX host.,P2,"NET-02.1, NET-04","CR 7.1, CR 7.1(1), NDR 1.13(1)"
+esx-9.network-dvfilter,ESX,Use of the dvFilter network APIs must be restricted on the ESX host.,P2,"CFG-03, NET-04","CR 2.2, CR 7.7, NDR 1.13(1)"
+esx-9.network-rpf-promisc,ESX,The ESX host must perform reverse path forwarding checks on promiscuous mode port groups.,P2,NET-04,NDR 1.13(1)
+esx-9.network-standard-reject-forged-transmit,ESX,Reject forged transmits on standard switches and port groups.,"P0, Upon Feature Enablement",NET-04,NDR 1.13(1)
+esx-9.network-standard-reject-mac-changes,ESX,Reject guest MAC address changes on standard switches and port groups.,"P0, Upon Feature Enablement",NET-04,NDR 1.13(1)
+esx-9.network-standard-reject-promiscuous-mode,ESX,Reject promiscuous mode on standard switches and port groups.,"P2, Upon Feature Enablement",NET-04,NDR 1.13(1)
+esx-9.nfs-traffic-protection,ESX,Protect NFS datastore traffic on the ESX host using encryption or network isolation.,"P1, Upon Feature Enablement","CRY-03, NET-06","CR 4.1(b), CR 5.1"
+esx-9.password-complexity,ESX,Enforce password complexity on ESX local accounts.,P0,IAC-10.1,"CR 1.5(c), CR 1.7, CR 1.7(1), CR 1.7(2)"
+esx-9.password-max-age,ESX,The ESX host must be configured with an appropriate maximum password age.,P2,IAC-10.1,"CR 1.5(c), CR 1.7, CR 1.7(1), CR 1.7(2)"
+esx-9.secureboot-enforcement,ESX,The ESX host must enable Secure Boot enforcement for configuration encryption.,P2,"END-06.5, END-06.6","CR 3.14, EDR 3.14, EDR 3.14(1), HDR 3.14, HDR 3.14(1), NDR 3.14, NDR 3.14(1)"
+esx-9.shell-warning,ESX,The ESX host must not suppress warnings that the local or remote shell is enabled.,P2,MON-01.4,CR 2.8
+esx-9.snmp,ESX,The SNMP service on the ESX host must not be configured to start automatically.,P0,CFG-03,"CR 2.2, CR 7.7"
+esx-9.ssh,ESX,The ESX host's SSH service must be deactivated except for temporary diagnostic use.,P2,CFG-03,"CR 2.2, CR 7.7"
+esx-9.time,ESX,The ESX host must synchronize its clock with organizational reference sources.,P0,"MON-07.1, SEA-20","CR 2.11(1), CR 2.11(2)"
+esx-9.tls-ciphers,ESX,"The ESX host's TLS profile must restrict negotiated ciphers and protocols to a modern, approved set.",P0,CRY-03,CR 4.1(b)
+esx-9.tpm-configuration,ESX,The ESX host must require TPM-based configuration encryption.,P2,CRY-05,CR 4.1(a)
+esx-9.tpm-recovery-key-backup,ESX,The ESX host configuration encryption recovery key must be backed up to a secure off-host location.,"P0, Upon Feature Enablement",CRY-09,"CR 1.9(d), CR 1.9(e), CR 1.9(f)"
+esx-9.tpm-trusted-binaries,ESX,The ESX host must enforce execInstalledOnly.,P2,END-06.5,"CR 3.14, EDR 3.14, HDR 3.14, NDR 3.14"
+esx-9.vib-acceptance-level-supported,ESX,The ESX host image profile acceptance level must be PartnerSupported or higher.,P2,CHG-04.2,"CR 3.4(1), EDR 2.4(1), HDR 3.10(1), NDR 3.10(1)"
+esx-9.vmk-storage,ESX,The ESX host must protect the confidentiality and integrity of transmitted storage traffic.,P0,"CRY-03, NET-06","CR 4.1(b), CR 5.1"
+esx-9.vmk-vmotion,ESX,The ESX host must protect the confidentiality and integrity of transmitted vMotion traffic.,P0,"CRY-03, NET-06","CR 4.1(b), CR 5.1"
+esx-9.vmotion-encryption-offload,ESX,Accelerate vMotion encryption using available hardware offload on ESX hosts.,P2,CRY-03,CR 4.1(b)
+fleet-9.access-token,Operations,Limit the maximum lifetime of access tokens.,P0,IAC-10,"CR 1.5, CR 1.9"
+fleet-9.api-token,Operations,Limit the maximum lifetime of API tokens.,P1,IAC-10,"CR 1.5, CR 1.9"
+fleet-9.password-policy,Operations,Configure a fleet-wide password policy.,P0,"IAC-10.1, IAC-22","CR 1.5(c), CR 1.7, CR 1.7(1), CR 1.7(2), CR 1.11, CR 1.11(a), CR 1.11(b)"
+fleet-9.time,Operations,Configure fleet-wide time synchronization.,P0,"MON-07.1, SEA-20","CR 2.11(1), CR 2.11(2)"
+guest-9.tools-deactivate-appinfo,ESX,The guest OS must deactivate Appinfo information gathering unless required.,P0,CFG-03,"CR 2.2, CR 7.7"
+guest-9.tools-deactivate-containerinfo,ESX,The guest OS must deactivate ContainerInfo unless required.,P0,CFG-03,"CR 2.2, CR 7.7"
+guest-9.tools-deactivate-guestoperations,ESX,The guest OS must deactivate Guest Operations unless required.,P1,CFG-03,"CR 2.2, CR 7.7"
+guest-9.tools-deactivate-gueststoreupgrade,ESX,The guest OS must deactivate Guest Store Upgrade operations unless required.,P0,CFG-03,"CR 2.2, CR 7.7"
+guest-9.tools-deactivate-servicediscovery,ESX,The guest OS must deactivate Service Discovery unless required.,P0,CFG-03,"CR 2.2, CR 7.7"
+guest-9.tools-logs,ESX,The guest OS must enable VMware Tools logging.,P2,MON-03,CR 2.8
+installer-9.security,Installer,"The VCF Installer appliance must be removed or powered off after deployment completes, unless it has been converted into the SDDC Manager.",P0,CFG-03,"CR 2.2, CR 7.7"
+networks-9.audit-identity,Operations for Networks,Capture user identity in VCF Operations for Networks audit logs.,P0,MON-03,CR 2.8
+networks-9.login-message,Operations for Networks,Configure the VCF Operations for Networks login banner.,P1,SEA-18,CR 1.12
+nsx-9.account-lockout-max-attempts,NSX,NSX Manager must enforce an account lockout after consecutive failed authentication attempts.,P0,IAC-22,"CR 1.11, CR 1.11(a), CR 1.11(b)"
+nsx-9.backup,NSX,Configure scheduled backups of NSX Manager.,P0,BCD-11,CR 7.3
+nsx-9.bgp-encryption,NSX,Enable BGP authentication on Tier-0 Gateway peers with a unique password per autonomous system.,"P0, Upon Feature Enablement","CRY-04, NET-09","CR 3.1, CR 3.1(1), CR 3.8, CR 3.8(a), CR 3.8(b), CR 3.8(c)"
+nsx-9.bgp-max-prefixes,NSX,Configure BGP maximum prefix limits on Tier-0 Gateway neighbors.,"P0, Upon Feature Enablement",NET-02.1,"CR 7.1, CR 7.1(1)"
+nsx-9.ceip-disable,NSX,Disable the NSX Manager Customer Experience Improvement Program.,P1,CFG-03,"CR 2.2, CR 7.7"
+nsx-9.dhcp-disable,NSX,NSX Tier-0 Gateway must not enable DHCP unless it is required.,P2,CFG-03,"CR 2.2, CR 7.7"
+nsx-9.ibgp-source-loopback,NSX,Configure Tier-0 Gateway iBGP peering to use the loopback address as the source.,"P0, Upon Feature Enablement",NET-03,"CR 5.2, NDR 5.2"
+nsx-9.load-balancer-fips,NSX,Enable FIPS-validated cryptography for NSX load balancers.,P0,"CRY-01, CRY-03","CR 4.1(b), CR 4.3"
+nsx-9.log-level,NSX,NSX Manager must set service logging levels to capture audit-relevant events.,P0,MON-03,CR 2.8
+nsx-9.login-message,NSX,Configure the NSX Manager login banner.,P1,SEA-18,CR 1.12
+nsx-9.multicast-disable,NSX,NSX Tier-0 Gateway must disable multicast and PIM where they are not required.,P2,CFG-03,"CR 2.2, CR 7.7"
+nsx-9.ospf-encryption,NSX,NSX Tier-0 Gateway must enable OSPF authentication.,"P0, Upon Feature Enablement","CRY-04, NET-09","CR 3.1, CR 3.1(1), CR 3.8, CR 3.8(a), CR 3.8(b), CR 3.8(c)"
+nsx-9.password-complexity,NSX,Enforce password complexity on NSX Manager local accounts.,P0,IAC-10.1,"CR 1.5(c), CR 1.7, CR 1.7(1), CR 1.7(2)"
+nsx-9.reverse-path-forwarding,NSX,NSX Tier-0 Gateway must enable unicast Reverse Path Forwarding to drop spoofed-source packets.,"P0, Upon Feature Enablement","NET-02.1, NET-03","CR 5.2, CR 7.1, CR 7.1(1), NDR 5.2"
+nsx-9.service-resilience,NSX,"When NSX Manager runs as a multi-node cluster, DRS anti-affinity rules must separate the nodes across hosts.","P0, Upon Feature Enablement",BCD-12.2,"CR 2.10(b), CR 7.1"
+nsx-9.snmp,NSX,NSX Manager must not use SNMP v1 or v2c.,P2,CFG-03,"CR 2.2, CR 7.7"
+nsx-9.ssh,NSX,The NSX Manager SSH service must be deactivated except for temporary diagnostic use.,P2,CFG-03,"CR 2.2, CR 7.7"
+nsx-9.t0-ipv6-hop-limit,NSX,The NSX Tier-0 Gateway must advertise a sufficient IPv6 Router Advertisement hop limit.,P2,NET-02.1,"CR 7.1, CR 7.1(1)"
+nsx-9.t1-dhcp-disable,NSX,Disable Tier-1 Gateway DHCP service when not in use.,P2,CFG-03,"CR 2.2, CR 7.7"
+nsx-9.t1-ipv6-hop-limit,NSX,The NSX Tier-1 Gateway must advertise a sufficient IPv6 Router Advertisement hop limit.,P2,NET-02.1,"CR 7.1, CR 7.1(1)"
+nsx-9.t1-multicast-disable,NSX,Disable Tier-1 Gateway multicast when not in use.,P2,CFG-03,"CR 2.2, CR 7.7"
+nsx-9.timezone-utc,NSX,Set NSX Manager timezone to UTC for consistent audit timestamps.,P2,MON-07,CR 2.11
+nsx-9.tls-ciphers,NSX,NSX Manager must use TLS with approved protocol versions and cipher suites.,P2,CRY-03,CR 4.1(b)
+operations-9.account-lockout,Operations,VCF Operations must lock accounts after consecutive failed logon attempts.,P0,IAC-22,"CR 1.11, CR 1.11(a), CR 1.11(b)"
+operations-9.ceip-disable,Operations,Disable the VCF Operations Customer Experience Improvement Program.,P1,CFG-03,"CR 2.2, CR 7.7"
+operations-9.certificates-validation,Operations,VCF Operations must activate certificate validation.,P0,IAC-10.2,"CR 1.9(a), CR 1.9(b), CR 1.9(c)"
+operations-9.concurrent-sessions,Operations,VCF Operations must limit the number of concurrent sessions.,P0,IAC-23,CR 2.7
+operations-9.firewall-hardening,Operations,VCF Operations must enable firewall hardening.,P0,"NET-03, NET-04.1","CR 5.2, CR 5.3, NDR 1.13(1), NDR 5.2, NDR 5.2(1), NDR 5.2(2), NDR 5.3"
+operations-9.in-page-feedback,Operations,Disable VCF Operations in-page feedback.,P1,CFG-03,"CR 2.2, CR 7.7"
+operations-9.login-message,Operations,Configure the VCF Operations login banner.,P1,SEA-18,CR 1.12
+operations-9.logs-authenticated-ingestion,Operations,Require authenticated log ingestion in VCF Operations.,P0,MON-08,"CR 3.9, CR 6.1, CR 6.1(1)"
+operations-9.logs-ssl-api,Operations,Enable SSL for API log ingestion in VCF Operations.,P2,"CRY-03, CRY-04","CR 3.1, CR 3.1(1), CR 4.1(b)"
+operations-9.logs-ssl-syslog,Operations,Enable SSL for syslog log ingestion in VCF Operations.,P2,"CRY-03, CRY-04","CR 3.1, CR 3.1(1), CR 4.1(b)"
+operations-9.password-complexity,Operations,Enforce password complexity on VCF Operations local accounts.,P2,IAC-10.1,"CR 1.5(c), CR 1.7, CR 1.7(1), CR 1.7(2)"
+operations-9.service-resilience,Operations,"When VCF Operations runs as a multi-node cluster, DRS anti-affinity rules must separate the nodes across hosts.","P0, Upon Feature Enablement",BCD-12.2,"CR 2.10(b), CR 7.1"
+operations-9.unsigned-pak,Operations,VCF Operations must disable unsigned management pack installation.,P2,CHG-04.2,"CR 3.4(1), EDR 2.4(1), HDR 3.10(1), NDR 3.10(1)"
+pnr-9.ssh,Protection and Recovery,The VCF Protection and Recovery appliance SSH service must be deactivated except for temporary diagnostic use.,P0,CFG-03,"CR 2.2, CR 7.7"
+pnr-9.time,Protection and Recovery,The VCF Protection and Recovery appliance must synchronize its clock with organizational reference sources.,P0,"MON-07.1, SEA-20","CR 2.11(1), CR 2.11(2)"
+sddc-9.api-admin,SDDC Manager,SDDC Manager must configure the API admin account.,P2,IAC-10.8,"CR 1.5(a), CR 1.5(b)"
+sddc-9.basic-auth-disable,SDDC Manager,Disable HTTP Basic Authentication on the SDDC Manager API.,P0,IAC-10,"CR 1.5, CR 1.9"
+vcenter-9.account-lockout-duration,vCenter,Set the vCenter account auto-unlock interval.,P2,IAC-22,"CR 1.11, CR 1.11(a), CR 1.11(b)"
+vcenter-9.account-lockout-max-attempts,vCenter,Lock vCenter accounts after repeated failed login attempts.,P2,IAC-22,"CR 1.11, CR 1.11(a), CR 1.11(b)"
+vcenter-9.account-lockout-reset,vCenter,Set the vCenter failed-login counting interval.,P1,IAC-22,"CR 1.11, CR 1.11(a), CR 1.11(b)"
+vcenter-9.ceip-disable,vCenter,Disable the vCenter Customer Experience Improvement Program.,P1,CFG-03,"CR 2.2, CR 7.7"
+vcenter-9.client-feedback,vCenter,Disable vSphere Client in-product feedback.,P1,CFG-03,"CR 2.2, CR 7.7"
+vcenter-9.client-telemetry,vCenter,Disable vSphere Client UI telemetry.,P1,CFG-03,"CR 2.2, CR 7.7"
+vcenter-9.content-library-ovf,vCenter,VMware vCenter must enable the OVF security policy on content libraries.,"P0, Upon Feature Enablement",CHG-04.2,"CR 3.4(1), EDR 2.4(1), HDR 3.10(1), NDR 3.10(1)"
+vcenter-9.drs,vCenter,VMware vCenter must enable the Distributed Resource Scheduler for resilience and to enable automated patching.,P0,CAP-01,CR 7.2
+vcenter-9.etc-issue,vCenter,Configure the vCenter SSH login banner (/etc/issue).,P1,SEA-18,CR 1.12
+vcenter-9.login-message,vCenter,Configure the vCenter login banner for the vSphere Client.,P1,SEA-18,CR 1.12
+vcenter-9.logs-level-global,vCenter,Configure the vCenter logging level to capture security-relevant events.,P2,MON-03,CR 2.8
+vcenter-9.network-mac-learning,vCenter,Disable MAC learning on distributed switch port groups unless a workload requires it.,P2,NET-03,"CR 5.2, NDR 5.2"
+vcenter-9.network-nioc,vCenter,Enable Network I/O Control on distributed switches.,P2,NET-02.1,"CR 7.1, CR 7.1(1)"
+vcenter-9.network-reject-forged-transmit-dvportgroup,vCenter,Reject forged transmits on distributed switches and port groups.,P2,NET-03,"CR 5.2, NDR 5.2"
+vcenter-9.network-reject-mac-changes-dvportgroup,vCenter,Reject guest MAC address changes on distributed switches and port groups.,P2,NET-03,"CR 5.2, NDR 5.2"
+vcenter-9.network-reject-promiscuous-mode-dvportgroup,vCenter,Reject promiscuous mode on distributed switches and port groups.,P2,NET-04,NDR 1.13(1)
+vcenter-9.network-reset-port,vCenter,Reset distributed switch port configuration when a virtual machine disconnects.,P2,NET-03,"CR 5.2, NDR 5.2"
+vcenter-9.network-restrict-discovery-protocol,vCenter,Disable CDP/LLDP discovery protocols on distributed switches unless required.,P1,CFG-03,"CR 2.2, CR 7.7"
+vcenter-9.network-restrict-netflow-usage,vCenter,Send distributed switch NetFlow data only to authorized collectors.,P2,"NET-03, NET-04","CR 5.2, NDR 1.13(1), NDR 5.2"
+vcenter-9.network-restrict-port-level-overrides,vCenter,"Disallow per-port policy overrides on distributed port groups, except port blocking.",P2,NET-03,"CR 5.2, NDR 5.2"
+vcenter-9.network-restrict-port-mirroring,vCenter,Remove unauthorized port mirroring sessions on distributed switches.,P2,NET-03,"CR 5.2, NDR 5.2"
+vcenter-9.network-vgt,vCenter,Restrict VLAN trunking (Virtual Guest Tagging) on distributed port groups to authorized VMs.,P2,NET-04,NDR 1.13(1)
+vcenter-9.password-complexity,vCenter,Enforce password complexity for vCenter SSO accounts.,P0,IAC-10.1,"CR 1.5(c), CR 1.7, CR 1.7(1), CR 1.7(2)"
+vcenter-9.password-history,vCenter,Restrict password reuse on vCenter SSO accounts.,P2,IAC-10.1,"CR 1.5(c), CR 1.7, CR 1.7(1), CR 1.7(2)"
+vcenter-9.password-max-age,vCenter,Disable forced password expiration on vCenter SSO accounts.,P1,IAC-10.1,"CR 1.5(c), CR 1.7, CR 1.7(1), CR 1.7(2)"
+vcenter-9.service-resilience-ha,vCenter,Enable vSphere High Availability on clusters.,P0,BCD-12.2,"CR 2.10(b), CR 7.1"
+vcenter-9.smtp,vCenter,Send vCenter notification email over a secure SMTP connection.,"P0, Upon Feature Enablement",CRY-03,CR 4.1(b)
+vcenter-9.snmp,vCenter,Disable SNMP v1 and v2c receivers on vCenter.,P2,CFG-03,"CR 2.2, CR 7.7"
+vcenter-9.snmp3,vCenter,Enforce SNMPv3 authentication and privacy where SNMP is enabled on vCenter.,"P0, Upon Feature Enablement",CRY-01,CR 4.3
+vcenter-9.ssh,vCenter,Deactivate SSH access to the vCenter appliance except for temporary diagnostic use.,P2,CFG-03,"CR 2.2, CR 7.7"
+vcenter-9.time,vCenter,vCenter must synchronize its clock with organizational reference sources.,P0,"MON-07.1, SEA-20","CR 2.11(1), CR 2.11(2)"
+vcenter-9.tls-ciphers,vCenter,"vCenter's TLS profile must restrict negotiated ciphers and protocols to a modern, approved set.",P0,CRY-03,CR 4.1(b)
+vcenter-9.vami-firewall-restrict-access,vCenter,Configure the vCenter appliance firewall to allow inbound traffic only from authorized networks.,P0,NET-04.1,"CR 5.3, NDR 1.13(1), NDR 5.2(1), NDR 5.2(2), NDR 5.3"
+vcenter-9.vami-password-max-age,vCenter,Disable forced password expiration on the vCenter appliance root account.,P0,IAC-10.1,"CR 1.5(c), CR 1.7, CR 1.7(1), CR 1.7(2)"
+vcenter-9.vds-health-check-disable,vCenter,Disable the vSphere Distributed Switch health check when not troubleshooting.,P2,CFG-03,"CR 2.2, CR 7.7"
+vcenter-9.vpxuser-length,vCenter,Keep the vpxuser password at or above its default length.,P2,IAC-10.1,"CR 1.5(c), CR 1.7, CR 1.7(1), CR 1.7(2)"
+vcf-9.mfa,VCF,Integrate VMware Cloud Foundation with an identity provider that enforces multifactor authentication.,P0,IAC-02,CR 1.1
+vcf-9.perimeter-firewall,VCF,Limit access to VCF component management interfaces with perimeter firewalls.,P0,NET-04.1,"CR 5.3, NDR 1.13(1), NDR 5.2(1), NDR 5.2(2), NDR 5.3"
+vcf-9.secure-baseline,VCF,"Apply the controls in this guidance, and document the rationale for any deviations.",P1,CFG-02,"CR 2.2, CR 7.6"
+vm-9.deactivate-console-copy,ESX,Virtual machines must have console copy operations deactivated.,P2,CFG-03,"CR 2.2, CR 7.7"
+vm-9.deactivate-console-paste,ESX,Virtual machines must have console paste operations deactivated.,P2,CFG-03,"CR 2.2, CR 7.7"
+vm-9.deactivate-disk-shrinking-shrink,ESX,Virtual machines must have virtual disk shrinking operations deactivated.,P2,CFG-03,"CR 2.2, CR 7.7"
+vm-9.deactivate-disk-shrinking-wiper,ESX,Virtual machines must have virtual disk wiping operations deactivated.,P2,CFG-03,"CR 2.2, CR 7.7"
+vm-9.deactivate-non-essential-3d-features,ESX,Virtual machines must have 3D graphics features deactivated when not required.,P2,CFG-03,"CR 2.2, CR 7.7"
+vm-9.dvfilter,ESX,Virtual machines must limit access through the dvFilter API.,P2,"CFG-03, NET-04","CR 2.2, CR 7.7, NDR 1.13(1)"
+vm-9.efi-boot-types,ESX,Virtual machines must prevent booting from unauthorized sources.,P0,"CFG-03, END-06.5","CR 2.2, CR 3.14, CR 7.7, EDR 3.14, HDR 3.14, NDR 3.14"
+vm-9.ft-encrypted,ESX,Virtual machines must require encryption for Fault Tolerance.,P1,"CRY-03, CRY-04","CR 3.1, CR 3.1(1), CR 4.1(b)"
+vm-9.isolation-device-connectable-deactivate,ESX,"Virtual machines must prevent unauthorized removal, connection, and modification of devices.",P2,CFG-03,"CR 2.2, CR 7.7"
+vm-9.isolation-tools-dnd-deactivate,ESX,Virtual machines must have console drag and drop operations deactivated.,P2,CFG-03,"CR 2.2, CR 7.7"
+vm-9.limit-console-connections,ESX,Virtual machines must limit console sharing.,P0,IAC-23,CR 2.7
+vm-9.log-enable,ESX,Virtual machines must enable diagnostic logging.,P2,MON-03,CR 2.8
+vm-9.log-retention,ESX,Virtual machines must limit the number of retained diagnostic logs.,P2,MON-04,"CR 2.9(a), CR 2.9(b)"
+vm-9.log-rotation-size,ESX,Virtual machines must limit the size of diagnostic logs.,P2,MON-04,"CR 2.9(a), CR 2.9(b)"
+vm-9.pci-passthrough,ESX,Virtual machines must limit PCI device passthrough functionality.,P2,CFG-03,"CR 2.2, CR 7.7"
+vm-9.persistent-disk,ESX,"Virtual machines must not use independent, nonpersistent disks.",P2,CFG-03,"CR 2.2, CR 7.7"
+vm-9.remove-unnecessary-devices,ESX,Virtual machines must remove unnecessary virtual hardware.,P0,CFG-03,"CR 2.2, CR 7.7"
+vm-9.restrict-host-info,ESX,Virtual machines must not be able to obtain host information from the hypervisor.,P2,CFG-03,"CR 2.2, CR 7.7"
+vm-9.secure-boot,ESX,The guest OS must enable Secure Boot.,P0,"END-06.5, END-06.6","CR 3.14, EDR 3.14, EDR 3.14(1), HDR 3.14, HDR 3.14(1), NDR 3.14, NDR 3.14(1)"
+vm-9.vmotion-encrypted,ESX,Virtual machines must require encryption for vMotion.,P1,"CRY-03, CRY-04","CR 3.1, CR 3.1(1), CR 4.1(b)"
+vm-9.vmrc-lock,ESX,Virtual machines must be configured to lock when the last console connection is closed.,P0,IAC-24,"CR 2.5, CR 2.5(a), CR 2.5(b)"
+vsan-9.automatic-rebalance,vSAN,vSAN must enable automatic data rebalancing.,P0,CAP-01,CR 7.2
+vsan-9.encryption-rest,vSAN,vSAN must protect data at rest.,P0,CRY-05,CR 4.1(a)
+vsan-9.encryption-transit-esa,vSAN,vSAN must protect data in transit between hosts.,P2,"CRY-03, CRY-04","CR 3.1, CR 3.1(1), CR 4.1(b)"
+vsan-9.encryption-transit-osa,vSAN,vSAN must protect data in transit between hosts.,P0,"CRY-03, CRY-04","CR 3.1, CR 3.1(1), CR 4.1(b)"
+vsan-9.file-services-access-control-nfs,vSAN,NFS file shares on vSAN File Services must be configured to restrict access.,"P0, Upon Feature Enablement","NET-04, NET-04.1","CR 5.3, NDR 1.13(1), NDR 5.2(1), NDR 5.2(2), NDR 5.3"
+vsan-9.file-services-authentication-smb,vSAN,SMB file shares on vSAN File Services must require protocol encryption.,"P0, Upon Feature Enablement","CRY-03, CRY-04","CR 3.1, CR 3.1(1), CR 4.1(b)"
+vsan-9.hcl-internet,vSAN,Disable or proxy the vSAN Health Check Hardware Compatibility List (HCL) download.,P1,"CFG-03, NET-03","CR 2.2, CR 5.2, CR 7.7, NDR 5.2"
+vsan-9.iscsi-mutual-chap,vSAN,vSAN iSCSI target must enable bidirectional/mutual CHAP authentication.,"P0, Upon Feature Enablement",IAC-04,"CR 1.2, CR 1.2(1)"
+vsan-9.network-isolation-vsan-iscsi-target,vSAN,Isolate vSAN iSCSI Target traffic on dedicated VMkernel interfaces.,"P0, Upon Feature Enablement","NET-03, NET-06","CR 5.1, CR 5.2, NDR 5.2"
+vsan-9.operations-reserve,vSAN,vSAN must reserve space to complete internal maintenance operations.,P0,CAP-01,CR 7.2
+vsan-9.rekey-interval,vSAN,Re-issue vSAN encryption Key Encryption Keys (KEKs) on a regular schedule.,P1,CRY-09,"CR 1.9(d), CR 1.9(e), CR 1.9(f)"
+vsan-9.storage-cluster-traffic-protection,vSAN,vSAN Storage Cluster compute-to-storage traffic must be encrypted or isolated.,"P0, Upon Feature Enablement","CRY-03, NET-06","CR 4.1(b), CR 5.1"

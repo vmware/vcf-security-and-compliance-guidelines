@@ -1,0 +1,2 @@
+Control ID,Description,Bridging SCF Controls,Relevant SCG Controls
+GOVERN 1.7,Processes and procedures are in place for decommissioning and phasing out AI systems safely and in a manner that does not increase risks or decrease the organization’s trustworthiness.,"AST-30, TDA-17","esx-9.supported, installer-9.security, vcenter-9.supported"
