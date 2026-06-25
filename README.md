@@ -6,7 +6,7 @@ The permanent link https://brcm.tech/vcf-security is maintained as a stable way 
 The link https://brcm.tech/vcf-compliance is also being maintained permanently as a link into the regulatory compliance guidance below this top level directory.
 
 ## How to Use This Repository
-This repository is structured to accommodate different types of content. It is organized in a traditional manner using directory structure, which you can navigate at the top of the pages. This can be confusing at first, but once you get used to it will make sense. See the "Structure" section below.
+This repository is structured to accommodate different types of content. It is organized in a traditional manner using directory structure, which you can navigate at the top of the pages. This can be confusing at first, but the structure becomes easier to follow with use. See the "Structure" section below.
 
 > [!WARNING]
 > There is content stored as PDFs, Excel spreadsheets, PowerShell scripts, Markdown files, and more. GitHub cannot display all of these files, and sometimes when it does, it changes the formatting or truncates the content.

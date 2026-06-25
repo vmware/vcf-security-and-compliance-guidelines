@@ -17,12 +17,12 @@ respectively. There are older bit.ly links that are being phased out in favor of
 We have quite a number of tactical and strategic resources available to users of VMware products, answering many questions.
 
 * [vSphere Security & Compliance Playlist on YouTube](https://www.youtube.com/playlist?list=PLymLY4xJSThr22Po9uj6KTcVE6W_Xso4K)
-* [Glossary of Security Terms](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Glossary.md)
+* [Glossary of Security Terms](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Glossary.MD)
 * [Compliance & Vulnerability Scanner FAQ](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/regulatory-compliance/compliance-vulnerability-scanning-faq.md)
-* [Best Practices for Patching vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)
+* [Best Practices for Patching vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD)
 
 ## Broadcom Support Policies Applicable to Security Hardening
-Put simply, Broadcom does not support modifications to appliances or the products outside of the documented upgrade and patching processes. Security Configuration Guides, STIGs,  Compliance Kit, and other official guidance found in the Knowledge Base are all supported where the guidance used matches the version being deployed.
+Put simply, Broadcom does not support modifications to appliances or the products outside of the documented upgrade and patching processes. Security Configuration Guides, STIGs, Compliance Kit, and other official guidance found in the Knowledge Base are all supported where the guidance used matches the version being deployed.
 
 * [VMware Virtual Appliances and Customizations to Operating System and Included Packages](https://knowledge.broadcom.com/external/article?articleNumber=367354)
 * [Support for Security Technical Implementation Guides (STIGs)](https://knowledge.broadcom.com/external/article?legacyId=94398)
@@ -76,7 +76,7 @@ Broadcom maintains certifications and validations for VMware products that help 
 ## Secure System Design and Architecture
 This section grows as we update whitepapers and other resources.
 
-* [Best Practices for Patching vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)
+* [Best Practices for Patching vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD)
 * [Practical Ideas for Ransomware Resilience](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/threat-resources/Ransomware/Practical-Ideas-for-Ransomware-Resilience.md)
 * [Designing Infrastructure to Defeat Ransomware](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/designing-infrastructure-to-defeat-ransomware.pdf)
 * [Ransomware Defense and Recovery Strategies](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/ransomware-defense-and-recovery-strategies.pdf)

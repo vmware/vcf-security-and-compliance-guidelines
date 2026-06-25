@@ -39,7 +39,7 @@ Relevant Links
 
 [VMware Security Advisory Mailing List](https://go-vmware.broadcom.com/vmsa_email_alert) (please subscribe for proactive notifications of security advisories)
 
-[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md) (advice for ensuring patching success)
+[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD) (advice for ensuring patching success)
 
 [VMware Ports & Protocols](https://ports.broadcom.com/) (assistance in determining ingress & egress firewall rule sets)
 
@@ -105,7 +105,7 @@ Security updates are cumulative within a product branch. If you apply the latest
 
 Yes; vCenter is affected by this VMSA.
 
-See [“Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)” for guidance on updating vSphere components.
+See [“Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD)” for guidance on updating vSphere components.
 
 ### Do I have to update VMware ESXi?
 
@@ -173,7 +173,7 @@ No. vCenter is the management interface to a vSphere cluster. You will lose the 
 
 Yes, the patch is available through the standard update mechanisms for VMware vSphere and VMware Cloud Foundation. Consult the product documentation for the version of the product you use.
 
-See “[Best Practices for Patching VMware vSphere”](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md) for additional guidance on updating vSphere components.
+See “[Best Practices for Patching VMware vSphere”](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD) for additional guidance on updating vSphere components.
 
 ### Are there any known issues with this patch?
 

@@ -1,9 +1,5 @@
 # Security Features and Capabilities - VMware vSphere and VMware Cloud Foundation
 
-> [!NOTE]
-> This repository is a work-in-progress as content is moved from other parts of legacy VMware sites.
-> Thank you for your patience during this transition.
-
 Some of the most secure and resilient IT environments in the world are built on VMware vSphere and VMware Cloud Foundation. This directory contains a growing repository of information about the security features present in VMware ESX, VMware vCenter, and VMware Cloud Foundation.
 
 Please browse the directory structure above to find information.

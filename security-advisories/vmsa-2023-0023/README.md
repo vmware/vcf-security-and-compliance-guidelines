@@ -69,7 +69,7 @@ As of January 18, 2024 VMware is aware of exploitation “in the wild.” Please
 
 Yes; vCenter Server is affected by this VMSA.
 
-See "[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)" for guidance on patching vSphere components.
+See "[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD)" for guidance on patching vSphere components.
 
 ### Do I have to patch ESXi hosts?
 
@@ -143,7 +143,7 @@ Given the upcoming end of the vSphere 6.5 and 6.7 product lifecycles, VMware str
 
 VMware will have heightened support for issues directly related to adoption of all security patches released for VMSA-2023-0023. Issues related to patch adoption will be addressed on a best effort basis until November 14, 2023, after which vSphere 6.5 and 6.7 move to the End of Support Life phase. After that date new support cases cannot be opened for vSphere 6.5 and 6.7.
 
-Customers with Extended Support contracts can receive support for vSphere 6.5 and 6.7 through the end of their Extended Support contract, in accordance with the Support Lifecycle Policies found at [https://www.vmware.com/support/lifecycle-policies.html](https://www.vmware.com/support/lifecycle-policies.html) and [https://lifecycle.vmware.com/](https://lifecycle.vmware.com/).
+Customers with Extended Support contracts can receive support for vSphere 6.5 and 6.7 through the end of their Extended Support contract, in accordance with the Support Lifecycle Policies found at [https://support.broadcom.com/group/ecx/productlifecycle](https://support.broadcom.com/group/ecx/productlifecycle).
 
 VMware strongly recommends that customers run versions of products that are within the General Support phase of their support lifecycle, such as vSphere 7 and/or 8.
 
@@ -155,7 +155,7 @@ No.
 
 Yes, the patch will be available through the standard update mechanisms on all vCenter Server versions listed in the VMSA.
 
-See "[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.md)" for guidance on patching vSphere components.
+See "[Best Practices for Patching VMware vSphere](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/security-design/Best-Practices-for-Patching-vSphere.MD)" for guidance on patching vSphere components.
 
 ### Does this impact versions of vSphere older than 6.5?
 

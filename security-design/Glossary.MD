@@ -157,7 +157,7 @@ The process of restoring normal operations after a disruptive event, such as a n
 Domain Name Service (DNS)
 -------------------------
 
-A system that translates human-readable domain names (e.g., [www.example.com](http://www.example.com/)) into IP addresses, allowing devices to locate and communicate with each other on the internet. DNS acts as a phonebook for the internet, mapping domain names to their corresponding IP addresses.
+A system that translates human-readable domain names (e.g., [www.example.com](https://www.example.com/)) into IP addresses, allowing devices to locate and communicate with each other on the internet. DNS acts as a phonebook for the internet, mapping domain names to their corresponding IP addresses.
 
 Domain Name Service Security (DNSSEC)
 -------------------------------------

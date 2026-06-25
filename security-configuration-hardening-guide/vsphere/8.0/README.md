@@ -33,7 +33,7 @@ The Security Configuration & Hardening Guide is a kit that includes several arti
 - [**vmware-cloud-foundation-security-configuration-guide-8-guidance.pdf**](vmware-cloud-foundation-security-configuration-guide-8-guidance.pdf?raw=true) - Main guidance document
 - [**vmware-vsphere-security-configuration-guide-8-controls.xlsx**](vmware-vsphere-security-configuration-guide-8-controls.xlsx?raw=true) - Spreadsheet with the security hardening baseline controls, discussion, and PowerCLI automation examples for auditing and remediating vSphere objects
 - [**vmware-vsphere-security-configuration-guide-8-controls.csv**](vmware-vsphere-security-configuration-guide-8-controls.csv?raw=true) - CSV version of the hardening controls
-- [**tools/**](tools/) - Directory with sample vSphere auditing and remediation scripts based on VMware PowerCLI (PowerShell), and separate documentation
+- [**Tools/**](Tools/) - Directory with sample vSphere auditing and remediation scripts based on VMware PowerCLI (PowerShell), and separate documentation
 
 ## Download the Latest Version
 
@@ -103,7 +103,7 @@ This Guide contains PowerCLI examples that standardize on formatting, such as:
 
 **These code snippets can make changes that deeply affect operations and the responsibility for the impact of these changes is yours.** Test these changes in a controlled, non-production environment first, and apply them to production environments using staged rollout techniques. One easy way to build a test environment is to run ESXi inside a VM for non-production testing purposes, just as the [VMware Hands-on Labs](https://labs.hol.vmware.com/) do.
 
-This guide includes sample automation scripts for auditing & remediating certain components. Please see Appendix B in the [guidance document](vmware-cloud-foundation-security-configuration-guide-8-guidance.pdf?raw=true), or the [`tools/`](tools/) directory.
+This guide includes sample automation scripts for auditing & remediating certain components. Please see Appendix B in the [guidance document](vmware-cloud-foundation-security-configuration-guide-8-guidance.pdf?raw=true), or the [`Tools/`](Tools/) directory.
 
 We regret that while we are happy to accept constructive feedback about the code examples, we cannot supply scripting support. There are options for scripting and automation support through VMware Professional Services. Please contact your Account Executive for more information. You might also check out the thriving community at [developer.broadcom.com](https://developer.broadcom.com/).
 
