@@ -7,19 +7,19 @@ Beginning with vSphere 8.0.3, the cipher suites can be configured with TLS profi
 - [vSphere TLS Configuration](https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-security/GUID-82028A21-8AB5-4E2E-90B8-A01D1FAD77B1.html)
 - [Managing vSphere TLS](https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-security/GUID-A5FBEA1A-3680-4562-970C-58F419BDCDC8.html#GUID-A5FBEA1A-3680-4562-970C-58F419BDCDC8)
 
-While we strive for accuracy this is not a comprehensive list of ports and protocols, nor a comprehensive list of ports that are TLS-enabled. It is also limited to ingress/incoming connections to vSphere. Configurations and feature enablement differ between implementations and enabling certain features will enable additional listening network ports. For descriptions of ports & protocols please use [ports.broadcom.com](https://ports.broadcom.com/). The sample commands above were given so that interested people may be able to replicate these tests in their own environment. We encourage customers to take an active role in their security and compliance needs.
+While we strive for accuracy this is not a comprehensive list of ports and protocols, nor a comprehensive list of ports that are TLS-enabled. It is also limited to ingress/incoming connections to vSphere. Configurations and feature enablement differ between implementations and enabling certain features will enable additional listening network ports. For descriptions of ports & protocols please use [ports.broadcom.com](https://ports.broadcom.com/). Use the sample commands above to replicate these tests and verify these results in your own environment.
 
 ## How do I get better TLS ciphers on vSphere 8?
 
-If you're looking to improve the cipher selections for vSphere, and your environment is compatible with the modern ciphers, you can use the NIST_2024 profile.
+To improve the cipher selection, use the NIST_2024 profile if your environment supports the modern ciphers.
 
 1.  [Enable FIPS mode on your vCenter](https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-security/GUID-1DA131BC-CAAD-4B6C-BF66-CDFFFF63588B.html). This will cause your vCenter  to restart.
 2.  [Enable the NIST_2024 profile on vCenter](https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-security/GUID-A5FBEA1A-3680-4562-970C-58F419BDCDC8.html#GUID-A5FBEA1A-3680-4562-970C-58F419BDCDC8). This will cause your vCenter to restart again.
 3.  [Enable the NIST_2024 profile on ESXi](https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-security/GUID-A5FBEA1A-3680-4562-970C-58F419BDCDC8.html#GUID-A5FBEA1A-3680-4562-970C-58F419BDCDC8). This will require a reboot of your ESXi hosts.
 
-It is not recommended to use the MANUAL profiles; your scanner should be fine with the NIST_2024 cipher suites.
+Do not use the MANUAL profiles. The NIST_2024 cipher suites satisfy the checks that common scanners perform.
 
-If you encounter issues you can always turn these profiles off and use the COMPATIBLE profile, which will use the legacy cipher suites. Issues would come in the form of network connection failures between systems, especially connections from older clients.
+If systems fail to connect after the change (typically older clients), switch back to the COMPATIBLE profile, which restores the legacy cipher suites.
 
 ## What about HSTS and port 9080/tcp?
 
@@ -27,13 +27,13 @@ If you are here because your compliance scanner is flagging HSTS, you may be int
 
 There are other entries in the Scanning FAQ that may be of interest to you, including ["My scanner says it found insecure TLS ciphers. Am I vulnerable?"](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/regulatory-compliance/compliance-vulnerability-scanning-faq.md#my-scanner-says-it-found-insecure-tls-ciphers-am-i-vulnerable)
 
-As you see below, vSphere TLS 1.2 implementations do not contain ciphers known to be insecure (DES, RC4, etc.), or ciphers less than 128 bits, and align with the cipher strength requirements found in major regulatory and compliance frameworks. We routinely suggest to organizations that the relative risk of the default cipher settings be assessed in context with the overall security of the environment when organizations decide how to spend their limited staff time in pursuit of better security.
+As you see below, vSphere TLS 1.2 implementations do not contain ciphers known to be insecure (DES, RC4, etc.), or ciphers less than 128 bits, and align with common cipher strength requirements, such as a 128-bit minimum, found in regulatory and compliance frameworks. Assess the relative risk of the default cipher settings against the overall security of your environment before spending staff time changing them.
 
-Services that are meant to be internal to vSphere have had their cipher lists condensed as part of our ongoing effort to improve security and reduce attack surface while retaining compatibility with supported versions of vSphere. Other services have cipher suites that are chosen specifically to maximize security while retaining necessary compatibility with the larger infrastructure ecosystem. While many TLS "best practices" guides often specify more limited sets of ciphers, real-world constraints and context always factor into deployments. All of the ciphers included in vSphere 8 are considered to be secure at this time.
+We shortened the cipher lists for vSphere-internal services to reduce the attack surface while keeping compatibility with supported vSphere versions. Other services have cipher suites chosen to balance cipher strength against compatibility with the clients and systems that connect to vSphere. While many TLS "best practices" guides often specify more limited sets of ciphers, real-world constraints and context always factor into deployments. As of this document's last update, Broadcom assesses none of the default vSphere 8 ciphers as insecure.
 
 ## Disclaimer
 
-This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This  repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
 
 ## VMware vCenter Server 8.0.3 running the COMPATIBLE profile
 

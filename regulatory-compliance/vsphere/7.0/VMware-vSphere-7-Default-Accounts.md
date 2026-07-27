@@ -3,7 +3,7 @@
 Introduction
 ------------
 
-Efforts in security and regulatory compliance frequently aim to compare the default settings of VMware vSphere components with the active configurations in a given environment. This document outlines the standard accounts present in a fresh installation of VMware ESXi and VMware vCenter Server.
+Security and compliance auditors frequently compare the default settings of vSphere components with the active configuration of an environment. This document outlines the standard accounts present in a fresh installation of VMware ESXi and VMware vCenter Server.
 
 Isolating services on the same operating system using distinct user accounts is a longstanding security practice. VMware employs this approach for its appliance services where feasible.
 
@@ -16,12 +16,12 @@ This document focuses on local and default accounts. While it's possible to conf
 Disclaimer
 ----------
 
-This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This  repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
 
 Intended Audience
 -----------------
 
-This document is based on hyperconverged on-premises deployments of VMware vSphere 7.0.3, commonly referred herein to as vSphere 7. We urge readers to consistently apply patches and updates, as they are integral to maintaining a robust security stance.
+This document is based on hyperconverged on-premises deployments of VMware vSphere 7.0.3, commonly referred to herein as vSphere 7. Apply patches and updates promptly; they remove known vulnerabilities.
 
 Numerous engineered data center and hybrid cloud infrastructure products incorporate VMware vSphere in their solutions. If you use vSphere in this manner, consult the product's support if discrepancies arise.
 
@@ -45,29 +45,29 @@ The VMware Hypervisor (VMware ESXi) ships with two built-in accounts, root and d
 
 The root account is created at installation. It is required for administration and is not removable.
 
-The password can be changed both manually and programmatically through product UIs and APIs, as well as using the ‘passwd’ command at an ESXi shell. There is not a provision to automatically change or rotate the password.
+The password can be changed both manually and programmatically through product UIs and APIs, as well as using the ‘passwd’ command at an ESXi shell. The product does not automatically change or rotate the password.
 
 The password is not a “default” as it is specified by the administrator at installation.
 
-The password is subject to the ESXi password complexity and history parameters, such as Security.PasswordQualityControl. More information can be found in the [vSphere Security Configuration & Hardening Guide](https://brcm.tech/vcf-scg).
+The password is subject to the ESXi password complexity and history parameters, such as Security.PasswordQualityControl. See the [vSphere Security Configuration & Hardening Guide](https://brcm.tech/vcf-scg).
 
 The password is stored as a salted SHA512 hash, consistent with UNIX and UNIX-like operating systems.
 
-Equivalent administrative access can be granted to alternate accounts added post-install for day-to-day use by vSphere administrators, so that log monitoring alerts (Log Insight et al) can be created for direct use of this account. It is not recommended to disable shell access for this account on ESXi 8.0.0 or newer.
+After installation, create separate accounts with equivalent administrative access for day-to-day use. Then configure log monitoring (Log Insight et al) to alert on any direct use of the root account. It is not recommended to disable shell access for this account on ESXi 8.0.0 or newer (this capability is not available in ESXi 7).
 
 ### dcui
 
 The dcui account is created at installation. It is required for direct console service isolation and is not removable.
 
-The password can be changed both manually and programmatically through product UIs and APIs, as well as using the ‘passwd’ command at an ESXi shell, though it is recommended to leave it locked. There is not a provision to automatically change or rotate the password.
+The password can be changed both manually and programmatically through product UIs and APIs, as well as using the ‘passwd’ command at an ESXi shell, though it is recommended to leave it locked. The product does not automatically change or rotate the password.
 
 There is no default password. The account is locked through the UNIX standard method of replacing the password in /etc/shadow with a value incompatible with a SHA512 hash (such as ‘x’ or ‘!’ or ‘\*’).
 
-The account should not have a password configured, but if one was, it would be subject to the ESXi password complexity and history parameters, such as Security.PasswordQualityControl. More information can be found in the [vSphere Security Configuration & Hardening Guide](https://brcm.tech/vcf-scg).
+The account should not have a password configured, but if one was, it would be subject to the ESXi password complexity and history parameters, such as Security.PasswordQualityControl. See the [vSphere Security Configuration & Hardening Guide](https://brcm.tech/vcf-scg).
 
 The password, if set, would be stored as a salted SHA512 hash, consistent with UNIX and UNIX-like operating systems.
 
-There are no reasons for vSphere administrators to log into ESXi in this manner. As such, this account may have its shell access removed in ESXi 8.0.0 and newer. More information can be found in the [vSphere Security Configuration & Hardening Guide](https://brcm.tech/vcf-scg). Additionally, log monitoring alerts (Log Insight et al) can be set to alarm if this account is accessed.
+There are no reasons for vSphere administrators to log into ESXi in this manner. As such, this account may have its shell access removed in ESXi 8.0.0 and newer (not available in ESXi 7). See the [vSphere Security Configuration & Hardening Guide](https://brcm.tech/vcf-scg). Additionally, log monitoring alerts (Log Insight et al) can be set to alarm if this account is accessed.
 
 ### vpxuser
 
@@ -77,11 +77,11 @@ The password can, but should not, be changed manually via API, CLI, or UI, as vC
 
 The randomly generated password is 32 characters using four character classes (numbers, special characters, upper, and lower case). This password is randomly generated for each ESXi host.
 
-The password is subject to the ESXi password complexity and history parameters, such as Security.PasswordQualityControl. More information can be found in the [vSphere Security Configuration & Hardening Guide](https://brcm.tech/vcf-scg).
+The password is subject to the ESXi password complexity and history parameters, such as Security.PasswordQualityControl. See the [vSphere Security Configuration & Hardening Guide](https://brcm.tech/vcf-scg).
 
 The password is stored as a salted SHA512 hash on ESXi, consistent with UNIX and UNIX-like operating systems. To enable management, vCenter Server stores the vpxuser password in an encrypted format inside the vCenter Server database on the vCenter Server Appliance.
 
-This account is not removable and an alternate cannot be substituted. Shell access may be removed on ESXi 8.0.0 and newer but will impact management capabilities from vCenter Server. More discussion of this can be found above and in the [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg). There are no reasons for vSphere administrators to log into ESXi with this account, so log monitoring alerts (Log Insight et al) can be set to alarm if this account is accessed from anywhere but vCenter Server.
+This account is not removable and an alternate cannot be substituted. Shell access may be removed on ESXi 8.0.0 and newer (not available in ESXi 7) but will impact management capabilities from vCenter Server. More discussion of this can be found above and in the [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg). There are no reasons for vSphere administrators to log into ESXi with this account, so log monitoring alerts (Log Insight et al) can be set to alarm if this account is accessed from anywhere but vCenter Server.
 
 vCenter Server Appliance Default Local Accounts
 -----------------------------------------------
@@ -90,7 +90,7 @@ The VMware vCenter Server Appliance (VCSA) has numerous service accounts in orde
 
 Of these accounts, only root has a password set. The password is not a “default” as it is specified by the administrator at installation.
 
-Local account passwords can be changed both manually and programmatically through product UIs and APIs, though it is recommended to leave the accounts locked. There are no provisions to automatically change or rotate passwords. It is possible to manage these passwords using standard Linux commands outside of the product UIs and APIs.
+Local account passwords can be changed both manually and programmatically through product UIs and APIs, though it is recommended to leave the accounts locked. The product does not automatically change or rotate these passwords. It is possible to manage these passwords using standard Linux commands outside of the product UIs and APIs.
 
 Accounts that are locked are locked through the UNIX standard method of replacing the password in /etc/shadow with a value incompatible with a SHA512 hash (such as ‘x’ or ‘!’ or ‘\*’).
 
@@ -174,11 +174,11 @@ VMware vSphere Single Sign-On components have four accounts present in a “stoc
 
 The administrator account is created at installation. It is required for administration and not removable.
 
-The password can be changed both manually and programmatically through product UIs and APIs. There is not a provision to automatically change or rotate the password, nor manage it outside of the product UIs and APIs.
+The password can be changed both manually and programmatically through product UIs and APIs. The product does not automatically change or rotate the password, nor provide a way to manage it outside of the product UIs and APIs.
 
 The password is not a “default” as it is specified by the administrator at installation.
 
-The password is subject to the vSphere SSO password complexity and history settings, except for lockout, as the administrator account cannot be locked out. More information can be found in the [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg).
+The password is subject to the vSphere SSO password complexity and history settings, except for lockout, as the administrator account cannot be locked out. See the [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg).
 
 The password is stored as a SHA512 hash in the SSO LDAP subsystem.
 
@@ -190,7 +190,7 @@ The password can be changed both manually and programmatically through product U
 
 The password is not a “default” but is a randomly generated 20 character password set at installation.
 
-The password, when changed, is subject to the vSphere SSO password complexity and history settings. More information can be found in the [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg).
+The password, when changed, is subject to the vSphere SSO password complexity and history settings. See the [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg).
 
 The password is stored as a SHA512 hash in the SSO LDAP subsystem.
 
@@ -202,7 +202,7 @@ The password can be changed both manually and programmatically through product U
 
 The password is not a “default” but is a randomly generated 20 character password set at installation.
 
-The password, when changed, is subject to the vSphere SSO password complexity and history settings. More information can be found in the [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg).
+The password, when changed, is subject to the vSphere SSO password complexity and history settings. See the [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg).
 
 The password is stored as a SHA512 hash in the SSO LDAP subsystem.
 
@@ -214,6 +214,6 @@ The password can be changed both manually and programmatically through product U
 
 The password is not a “default” but is a randomly generated 20 character password set at installation.
 
-The password, when changed, is subject to the vSphere SSO password complexity and history settings. More information can be found in the [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg).
+The password, when changed, is subject to the vSphere SSO password complexity and history settings. See the [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg).
 
 The password is stored as a SHA512 hash in the SSO LDAP subsystem.

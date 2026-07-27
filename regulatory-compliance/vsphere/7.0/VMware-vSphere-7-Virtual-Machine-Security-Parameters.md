@@ -2,7 +2,7 @@
 Introduction
 ------------
 
-VMware vSphere has evolved over two decades with new features and functionality. The default settings for vSphere components have also evolved over time, as VMware balances change in the ecosystem with the need for security by default. As these changes have occurred, security guidance and best practices baselines for VMware products have tried to balance three things: security impact, operational impact, and auditability.
+Security guidance and best practices baselines for vSphere balance three things: security impact, operational impact, and auditability.
 
 Security impact is straightforward, insofar as any guidance should decrease risk, and increase confidentiality, integrity, and/or availability. Security is always a tradeoff, though, and that’s where operational impact applies. Some potential security controls have detrimental effects on the performance or operation of workloads. For instance, using the now-deprecated svga.vgaOnly control, present in older guidance, means that modern guest operating systems will not operate correctly (impacting availability). Environments are still free to use svga.vgaOnly as they see fit, but it is no longer part of our baseline recommendations.
 
@@ -11,18 +11,18 @@ Last, auditability has had an enormous impact on our guidance, in that many secu
 vSphere 7 Approach
 ------------------
 
-VMware’s goal for security in vSphere is twofold: that vSphere is as secure as is possible by default, and that vSphere security features are easy to use and operate. These goals acknowledge that security is an increasingly important task, given new threats, and that many of the people in IT who are asked to set and operate security controls are often generalists with many other IT tasks to perform. As such, VMware is changing its approach to security guidance.
+VMware’s goal for security in vSphere is twofold: that vSphere is as secure as is possible by default, and that vSphere security features are easy to use and operate. These goals acknowledge that many of the people in IT who are asked to set and operate security controls are generalists with many other IT tasks to perform. As such, VMware is changing its approach to security guidance.
 
 First, we are acknowledging the product defaults as security that workloads can inherit from the environment. Second, we are omitting guidance that is irrelevant to the security posture of the environment. If a control is not part of a product and/or does not impact security if it is set then it should no longer be listed in our baseline guidance.
 
 This is a general approach, beginning with vSphere 7 Update 3, and will start to be reflected in VMware products as well as documentation and other guidance from VMware. The vSphere Cluster Services (vCLS) agent virtual machines are a good example of this. Because they operate solely on vSphere 7 they can rely on the secure product defaults. As such, those agent virtual machines only set parameters that positively impact security beyond the defaults.
 
-Compliance guidance and other sources of guidance, from VMware and those found on the Internet from non-VMware sources may not immediately reflect these changes. There is an inertia to regulatory compliance, for example, as guidance goes through audit processes. And put frankly, guidance published outside VMware is outside of our control. However, if we do not begin somewhere we will never get anywhere, and as we move forward we will work to document these changes in ways that auditors, security professionals, and IT staff will understand, in the hopes that we can all focus more directly on what matters the most.
+Compliance guidance and other sources of guidance, from VMware and those found on the Internet from non-VMware sources may not immediately reflect these changes. There is an inertia to regulatory compliance, for example, as guidance goes through audit processes. And put frankly, guidance published outside VMware is outside of our control. We will document these changes so auditors, security professionals, and IT staff can verify them.
 
 Disclaimer
 ----------
 
-This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This  repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
 
 Intended Audience
 -----------------
@@ -107,7 +107,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -121,7 +121,7 @@ Desired Value: TRUE
 
 This parameter controls the ability for users to connect, change, and disconnect devices attached to the virtual machine.
 
-Scans for this parameter should not generate findings if the parameter is found and set to TRUE, or the parameter is omitted and using the default for virtual machines which always run in vSphere 7 environments.
+Scans for this parameter should not generate findings if the parameter is found and set to TRUE, or if the parameter is omitted, because the default is correct for virtual machines that run only in vSphere 7 environments.
 
 ### isolation.device.edit.disable
 
@@ -143,7 +143,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -157,7 +157,7 @@ Desired Value: TRUE
 
 This parameter controls the ability to copy & paste information into a guest workload using the VMware vSphere virtual machine console. This control has no effect on in-guest console connections such as that with Microsoft Remote Desktop Connection.
 
-Scans for this parameter should not generate findings if the parameter is found and set to TRUE, or the parameter is omitted and using the default for virtual machines which always run in vSphere 7 environments.
+Scans for this parameter should not generate findings if the parameter is found and set to TRUE, or if the parameter is omitted, because the default is correct for virtual machines that run only in vSphere 7 environments.
 
 ### isolation.tools.diskShrink.disable
 
@@ -169,7 +169,7 @@ Desired Value: TRUE
 
 This parameter controls the ability for in-guest users to trigger a process to reclaim disk space at the virtual disk (VMDK) level. This process can create a denial-of-service condition if used inappropriately.
 
-Scans for this parameter should not generate findings if the parameter is found and set to TRUE, or the parameter is omitted and using the default for virtual machines which always run in vSphere 7 environments.
+Scans for this parameter should not generate findings if the parameter is found and set to TRUE, or if the parameter is omitted, because the default is correct for virtual machines that run only in vSphere 7 environments.
 
 ### isolation.tools.diskWiper.disable
 
@@ -181,7 +181,7 @@ Desired Value: TRUE
 
 This parameter controls the ability for in-guest users to trigger a process to wipe disk space at the virtual disk (VMDK) level. This process can create a denial-of-service condition if used inappropriately. Software disk wiping is also inappropriate for use on modern flash memory storage.
 
-Scans for this parameter should not generate findings if the parameter is found and set to TRUE, or the parameter is omitted and using the default for virtual machines which always run in vSphere 7 environments.
+Scans for this parameter should not generate findings if the parameter is found and set to TRUE, or if the parameter is omitted, because the default is correct for virtual machines that run only in vSphere 7 environments.
 
 ### isolation.tools.dispTopoRequest.disable
 
@@ -191,7 +191,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -205,7 +205,7 @@ Desired Value: TRUE
 
 This parameter controls the ability to copy & paste information into a guest workload using the VMware vSphere virtual machine console. This control has no effect on in-guest console connections such as that with Microsoft Remote Desktop Connection.
 
-Scans for this parameter should not generate findings if the parameter is found and set to TRUE, or the parameter is omitted and using the default for virtual machines which always run in vSphere 7 environments.
+Scans for this parameter should not generate findings if the parameter is found and set to TRUE, or if the parameter is omitted, because the default is correct for virtual machines that run only in vSphere 7 environments.
 
 ### isolation.tools.getCreds.disable
 
@@ -215,7 +215,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -227,9 +227,11 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
+
+### isolation.tools.ghi.launchmenu.change
 
 Status: Unexposed/unimplemented feature on VMware ESXi 7.
 
@@ -237,7 +239,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -249,7 +251,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -261,7 +263,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -273,7 +275,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -285,7 +287,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -297,7 +299,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -311,7 +313,7 @@ Desired Value: TRUE
 
 This parameter controls the ability to copy & paste information into a guest workload using the VMware vSphere virtual machine console. This control has no effect on in-guest console connections such as that with Microsoft Remote Desktop Connection.
 
-Scans for this parameter should not generate findings if the parameter is found and set to TRUE, or the parameter is omitted and using the default for virtual machines which always run in vSphere 7 environments.
+Scans for this parameter should not generate findings if the parameter is found and set to TRUE, or if the parameter is omitted, because the default is correct for virtual machines that run only in vSphere 7 environments.
 
 ### isolation.tools.setGUIOptions.enable
 
@@ -323,7 +325,7 @@ Desired Value: FALSE
 
 This parameter controls the ability to copy & paste information into a guest workload using the VMware vSphere virtual machine console. This control has no effect on in-guest console connections such as that with Microsoft Remote Desktop Connection.
 
-Scans for this parameter should not generate findings if the parameter is found and set to FALSE, or the parameter is omitted and using the default for virtual machines which always run in vSphere 7 environments.
+Scans for this parameter should not generate findings if the parameter is found and set to FALSE, or if the parameter is omitted, because the default is correct for virtual machines that run only in vSphere 7 environments.
 
 ### isolation.tools.trashFolderState.disable
 
@@ -333,7 +335,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -345,7 +347,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -357,7 +359,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -369,7 +371,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -381,7 +383,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -393,7 +395,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -405,7 +407,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -417,7 +419,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -431,7 +433,7 @@ Desired Value: TRUE
 
 This parameter controls the ability to copy & paste information into a guest workload using the VMware vSphere virtual machine console. This control has no effect on in-guest console connections such as that with Microsoft Remote Desktop Connection.
 
-Scans for this parameter should not generate findings if the parameter is found and set to TRUE, or the parameter is omitted and using the default for virtual machines which always run in vSphere 7 environments.
+Scans for this parameter should not generate findings if the parameter is found and set to TRUE, or if the parameter is omitted, because the default is correct for virtual machines that run only in vSphere 7 environments.
 
 ### log.keepOld
 
@@ -465,7 +467,7 @@ Default Value: TRUE
 
 Desired Value: FALSE
 
-This parameter disables the 3D functionality available in the virtual machine graphics adapters to reduce potential attack surface for workloads that do not require 3D. It is also exposed as a checkbox in the virtual machine configuration UI.
+This parameter controls the 3D graphics functionality available in the virtual machine graphics adapters. Set it to FALSE for workloads that do not need 3D to reduce the attack surface. It is also exposed as a checkbox in the virtual machine configuration UI.
 
 Scans for this parameter should not generate findings if the parameter is found and set to FALSE.
 
@@ -477,7 +479,7 @@ Default Value: 40
 
 Desired Value: 1
 
-This parameter controls how many simultaneous connections are allowed to the VMware vSphere virtual machine console. This control has no effect on in-guest console connections such as that with Microsoft Remote Desktop Connection. Please note that virtual machine console connections proxied through vCenter Server (the default in vSphere 7) will warn of simultaneous connections, so setting this higher can help compensate for disconnected sessions counting towards the total, or denial-of-service effects from having the number set low.
+This parameter controls how many simultaneous connections are allowed to the VMware vSphere virtual machine console. This control has no effect on in-guest console connections such as that with Microsoft Remote Desktop Connection. Virtual machine console connections proxied through vCenter Server (the default in vSphere 7) warn of simultaneous connections. A value higher than 1 can compensate for disconnected sessions counting towards the total, or for denial-of-service effects when the limit is set low.
 
 Scans for this parameter should not generate findings if the parameter is found and set to 1.
 
@@ -489,7 +491,7 @@ Default Value: N/A
 
 Desired Value: N/A
 
-The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless there is a specific regulatory compliance desire to keep it.
+The presence or absence of this parameter does not change the security posture of workloads running on vSphere-based infrastructure. Consider removing from implementations unless a compliance requirement obliges you to keep it.
 
 Scans for this parameter should not generate findings.
 
@@ -503,7 +505,7 @@ Desired Value: 2
 
 This parameter controls Transparent Page Sharing (TPS), an approach to deduplicating memory between virtual machines. Security and performance concerns with TPS, coupled with TPS not operating on the large memory pages used by modern compute hardware, informs this default and recommendation. More information can be found at: [https://knowledge.broadcom.com/external/article?legacyId=2097593](https://knowledge.broadcom.com/external/article?legacyId=2097593)
 
-Scans for this parameter should not generate findings if the parameter is found and set to 2, or the parameter is omitted and using the default for virtual machines which always run in vSphere 7 environments.
+Scans for this parameter should not generate findings if the parameter is found and set to 2, or if the parameter is omitted, because the default is correct for virtual machines that run only in vSphere 7 environments.
 
 ### svga.vgaOnly
 
@@ -515,7 +517,7 @@ Desired Value: FALSE
 
 This parameter limits a virtual machine to only Super VGA (SVGA) graphics functionality. This has significant negative impacts on modern guest operating system support and has been deprecated as part of our guidance. Customers can still disable 3D functionality with the mks.enable3d parameter.
 
-Scans for this parameter should not generate findings if the parameter is found and set to FALSE, or the parameter is omitted and using the default for virtual machines which always run in vSphere 7 environments.
+Scans for this parameter should not generate findings if the parameter is found and set to FALSE, or if the parameter is omitted, because the default is correct for virtual machines that run only in vSphere 7 environments.
 
 ### tools.guest.desktop.autolock
 
@@ -539,7 +541,7 @@ Desired Value: FALSE
 
 You can integrate virtual machine performance counters for CPU and memory into PerfMon for Linux and Microsoft Windows guest operating systems. This feature makes detailed information about the physical host available to the guest operating system. An adversary could potentially use this information to inform further attacks on the host.
 
-Scans for this parameter should not generate findings if the parameter is found and set to FALSE, or the parameter is omitted and using the default for virtual machines which always run in vSphere 7 environments.
+Scans for this parameter should not generate findings if the parameter is found and set to FALSE, or if the parameter is omitted, because the default is correct for virtual machines that run only in vSphere 7 environments.
 
 ### tools.setInfo.sizeLimit
 
@@ -551,4 +553,4 @@ Desired Value: 1048576
 
 This parameter limits the amount of information that can be transmitted and stored from the virtual machine to the ESXi host.
 
-Scans for this parameter should not generate findings if the parameter is found and set to 1048576, or the parameter is omitted and using the default for virtual machines which always run in vSphere 7 environments.
+Scans for this parameter should not generate findings if the parameter is found and set to 1048576, or if the parameter is omitted, because the default is correct for virtual machines that run only in vSphere 7 environments.

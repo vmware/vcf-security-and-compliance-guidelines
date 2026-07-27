@@ -5,7 +5,7 @@
 > They are retained here solely as an archive. For current releases, consult the vSphere Security
 > documentation for smart card and certificate-based authentication configuration.
 
-This directory contains smart card authentication configuration guides for VMware vCenter 6.5, 6.7, and 7.0. These describe configuring certificate-based authentication, such as US Federal Common Access Cards (CAC), against those vCenter versions.
+This directory contains smart card authentication configuration guides for VMware vCenter 6.5, 6.7, and 7.0. They describe how to configure certificate-based authentication, including with US Federal Common Access Cards (CAC), for those vCenter versions.
 
 ## Broadcom Resources
 

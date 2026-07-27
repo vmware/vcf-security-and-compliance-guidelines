@@ -2,26 +2,33 @@
 Access Control
 --------------
 
-The process of granting or denying users' access to specific resources based on their identity and permissions. It ensures that only authorized individuals can access sensitive data or perform certain actions within a system.
+The process of granting or denying users' access to specific resources based on their identity and permissions. It restricts access to sensitive data and system actions to authorized users.
 
-VMware Cloud Foundation and VMware vSphere implement a robust role-based access control permission model inside VMware vCenter, which permits administrators granular control over user permissions and capabilities.
+VMware Cloud Foundation and VMware vSphere implement a role-based access control permission model inside VMware vCenter, which gives administrators granular control over user permissions and capabilities.
 
 Advanced Persistent Threat (APT)
 --------------------------------
 
-A sophisticated, targeted, and prolonged cyberattack in which an intruder gains access to a network and remains undetected for an extended period. APTs are typically carried out by well-funded and organized groups, often with nation-state backing, and aim to steal sensitive data or disrupt critical systems. These attacks are known for their stealth, persistence, and adaptability.
+A targeted and prolonged cyberattack in which an intruder gains access to a network and remains undetected for an extended period. APTs are typically carried out by well-funded and organized groups, often with nation-state backing, and aim to steal sensitive data or disrupt critical systems. These attacks are known for their stealth, persistence, and adaptability.
 
 Air Gap
 -------
 
-A security measure that involves physically isolating a computer or network from unsecured networks, such as the public internet. This isolation helps prevent unauthorized access and potential threats from affecting the protected system or data.
+A security measure that involves physically isolating a computer or network from unsecured networks, such as the public internet. Isolation removes the network paths that remote attackers and malware would use to reach the protected system or data.
 
 VMware Cloud Foundation and VMware vSphere support air gapped environments through the limited use of online services and the availability of downloadable offline repositories for patching and updates.
 
 Attacker
 --------
 
-An individual or group that attempts to exploit vulnerabilities in systems, networks, or applications to gain unauthorized access, disrupt operations, or steal data. Attackers can be motivated by various factors, such as financial gain, political ideology, or personal reasons.
+An individual or group that attempts to exploit vulnerabilities in systems, networks, or applications to gain unauthorized access, disrupt operations, or steal data. Attackers can be motivated by financial gain, political ideology, or personal reasons.
+
+Attestation
+-----------
+
+The process of producing and verifying cryptographic evidence that a system's hardware, firmware, or software is genuine and in an expected, trustworthy state. Attestation allows one party to prove to another that a platform booted trusted code, or that a workload is running inside a genuine trusted execution environment.
+
+VMware Cloud Foundation and VMware vSphere use attestation in several ways, including host attestation with Trusted Platform Modules to verify that ESX hosts booted with Secure Boot and unmodified software, and confidential computing attestation, where workloads inside Intel TDX or AMD SEV-SNP virtual machines generate hardware-signed reports proving their integrity.
 
 Authentication
 --------------
@@ -33,7 +40,7 @@ VMware Cloud Foundation and VMware vSphere components support several different 
 Authorization
 -------------
 
-The act of determining whether a user or application has the right to conduct particular activities in a system, relying on authentication to prove the identification of the user or application. Authorization ensures that authenticated users or applications can only perform actions they are permitted to do.
+The act of determining whether a user or application has the right to conduct particular activities in a system, relying on authentication to prove the identification of the user or application. Authorization limits authenticated users and applications to the actions they are permitted to perform.
 
 VMware Cloud Foundation and VMware vSphere components support authorization of administrators and users through integrated role-based access control capabilities, as well as through connectivity to external sources such as Microsoft Active Directory and Active Directory Federation Services, Okta, Microsoft Entra ID, and Ping.
 
@@ -42,30 +49,30 @@ Availability
 
 The assurance that a system or resource is accessible and functional when needed. Availability is one of the three core tenets of information security, alongside confidentiality and integrity.
 
-VMware Cloud Foundation and VMware vSphere have numerous availability features to help keep workloads and data available, including vMotion and Cross-vCenter vMotion, Distributed Resource Scheduler, vSphere High Availability, Reliable Memory, network and storage I/O control, customizable vSAN storage policies, vSAN stretched clusters, proactive health checks, and more.
+VMware Cloud Foundation and VMware vSphere help keep workloads and data available with features including vMotion and Cross-vCenter vMotion, Distributed Resource Scheduler, vSphere High Availability, Reliable Memory, network and storage I/O control, customizable vSAN storage policies, vSAN stretched clusters, and proactive health checks.
 
 Backup
 ------
 
-The process of creating copies of data to enable recovery in case of data loss or corruption. A proper backup strategy helps organizations restore data and maintain business continuity in the event of a disaster, cyberattack, or system failure. It should include regular, scheduled data copies to separate storage media or systems, version control to maintain multiple historical copies, and a retention policy to ensure that backups are kept for a sufficient period to meet recovery requirements. Additionally, backups should be tested regularly to verify their integrity and the ability to restore data successfully.
+The process of creating copies of data to enable recovery in case of data loss or corruption. A proper backup strategy lets an organization restore data and maintain business continuity after a disaster, cyberattack, or system failure. It should include regular, scheduled data copies to separate storage media or systems, version control to maintain multiple historical copies, and a retention policy that keeps backups long enough to meet recovery requirements. Additionally, backups should be tested regularly to verify their integrity and the ability to restore data successfully.
 
-It's important to note that storing data on the same device or system as the original data does not qualify as a backup, as it does not protect against hardware failure, theft, or other localized risks. Similarly, using sync services or mirroring alone does not constitute a backup, as changes made to the original data, including deletions or corruptions, are immediately reflected in the synced or mirrored location. Proper backups should be independent of the original data location and protected against common risks.
+Storing data on the same device or system as the original data is not a backup; it does not protect against hardware failure, theft, or other localized risks. Similarly, using sync services or mirroring alone does not constitute a backup, as changes made to the original data, including deletions or corruptions, are immediately reflected in the synced or mirrored location. Proper backups should be independent of the original data location and protected against common risks.
 
 VMware Cloud Foundation and VMware vSphere provide standard APIs and access methods to a large ecosystem of partners specializing in backup and restore software and solutions.
 
 Business Continuity
 -------------------
 
-The capability of an organization to maintain essential functions during and after a disruption, such as a natural disaster, cyberattack, or equipment failure. Business continuity planning involves identifying critical processes, developing strategies to minimize disruptions, and ensuring the organization can recover quickly.
+The capability of an organization to maintain essential functions during and after a disruption, such as a natural disaster, cyberattack, or equipment failure. Business continuity planning involves identifying critical processes, developing strategies to minimize disruptions, and preparing the organization to recover quickly.
 
-VMware Cloud Foundation enables customers to proactively protect their environments and quickly recover from incidents and disasters through VCF Protection and Recovery (formerly VMware Live Recovery), which includes integrated ransomware recovery as well as runbook-based recovery methods for failover and subsequent failback of entire enterprise data centers.
+VMware Cloud Foundation customers can protect their environments and quickly recover from incidents and disasters through VCF Protection and Recovery (formerly VMware Live Recovery), which includes integrated ransomware recovery as well as runbook-based recovery methods for failover and subsequent failback of entire enterprise data centers.
 
 CIA Triad
 ---------
 
-An abbreviation for the core tenets of information security: confidentiality, integrity, and availability. Confidentiality ensures that data is protected from unauthorized access, integrity maintains the accuracy and consistency of data, and availability ensures that data and systems are accessible when needed.
+An abbreviation for the core tenets of information security: confidentiality, integrity, and availability. Confidentiality protects data from unauthorized access, integrity maintains the accuracy and consistency of data, and availability keeps data and systems accessible when needed.
 
-Every feature in VMware Cloud Foundation and VMware vSphere fits into one or more of these three categories, making every feature a security feature.
+Every feature in VMware Cloud Foundation and VMware vSphere fits into one or more of these three categories.
 
 Clone
 -----
@@ -73,6 +80,20 @@ Clone
 An exact copy of a system, including its data, applications, and configuration settings. Cloning is often used for testing and deployment purposes, as it allows for the creation of identical systems or environments.
 
 VMware Cloud Foundation and VMware vSphere allow cloning of virtual machines, both while running and while powered off. The clones are identical except for the unique identifiers each VM has, and the MAC addresses on the virtual network interfaces.
+
+Common Vulnerabilities and Exposures (CVE)
+------------------------------------------
+
+A standardized system for identifying and cataloging publicly known cybersecurity vulnerabilities. Each CVE identifier refers to one specific vulnerability, giving vendors, researchers, and defenders a common reference when discussing, tracking, and remediating security issues.
+
+Broadcom discloses vulnerabilities in VMware products through VMware Security Advisories (VMSAs), which reference the CVE identifiers involved.
+
+Common Vulnerability Scoring System (CVSS)
+------------------------------------------
+
+An open framework for communicating the severity of software vulnerabilities. CVSS assigns a score from 0.0 to 10.0 based on metrics such as attack vector, attack complexity, privileges required, and impact to confidentiality, integrity, and availability. The score is a severity rating, not a measure of risk in a specific environment, so organizations should consider their own context when prioritizing remediation.
+
+VMware Security Advisories include CVSS scores for each vulnerability disclosed.
 
 Cyber Resilience
 ----------------
@@ -89,55 +110,62 @@ Compensating Control
 
 Security and privacy controls implemented as an alternate solution to a requirement that is not workable for an organization to implement in its original form. The sum of the compensating controls must meet the intent and requirements of the original security control. Compensating controls provide flexibility in achieving security objectives when the prescribed controls are not feasible.
 
+Confidential Computing
+----------------------
+
+The protection of data in use by performing computation inside hardware-based trusted execution environments, where memory is encrypted and isolated from the rest of the system, including the hypervisor, other workloads, and infrastructure administrators. Confidential computing complements data-at-rest and data-in-transit protections by covering the third state in which data exists.
+
+VMware Cloud Foundation supports confidential computing on a per-VM basis using Intel Trust Domain Extensions (TDX) and AMD Secure Encrypted Virtualization-Secure Nested Paging (SEV-SNP), which encrypt virtual machine memory with per-VM keys managed by the CPU itself.
+
 Confidentiality
 ---------------
 
-Ensuring that data is protected from access by unauthorized parties. Confidentiality is one of the three core tenets of information security, alongside integrity and availability.
+The assurance that data is protected from access by unauthorized parties. Confidentiality is one of the three core tenets of information security, alongside integrity and availability.
 
 Cybersecurity
 -------------
 
-The practice of protecting systems, networks, and data from digital attacks, unauthorized access, and damage. Cybersecurity involves implementing various security measures, such as firewalls, encryption, and access controls, to prevent, detect, and respond to cyber threats.
+The practice of protecting systems, networks, and data from digital attacks, unauthorized access, and damage. Cybersecurity involves implementing security measures such as firewalls, encryption, and access controls to prevent, detect, and respond to cyber threats.
 
 Data Breach
 -----------
 
-An incident where data is accessed, copied, transmitted, viewed, or stolen by an unauthorized party. A data breach can occur due to various reasons, such as weak security controls, human error, or malicious attacks. The term does not necessarily indicate the intent behind the incident; other terms such as “data leak” and “information leakage” help convey whether a data breach was intentional or not.
+An incident where data is accessed, copied, transmitted, viewed, or stolen by an unauthorized party. A data breach can result from weak security controls, human error, or malicious attacks. The term does not necessarily indicate the intent behind the incident; other terms such as “data leak” and “information leakage” help convey whether a data breach was intentional or not.
 
 Data Encryption
 ---------------
 
-The process of converting data into a code to prevent unauthorized access. Encryption uses mathematical algorithms to transform readable data into an unreadable format, ensuring that only authorized parties with the decryption key can access the original data.
+The process of encoding data so that only holders of the decryption key can read it. Encryption uses mathematical algorithms to transform readable data into an unreadable format that can be recovered only with the decryption key.
 
 Data Exfiltration
 -----------------
 
-The unauthorized transfer of data from a computer or network to another location, often for the purpose of theft or espionage. Exfiltration can occur through various methods, such as email, file transfer, or the use of malware. Detecting and preventing data exfiltration is a critical aspect of data security.
+The unauthorized transfer of data from a computer or network to another location, often for the purpose of theft or espionage. Exfiltration methods include email, file transfer, and malware. Detecting and preventing data exfiltration is a critical aspect of data security.
 
 Data Leak
 ---------
 
-The unintentional exposure of sensitive information to an unauthorized party, often due to misconfiguration, human error, or security vulnerabilities. Data leaks can occur through various channels, such as unsecured databases, cloud storage, or emails sent to the wrong recipient.
+The unintentional exposure of sensitive information to an unauthorized party, often due to misconfiguration, human error, or security vulnerabilities. Data leaks can occur through unsecured databases, cloud storage, or emails sent to the wrong recipient.
 
 Data Loss Prevention (DLP)
 --------------------------
 
-Strategies and techniques used to ensure that sensitive data is not lost, misused, or accessed by unauthorized users. DLP solutions can identify, monitor, and protect sensitive data throughout its lifecycle, whether it's in use, in transit, or at rest.
+Strategies and techniques used to keep sensitive data from being lost, misused, or accessed by unauthorized users. DLP solutions can identify, monitor, and protect sensitive data throughout its lifecycle, whether it's in use, in transit, or at rest.
 
 Data-at-Rest Protections
 ------------------------
 
-Security measures applied to data stored on a device or system, such as encryption, access controls, and data backup. These protections help ensure the confidentiality and integrity of data when it is not being actively processed or transmitted.
+Security measures applied to data stored on a device or system, such as encryption, access controls, and data backup. These measures protect the confidentiality and integrity of data when it is not being actively processed or transmitted.
 
 Data-in-Transit Protections
 ---------------------------
 
-Security measures applied to data as it travels between systems or devices, such as encryption and secure communication protocols. These protections help ensure the confidentiality and integrity of data while it is being transmitted over networks, preventing unauthorized interception or tampering.
+Security measures applied to data as it travels between systems or devices, such as encryption and secure communication protocols. These measures protect the confidentiality and integrity of data while it is being transmitted over networks and guard against interception and tampering.
 
 Data-in-Use Protections
 -----------------------
 
-Security measures applied to data being processed or used by a system or application, such as memory encryption and access controls. These protections help ensure the confidentiality and integrity of data while it is being actively processed or accessed by authorized users or applications.
+Security measures applied to data being processed or used by a system or application, such as memory encryption and access controls. These measures protect the confidentiality and integrity of data while it is being actively processed or accessed by authorized users or applications.
 
 Defense-in-Depth
 ----------------
@@ -147,12 +175,17 @@ The application of multiple security controls in a layered manner to protect sys
 Digital Certificates
 --------------------
 
-Electronic documents that use digital signatures to bind a public key with an identity, verifying that a particular public key belongs to a specific individual or entity. Digital certificates are used to establish secure connections, authenticate users and devices, and ensure the integrity of transmitted data.
+Electronic documents that use digital signatures to bind a public key with an identity, verifying that a particular public key belongs to a specific individual or entity. Digital certificates are used to establish secure connections, authenticate users and devices, and verify the integrity of transmitted data.
+
+Digital Operational Resilience Act (DORA)
+-----------------------------------------
+
+A European Union regulation that establishes uniform requirements for the security of network and information systems supporting the financial sector. DORA covers ICT risk management, incident reporting, digital operational resilience testing, and the management of ICT third-party risk, and has applied to EU financial entities since January 2025.
 
 Disaster Recovery
 -----------------
 
-The process of restoring normal operations after a disruptive event, such as a natural disaster or cyberattack. Disaster recovery planning involves identifying critical systems and data, developing backup and restoration procedures, and testing the plan regularly to ensure its effectiveness.
+The process of restoring normal operations after a disruptive event, such as a natural disaster or cyberattack. Disaster recovery planning involves identifying critical systems and data, developing backup and restoration procedures, and testing the plan regularly to confirm its effectiveness.
 
 Domain Name Service (DNS)
 -------------------------
@@ -162,12 +195,19 @@ A system that translates human-readable domain names (e.g., [www.example.com](ht
 Domain Name Service Security (DNSSEC)
 -------------------------------------
 
-A set of extensions to DNS that provide authentication of DNS data, ensuring that the data has not been tampered with and originates from the correct source. DNSSEC uses digital signatures to verify the authenticity and integrity of DNS responses, helping to prevent DNS spoofing and cache poisoning attacks.
+A set of extensions to DNS that provide authentication of DNS data, allowing resolvers to verify that the data has not been tampered with and originates from the correct source. DNSSEC uses digital signatures to verify the authenticity and integrity of DNS responses. Validating resolvers can reject the forged responses used in DNS spoofing and cache poisoning attacks.
 
 Endpoint Detection and Response (EDR)
 -------------------------------------
 
 A security solution that monitors endpoint devices, such as computers and servers, to detect and respond to threats like malware and unauthorized access attempts. EDR solutions collect and analyze data from endpoints to identify suspicious activities and can take automated actions to contain and mitigate threats.
+
+Federal Information Processing Standards (FIPS) 140
+---------------------------------------------------
+
+A United States and Canadian government standard for validating cryptographic modules. FIPS 140-2 and its successor FIPS 140-3 define security requirements that cryptographic modules must meet, with validation performed by independent, accredited laboratories. Many government and regulated-industry requirements mandate the use of FIPS-validated cryptography.
+
+VMware products use FIPS-validated cryptographic modules, and VMware Cloud Foundation 9.x enables FIPS by default for most components.
 
 Firewall
 --------
@@ -179,10 +219,17 @@ General Data Protection Regulation (GDPR)
 
 A regulation in EU law on data protection and privacy for individuals within the European Union and the European Economic Area. GDPR sets strict requirements for how personal data must be collected, processed, and protected, and gives individuals more control over their personal data.
 
+Hardware Security Module (HSM)
+------------------------------
+
+A dedicated, hardened physical device that generates, stores, and manages cryptographic keys. HSMs are designed to resist tampering and to keep key material from ever leaving the device unprotected, and are often certified against standards such as FIPS 140.
+
+VMware Cloud Foundation and VMware vSphere can use HSM-backed key management systems through a Standard Key Provider for features such as VM Encryption, vSAN Data-at-Rest Encryption, and virtual TPMs.
+
 Health Insurance Portability and Accountability Act (HIPAA)
 -----------------------------------------------------------
 
-A U.S. federal law that establishes national standards for the protection of sensitive patient health information. HIPAA applies to covered entities (health plans, healthcare clearinghouses, and healthcare providers) and their business associates, requiring them to implement administrative, physical, and technical safeguards to ensure the confidentiality, integrity, and availability of protected health information (PHI).
+A U.S. federal law that establishes national standards for the protection of sensitive patient health information. HIPAA applies to covered entities (health plans, healthcare clearinghouses, and healthcare providers) and their business associates, requiring them to implement administrative, physical, and technical safeguards for the confidentiality, integrity, and availability of protected health information (PHI).
 
 Identity Provider (IdP)
 -----------------------
@@ -197,12 +244,12 @@ The process of uniquely recognizing and distinguishing an individual user of a s
 Immutable
 ---------
 
-Data or objects that cannot be modified after creation, ensuring data integrity and preventing tampering. Immutable storage is often used for critical data, such as audit logs or legal records, where any changes must be appended rather than overwriting the original data.
+Data or objects that cannot be modified after creation, which protects the original content from tampering. Immutable storage is often used for critical data, such as audit logs or legal records, where any changes must be appended rather than overwriting the original data.
 
 Incident
 --------
 
-An event that results in the attempted or successful unauthorized access, use, disclosure, modification, or destruction of information or interference with system operations. Incidents can be caused by various factors, such as human error, natural phenomena, or malicious attacks.
+An event that results in the attempted or successful unauthorized access, use, disclosure, modification, or destruction of information or interference with system operations. Incidents can be caused by human error, natural phenomena, or malicious attacks.
 
 Incident Response Plan
 ----------------------
@@ -212,22 +259,22 @@ A documented plan that outlines the steps an organization will take to respond t
 Indicator of Compromise (IoC)
 -----------------------------
 
-A piece of forensic evidence, such as data found in system log entries or files, that identifies potentially malicious activity on a system or network. IoCs help security teams detect, respond to, and prevent cyberattacks by providing a way to identify and track malicious actors and their methods.
+A piece of forensic evidence, such as data found in system log entries or files, that identifies potentially malicious activity on a system or network. Security teams use IoCs to identify and track malicious actors and their methods, and to detect and respond to cyberattacks.
 
 Initial Access
 --------------
 
-The first stage of a cyberattack, in which an attacker gains access to a target system or network. Initial access can be achieved through various methods, such as exploiting vulnerabilities, stealing credentials, or using social engineering techniques. Once initial access is obtained, an attacker can move laterally within the network, escalate privileges, and execute their malicious objectives.
+The first stage of a cyberattack, in which an attacker gains access to a target system or network. Initial access methods include exploiting vulnerabilities, stealing credentials, and social engineering. Once initial access is obtained, an attacker can move laterally within the network, escalate privileges, and execute their malicious objectives.
 
 Information Assurance
 ---------------------
 
-The practice of protecting the confidentiality, integrity, and availability of information and information systems. Information assurance involves implementing various security controls and processes to manage risks and ensure the reliability and trustworthiness of information.
+The practice of protecting the confidentiality, integrity, and availability of information and information systems. Information assurance involves implementing security controls and processes to manage risks and maintain the reliability and trustworthiness of information.
 
 Information Security Management System (ISMS)
 ---------------------------------------------
 
-A framework of policies and procedures for systematically managing an organization's sensitive data and ensuring information security. An ISMS helps organizations identify, assess, and mitigate information security risks, and provides a structured approach to implementing and maintaining security controls.
+A framework of policies and procedures for systematically managing an organization's sensitive data and information security. An ISMS provides a structured approach to identifying, assessing, and mitigating information security risks and to implementing and maintaining security controls.
 
 Insider Threat
 --------------
@@ -247,17 +294,24 @@ A device or software that monitors a network for malicious activity or policy vi
 Intrusion Prevention System (IPS)
 ---------------------------------
 
-A device or software that monitors network traffic for malicious activity and takes action to prevent it. An IPS is similar to an IDS but can also automatically block or prevent detected threats in real-time.
+A device or software that monitors network traffic for malicious activity and takes action to block it. An IPS is similar to an IDS but can also automatically block detected threats in real-time.
 
 IP Address Management (IPAM)
 ----------------------------
 
-A method of planning, tracking, and managing the assignment of IP addresses within a network. IPAM helps ensure the efficient allocation of IP addresses, avoids conflicts, and maintains an accurate inventory of IP address assignments.
+A method of planning, tracking, and managing the assignment of IP addresses within a network. IPAM allocates IP addresses efficiently, avoids conflicts, and maintains an accurate inventory of IP address assignments.
 
 ISO/IEC 27001
 -------------
 
-An international standard that provides a framework for establishing, implementing, maintaining, and continually improving an information security management system (ISMS). ISO/IEC 27001 specifies requirements for assessing and managing information security risks, and helps organizations demonstrate their commitment to information security best practices.
+An international standard that provides a framework for establishing, implementing, maintaining, and continually improving an information security management system (ISMS). ISO/IEC 27001 specifies requirements for assessing and managing information security risks; organizations certify against it to demonstrate their information security practices.
+
+Key Management System (KMS)
+---------------------------
+
+A system that generates, stores, distributes, rotates, and revokes cryptographic keys on behalf of other systems and applications. Enterprise key management systems commonly communicate using the Key Management Interoperability Protocol (KMIP), and may be backed by a Hardware Security Module.
+
+VMware Cloud Foundation and VMware vSphere connect to external key management systems through a Standard Key Provider, using KMIP, to supply keys for VM Encryption, vSAN Data-at-Rest Encryption, and virtual TPMs. The built-in Native Key Provider can serve the same features without an external KMS.
 
 Lateral Movement
 ----------------
@@ -272,12 +326,12 @@ The principle of granting users only the minimum access rights necessary to perf
 Malware
 -------
 
-Software designed to damage, disrupt, or gain unauthorized access to a computer system. Malware can take many forms, such as viruses, worms, Trojans, ransomware, and spyware, and can be spread through various methods, such as email attachments, downloaded files, or infected websites.
+Software designed to damage, disrupt, or gain unauthorized access to a computer system. Malware can take the form of viruses, worms, Trojans, ransomware, or spyware, and can spread through email attachments, downloaded files, or infected websites.
 
 Microsegmentation
 -----------------
 
-A security technique that divides a network into smaller, isolated segments to control traffic between them and limit the impact of a security breach. Microsegmentation allows organizations to apply granular security policies to specific workloads or applications, reducing the attack surface and making it more difficult for attackers to move laterally within the network.
+A security technique that divides a network into smaller, isolated segments to control traffic between them and limit the impact of a security breach. Microsegmentation allows organizations to apply granular security policies to specific workloads or applications. Attackers who compromise one segment cannot reach the others without crossing a policy boundary.
 
 Multifactor Authentication
 --------------------------
@@ -287,22 +341,27 @@ A security mechanism that requires users to provide two or more forms of identif
 National Institute of Standards and Technology (NIST) Cybersecurity Framework
 -----------------------------------------------------------------------------
 
-A voluntary framework developed by NIST that provides a set of industry standards and best practices to help organizations manage cybersecurity risks. The framework is designed to be flexible and adaptable to various types of organizations, regardless of size, industry, or cybersecurity sophistication.
+A voluntary framework developed by NIST that provides a set of industry standards and best practices for managing cybersecurity risks. The framework is designed to be flexible and adaptable to organizations regardless of size, industry, or cybersecurity sophistication.
 
 NIST 800-53 (Security and Privacy Controls for Federal Information Systems and Organizations)
 ---------------------------------------------------------------------------------------------
 
-A comprehensive set of security controls and guidelines developed by NIST for federal information systems and organizations. NIST 800-53 provides a flexible framework for selecting and implementing security controls based on an organization's risk assessment and the criticality of its systems and data.
+A set of security controls and guidelines developed by NIST for federal information systems and organizations. NIST 800-53 provides a flexible framework for selecting and implementing security controls based on an organization's risk assessment and the criticality of its systems and data.
 
 NIST 800-171 (Protecting Controlled Unclassified Information in Nonfederal Systems and Organizations)
 -----------------------------------------------------------------------------------------------------
 
-A set of security requirements for protecting controlled unclassified information (CUI) when it is processed, stored, or transmitted by nonfederal systems and organizations. NIST 800-171 is designed to ensure the confidentiality, integrity, and availability of CUI in nonfederal systems, and is a requirement for many federal contracts and grants.
+A set of security requirements for protecting controlled unclassified information (CUI) when it is processed, stored, or transmitted by nonfederal systems and organizations. NIST 800-171 defines safeguards for the confidentiality, integrity, and availability of CUI in nonfederal systems, and is a requirement for many federal contracts and grants.
 
 North American Electric Reliability Corporation Critical Infrastructure Protection (NERC CIP)
 ---------------------------------------------------------------------------------------------
 
 A set of standards and requirements designed to secure the assets required for operating North America's bulk electric system. NERC CIP applies to all entities responsible for the reliability and security of the bulk electric system, including generators, transmission owners, and distribution providers.
+
+NIS2 Directive
+--------------
+
+A European Union directive that establishes cybersecurity risk-management and incident-reporting requirements for essential and important entities across sectors such as energy, transport, health, and digital infrastructure. NIS2 replaces the original NIS Directive and broadens both the sectors covered and the obligations imposed, including management accountability and supply chain security.
 
 Non-Repudiation
 ---------------
@@ -317,17 +376,17 @@ An open standard for access delegation, commonly used as a way for users to gran
 Patch Management
 ----------------
 
-The process of identifying, acquiring, installing, and verifying patches for software and systems. Patches are software updates that address security vulnerabilities, fix bugs, or improve performance. Effective patch management helps organizations maintain the security and stability of their systems by ensuring that known vulnerabilities are promptly addressed.
+The process of identifying, acquiring, installing, and verifying patches for software and systems. Patches are software updates that address security vulnerabilities, fix bugs, or improve performance. Effective patch management keeps systems secure and stable by addressing known vulnerabilities promptly.
 
 Payment Card Industry Data Security Standard (PCI DSS)
 ------------------------------------------------------
 
-A set of security standards designed to ensure that all companies that accept, process, store, or transmit credit card information maintain a secure environment. PCI DSS applies to any organization that handles cardholder data, regardless of size or number of transactions, and requires them to implement a range of security controls to protect cardholder data.
+A set of security standards requiring all companies that accept, process, store, or transmit credit card information to maintain a secure environment. PCI DSS applies to any organization that handles cardholder data, regardless of size or number of transactions, and requires them to implement a range of security controls to protect cardholder data.
 
 Penetration Testing
 -------------------
 
-The practice of simulating attacks on a computer system, network, or web application to identify vulnerabilities that an attacker could exploit. Penetration testing helps organizations assess the effectiveness of their security controls and identify weaknesses that need to be addressed.
+The practice of simulating attacks on a computer system, network, or web application to identify vulnerabilities that an attacker could exploit. A penetration test reports which controls an attacker could bypass and identifies weaknesses that need to be addressed.
 
 Phishing
 --------
@@ -357,7 +416,7 @@ A type of malware that encrypts a victim's files and demands a ransom payment in
 Recovery Point Objective (RPO)
 ------------------------------
 
-The maximum amount of data that an organization is willing to lose in the event of a disruption or disaster. RPO is typically expressed as a time period, such as one hour or one day, and determines how frequently data backups need to be taken to ensure that the maximum data loss threshold is not exceeded.
+The maximum amount of data that an organization is willing to lose in the event of a disruption or disaster. RPO is typically expressed as a time period, such as one hour or one day, and determines how frequently data backups need to be taken so that the maximum data loss threshold is not exceeded.
 
 Recovery Time Objective (RTO)
 -----------------------------
@@ -372,42 +431,42 @@ Red teams are offensive security professionals who are experts in attacking syst
 Regulatory Compliance
 ---------------------
 
-The process of ensuring that an organization adheres to relevant laws, regulations, guidelines, and specifications relevant to its business processes. Regulatory compliance varies by industry and jurisdiction, and may include requirements related to data protection, privacy, financial reporting, environmental standards, and workplace safety, among others.
+An organization's adherence to the laws, regulations, guidelines, and specifications relevant to its business processes. Regulatory compliance varies by industry and jurisdiction, and may include requirements related to data protection, privacy, financial reporting, environmental standards, and workplace safety, among others.
 
 Replication
 -----------
 
-The process of creating and maintaining an exact copy of data or a system in real-time or near-real-time, often for disaster recovery or high availability purposes. Replication ensures that critical data and systems are continuously available, even in the event of a primary system failure or disruption.
+The process of creating and maintaining an exact copy of data or a system in real-time or near-real-time, often for disaster recovery or high availability purposes. Replication maintains a copy that can take over if the primary system fails or is disrupted.
 
 Responsible Disclosure (Coordinated Disclosure)
 -----------------------------------------------
 
-A vulnerability disclosure model in which a security researcher or individual who discovers a vulnerability in a system or software reports it to the owner or vendor, allowing them time to investigate and remediate the issue before disclosing it to the public. Responsible disclosure aims to minimize the risk of the vulnerability being exploited by malicious actors while ensuring that the public is informed of the issue and its resolution.
+A vulnerability disclosure model in which a security researcher or individual who discovers a vulnerability in a system or software reports it to the owner or vendor, allowing them time to investigate and remediate the issue before disclosing it to the public. Responsible disclosure aims to minimize the risk of the vulnerability being exploited by malicious actors while still informing the public of the issue and its resolution.
 
 Risk Assessment
 ---------------
 
-The process of identifying, analyzing, and evaluating potential risks to an organization's assets, operations, and objectives. Risk assessment involves determining the likelihood and impact of various risk scenarios, and prioritizing risks based on their potential consequences and the organization's risk appetite.
+The process of identifying, analyzing, and evaluating potential risks to an organization's assets, operations, and objectives. Risk assessment involves determining the likelihood and impact of risk scenarios, and prioritizing risks based on their potential consequences and the organization's risk appetite.
 
 Risk Management
 ---------------
 
-The process of identifying, assessing, and prioritizing risks, and implementing strategies to mitigate, transfer, or accept those risks. Risk management helps organizations make informed decisions about allocating resources and implementing controls to minimize the impact of potential threats and vulnerabilities.
+The process of identifying, assessing, and prioritizing risks, and implementing strategies to mitigate, transfer, or accept those risks. Risk management informs decisions about where to allocate resources and which controls to implement to minimize the impact of potential threats and vulnerabilities.
 
 Role-Based Access Control (RBAC)
 --------------------------------
 
-A method of restricting system access to authorized users based on their assigned roles within an organization. In RBAC, permissions are associated with roles, and users are assigned to these roles based on their responsibilities and qualifications. This approach simplifies access management by allowing administrators to assign permissions to roles rather than individual users, ensuring that users only have access to the resources they need to perform their job functions. RBAC helps maintain the principle of least privilege, reduces the risk of unauthorized access, and makes it easier to audit and manage user permissions across an organization.
+A method of restricting system access to authorized users based on their assigned roles within an organization. In RBAC, permissions are associated with roles, and users are assigned to these roles based on their responsibilities and qualifications. This approach simplifies access management by allowing administrators to assign permissions to roles rather than individual users, so that users only have access to the resources they need to perform their job functions. RBAC supports the principle of least privilege, reduces the risk of unauthorized access, and makes it easier to audit and manage user permissions across an organization.
 
 Secure Boot
 -----------
 
-A security standard that ensures a device boots using only software trusted by the device manufacturer, protecting against malware and unauthorized modifications to the boot process. Secure Boot verifies the digital signatures of boot loaders and operating system components, preventing the execution of untrusted code during the boot process.
+A security standard under which a device boots using only software trusted by the device manufacturer. Secure Boot verifies the digital signatures of boot loaders and operating system components before executing them, and blocks unsigned or modified code during the boot process.
 
 Secure Software Development Lifecycle (SSDLC)
 ---------------------------------------------
 
-A process that integrates security practices into the software development lifecycle, ensuring that security is considered and addressed at every stage of development, from design to deployment and maintenance.
+A process that integrates security practices into the software development lifecycle so that security is considered and addressed at every stage of development, from design to deployment and maintenance.
 
 Security Assertion Markup Language (SAML)
 -----------------------------------------
@@ -417,12 +476,12 @@ An open standard for exchanging authentication and authorization data between pa
 Security Audit
 --------------
 
-A systematic evaluation of an organization's information system's security to assess compliance with established policies, procedures, and industry standards. Security audits help identify weaknesses in security controls, prioritize remediation efforts, and provide evidence of due diligence to stakeholders and regulators.
+A systematic evaluation of an organization's information system's security to assess compliance with established policies, procedures, and industry standards. Security audits identify weaknesses in security controls, prioritize remediation efforts, and provide evidence of due diligence to stakeholders and regulators.
 
 Security Awareness Training
 ---------------------------
 
-The process of educating employees about security policies, procedures, and best practices to reduce the risk of security incidents caused by human error or negligence. Security awareness training helps create a culture of security within an organization and empowers employees to recognize and respond appropriately to potential security threats.
+The process of educating employees about security policies, procedures, and best practices to reduce the risk of security incidents caused by human error or negligence. Security awareness training builds a culture of security within an organization and prepares employees to recognize and respond appropriately to potential security threats.
 
 Security Control
 ----------------
@@ -432,7 +491,7 @@ A safeguard or countermeasure designed to protect the confidentiality, integrity
 Security Information and Event Management (SIEM)
 ------------------------------------------------
 
-A system that aggregates and analyzes log data from various sources across an organization's network to detect and respond to security incidents. SIEM solutions provide real-time monitoring, alerting, and reporting capabilities, helping security teams identify and investigate potential threats more efficiently.
+A system that aggregates and analyzes log data from sources across an organization's network to detect and respond to security incidents. SIEM solutions provide real-time monitoring, alerting, and reporting. Security teams use them to identify and investigate potential threats.
 
 Security Operations Center (SOC)
 --------------------------------
@@ -442,22 +501,29 @@ A centralized unit within an organization that is responsible for continuously m
 Security Policy
 ---------------
 
-A document that defines an organization's approach to managing information security risks and protecting its assets. A security policy outlines the rules, procedures, and guidelines that employees, contractors, and third parties must follow to ensure the confidentiality, integrity, and availability of the organization's data and systems.
+A document that defines an organization's approach to managing information security risks and protecting its assets. A security policy outlines the rules, procedures, and guidelines that employees, contractors, and third parties must follow to protect the confidentiality, integrity, and availability of the organization's data and systems.
+
+Security Technical Implementation Guide (STIG)
+----------------------------------------------
+
+Configuration standards published by the United States Defense Information Systems Agency (DISA) that define how systems must be hardened for use within the U.S. Department of Defense. STIGs provide detailed, auditable configuration requirements based on DOD and NIST security controls.
+
+Broadcom develops STIGs and STIG Readiness Guides for VMware products. There is intentional overlap with the Security Configuration Guides, though the STIGs go further in some areas to meet DOD requirements.
 
 Segmentation
 ------------
 
-The practice of dividing a computer network into smaller, isolated segments or subnetworks to improve security, performance, and control. Segmentation helps contain the impact of security breaches, reduces the attack surface, and allows organizations to apply different security policies to different network segments based on their sensitivity and criticality.
+The practice of dividing a computer network into smaller, isolated segments or subnetworks to improve security, performance, and control. Segmentation contains the impact of a security breach, reduces the attack surface, and allows organizations to apply different security policies to different network segments based on their sensitivity and criticality.
 
 Separation of Duties
 --------------------
 
-The principle of dividing critical functions and responsibilities among multiple individuals to prevent any single person from having excessive control or the ability to commit fraud or errors without detection. Separation of duties helps maintain checks and balances, ensuring that no individual can compromise the integrity of a process or system.
+The principle of dividing critical functions and responsibilities among multiple individuals so that no single person has excessive control or the ability to commit fraud or errors without detection. Separation of duties maintains checks and balances; no individual acting alone can compromise the integrity of a process or system.
 
 Service Organization Control 2 (SOC 2)
 --------------------------------------
 
-A voluntary compliance standard developed by the American Institute of CPAs (AICPA) for service organizations, focusing on trust services criteria relevant to security, availability, processing integrity, confidentiality, and privacy. SOC 2 reports provide assurance to customers and stakeholders that a service organization has appropriate controls in place to protect sensitive data and ensure the reliability of its systems.
+A voluntary compliance standard developed by the American Institute of CPAs (AICPA) for service organizations, focusing on trust services criteria relevant to security, availability, processing integrity, confidentiality, and privacy. SOC 2 reports provide assurance to customers and stakeholders that a service organization has appropriate controls in place to protect sensitive data and maintain the reliability of its systems.
 
 Single Sign-On
 --------------
@@ -467,7 +533,7 @@ A session and user authentication service that allows a user to access multiple 
 Snapshot
 --------
 
-A point-in-time copy of a system or data, snapshots provide a quick and space-efficient way to capture the state of a system or dataset at a particular moment, allowing for easy rollback or restoration if needed.
+A point-in-time copy of a system or dataset. Snapshots provide a quick, space-efficient way to capture state at a particular moment and support rollback or restoration if needed.
 
 VMware Cloud Foundation and VMware vSphere support snapshots of virtual machines, which capture the entire state of the virtual machine, including virtual hardware configuration and virtual disks.
 
@@ -479,7 +545,7 @@ The use of psychological manipulation to trick individuals into revealing sensit
 Software Bill of Materials (SBOM)
 ---------------------------------
 
-A formal record containing the details and supply chain relationships of the various components used in building a software product. An SBOM helps organizations understand the composition of their software, including any open source or third-party components, which can be useful for managing security risks, complying with regulations, and responding to vulnerabilities.
+A formal record containing the details and supply chain relationships of the components used in building a software product. An SBOM shows the composition of a software product, including any open source or third-party components. Organizations use SBOMs to manage security risks, comply with regulations, and respond to vulnerabilities.
 
 Supply Chain
 ------------
@@ -509,17 +575,24 @@ An individual or group that is responsible for a threat event, either through ma
 Threat Intelligence
 -------------------
 
-Information about current and emerging threats that can be used to inform an organization's security decisions and actions. Threat intelligence includes data on threat actors, their tactics, techniques, and procedures (TTPs), and indicators of compromise (IoCs) that can help organizations detect, prevent, and respond to potential security incidents.
+Information about current and emerging threats that can be used to inform an organization's security decisions and actions. Threat intelligence includes data on threat actors, their tactics, techniques, and procedures (TTPs), and indicators of compromise (IoCs) that organizations use to detect, prevent, and respond to potential security incidents.
 
 Transport Layer Security (TLS)
 ------------------------------
 
-A cryptographic protocol that provides secure communication over a computer network. TLS encrypts data transmitted between two parties, ensuring confidentiality and integrity of the information exchanged. It is widely used to secure web browsing, email, and other internet-based services.
+A cryptographic protocol that provides secure communication over a computer network. TLS encrypts data transmitted between two parties and protects the confidentiality and integrity of the information exchanged. It is widely used to secure web browsing, email, and other internet-based services.
+
+Trusted Execution Environment (TEE)
+-----------------------------------
+
+A secure, isolated area of a processor that protects the confidentiality and integrity of the code and data running inside it, even from privileged software such as operating systems and hypervisors. Trusted execution environments are the hardware foundation of confidential computing.
+
+VMware Cloud Foundation supports hardware trusted execution environments for entire virtual machines through Intel Trust Domain Extensions (TDX) and AMD Secure Encrypted Virtualization-Secure Nested Paging (SEV-SNP).
 
 Trusted Platform Module (TPM)
 -----------------------------
 
-A secure cryptoprocessor that is embedded in a device to provide hardware-based security functions, such as secure storage of cryptographic keys, device authentication, and attestation of system integrity. TPMs help protect against software-based attacks and ensure that a device boots into a trusted state.
+A secure cryptoprocessor that is embedded in a device to provide hardware-based security functions, such as secure storage of cryptographic keys, device authentication, and attestation of system integrity. TPMs help protect against software-based attacks and support verification that a device booted into a trusted state.
 
 Two-Factor Authentication (2FA)
 -------------------------------
@@ -549,7 +622,7 @@ The process of identifying, classifying, and prioritizing vulnerabilities in sys
 Vulnerability Disclosure
 ------------------------
 
-The process of identifying, reporting, and communicating information about vulnerabilities in systems, software, or hardware to the appropriate parties, such as vendors, developers, and the public. Vulnerability disclosure policies and programs provide guidelines for how vulnerabilities should be reported, assessed, and remediated, and help ensure that potential risks are addressed in a timely and responsible manner.
+The process of identifying, reporting, and communicating information about vulnerabilities in systems, software, or hardware to the appropriate parties, such as vendors, developers, and the public. Vulnerability disclosure policies and programs provide guidelines for how vulnerabilities should be reported, assessed, and remediated so that potential risks are addressed in a timely and responsible manner.
 
 Vulnerability Management
 ------------------------

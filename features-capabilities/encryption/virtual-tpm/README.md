@@ -11,9 +11,9 @@ Virtual Trusted Platform Module (vTPM) is a virtual version of a physical TPM 2.
 
 ## Documentation
 
-- [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0.html) -- you will want the sections on:
-- [Securing Virtual Machines with Virtual Trusted Platform Module](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/securing-virtual-machines-with-virtual-trusted-platform-module.html) and
-- [Configuring and Managing vSphere Native Key Provider](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-vsphere-native-key-provider.html), or the section on [Standard Key Providers](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-a-standard-key-provider.html) if that's how you would like to proceed (a Standard Key Provider is a connection to an external key management system, such as a Hardware Security Module (HSM) or a cloud-based key management service).
+- [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security.html) -- you will want the sections on:
+- [Securing Virtual Machines with Virtual Trusted Platform Module](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security/securing-virtual-machines-with-virtual-trusted-platform-module.html) and
+- [Configuring and Managing vSphere Native Key Provider](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security/configuring-and-managing-vsphere-native-key-provider.html), or the section on [Standard Key Providers](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security/configuring-and-managing-a-standard-key-provider.html) if that's how you would like to proceed (a Standard Key Provider is a connection to an external key management system, such as a Hardware Security Module (HSM) or a cloud-based key management service).
 
 ## Code Samples
 
@@ -23,7 +23,7 @@ You can find sample scripts pertaining to vTPM in the [code-samples](https://git
 
 ### What is a TPM?
 
-A Trusted Platform Module (TPM) is a specialized chip on an endpoint device that stores RSA encryption keys specific to the host system for hardware authentication. It is designed to provide basic security-related functions, primarily involving encryption keys. The TPM is used for a variety of tasks such as ensuring the integrity of platform and user security processes, and for secured storage of artifacts used in authentication processes. Overall, it provides a secure environment to generate, use, and store encryption keys, offering a higher level of security than software alone.
+A Trusted Platform Module (TPM) is a specialized chip on an endpoint device that stores RSA encryption keys specific to the host system for hardware authentication. A TPM generates, stores, and uses cryptographic keys in hardware, separate from the operating system, which helps protect the keys from software attack.
 
 ### What is a vTPM?
 
@@ -50,9 +50,9 @@ Yes. Organizations must use vCenter to manage ESX and Native Key Provider, and h
 
 The TPM 2.0 Endorsement Key (EK) is a permanent asymmetric key pair that is generated and stored in a TPM, including the vTPM, during instantiation or manufacture. The EK is designed to be non-migratable, which means it cannot be moved to another TPM, nor can it be changed.
 
-The EK serves two primary purposes: it helps to uniquely identify a TPM (or the device to which it is attached), and it serves as a root of trust for other keys that the TPM generates for use in encryption and digital signing. The EK is typically used indirectly through other keys tied to it, helping ensure that these operations are secure and specific to the TPM and device.
+The EK serves two primary purposes: it helps to uniquely identify a TPM (or the device to which it is attached), and it serves as a root of trust for other keys that the TPM generates for use in encryption and digital signing. The EK is typically used indirectly, through other keys associated with it, which ties these operations to that specific TPM and device.
 
-The EK can be used in a privacy-sensitive way by creating an "endorsement key certificate" where the EK is used to sign a statement, which is then signed by a privacy-ca Certificate Authority, thus proving that the statement comes from a legitimate TPM without revealing the EK directly.
+The EK can be used in a privacy-sensitive way by creating an "endorsement key certificate": the EK signs a statement, and a Privacy CA then signs that statement. This proves that the statement comes from a legitimate TPM without revealing the EK directly.
 
 ### What is a storage root key?
 
@@ -61,9 +61,9 @@ The EK can be used in a privacy-sensitive way by creating an "endorsement key ce
 
 The Storage Root Key (SRK) in a TPM 2.0 is a key hierarchy that is created when the TPM is first initialized, or when it's reset. It is derived from a primary seed unique to the TPM and is embedded within the device. This key hierarchy, or tree, is anchored by the SRK.
 
-The SRK is used as a root for storage and management of other keys used by the TPM. The keys managed under the SRK hierarchy are typically wrapped, or encrypted, by the SRK. This means these keys can only be decrypted and used when they are inside the TPM chip itself, providing an additional layer of security.
+The SRK is used as a root for storage and management of other keys used by the TPM. The keys managed under the SRK hierarchy are typically wrapped, or encrypted, by the SRK. Keys wrapped by the SRK can be decrypted and used only inside the TPM chip itself.
 
-The SRK essentially enables the TPM to securely generate, store, and handle cryptographic keys, ensuring that these keys can't be used without the TPM, and therefore, providing a root of trust for storage.
+The SRK is the root of trust for storage.
 
 ### My hosts do not have physical TPM 2.0 devices. Can I still use virtual TPM (vTPM)?
 
@@ -75,7 +75,7 @@ A vTPM is not dependent on physical hardware.
 
 ### Does the vTPM store data in a physical TPM?
 
-No. vTPMs on VMware products do not use hardware TPMs for storage of guest operating system secrets. The hardware TPM, if it is present, is used solely by ESX for it's own secrets.
+No. vTPMs on VMware products do not use hardware TPMs for storage of guest operating system secrets. The hardware TPM, if it is present, is used solely by ESX for its own secrets.
 
 ### Is a virtual TPM connected/mapped to a hardware TPM?
 
@@ -87,7 +87,7 @@ No. While other hypervisors use “passthrough” TPMs where they store VM secre
 
 ### Do I need hardware TPMs to use vTPM?
 
-No, you do not need hardware TPMs to use vTPM. Although hardware TPMs are inexpensive and significantly improve the security of ESX, they are strongly recommended but not required for vTPM usage.
+No, you do not need hardware TPMs to use vTPM. Hardware TPMs are inexpensive, improve ESX security, and are strongly recommended, but vTPM does not require them.
 
 ### Why are there six questions about requiring hardware TPMs?
 
@@ -114,14 +114,12 @@ A variety of things might need to be checked:
 *   Have you configured a key provider?
 *   Have you set a default key provider?
 *   If you are using Native Key Provider, have you backed up the key provider?
-*   If you are using Native Key Provider, have you chosen the “Use key provider only with TPM protected ESX hosts” option? If you did this Native Key Provider will only push support to the hosts with a hardware TPM. If your hosts do not have a hardware TPM then they cannot participate, and you will have issues. Ensure you have the backup file for the Native Key Provider instance, delete the instance, and restore it from the backup but do not check that box this time (yes, it says recommended, but that is only if you have the required hardware). You’ll see “TPM2 Device is Required” in the system logs when this happens.
+*   If you are using Native Key Provider, have you chosen the “Use key provider only with TPM protected ESX hosts” option? If you did this Native Key Provider will only push support to the hosts with a hardware TPM. If your hosts do not have a hardware TPM then they cannot participate, and you will have issues. Make sure you have the backup file for the Native Key Provider instance, delete the instance, and restore it from the backup but do not check that box this time (yes, it says recommended, but that is only if you have the required hardware). You’ll see “TPM2 Device is Required” in the system logs when this happens.
 *   Is the guest OS set to an option that supports vTPM? When in doubt, try setting the VM to be Windows Server 2019 to see if Trusted Platform Module appears as an option.
-
-To troubleshoot the absence of a Trusted Platform Module option in your VM settings, ensure proper key provider configuration, compatibility with guest OS, and avoid restricting Native Key Provider to TPM-protected ESX hosts if lacking required hardware.
 
 ### I am seeing "TPM2 device is required" in the logs when I attempt to use a vTPM.
 
-If you are using Native Key Provider, have you chosen the “Use key provider only with TPM protected ESX hosts” option? If you did this Native Key Provider will only push support to the hosts with a hardware TPM. If your hosts do not have a hardware TPM then they cannot participate, and you will have issues. Ensure you have the backup file for the Native Key Provider instance, delete the instance, and restore it from the backup but do not check that box this time (yes, it says recommended, but that is only if you have the required hardware).
+If you are using Native Key Provider, have you chosen the “Use key provider only with TPM protected ESX hosts” option? If you did this Native Key Provider will only push support to the hosts with a hardware TPM. If your hosts do not have a hardware TPM then they cannot participate, and you will have issues. Make sure you have the backup file for the Native Key Provider instance, delete the instance, and restore it from the backup but do not check that box this time (yes, it says recommended, but that is only if you have the required hardware).
 
 ### What is the maximum number of virtual machines that can have vTPMs?
 
@@ -155,7 +153,7 @@ We strongly recommend updating to the latest release of your version of vSphere 
 
 ### Can I perform vMotion on a VM with a vTPM?
 
-Yes. VMware vMotion, VMware Cross-vCenter vMotion, and VMware Storage vMotion work seamlessly.
+Yes. VMware vMotion, VMware Cross-vCenter vMotion, and VMware Storage vMotion work normally with vTPM-enabled VMs.
 
 Because the VM is encrypted, cross-vCenter vMotion will only work if the destination has access to the same key provider as the source. The Native Key Provider can help with that, either as the solution or as a “bridge” between the source and destination if they do not share a Key Management System (KMS). To perform cross-vCenter vMotion with VMware Cloud on AWS, please contact support, as the Native Key Provider instance is not directly configurable.
 
@@ -227,11 +225,11 @@ Yes.
 
 ### Can I clone a VM with a vTPM?
 
-Yes. On VMware vSphere 6.7 and 7, cloning a virtual machines makes an exact replica of the virtual machine and vTPM. VMware vSphere 8 introduces choices about what to do with the vTPM, so that different use cases can be handled well. It offers to either copy or replace the TPM. If you remove or replace the vTPM device on a Windows 11 VM using features like Windows BitLocker or Windows Hello, these features will cease functioning, and you may lose access to the Windows operating system or data if you are without the appropriate recovery options.
+Yes. On VMware vSphere 6.7 and 7, cloning a virtual machine makes an exact replica of the virtual machine and vTPM. VMware vSphere 8 introduces choices about what to do with the vTPM, so that different use cases can be handled well. It offers to either copy or replace the TPM. If you remove or replace the vTPM device on a Windows 11 VM using features like Windows BitLocker or Windows Hello, these features will cease functioning, and you may lose access to the Windows operating system or data if you are without the appropriate recovery options.
 
 ### Isn’t cloning a vTPM a bad idea?
 
-There are many use cases for an exact copy of the original VM, including recovery from application upgrades, testing, backups, snapshot avoidance, and other forms of resilience. An exact copy of a VM has always been what is delivered with cloning. Changing that behavior outright would impact many organizations' workflows, hence why VMware vSphere 8 offers a choice.
+There are many use cases for an exact copy of the original VM, including recovery from application upgrades, testing, backups, snapshot avoidance, and other forms of resilience. An exact copy of a VM has always been what is delivered with cloning. Changing that behavior outright would impact many organizations' workflows, which is why VMware vSphere 8 offers a choice.
 
 ### What is the configuration parameter to control the default behavior of vTPM cloning?
 
@@ -325,7 +323,7 @@ According to the vendor, wolfTPM is tested against the TPM 2.0 specification, wh
 
 ### Can a VM with a vTPM be backed up?
 
-Yes. Please consult your backup vendor for more information about their support for virtual TPM and encrypted VMs. Ensure that you test restores of the VMs to ensure that vTPM data is restored correctly.
+Yes. Please consult your backup vendor for more information about their support for virtual TPM and encrypted VMs. Test restores of the VMs to verify that vTPM data is restored correctly.
 
 ### When I added a vTPM the VM now says “Encrypted” but it is not using an encrypted storage policy. Is that normal?
 
@@ -347,4 +345,4 @@ The physical ESX host TPM is not accessible to VMs under any circumstances. As E
 
 ## Disclaimer
 
-This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This  repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.

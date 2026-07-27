@@ -10,7 +10,11 @@ Signs that your systems may be infected with BRICKSTORM. Use these to scan your 
 
 ## File Hashes
 
-BRICKSTORM hashes are maintained by CISA as part of the [AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) analysis report, which has been updated multiple times (Dec 5, Dec 19, 2025, Jan 20, and Feb 11, 2026) and now covers 12 samples across Go, Rust, and .NET Native AOT variants, with 7 YARA rules. UNC5221 is noted to recompile the malware on a per-victim basis, and CISA originally reported no reuse of C2 domains or malware samples across investigations, so file hash matching has limited effectiveness. However, Mandiant's February 17, 2026 report documented the first observed reuse of C2 infrastructure (at 149.248.11.71), suggesting the operators may be consolidating infrastructure or sharing it across related campaigns. The [Mandiant BRICKSTORM scanner](https://github.com/mandiant/brickstorm-scanner) is a bash script that runs on appliances without requiring YARA to be installed, using common utilities (grep, xxd, head, sed, find) to replicate specific YARA rule logic. The scanner detects Go-based variants only; it does not detect Rust, .NET AOT, or GRIMBOLT variants. Supplement with [CISA YARA rules](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) (which cover .NET AOT) and the three GTIG YARA rules for GRIMBOLT/SLAYSTYLE from the [February 17, 2026 Mandiant report](https://cloud.google.com/blog/topics/threat-intelligence/unc6201-exploiting-dell-recoverpoint-zero-day). There have been reports that the scanner works on the vCenter appliance. This is a third-party tool; evaluate according to your organization's security policies.
+BRICKSTORM hashes are maintained by CISA as part of the [AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) analysis report, which has been updated multiple times (Dec 5, Dec 19, 2025, Jan 20, and Feb 11, 2026) and now covers 12 samples across Go, Rust, and .NET Native AOT variants, with 7 YARA rules.
+
+UNC5221 is noted to recompile the malware on a per-victim basis, and CISA originally reported no reuse of C2 domains or malware samples across investigations, so file hash matching has limited effectiveness. However, Mandiant's February 17, 2026 report documented the first observed reuse of C2 infrastructure (at 149.248.11.71), suggesting the operators may be consolidating infrastructure or sharing it across related campaigns.
+
+The [Mandiant BRICKSTORM scanner](https://github.com/mandiant/brickstorm-scanner) is a bash script that runs on appliances without requiring YARA to be installed, using common utilities (grep, xxd, head, sed, find) to replicate specific YARA rule logic. The scanner detects Go-based variants only; it does not detect Rust, .NET AOT, or GRIMBOLT variants. Supplement with [CISA YARA rules](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) (which cover .NET AOT) and the three GTIG YARA rules for GRIMBOLT/SLAYSTYLE from the [February 17, 2026 Mandiant report](https://cloud.google.com/blog/topics/threat-intelligence/unc6201-exploiting-dell-recoverpoint-zero-day). This is a third-party tool; evaluate according to your organization's security policies.
 
 ---
 
@@ -199,7 +203,7 @@ Normal management traffic (API calls, monitoring) is bursty and short-lived. Per
 
 ### Ghost NIC Indicators
 
-UNC6201 has been observed creating temporary virtual network adapters ("Ghost NICs") on VMs running on VMware ESX hosts. These adapters are used to pivot into internal networks, then deleted to minimize forensic artifacts. Detection relies on monitoring `VmReconfiguredEvent` events in VMware vCenter for vNIC add/remove operations, particularly when a vNIC is added and then removed within a short timeframe.
+UNC6201 has been observed creating temporary virtual network adapters ("Ghost NICs") on VMs running on VMware ESX hosts. UNC6201 uses the adapters to pivot into internal networks, then deletes them to minimize forensic artifacts. Detection relies on monitoring `VmReconfiguredEvent` events in VMware vCenter for vNIC add/remove operations, particularly when a vNIC is added and then removed within a short timeframe.
 
 | Indicator | Detection Method |
 |-----------|-----------------|
@@ -278,7 +282,7 @@ The Rust variant exposes these file management endpoints:
 /api/file/stat
 ```
 
-**Detection Opportunity**: These endpoints are unauthenticated. Any HTTP requests to these paths on VMware ESX or vCenter systems indicate active BRICKSTORM infection. Monitor web server access logs for requests matching `/api/file/*` patterns. Since legitimate VMware services do not expose these endpoints, any match is a high-confidence indicator.
+**Detection Opportunity**: These endpoints are unauthenticated. A service responding on these paths on VMware ESX or vCenter is a high-confidence indicator of active BRICKSTORM infection; an inbound request alone (for example, an external scanner probing) does not prove infection. Monitor web server access logs for requests matching `/api/file/*` patterns and investigate any request activity. Legitimate VMware services do not expose these endpoints.
 
 The .NET AOT variant uses a different WebSocket endpoint for C2 communication: `/rest/apisession`. Monitor for connections to this path from VMware management infrastructure.
 
@@ -445,7 +449,7 @@ Three YARA rules for these families were published in the [Mandiant/GTIG Februar
 
 ## SPAWN Ecosystem (Edge Device Malware)
 
-SPAWN is a modular malware ecosystem used by UNC5221 to compromise internet-facing edge devices (VPN appliances, firewalls, load balancers). Understanding SPAWN is critical because it represents the typical initial access vector that leads to BRICKSTORM deployment. These devices are high-value targets because they handle authentication, often have access to internal credentials, and are difficult to monitor with traditional endpoint security tools.
+SPAWN is a modular malware ecosystem used by UNC5221 to compromise internet-facing edge devices (VPN appliances, firewalls, load balancers). SPAWN is the typical initial access vector that precedes BRICKSTORM deployment. These devices are high-value targets because they handle authentication, often have access to internal credentials, and are difficult to monitor with traditional endpoint security tools.
 
 ### SPAWN Components
 

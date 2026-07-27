@@ -1,6 +1,6 @@
 # VMware vSphere Security Configuration & Hardening Guide
 
-The VMware vSphere Security Configuration & Hardening Guide (SCG) has been a trusted resource for over eighteen years, guiding virtualization administrators in safeguarding their infrastructure. While total security often conflicts with daily administrative tasks, the SCG aims to strike a balance. It offers a foundational set of security best practices, considering both the current threat environment and product capabilities.
+The VMware vSphere Security Configuration & Hardening Guide (SCG) is the baseline for hardening and auditing guidance for VMware vSphere. Enabling every security control at its strictest level impedes day-to-day administration. The SCG is a core set of security practices, a reasonable baseline on which to build, not a catalogue of every available control.
 
 This guide was developed with VMware vSphere 8 Update 3 (8.0.3) and supersedes all earlier versions and guidance.
 
@@ -24,7 +24,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 With the release of VMware Cloud Foundation 9.0 the name of the VMware Hypervisor was changed from ESXi back to ESX. Documents such as this, which use information that span a range of release versions, may use the names ESXi and ESX interchangeably, or refer to the hypervisor solely as ESX for simplicity. Unless you are running VMware vSphere 4.1, please consider both ESXi and ESX to be the same, and use the product version to determine applicability to your environment.
 
-Joking aside, if you are running VMware vSphere 4.1, or any version which has passed the End of General Support deadline, please know that Broadcom has resources available to assist you in migrating smoothly to the latest version.
+Joking aside, if you are running VMware vSphere 4.1, or any version which has passed the End of General Support deadline, please know that Broadcom has resources available to assist you in migrating to the latest version.
 
 ## What is Included?
 
@@ -67,11 +67,11 @@ There is not a one-to-one mapping of product capabilities to third-party control
 
 VMware appliances, such as the vCenter Server Appliance (VCSA), are tested and qualified in known configurations. Altering the configuration of appliances may affect support. Avoid upgrading the appliance virtual hardware versions except under the guidance of VMware Global Support Services. If you do decide to upgrade an appliance, ensure that you have a backup and/or a snapshot.
 
-The VMware vSphere Cluster Services VMs have been hardened with guidance present here and take advantage of vSphere default settings. If your security scanner identifies missing parameters check to ensure that they need to be set.
+The VMware vSphere Cluster Services VMs have been hardened with guidance present here and take advantage of vSphere default settings. If your security scanner flags missing parameters, verify whether those parameters actually need to be set.
 
 ## VM Hardware Versions
 
-There are varying opinions within the greater VMware community about upgrading virtual machine hardware versions. Newer virtual machine hardware versions introduce new feature and guest OS support, better compatibility and performance with CPU vulnerability mitigations, better support for modern CPU security features, better security defaults, and so on.
+There are varying opinions within the greater VMware community about upgrading virtual machine hardware versions. Newer virtual machine hardware versions add support for new features and guest operating systems, improve compatibility and performance with CPU vulnerability mitigations, add support for modern CPU security features, and improve security defaults.
 
 Upgrading virtual machine hardware changes the virtual hardware presented to the guest operating system, just as if a boot device in a physical server was placed in a newer physical server. Changes like this can vary in risk, may require more than one reboot, and may require human interaction to complete.
 
@@ -82,7 +82,7 @@ In general, Broadcom guidance is to:
 - Run the latest version you are able, ideally the latest version available in the major vSphere version you run.
 - Use VM Hardware 17 (vmx-17) or newer. Version 13 introduced important performance and security improvements for CPU vulnerability mitigations, and version 14 introduced support for vTPM.
 - Take snapshots of virtual machines prior to upgrading, but do not forget to remove the snapshot later.
-- When scheduling virtual hardware compatibility upgrades use the "Only upgrade after normal guest OS shutdown" to help ensure that a compatibility update does not complicate an unplanned incident or HA event.
+- When scheduling virtual hardware compatibility upgrades use the "Only upgrade after normal guest OS shutdown" option to help ensure that a compatibility update does not complicate an unplanned incident or HA event.
 
 ## Use Your Head!
 
@@ -90,7 +90,7 @@ This guide will be updated as necessary to improve clarity, correct problems, an
 
 ## Power Off
 
-All guidance in the Security Configuration Guide is meant to be applied to virtual machines in a powered off state, or hosts which have been placed in maintenance mode and are able to restart. **Changes to ESX have made it so that most advanced parameters cannot be set with virtual machines powered on.** This ensures that the running configuration of a virtual machine matches the reported configuration, but in practice may require organizational process changes. We encourage organizations to take advantage of product defaults to reduce the scope of work.
+All guidance in the Security Configuration Guide is meant to be applied to virtual machines in a powered off state, or hosts which have been placed in maintenance mode and are able to restart. In current ESX versions, most advanced parameters cannot be set while a virtual machine is powered on. This helps ensure that the running configuration of a virtual machine matches the reported configuration, but in practice may require organizational process changes. We encourage organizations to take advantage of product defaults to reduce the scope of work.
 
 ## Code Examples & Tools
 
@@ -101,13 +101,13 @@ This Guide contains PowerCLI examples that standardize on formatting, such as:
 - `$VDS` is a string containing the Distributed Virtual Switch name
 - `$VDPG` is a string containing the Distributed Virtual Switch port group name
 
-**These code snippets can make changes that deeply affect operations and the responsibility for the impact of these changes is yours.** Test these changes in a controlled, non-production environment first, and apply them to production environments using staged rollout techniques. One easy way to build a test environment is to run ESXi inside a VM for non-production testing purposes, just as the [VMware Hands-on Labs](https://labs.hol.vmware.com/) do.
+These code snippets can make changes that deeply affect operations. You are responsible for the impact of these changes. Test these changes in a controlled, non-production environment first, and apply them to production environments using staged rollout techniques. One easy way to build a test environment is to run ESXi inside a VM for non-production testing purposes, just as the [VMware Hands-on Labs](https://labs.hol.vmware.com/) do.
 
 This guide includes sample automation scripts for auditing & remediating certain components. Please see Appendix B in the [guidance document](vmware-cloud-foundation-security-configuration-guide-8-guidance.pdf?raw=true), or the [`Tools/`](Tools/) directory.
 
-We regret that while we are happy to accept constructive feedback about the code examples, we cannot supply scripting support. There are options for scripting and automation support through VMware Professional Services. Please contact your Account Executive for more information. You might also check out the thriving community at [developer.broadcom.com](https://developer.broadcom.com/).
+We regret that while we are happy to accept constructive feedback about the code examples, we cannot supply scripting support. There are options for scripting and automation support through VMware Professional Services. Please contact your Account Executive for more information. You might also check out the community at [developer.broadcom.com](https://developer.broadcom.com/).
 
-Alternatively, the "Code Capture" and "API Explorer" features inside the vSphere Client's Developer Center can be used to discover APIs, help script, and automate tasks. It isn't perfect, but, in general, if you can do it inside the client, it will give you an example script to automate.
+Alternatively, the "Code Capture" and "API Explorer" features inside the vSphere Client's Developer Center can be used to discover APIs, help script, and automate tasks. Code Capture is not perfect, but for most actions you perform in the client, it generates an example script.
 
 ## Feedback & Support
 

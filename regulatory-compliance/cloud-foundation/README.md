@@ -2,7 +2,7 @@
 
 This directory contains regulatory compliance materials for VMware Cloud Foundation (VCF), organized by product version. Choose the version that matches your environment.
 
-The 9.x directories contain compliance companion guides that map VCF capabilities to individual regulatory frameworks and standards, such as NIST SP 800-53, PCI DSS, DORA, NIS2, and many others, along with related resources like the Secure Controls Framework (SCF) crosswalk and zero trust material.
+The 9.x directories contain compliance companion guides that map VCF capabilities to individual regulatory frameworks and standards, such as NIST SP 800-53, PCI DSS, DORA, and NIS2, along with related resources like the Secure Controls Framework (SCF) crosswalk and zero trust material.
 
 The 4.x and 5.x directories contain the materials published for those releases, including compliance kits, Product Applicability Guides, and pointers to DISA STIG guidance.
 

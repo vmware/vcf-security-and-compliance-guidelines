@@ -1,5 +1,5 @@
 # Native Key Provider
-vSphere Native Key Provider enables data-at-rest protections such as vSAN Encryption, VM Encryption, and vTPM easily, entirely from within vSphere and Cloud Foundation. It is a key provider that is built into vSphere and Cloud Foundation, and is not a separate product. You can also use the "Standard Key Provider" to connect to an external KMS, if you prefer.
+vSphere Native Key Provider supplies encryption keys for data-at-rest protections such as vSAN Encryption, VM Encryption, and vTPM, entirely from within vSphere and Cloud Foundation. It is not a separate product and requires no external KMS.
 
 The other key provider option is the Standard Key Provider. Please visit [Key Providers in VMware vSphere and VMware Cloud Foundation](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/key-providers) for more information.
 
@@ -12,8 +12,8 @@ The other key provider option is the Standard Key Provider. Please visit [Key Pr
 
 ## Documentation
 
-- [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0.html) -- you will want the section on:
-- [Configuring and Managing vSphere Native Key Provider](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-vsphere-native-key-provider.html), 
+- [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security.html) -- you will want the section on:
+- [Configuring and Managing vSphere Native Key Provider](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security/configuring-and-managing-vsphere-native-key-provider.html), 
 
 ## Code Samples
 
@@ -43,11 +43,11 @@ Both vCenter and ESX need to be at vSphere 7 Update 2 or newer.
 
 ### Can I use Native Key Provider with vSphere 6.7 if I update vCenter to version 7 or 8?
 
-No. Both vCenter and ESX need to be at vCenter 7 Update 2 or later. We strongly recommend running the latest versions of supported products.
+No. Both vCenter and ESX need to be at vSphere 7 Update 2 or later. We strongly recommend running the latest versions of supported products.
 
 ### Are there more requirements to use Native Key Provider?
 
-You must log into the vSphere Client using the FQDN of the vCenter, you must back the Native Key Provider instance up before it will let you use it, and you must set a default key provider. Please review [the documentation](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-vsphere-native-key-provider/vsphere-native-key-provider-overview.html) for more information about requirements.
+You must log into the vSphere Client using the FQDN of the vCenter, you must back the Native Key Provider instance up before it will let you use it, and you must set a default key provider. Please review [the documentation](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security/configuring-and-managing-vsphere-native-key-provider/vsphere-native-key-provider-overview.html) for more information about requirements.
 
 ### I’m having trouble enabling Native Key Provider. What should I look at?
 
@@ -186,7 +186,7 @@ Native Key Provider backups allow for a password to be set on the exported file.
 
 ### What keys are contained in the vCenter backups?
 
-The Native Key Provider KDK is in the vCenter backup, as is authentication information for standard key providers, and all sorts of other authentication information for vSphere SSO and such. It has always been important that you write this backup to a secure location.
+The Native Key Provider KDK is in the vCenter backup, as is authentication information for standard key providers, and all sorts of other authentication information for VCF SSO and such. It has always been important that you write this backup to a secure location.
 
 ### Can I have more than one Native Key Provider?
 
@@ -198,11 +198,11 @@ Key providers only serve hosts that are directly attached to a vCenter, and are 
 
 ### I have many vCenters. Should I configure them all with different Native Key Provider instances, or should I export one and import it everywhere else?
 
-This is a design decision on your part, but both options are supported. If you want to use Cross-vCenter vMotion to migrate encrypted workloads between clusters you will need the same key provider configured on both the source and the destination. If you choose to configure separate Native Key Provider instances ensure that their names are unique, so that future name collisions do not occur if you restore a backup of an Native Key Provider instance.
+This is a design decision on your part, but both options are supported. If you want to use Cross-vCenter vMotion to migrate encrypted workloads between clusters you will need the same key provider configured on both the source and the destination. If you choose to configure separate Native Key Provider instances make sure their names are unique, so that future name collisions do not occur if you restore a backup of a Native Key Provider instance.
 
 ### Are there problems with using the same Native Key Provider instance on all vCenters?
 
-This is supported. All environments are different, and any potential risks involved in using the same cryptographic keys in all locations should be modeled with the help of your own information security experts. It is worth noting that, if a Native Key Provider KDK is compromised, it is straightforward to create a new Native Key Provider instance, import it elsewhere, set as the default, and have all the virtual machines rekeyed to the new instance using PowerCLI, while the workloads are running.
+This is supported. All environments are different, and any potential risks involved in using the same cryptographic keys in all locations should be modeled with the help of your own information security experts. If a Native Key Provider KDK is compromised, you can create a new Native Key Provider instance, import it elsewhere, set it as the default, and rekey all virtual machines to the new instance with PowerCLI while the workloads are running.
 
 ### Does the virtual machine have to be off to rekey/re-encrypt it?
 
@@ -250,7 +250,7 @@ Set-VM -VM $vm -KeyProvider $keyprovider -SkipHardDisks
 ```
 
 
-You can use the vSphere API directly from a variety of languages. For more information visit [https://developer.vmware.com](https://developer.vmware.com/).
+You can use the vSphere API directly from a variety of languages. For more information visit [https://developer.broadcom.com](https://developer.broadcom.com/).
 
 Deep rekeys must be done with the VM powered off.
 
@@ -300,9 +300,9 @@ If the same Native Key Provider instance is configured in both locations everyth
 
 If encrypted virtual machines are not running, they will become locked, and alarms will be displayed. Once the correct key provider is imported a vSphere administrator can re-enable encryption mode on the host. This will unlock all encrypted virtual machines and allow them to be powered on.
 
-After this move, we suggest re-encrypting/re-keying virtual machines to your preferred key provider to ensure consistency.
+After this move, we suggest re-encrypting/re-keying virtual machines so they all use your preferred key provider.
 
-### I use VCF Protection and Recovery. What considerations are there to ensure encrypted virtual machines can run on the DR site?
+### I use VCF Protection and Recovery. What do I need so encrypted virtual machines can run on the DR site?
 
 When using VCF Protection and Recovery (formerly VMware Live Site Recovery and Site Recovery Manager), you must configure both vCenter instances with the same vSphere Native Key Provider. This requires you to export the vSphere Native Key Provider from one vCenter instance and import it into the DR vCenter instance. For more information see [VMware Live Site Recovery and Virtual Machine Encryption](https://techdocs.broadcom.com/us/en/vmware-cis/live-recovery/live-site-recovery/9-0/how-do-i-protect-my-environment/interoperability-of-srm-with-other-software/site-recovery-manager-and-virtual-machine-encryption.html).
 
@@ -404,7 +404,7 @@ The Native Key Provider KDK is stored in the ESX encrypted configuration. If a T
 
 ### In theory, could an attacker get the Key Derivation Key from the VCSA VMDK, then be able to decrypt all the VMs that are on the same cluster?
 
-The Native Key Provider key derivation key is stored in the VCSA. It is also stored on the hosts, protected by a TPM and encrypted host configuration If available, or on the boot disk there, too. For someone to retrieve it from the VCSA VMDK on disk they will need administrative access to the vSphere cluster it resides in, which would also mean they could just log into vCenter to do whatever nefarious acts they were planning.
+The Native Key Provider key derivation key is stored in the VCSA. It is also stored on the hosts, protected by a TPM and encrypted host configuration if available, or on the boot disk there, too. For someone to retrieve it from the VCSA VMDK on disk they will need administrative access to the vSphere cluster it resides in, which would also let them log into vCenter directly.
 
 They could also retrieve it from image or file-based backups of the VCSA, too.
 
@@ -435,7 +435,7 @@ Best practices for Native Key Provider tend to be the same as good design practi
 - Keep it simple.
   - More key providers means more opportunity for VMs to be encrypted with the wrong key provider.
   - More key providers means more things to back up, manage, and audit.
-  - You can have a default key provider at the vCenter level, and then have different default key providers for each cluster. But... do you really need to do that? What problem are you solving? Is it the same set of VCF admins for everything?
+  - You can have a default key provider at the vCenter level, and then have different default key providers for each cluster. Before doing that, identify the problem you are solving; most environments with one admin team do not need per-cluster defaults.
   - vSAN can also have a different key provider, per cluster. In general, organizations that use two key providers often use a Standard Key Provider for vSAN, to protect against theft and improper decommissioning of equipment, and a Native Key Provider for VMs and workloads, to reduce dependencies and minimize KMS licensing costs. The Native Key Provider instance is usually configured as the default key provider.
 - If you have multiple clusters, decide if you are going to use the same key provider for all of them, or if you want to have a separate key provider for each cluster.
   - If you use the same key provider for all clusters (creating it on one, exporting it, and importing it on the others) it makes cross-vCenter vMotion easier.
@@ -446,4 +446,4 @@ Since key providers are very flexible, start simply and add complexity only when
 
 ## Disclaimer
 
-This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This  repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.

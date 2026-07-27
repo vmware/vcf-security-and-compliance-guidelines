@@ -51,10 +51,10 @@
 #>
 
 #####################
-# Make sure we are attached to a single vCenter Server, so we audit the environment we intend to
+# Make sure we are attached to a single vCenter, so we audit the environment we intend to
 Function Check-vCenter() {
     if ($global:DefaultVIServers.Count -ne 1) {
-        Write-Output "[ERROR] Connect to a single vCenter Server (use Connect-VIServer) prior to running this script."
+        Write-Output "[ERROR] Connect to a single vCenter (use Connect-VIServer) prior to running this script."
         Exit
     }
 }

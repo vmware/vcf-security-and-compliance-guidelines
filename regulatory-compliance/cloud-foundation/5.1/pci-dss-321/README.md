@@ -1,16 +1,10 @@
 # VMware Validated Design 5.1.1 Compliance Kit for PCI DSS 3.2.1
 
-This kit was published in 2019-2020 for VMware Validated Design 5.1.1, the predecessor to the standardized VMware Cloud Foundation architecture. It is retained as an archive. The kit consists of multiple files and must be used as a complete package:
-
-1. Introducing Security and Compliance
-2. Product Applicability Guide
-3. Security and Compliance Configuration Guide
-4. Audit Guide
-5. Audit Guide Appendix
+This kit was published in 2019-2020 for VMware Validated Design 5.1.1, the predecessor to the standardized VMware Cloud Foundation architecture. It is retained as an archive.
 
 ## Download
 
-The kit consists of the following files, which are intended to be used together as a complete package. A zip of the complete kit is also provided.
+The kit consists of the following files, which are meant to be used together as a complete package. A zip of the complete kit is also provided.
 
 - [1 - VMware Validated Design 5.1.1 Compliance Kit for PCI DSS 3.2.1 - Introducing Security and Compliance 8-8-2019 (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/5.1/pci-dss-321/1%20-%20VMware%20Validated%20Design%205.1.1%20Compliance%20Kit%20for%20PCI%20DSS%203.2.1%20-%20Introducing%20Security%20and%20Compliance%208-8-2019.pdf) -- direct download
 - [2 - VMware Validated Design 5.1.1 Compliance Kit for PCI DSS 3.2.1 - Product Applicability Guide 5-21-2019 (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/5.1/pci-dss-321/2%20-%20VMware%20Validated%20Design%205.1.1%20Compliance%20Kit%20for%20PCI%20DSS%203.2.1%20-%20Product%20Applicability%20Guide%205-21-2019.pdf) -- direct download

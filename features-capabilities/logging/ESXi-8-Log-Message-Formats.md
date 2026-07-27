@@ -11,7 +11,7 @@ This document is intended to provide general guidance for organizations that are
 
 ## VMware ESXi versus VMware ESX
 
-With the release of VMware Cloud Foundation 9.0 the name of the VMware Hypervisor was changed from ESXi back to ESX. Documents such as this, which use information that span a range of release versions, may use the names ESXi and ESX interchangeably, or refer to the hypervisor solely as ESX for simplicity. Unless you are running VMware vSphere 4.1, please consider both ESXi and ESX to be the same, and use the product version to determine applicability to your environment.
+With the release of VMware Cloud Foundation 9.0 the name of the VMware Hypervisor was changed from ESXi back to ESX. Documents such as this, which use information that spans a range of release versions, may use the names ESXi and ESX interchangeably, or refer to the hypervisor solely as ESX for simplicity. Unless you are running VMware vSphere 4.1, consider both ESXi and ESX to be the same. Use the product version to determine applicability to your environment.
 
 ## Augmented Backus-Naur Form (ABNF)
 
@@ -19,27 +19,27 @@ Logging message formats are expressed in ABNF. ABNF is governed by the following
 
 [https://tools.ietf.org/html/rfc5234](https://tools.ietf.org/html/rfc5234)
 
-The inspiration for using ABNF in this document comes from its use in RFC 5424. An unambiguous way to specify grammars.
+This document uses ABNF because RFC 5424 uses it and because it specifies grammars unambiguously.
 
 ## Adding Additional Data to a Message
 
-The SD-ELEMENT is the place to add additional parameters in the future. This ensures that the data is accessible via an established grammar. When RFC 5424 message transmission is enabled, the collector need not parse the unstructured data, searching for something.
+The SD-ELEMENT is the place to add additional parameters in the future. Placing new parameters in an SD-ELEMENT keeps the data parseable under the RFC 5424 grammar, so a collector does not need to search unstructured text.
 
 ## Time Stamps
 
 Time stamps are always UTC/GMT and comply with RFC 5424.
 
-Seconds resolution - no decimal point or anything after it - is acceptable by the RFCs and the ABNF grammars below reflect this. However, ESXi time stamps will use millisecond resolution or better where possible.
+Seconds resolution - no decimal point or anything after it - is acceptable by the RFCs and the ABNF grammars below reflect this. However, ESXi time stamps use millisecond resolution or better where possible.
 
 ## Syslog Message Transmissions
 
-vmsyslogd (a syslog originator) messages transmitted to collectors (the "remote host" capability in syslog "speak") are principally governed by the following RFCs:
+vmsyslogd (a syslog originator) messages transmitted to collectors (called remote hosts in syslog terminology) are principally governed by the following RFCs:
 
 [https://tools.ietf.org/html/rfc3164](https://tools.ietf.org/html/rfc3164) (RFC 3164, the legacy syslog specification)
 
 [https://tools.ietf.org/html/rfc5424](https://tools.ietf.org/html/rfc5424) (RFC 5424, the current syslog specification)
 
-A legacy syslog collector may only be able to accept messages in RFC 3164 format; more recent syslog collectors may be able to handle RFC 3164 and RFC 5424 formats. Since a syslog originator has no way of determining the capabilities of a collector, vmsyslogd will support a configuration parameter that specifies the message format for each remote host. This also means that RFC 3164 messages will have a different format than RFC 5424 messages.
+A legacy syslog collector may only be able to accept messages in RFC 3164 format; more recent syslog collectors may be able to handle RFC 3164 and RFC 5424 formats. Since a syslog originator has no way of determining the capabilities of a collector, vmsyslogd supports a configuration parameter that specifies the message format for each remote host. This also means that RFC 3164 messages have a different format than RFC 5424 messages.
 
 ## RFC 3164 Transmission Message Format
 
@@ -81,7 +81,7 @@ Since RFC 3164 does not provide an ABNF, an RFC 3164 ABNF is specified below. ES
 ```
 
 
-Event Traceability is facilitated via an opID. When available/appropriate, the opID must be part of an SD-ELEMENT where the PARAM-NAME is "opID" and "opID" string is the PARAM\_VALUE.
+An opID links related log events for traceability. When available/appropriate, the opID must be part of an SD-ELEMENT where the PARAM-NAME is "opID" and "opID" string is the PARAM\_VALUE.
 
 ## RFC 5424 Transmission Message Format
 
@@ -128,11 +128,11 @@ The ABNF of RFC 5424 messages can be found in section 6, pages 8 and 9. The gram
 
 ESXi _never_ has a TIME-OFFSET as part of a TIMESTAMP.
 
-Event Traceability is facilitated via an opID. When available/appropriate, the opID must be part of an SD-ELEMENT where the PARAM-NAME is "opID" and "opID" string is the PARAM\_VALUE.
+An opID links related log events for traceability. When available/appropriate, the opID must be part of an SD-ELEMENT where the PARAM-NAME is "opID" and "opID" string is the PARAM\_VALUE.
 
 ## Audit Record Transmission Format
 
-ESXi audit records have a facility of 13 (LOG\_AUDIT) and are fully compliant to the RFC 3164 and 5424 grammars documented above. The audit data will be contained in a SD-ELEMENT (structured data). No unstructured data follows the SD-ELEMENT. Event traceability information will be present in the audit record when that data is available.
+ESXi audit records have a facility of 13 (LOG\_AUDIT) and are fully compliant to the RFC 3164 and 5424 grammars documented above. The audit data is contained in an SD-ELEMENT (structured data). No unstructured data follows the SD-ELEMENT. Event traceability information is present in the audit record when that data is available.
 
 ## Log File Formats
 
@@ -140,7 +140,7 @@ ESXi audit records have a facility of 13 (LOG\_AUDIT) and are fully compliant to
 
 A program - and only this program - writes its log file for itself, typically via a "logger" (e.g. Log Facility, vmacore logger, Python logger).
 
-An example of this is the VMX (the process what manages each VM). Each VM has a directory and the log file (vmware.log) for the VM is found within, written directly by the VMX itself. The VMX ALWAYS writes its log messages to vmware.log. The VMX may, optionally, also​ submit its log messages to syslog. Since the messages are already stored in vmware.log, vmsyslogd does not also​ write these messages to a log file, as this would unnecessarily consume system resources.
+An example of this is the VMX (the process that manages each VM). Each VM has a directory and the log file (vmware.log) for the VM is found within, written directly by the VMX itself. The VMX always writes its log messages to vmware.log. The VMX may, optionally, also submit its log messages to syslog. Since the messages are already stored in vmware.log, vmsyslogd does not also write these messages to a log file, as this would unnecessarily consume system resources.
 
 ### Log Files Written Indirectly via syslog Submission
 
@@ -193,7 +193,7 @@ The ABNF for log files written directly by program is specified here:
 ```
 
 
-ESXi event traceability is facilitated via the OPID. 
+In ESXi, the OPID links related log events for traceability. 
 
 The SEVERITY-STRING is an abbreviated expression of the 8 severity levels specified in RFC 5424, section 6.2.1, pages 9 and 10.
 
@@ -215,7 +215,7 @@ The SEVERITY-STRING is an abbreviated expression of the 8 severity levels specif
 
 The SEVERITY-VALUE is an optional expression of the numeric value associated with the SEVERITY-STRING. This allows levels supported by a logger to be collapsed into the 8 required strings with no loss of information (e.g. Db(5) - debug, level 5).
 
-The LINE-MARKER is added to each subsequent line generated from a multi-line submission. It clearly identifies multiline submissions and helps prevent log injection security attacks.
+The LINE-MARKER is added to each subsequent line generated from a multi-line submission. It identifies multiline submissions and helps prevent log injection attacks.
 
 A single threaded program may not have a thread name, hence NILVALUE being acceptable.
 
@@ -266,7 +266,7 @@ The ABNF for log files written by vmsyslogd is specified here:
 ```
 
 
-Event Traceability is facilitated via an opID. When available/appropriate, the opID must be part of an SD-ELEMENT where the PARAM-NAME is "opID" and "opID" string is the PARAM\_VALUE.
+An opID links related log events for traceability. When available/appropriate, the opID must be part of an SD-ELEMENT where the PARAM-NAME is "opID" and "opID" string is the PARAM\_VALUE.
 
 The SEVERITY-STRING is an abbreviated expression of the 8 severity levels specified in RFC 5424, section 6.2.1, pages 9 and 10.
 
@@ -288,10 +288,10 @@ The SEVERITY-STRING is an abbreviated expression of the 8 severity levels specif
 
 The PRIVAL contains the bits from the message "PRI". This allows one to see the Facility of the message, as well as the severity bits themselves.
 
-The LINE-MARKER is added to each subsequent line generated from a multi-line submission. It clearly identifies multiline submissions and helps prevent log injection security attacks.
+The LINE-MARKER is added to each subsequent line generated from a multi-line submission. It identifies multiline submissions and helps prevent log injection attacks.
 
 ## Audit Record Storage Format
 
-Audit records are not stored, locally, in "log files." They are stored in a special format, in specially handled files. Audit records are accessed locally via the auditLogReader program; do not read, use, or edit an audit record storage file directly. Event traceability information will be present in the audit record when that data is available.
+Audit records are not stored, locally, in "log files." ESX stores audit records in an internal format. Use the auditLogReader program to read them; do not read or edit the storage files directly. Event traceability information is present in the audit record when that data is available.
 
 Locally stored audit records comply with RFC 5424 transmission format where the HOSTNAME and MSGID are always NILVALUE.

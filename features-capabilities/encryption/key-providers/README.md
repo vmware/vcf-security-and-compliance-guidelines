@@ -1,6 +1,6 @@
 # Key Providers in VMware vSphere and VMware Cloud Foundation
 
-Key providers in VMware vSphere and VMware Cloud Foundation are essential security tools that manage encryption keys throughout a virtual environment. Think of them as secure digital vaults that create and distribute the keys needed to protect virtual machines and their data. These providers can either be built into vSphere/VCF (Native Key Provider) or connected to external key management systems (Standard Key Provider), ensuring that important information stays protected while virtual machines are running, being moved, or stored.
+Key providers in VMware vSphere and VMware Cloud Foundation supply and manage the encryption keys used by VM Encryption, vTPM, and vSAN Data-at-Rest Encryption. A key provider is either built into vSphere/VCF (Native Key Provider) or a connection to an external key management system (Standard Key Provider).
 
 ## What uses a key provider?
 
@@ -22,11 +22,11 @@ There are two types of key providers:
 
 ## Which Key Provider Should I Use?
 
-As with anything, it depends on your requirements. Native Key Provider is the best choice if you are looking for a fully integrated solution that is easy to use, but because the encryption keys are stored on ESX hosts, it relies on physical security. If someone can steal your host, they will be able to boot and unlock encrypted VMs and vSAN datastores on their own, and from there can attack the hypervisor using other methods, such as vulnerabilities in the hypervisor itself, to gain further access.
+Native Key Provider is the best choice if you are looking for a fully integrated solution that is easy to use, but because the encryption keys are stored on ESX hosts, it relies on physical security. If someone can steal your host, they will be able to boot and unlock encrypted VMs and vSAN datastores on their own, and from there can attack the hypervisor using other methods, such as vulnerabilities in the hypervisor itself, to gain further access.
 
 You can mitigate this risk by using a Standard Key Provider, which can be secured with network security controls so that someone who possesses stolen hardware cannot access the keys. However, an external KMS represents additional complexity and cost.
 
-You can also use the key providers together. Use the Standard Key Provider with a KMS to protect vSAN datastores, and use Native Key Provider to enable vTPM. This is an increasingly common configuration and helps mitigate risks and lowers environment complexity. vSAN has its own key provider settings and does not follow the default key provider, so this configuration works well.
+You can also use the key providers together. Use the Standard Key Provider with a KMS to protect vSAN datastores, and use Native Key Provider to enable vTPM. This split configuration reduces the risks from hardware theft, because the vSAN keys stay in the KMS, while keeping vTPM enablement simple. vSAN has its own key provider settings and does not follow the default key provider, so this configuration works well.
 
 ## Key Provider Availability
 
@@ -38,23 +38,27 @@ Standard Key Providers proxy connections to the external KMS through vCenter, so
 
 You can define a total of 32 key providers per vCenter. Key providers are configured on all hosts attached to that vCenter. You cannot selectively assign key providers to hosts. However, beginning with vSphere 8.0.1 you can specify different default key providers on a per-cluster basis. All key providers will be synchronized across all hosts attached to vCenter, though, which has implications for physical security.
 
-If you use Enhanced Linked Mode the providers are not synchronized, and will only be available to hosts that are directly attached to a particular vCenter. You will need to manually synchronize the key providers across all linked vCenter instances. You can configure (or restore, for Native Key Provider) the same provider across multiple vCenters if you want, which will enable seamless use of cross-vCenter vMotion, as well as the ability to import DR copies of encrypted VMs.
+If you use Enhanced Linked Mode the providers are not synchronized, and will only be available to hosts that are directly attached to a particular vCenter. You will need to manually synchronize the key providers across all linked vCenter instances. You can configure (or restore, for Native Key Provider) the same provider across multiple vCenters if you want, which lets you use cross-vCenter vMotion and import DR copies of encrypted VMs.
 
 Encrypted objects find their key provider by name, so do not use the same name for different providers, even across different vCenters. It will be confusing and error-prone, especially for Native Key Provider backups where you might end up with multiple files on disk with the same name and risk overwriting one. If the provider is unique always give it a unique name. If it's shared, such as with a Standard Key Provider, always give it the same name.
 
 Broadcom used to track key management systems (KMS) in the VMware Compatibility Guide, but this is no longer the case. KMS vendors should provide connection and compatibility information for their products in their documentation. Broadly speaking, any KMS that supports the KMIP protocol will work with the Standard Key Provider.
 
-External KMS systems need to be highly available, and not hosted inside the environment they are protecting. This may seem obvious, but it is possible to use storage vMotion to move a virtual KMS on to a vSAN datastore which gets its encryption keys from that KMS, which will result in a data loss situation at some point in the future because of the dependency loop.
+External KMS systems need to be highly available, and not hosted inside the environment they are protecting. This may seem obvious, but it is possible to use storage vMotion to move a virtual KMS onto a vSAN datastore that gets its encryption keys from that KMS. That dependency loop will eventually cause data loss.
 
 ## Types of Encryption Keys
 
-Two encryption keys are used for flexibility and security:
+vSphere uses two encryption keys:
 
 - Data Encryption Key (DEK) which protects the object itself. The DEK is stored in the .VMX configuration file for the virtual machine, and is encrypted with the KEK.
 
 - Key Encryption Key (KEK) or Key Derivation Key (KDK) which protects the DEK.
   - On Standard Key Providers the KEK is stored with the KMS. There is one KEK per object (VM, disk group, etc.).
   - On Native Key Providers the KDK is used instead of the KEK, and helps compute/derive the KEK. Functionally it acts the same as the KEK, but it is not stored with the key provider.
+
+In VCF/vSphere 9.0 and later, a Standard Key Provider can add a third, optional key:
+
+- Wrapping Key, an optional Standard Key Provider feature introduced in VCF/vSphere 9.0. When enabled ("Use a single KMS wrapping key"), the KMS stores a single wrapping key instead of one KEK per encrypted object; the KEK is instead stored alongside the VM, wrapped by the wrapping key. This reduces the number of keys held in the KMS to one, and wrapping keys can be rotated automatically on a configurable interval. Wrapping keys apply only to Standard Key Providers; Native Key Provider does not use or need them. See [Standard Key Provider](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/features-capabilities/encryption/key-providers/standard-key-provider) for details.
 
 Hosts only have one key for their core dumps and support bundles.
 
@@ -77,4 +81,4 @@ We can use the shallow rekey operation to change key providers, by instructing v
 
 ## Disclaimer
 
-This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This  repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.

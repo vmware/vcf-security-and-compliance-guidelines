@@ -7,10 +7,10 @@ We maintain a permanent link for use in documents and other resources:
 
 https://brcm.tech/vcf-scg
 
-The current target of this redirected link, as well as many other resources, can be found in the resources & links section below.
+The Resources & Links section below lists the current target of this link and other resources.
 
 ## Resources & Links
-Additional security information can be found throughout this entire repository:
+This repository contains additional security information:
 
 [https://github.com/vmware/vcf-security-and-compliance-guidelines](https://github.com/vmware/vcf-security-and-compliance-guidelines)
 

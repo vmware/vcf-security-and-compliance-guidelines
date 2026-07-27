@@ -6,7 +6,7 @@ On July 15, 2025, Broadcom released a critical VMware Security Advisory (VMSA), 
 
 The VMSA will always be the source of truth for which products and versions are affected and the proper patches to keep your organization secure. This document is a supplement to the advisory and includes self-service information to help you and your organization decide how to respond.
 
-You are affected if you are running any version of VMware ESX, VMware vSphere, VMware Cloud Foundation, VMware Telco Cloud Platform, or VMware Tools prior to the versions listed as "fixed" in the VMSA. Please consult the VMSA itself for the definitive list of affected versions. If you have a question about whether you are affected, it is probable that you are and should take action immediately.
+You are affected if you are running any version of VMware ESX, VMware vSphere, VMware Cloud Foundation, VMware Telco Cloud Platform, VMware Workstation, VMware Fusion, or VMware Tools prior to the versions listed as "fixed" in the VMSA. Please consult the VMSA itself for the definitive list of affected versions. If you have a question about whether you are affected, it is probable that you are and should take action immediately.
 
 ## Current Update
 

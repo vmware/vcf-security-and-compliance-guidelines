@@ -1,6 +1,6 @@
 # Network Encryption in VMware vSphere 7
 
-VMware is often asked if all network communications from vSphere, vSAN, Cloud Foundation, and Cloud are encrypted. VMware intends that vSphere, vSAN, Cloud Foundation, and Cloud all are secure by default, as deployed initially. This includes network security. However, most implementation decisions are done by customers and their partners, and it is possible, and sometimes even desirable, to configure products to communicate using unencrypted protocols. This short document is intended to help customers understand the issue and supply a response to questions like those found on compliance and security questionnaires.
+VMware is often asked if all network communications from vSphere, vSAN, Cloud Foundation, and Cloud are encrypted. VMware intends that vSphere, vSAN, Cloud Foundation, and Cloud all are secure by default, as deployed initially. This includes network security. However, customers and their partners make most implementation decisions, and some designs legitimately use unencrypted protocols. Use this document to answer questions about network encryption in vSphere, like those found on compliance and security questionnaires.
 
 Default Configuration
 ---------------------
@@ -23,18 +23,18 @@ and so on. The use of these protocols is a design decision, and secure alternati
 Virtual Machines and Workloads
 ------------------------------
 
-For unencrypted virtual machines, VMware vMotion and VMware vSphere Fault Tolerance are configured by default on a per-VM basis for “opportunistic” encryption. This means that on computing hardware that supports AES-NI it will be encrypted, and on hardware that does not support AES-NI it will fall back to unencrypted. Practically speaking, all computing hardware supported by vSphere 7 includes AES-NI CPU instructions, but to guarantee encrypted communications customers should configure those settings to “required.”
+For unencrypted virtual machines, VMware vMotion and VMware vSphere Fault Tolerance are configured by default on a per-VM basis for “opportunistic” encryption. With opportunistic encryption, ESXi encrypts vMotion and Fault Tolerance traffic when the hardware supports AES-NI and sends it unencrypted when the hardware does not. Practically speaking, all computing hardware supported by vSphere 7 includes AES-NI CPU instructions. To require encryption for this traffic regardless of hardware, set those options to “required.”
 
 Virtual machines configured with VM Encryption and/or vTPM virtual devices will always require vMotion encryption.
 
-The security of network communications to and from guest operating systems and workloads are the responsibility of the customer, and outside the scope of this document.
+Network communications to and from guest operating systems and workloads are the customer’s responsibility and are outside the scope of this document.
 
 Considerations
 --------------
 
-Use of secure protocols and product security features may change the performance of a vSphere implementation. The specifics of the performance of a system will depend on workload characteristics and implementation details, and should be evaluated by the customer, as they are beyond the scope of this document. VMware Professional Services is always available to aid customers directly with implementations and system changes to improve security.
+Secure protocols and security features can reduce performance. Measure the effect in your own environment; it depends on your workloads and implementation. VMware Professional Services can assist with these changes.
 
 Disclaimer
 ----------
 
-This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This  repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.

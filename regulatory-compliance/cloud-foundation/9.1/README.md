@@ -1,15 +1,18 @@
 # Regulatory Compliance for VMware Cloud Foundation 9.1
 
-This directory contains compliance companion guides that map VMware Cloud Foundation (VCF) 9.1 capabilities to individual regulatory frameworks and standards. Each subdirectory covers one framework and provides the guidance in XLSX, CSV, Markdown, and PDF formats, along with the raw download links in its own README.
+This directory contains compliance companion guides that map VMware Cloud Foundation (VCF) 9.1 capabilities to individual regulatory frameworks and standards. Each subdirectory covers one framework; its README lists the XLSX, CSV, Markdown, and PDF downloads.
 
 The full set of VCF compliance companion guides is also accessible at [https://brcm.tech/vcf-compliance](https://brcm.tech/vcf-compliance).
 
 ## Frameworks and Standards
 
+- [AICPA Trust Services Criteria (SOC 2)](aicpa-tsc/)
 - [Australian Signals Directorate Information Security Manual (ISM)](acsc-ism/)
 - [Australian Signals Directorate Essential Eight](essential-8/)
 - [BSI Standard 200-1 (Information Security Management Systems)](bsi-200-1/)
 - [CIS Critical Security Controls 8.1](cis-csc-8-1/)
+- [CSA Cloud Controls Matrix 4.1.0](csa-ccm/)
+- [CSA Consensus Assessments Initiative Questionnaire (CAIQ) 4.1.0](csa-caiq/)
 - [Cybersecurity Maturity Model Certification (CMMC) 2.0](cmmc-2-0/)
 - [EU Artificial Intelligence Act (AI Act)](eu-ai-act/)
 - [EU Cloud Sovereignty Framework](eu-cloud-sovereignty/)
@@ -17,13 +20,16 @@ The full set of VCF compliance companion guides is also accessible at [https://b
 - [EU Digital Operational Resilience Act (DORA)](dora/)
 - [EU General Data Protection Regulation (GDPR)](gdpr/)
 - [EU NIS2 Directive](eu-nis2/)
+- [FedRAMP Revision 5 (Moderate Baseline)](fedramp-r5/)
 - [IEC 62443-4-2](iec-62443-4-2/)
 - [ISO/IEC 27001:2022](iso-27001-2022/)
+- [MITRE ATT&CK](mitre-attack/)
 - [NERC CIP](nerc-cip/)
 - [NIST AI Risk Management Framework (AI RMF 1.0)](nist-ai-100-1/)
 - [NIST Cybersecurity Framework (CSF) 2.0](nist-csf-2/)
 - [NIST Generative AI Profile (NIST AI 600-1)](nist-ai-600-1/)
 - [NIST SP 800-53 Rev. 5](nist-800-53-r5/)
+- [NIST SP 800-82 Revision 3 (High OT Overlay)](nist-800-82-r3/)
 - [NIST SP 800-171 Revision 3](nist-800-171-r3/)
 - [NIST SP 800-207 Zero Trust Architecture](nist-800-207/)
 - [PCI DSS 4.0.1](pci-dss-401/)

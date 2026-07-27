@@ -5,11 +5,11 @@
 > Upgrade to a supported version as soon as possible. The information here about this product version
 > is no longer maintained. It is provided here solely as an archive.
 
-The VMware vSphere Security Configuration & Hardening Guide (SCG) is the baseline for hardening and auditing guidance for VMware vSphere itself. Started more than fifteen years ago, it has long served as the reference for virtualization administrators looking to protect their infrastructure.
+The VMware vSphere Security Configuration & Hardening Guide (SCG) is the baseline for hardening and auditing guidance for VMware vSphere itself.
 
-# Download the Latest Version
+## Download the Latest Version
 
-This version of the Security Configuration & Hardening Guide can be downloaded from this directory, using the links above. You may need to click the "Download Raw File" button. The link to this location is:
+Download this version of the guide from the file list in this directory. You may need to click the "Download Raw File" button. The link to this location is:
 
 [https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide/vsphere/7.0](https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide/vsphere/7.0)
 
@@ -17,11 +17,11 @@ We maintain a permanent link for use in documents and other resources:
 
 https://brcm.tech/vcf-scg
 
-# Disclaimer
+## Disclaimer
 
 This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This document is not intended to provide advice and is provided “AS IS.” VMware makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
 
-# Feedback
+## Feedback
 
 Please use the issue tracker in our GitHub repository to submit feedback:
 

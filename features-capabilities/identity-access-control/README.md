@@ -1,6 +1,6 @@
 # Identity and Access Control in VMware Cloud Foundation
 
-Authentication and authorization are foundational to infrastructure security. VMware Cloud Foundation (VCF) supports federated identity through external identity providers, multifactor authentication, and granular role-based access control, helping organizations limit administrative access to the people who need it.
+VMware Cloud Foundation (VCF) supports federated identity through external identity providers, multifactor authentication, and granular role-based access control, which help organizations limit administrative access to the people who need it.
 
 - [**20251031-VCF9-Authentication-and-Authorization-Best-Practices.pdf**](20251031-VCF9-Authentication-and-Authorization-Best-Practices.pdf?raw=true) - best practices for configuring authentication and authorization in VCF 9
 

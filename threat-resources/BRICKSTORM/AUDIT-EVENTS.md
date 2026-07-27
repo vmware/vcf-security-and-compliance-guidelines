@@ -33,24 +33,24 @@ These events are essential for detecting BRICKSTORM's credential extraction tech
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `vm.create` | ESX | ⚠️ HIGH | VM creation attempted | New staging VM creation |
-| `vm.delete` | ESX | ⛔ CRITICAL | VM deletion attempted | Covering tracks after credential extraction |
-| `vm.reconfigure` | ESX | ⛔ CRITICAL | VM reconfiguration attempted | **Disk swap attack**: attaching DC disks to staging VM |
-| `vm.register` | ESX | 🔵 MEDIUM | VM registered | Rogue VM registration |
-| `vm.kill` | ESX | ⚠️ HIGH | VM forcefully terminated | Abnormal VM termination |
-| `vm.power.on` | ESX | 🔵 MEDIUM | VM power on attempted | Staging VM activation |
-| `vm.power.off` | ESX | 🔵 MEDIUM | VM power off attempted | Pre-deletion activity |
-| `vm.snapshot.create` | ESX | ⚠️ HIGH | Snapshot creation attempted | Data capture technique |
-| `vm.snapshot.remove` | ESX | 🔵 MEDIUM | Snapshot removal attempted | Cleanup activity |
-| `vm.snapshot.revert` | ESX | 🔵 MEDIUM | Snapshot revert attempted | May indicate testing/evasion |
+| `vm.create` | ESX | HIGH | VM creation attempted | New staging VM creation |
+| `vm.delete` | ESX | CRITICAL | VM deletion attempted | Covering tracks after credential extraction |
+| `vm.reconfigure` | ESX | CRITICAL | VM reconfiguration attempted | **Disk swap attack**: attaching DC disks to staging VM |
+| `vm.register` | ESX | MEDIUM | VM registered | Rogue VM registration |
+| `vm.kill` | ESX | HIGH | VM forcefully terminated | Abnormal VM termination |
+| `vm.power.on` | ESX | MEDIUM | VM power on attempted | Staging VM activation |
+| `vm.power.off` | ESX | MEDIUM | VM power off attempted | Pre-deletion activity |
+| `vm.snapshot.create` | ESX | HIGH | Snapshot creation attempted | Data capture technique |
+| `vm.snapshot.remove` | ESX | MEDIUM | Snapshot removal attempted | Cleanup activity |
+| `vm.snapshot.revert` | ESX | MEDIUM | Snapshot revert attempted | May indicate testing/evasion |
 
 ### VM Storage Events - Disk Swap Detection (VMware ESX Audit Log)
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `vm.storage.add` | ESX | ⛔ CRITICAL | Disk attached to VM | **Key indicator**: DC/vault disk attached to different VM |
-| `vm.storage.edit` | ESX | ⚠️ HIGH | VM storage configuration changed | Disk reconfiguration |
-| `vm.storage.remove` | ESX | ⚠️ HIGH | Disk removed from VM | Cleanup after extraction |
+| `vm.storage.add` | ESX | CRITICAL | Disk attached to VM | **Key indicator**: DC/vault disk attached to different VM |
+| `vm.storage.edit` | ESX | HIGH | VM storage configuration changed | Disk reconfiguration |
+| `vm.storage.remove` | ESX | HIGH | Disk removed from VM | Cleanup after extraction |
 
 **Disk Swap Alert Criteria for `vm.storage.add`**:
 
@@ -76,9 +76,9 @@ The VMware ESX audit log does not record VM migrations. This activity is visible
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `VmMigratedEvent` | vCenter | ⚠️ HIGH | VM migration completed (vMotion or cold migration) | DC moved to compromised host |
-| `VmRelocatedEvent` | vCenter | ⚠️ HIGH | VM storage relocated (Storage vMotion) | DC moved to attacker-controlled storage |
-| `DrsVmMigratedEvent` | vCenter | ⬜ LOW | VM migrated automatically by DRS | Baseline noise; exclude from manual-migration alerts |
+| `VmMigratedEvent` | vCenter | HIGH | VM migration completed (vMotion or cold migration) | DC moved to compromised host |
+| `VmRelocatedEvent` | vCenter | HIGH | VM storage relocated (Storage vMotion) | DC moved to attacker-controlled storage |
+| `DrsVmMigratedEvent` | vCenter | LOW | VM migrated automatically by DRS | Baseline noise; exclude from manual-migration alerts |
 
 **Detection Rule**: Alert when ANY migration event targets a Critical VM (Domain Controller, CA, vault) and the destination is:
 - A non-production cluster
@@ -107,11 +107,11 @@ Alert when these events occur in sequence within 24 hours for the same VM:
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `ssh.connect` | ESX | ⚠️ HIGH | SSH connection attempt | Direct host access |
-| `ssh.disconnect` | ESX | ⬜ LOW | SSH connection ended | Session tracking |
-| `ssh.session.begin` | ESX | ⚠️ HIGH | SSH session started | Interactive access established |
-| `ssh.session.end` | ESX | ⬜ LOW | SSH session ended | Session tracking |
-| `ssh.cmd` | ESX | ⛔ CRITICAL | Shell command executed via SSH | **Command execution monitoring** |
+| `ssh.connect` | ESX | HIGH | SSH connection attempt | Direct host access |
+| `ssh.disconnect` | ESX | LOW | SSH connection ended | Session tracking |
+| `ssh.session.begin` | ESX | HIGH | SSH session started | Interactive access established |
+| `ssh.session.end` | ESX | LOW | SSH session ended | Session tracking |
+| `ssh.cmd` | ESX | CRITICAL | Shell command executed via SSH | **Command execution monitoring** |
 
 #### vpxuser SSH Monitoring
 
@@ -127,17 +127,17 @@ The `vpxuser` account is created by vCenter to manage VMware ESX hosts and has r
 # Alert criteria
 Event: ssh.session.begin
 User: vpxuser
-Priority: ⛔ CRITICAL
+Priority: CRITICAL
 ```
 
 ### DCUI Events (VMware ESX)
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `dcui.login` | ESX | ⚠️ HIGH | DCUI login attempted | Physical/console access |
-| `dcui.logout` | ESX | ⬜ LOW | DCUI session ended | Session tracking |
-| `esx.audit.dcui.login.failed` | vCenter | ⚠️ HIGH | DCUI login failed | Brute force attempts |
-| `esx.audit.dcui.login.passwd.changed` | vCenter | ⛔ CRITICAL | DCUI password changed | Credential manipulation |
+| `dcui.login` | ESX | HIGH | DCUI login attempted | Physical/console access |
+| `dcui.logout` | ESX | LOW | DCUI session ended | Session tracking |
+| `esx.audit.dcui.login.failed` | vCenter | HIGH | DCUI login failed | Brute force attempts |
+| `esx.audit.dcui.login.passwd.changed` | vCenter | CRITICAL | DCUI password changed | Credential manipulation |
 
 Events prefixed `esx.audit.*` are relayed through the vCenter event system (see [Section 14](#14-vcenter-relayed-esx-events)); they are not records in the ESX audit log.
 
@@ -145,10 +145,10 @@ Events prefixed `esx.audit.*` are relayed through the vCenter event system (see 
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `vim.connect` | ESX | 🔵 MEDIUM | VIM API connection established | API access |
-| `vim.disconnect` | ESX | ⬜ LOW | VIM API connection ended | Session tracking |
-| `vim.terminate` | ESX | 🔵 MEDIUM | VIM session terminated | Forced disconnection |
-| `vim.access.denied` | ESX | ⚠️ HIGH | VIM API access denied | Unauthorized access attempts |
+| `vim.connect` | ESX | MEDIUM | VIM API connection established | API access |
+| `vim.disconnect` | ESX | LOW | VIM API connection ended | Session tracking |
+| `vim.terminate` | ESX | MEDIUM | VIM session terminated | Forced disconnection |
+| `vim.access.denied` | ESX | HIGH | VIM API access denied | Unauthorized access attempts |
 
 ### Login Failure Events (vCenter-Relayed)
 
@@ -156,9 +156,9 @@ These host login-failure events are relayed through the vCenter event system (se
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `esx.audit.account.locked` | vCenter | ⚠️ HIGH | Account locked due to failed logins | Brute force detection |
-| `esx.audit.account.loginfailures` | vCenter | ⚠️ HIGH | Multiple login failures detected | Credential guessing |
-| `esx.audit.ssh.session.failed` | vCenter | ⚠️ HIGH | SSH login failed | SSH brute force |
+| `esx.audit.account.locked` | vCenter | HIGH | Account locked due to failed logins | Brute force detection |
+| `esx.audit.account.loginfailures` | vCenter | HIGH | Multiple login failures detected | Credential guessing |
+| `esx.audit.ssh.session.failed` | vCenter | HIGH | SSH login failed | SSH brute force |
 
 ---
 
@@ -166,11 +166,11 @@ These host login-failure events are relayed through the vCenter event system (se
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `account.create` | ESX | ⛔ CRITICAL | User account creation attempted | Persistence mechanism |
-| `account.delete` | ESX | ⚠️ HIGH | User account deletion attempted | Covering tracks |
-| `account.edit` | ESX | ⚠️ HIGH | User account modification attempted | Privilege escalation |
-| `account.changePassword` | ESX | ⚠️ HIGH | Password change attempted | Credential manipulation |
-| `account.locked` | ESX | 🔵 MEDIUM | Account locked (failed logins) | Attack detection |
+| `account.create` | ESX | CRITICAL | User account creation attempted | Persistence mechanism |
+| `account.delete` | ESX | HIGH | User account deletion attempted | Covering tracks |
+| `account.edit` | ESX | HIGH | User account modification attempted | Privilege escalation |
+| `account.changePassword` | ESX | HIGH | Password change attempted | Credential manipulation |
+| `account.locked` | ESX | MEDIUM | Account locked (failed logins) | Attack detection |
 
 ### Detection Pattern: Temporary Account
 
@@ -184,19 +184,19 @@ Alert when `account.create` is followed by `account.delete` within short timefra
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `service.start` | ESX | ⚠️ HIGH | Service start attempted | SSH/Shell enablement |
-| `service.stop` | ESX | 🔵 MEDIUM | Service stop attempted | Security service disabled |
-| `service.restart` | ESX | 🔵 MEDIUM | Service restart attempted | Service manipulation |
-| `service.updatepolicy` | ESX | ⚠️ HIGH | Service startup policy changed | Persistence (auto-start SSH) |
-| `service.uninstall` | ESX | ⚠️ HIGH | Service uninstall attempted | Security software removal |
-| `service.access.denied` | ESX | 🔵 MEDIUM | Service access denied | Unauthorized service access |
+| `service.start` | ESX | HIGH | Service start attempted | SSH/Shell enablement |
+| `service.stop` | ESX | MEDIUM | Service stop attempted | Security service disabled |
+| `service.restart` | ESX | MEDIUM | Service restart attempted | Service manipulation |
+| `service.updatepolicy` | ESX | HIGH | Service startup policy changed | Persistence (auto-start SSH) |
+| `service.uninstall` | ESX | HIGH | Service uninstall attempted | Security software removal |
+| `service.access.denied` | ESX | MEDIUM | Service access denied | Unauthorized service access |
 
 ### Key Services to Monitor
 
 | Service ID | Service Name | Alert Priority |
 |------------|--------------|----------------|
-| `TSM-SSH` | SSH | ⛔ CRITICAL when enabled |
-| `TSM` | ESX Shell | ⛔ CRITICAL when enabled |
+| `TSM-SSH` | SSH | CRITICAL when enabled |
+| `TSM` | ESX Shell | CRITICAL when enabled |
 | `DCUI` | Direct Console UI | HIGH if disabled |
 | `vpxa` | vCenter Agent | HIGH if stopped |
 | `hostd` | Host Agent | HIGH if stopped |
@@ -209,22 +209,22 @@ Alert when `account.create` is followed by `account.delete` within short timefra
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `configenc.reqeio.enable` | ESX | ⬜ LOW | execInstalledOnly requirement enabled | Security hardening |
-| `configenc.reqeio.disable` | ESX | ⛔ CRITICAL | execInstalledOnly requirement disabled | **Security bypass attempt** |
-| `configenc.reqsb.enable` | ESX | ⬜ LOW | Secure Boot requirement enabled | Security hardening |
-| `configenc.reqsb.disable` | ESX | ⛔ CRITICAL | Secure Boot requirement disabled | **Security bypass attempt** |
-| `configenc.tpm.enable` | ESX | ⬜ LOW | TPM mode enabled | Security hardening |
+| `configenc.reqeio.enable` | ESX | LOW | execInstalledOnly requirement enabled | Security hardening |
+| `configenc.reqeio.disable` | ESX | CRITICAL | execInstalledOnly requirement disabled | **Security bypass attempt** |
+| `configenc.reqsb.enable` | ESX | LOW | Secure Boot requirement enabled | Security hardening |
+| `configenc.reqsb.disable` | ESX | CRITICAL | Secure Boot requirement disabled | **Security bypass attempt** |
+| `configenc.tpm.enable` | ESX | LOW | TPM mode enabled | Security hardening |
 
 ### Firewall Events (VMware ESX)
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `network.fw.disable` | ESX | ⛔ CRITICAL | Firewall disabled | Network security bypass |
-| `network.fw.enable` | ESX | ⬜ LOW | Firewall enabled | Normal operation |
-| `network.fw.rule.enable` | ESX | ⚠️ HIGH | Firewall rule enabled | Rule change |
-| `network.fw.rule.disable` | ESX | ⚠️ HIGH | Firewall rule disabled | Rule weakening |
-| `network.fw.rule.update` | ESX | 🔵 MEDIUM | Firewall rule updated | Configuration change |
-| `network.fw.defaultpolicy` | ESX | 🔵 MEDIUM | Firewall default policy updated | Policy change |
+| `network.fw.disable` | ESX | CRITICAL | Firewall disabled | Network security bypass |
+| `network.fw.enable` | ESX | LOW | Firewall enabled | Normal operation |
+| `network.fw.rule.enable` | ESX | HIGH | Firewall rule enabled | Rule change |
+| `network.fw.rule.disable` | ESX | HIGH | Firewall rule disabled | Rule weakening |
+| `network.fw.rule.update` | ESX | MEDIUM | Firewall rule updated | Configuration change |
+| `network.fw.defaultpolicy` | ESX | MEDIUM | Firewall default policy updated | Policy change |
 
 ---
 
@@ -234,16 +234,16 @@ Attackers manipulate time to evade detection and corrupt forensic timelines.
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `time.ntp.disable` | ESX | ⚠️ HIGH | NTP disabled | Time manipulation setup |
-| `time.ntp.enable` | ESX | ⬜ LOW | NTP enabled | Normal operation |
-| `time.ntp.set.servers` | ESX | 🔵 MEDIUM | NTP servers changed | Potential redirection |
-| `time.set.systemclock` | ESX | ⛔ CRITICAL | System clock manually set | **Timestomping indicator** |
-| `time.monitoring.disable` | ESX | ⚠️ HIGH | Time monitoring disabled | Evasion technique |
-| `time.monitoring.enable` | ESX | ⬜ LOW | Time monitoring enabled | Normal operation |
-| `esx.problem.clock.skew` | ESX | ⚠️ HIGH | Clock skew detected | Time drift/manipulation |
-| `esx.problem.clock.parameter.set.maxPosPhaseCorrection` | ESX | ⛔ CRITICAL | NTP correction parameter changed | **Timestomping setup**: Allows large time jumps without detection |
+| `time.ntp.disable` | ESX | HIGH | NTP disabled | Time manipulation setup |
+| `time.ntp.enable` | ESX | LOW | NTP enabled | Normal operation |
+| `time.ntp.set.servers` | ESX | MEDIUM | NTP servers changed | Potential redirection |
+| `time.set.systemclock` | ESX | CRITICAL | System clock manually set | **Timestomping indicator** |
+| `time.monitoring.disable` | ESX | HIGH | Time monitoring disabled | Evasion technique |
+| `time.monitoring.enable` | ESX | LOW | Time monitoring enabled | Normal operation |
+| `esx.problem.clock.skew` | ESX | HIGH | Clock skew detected | Time drift/manipulation |
+| `esx.problem.clock.parameter.set.maxPosPhaseCorrection` | ESX | CRITICAL | NTP correction parameter changed | **Timestomping setup**: Allows large time jumps without detection |
 
-**Why Time Manipulation Matters**: Attackers modify `maxPosPhaseCorrection` to allow large time adjustments that would normally be rejected by NTP. This enables backdating malicious activity to appear as if it occurred during a different timeframe, corrupting forensic timelines and potentially placing attacker activity outside your log retention window.
+**Effect of maxPosPhaseCorrection Changes**: Attackers modify `maxPosPhaseCorrection` to allow large time adjustments that would normally be rejected by NTP. This enables backdating malicious activity to appear as if it occurred during a different timeframe, corrupting forensic timelines and potentially placing attacker activity outside your log retention window.
 
 **VMkernel log detection**: In addition to the structured audit events above, monitor `/var/log/vmkernel.log` for NTPClock warnings that indicate large clock steps. The entry `WARNING: NTPClock: system clock stepped to [...], but delta [...] > 172800 seconds` (or similar large delta values) is a high-confidence indicator of the timestomping technique used by UNC5221. Forward vmkernel logs to your SIEM and alert on any `NTPClock` warning where the delta exceeds your expected drift threshold.
 
@@ -253,10 +253,10 @@ Attackers manipulate time to evade detection and corrupt forensic timelines.
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `system.update.add` | ESX | ⛔ CRITICAL | Software (VIB/component) installation attempted | **Malware/backdoor installation** |
-| `system.update.remove` | ESX | ⚠️ HIGH | Software (VIB/component) removal attempted | Security software removal |
-| `system.update.start` | ESX | 🔵 MEDIUM | Software update transaction started | Correlate with add/remove events |
-| `system.update.end` | ESX | 🔵 MEDIUM | Software update transaction ended | Carries failure reason for the transaction |
+| `system.update.add` | ESX | CRITICAL | Software (VIB/component) installation attempted | **Malware/backdoor installation** |
+| `system.update.remove` | ESX | HIGH | Software (VIB/component) removal attempted | Security software removal |
+| `system.update.start` | ESX | MEDIUM | Software update transaction started | Correlate with add/remove events |
+| `system.update.end` | ESX | MEDIUM | Software update transaction ended | Carries failure reason for the transaction |
 
 VIB operations are also relayed through vCenter as `esx.audit.esximage.*` events (see [Section 14](#software-installation-events-via-vcenter)).
 
@@ -277,8 +277,8 @@ These strings correspond to the use of `--no-sig-check` or a changed software ac
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `shell.cmd` | ESX | ⛔ CRITICAL | Shell command completed | **Command execution audit** |
-| `ssh.cmd` | ESX | ⛔ CRITICAL | SSH command executed | **Remote command execution** |
+| `shell.cmd` | ESX | CRITICAL | Shell command completed | **Command execution audit** |
+| `ssh.cmd` | ESX | CRITICAL | SSH command executed | **Remote command execution** |
 
 ### Forensic Limitations
 
@@ -308,13 +308,13 @@ Monitor `shell.cmd` and `ssh.cmd` events for these patterns:
 
 | Pattern | Risk | Description |
 |---------|------|-------------|
-| `esxcli system settings kernel set` | ⛔ CRITICAL | Kernel parameter changes (execInstalledOnly) |
-| `vim-cmd vmsvc/` | ⚠️ HIGH | VM operations via command line |
-| `esxcli network firewall` | ⚠️ HIGH | Firewall manipulation |
-| `esxcli software vib` | ⛔ CRITICAL | Software installation |
-| `chmod`, `chown` | 🔵 MEDIUM | Permission changes |
-| `cp`, `mv` to `/etc/` paths | ⚠️ HIGH | System file modification |
-| `curl`, `wget` | ⛔ CRITICAL | External file download |
+| `esxcli system settings kernel set` | CRITICAL | Kernel parameter changes (execInstalledOnly) |
+| `vim-cmd vmsvc/` | HIGH | VM operations via command line |
+| `esxcli network firewall` | HIGH | Firewall manipulation |
+| `esxcli software vib` | CRITICAL | Software installation |
+| `chmod`, `chown` | MEDIUM | Permission changes |
+| `cp`, `mv` to `/etc/` paths | HIGH | System file modification |
+| `curl`, `wget` | CRITICAL | External file download |
 
 ---
 
@@ -324,11 +324,11 @@ Attackers may attempt to disable or redirect logging.
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `syslog.reload` | ESX | 🔵 MEDIUM | Syslog configuration reloaded | Config change |
-| `syslog.net.close` | ESX | ⚠️ HIGH | Remote syslog connection closed | Log forwarding disruption |
-| `syslog.net.open` | ESX | ⬜ LOW | Remote syslog connection opened | Normal operation |
-| `syslog.net.link.down` | ESX | ⚠️ HIGH | Remote syslog link down | Log forwarding failure |
-| `syslog.net.link.up` | ESX | ⬜ LOW | Remote syslog link up | Connection restored |
+| `syslog.reload` | ESX | MEDIUM | Syslog configuration reloaded | Config change |
+| `syslog.net.close` | ESX | HIGH | Remote syslog connection closed | Log forwarding disruption |
+| `syslog.net.open` | ESX | LOW | Remote syslog connection opened | Normal operation |
+| `syslog.net.link.down` | ESX | HIGH | Remote syslog link down | Log forwarding failure |
+| `syslog.net.link.up` | ESX | LOW | Remote syslog link up | Connection restored |
 
 ---
 
@@ -336,10 +336,10 @@ Attackers may attempt to disable or redirect logging.
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `cert.castore.add` | ESX | 🔵 MEDIUM | CA certificate added to trust store | Trust store modification |
-| `cert.castore.remove` | ESX | ⚠️ HIGH | CA certificate removed from trust store | Trust manipulation |
-| `cert.client.install` | ESX | 🔵 MEDIUM | Client certificate installed | Authentication change |
-| `cert.server.install` | ESX | 🔵 MEDIUM | Server certificate installed | Service identity change |
+| `cert.castore.add` | ESX | MEDIUM | CA certificate added to trust store | Trust store modification |
+| `cert.castore.remove` | ESX | HIGH | CA certificate removed from trust store | Trust manipulation |
+| `cert.client.install` | ESX | MEDIUM | Client certificate installed | Authentication change |
+| `cert.server.install` | ESX | MEDIUM | Server certificate installed | Service identity change |
 
 ---
 
@@ -347,9 +347,9 @@ Attackers may attempt to disable or redirect logging.
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `settings.advanced.add` | ESX | ⚠️ HIGH | Advanced setting added | Configuration manipulation |
-| `settings.advanced.delete` | ESX | ⚠️ HIGH | Advanced setting deleted | Configuration manipulation |
-| `settings.advanced.reset` | ESX | 🔵 MEDIUM | Advanced setting reset | Configuration change |
+| `settings.advanced.add` | ESX | HIGH | Advanced setting added | Configuration manipulation |
+| `settings.advanced.delete` | ESX | HIGH | Advanced setting deleted | Configuration manipulation |
+| `settings.advanced.reset` | ESX | MEDIUM | Advanced setting reset | Configuration change |
 
 ---
 
@@ -357,11 +357,11 @@ Attackers may attempt to disable or redirect logging.
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `ad.event.JoinDomainEvent` | vCenter | 🔵 MEDIUM | Domain join succeeded | Identity integration |
-| `ad.event.JoinDomainFailedEvent` | vCenter | ⚠️ HIGH | Domain join failed | Configuration issue |
-| `ad.event.LeaveDomainEvent` | vCenter | ⚠️ HIGH | Domain leave succeeded | Identity isolation |
-| `ad.event.ImportCertEvent` | vCenter | 🔵 MEDIUM | Certificate import succeeded | Trust store modification |
-| `ad.event.ImportCertFailedEvent` | vCenter | ⚠️ HIGH | Certificate import failed | Configuration issue |
+| `ad.event.JoinDomainEvent` | vCenter | MEDIUM | Domain join succeeded | Identity integration |
+| `ad.event.JoinDomainFailedEvent` | vCenter | HIGH | Domain join failed | Configuration issue |
+| `ad.event.LeaveDomainEvent` | vCenter | HIGH | Domain leave succeeded | Identity isolation |
+| `ad.event.ImportCertEvent` | vCenter | MEDIUM | Certificate import succeeded | Trust store modification |
+| `ad.event.ImportCertFailedEvent` | vCenter | HIGH | Certificate import failed | Configuration issue |
 
 ---
 
@@ -373,38 +373,38 @@ vCenter maintains a task and event database accessible via the vSphere API and v
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `VmClonedEvent` | vCenter | ⛔ CRITICAL | VM clone completed | **Primary attack vector**: Clone DC/vault VM for offline credential extraction |
-| `VmCreatedEvent` | vCenter | ⚠️ HIGH | VM created | New staging VM creation |
-| `VmRemovedEvent` | vCenter | ⛔ CRITICAL | VM removed/deleted | Covering tracks after credential extraction |
-| `VmReconfiguredEvent` | vCenter | ⛔ CRITICAL | VM reconfiguration completed | **Disk swap attack**: Attaching disks from other VMs |
-| `VmRegisteredEvent` | vCenter | ⚠️ HIGH | VM registered to inventory | Rogue VM registration |
-| `VmDeployedEvent` | vCenter | ⚠️ HIGH | VM deployed from template/OVF | New VM from template |
-| `VmMigratedEvent` | vCenter | 🔵 MEDIUM | VM migrated (vMotion) | VM movement tracking |
-| `VmRelocatedEvent` | vCenter | 🔵 MEDIUM | VM storage relocated | Storage migration |
+| `VmClonedEvent` | vCenter | CRITICAL | VM clone completed | **Primary attack vector**: Clone DC/vault VM for offline credential extraction |
+| `VmCreatedEvent` | vCenter | HIGH | VM created | New staging VM creation |
+| `VmRemovedEvent` | vCenter | CRITICAL | VM removed/deleted | Covering tracks after credential extraction |
+| `VmReconfiguredEvent` | vCenter | CRITICAL | VM reconfiguration completed | **Disk swap attack**: Attaching disks from other VMs |
+| `VmRegisteredEvent` | vCenter | HIGH | VM registered to inventory | Rogue VM registration |
+| `VmDeployedEvent` | vCenter | HIGH | VM deployed from template/OVF | New VM from template |
+| `VmMigratedEvent` | vCenter | MEDIUM | VM migrated (vMotion) | VM movement tracking |
+| `VmRelocatedEvent` | vCenter | MEDIUM | VM storage relocated | Storage migration |
 
 ### VM Snapshot Events (vCenter)
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `VmSnapshotCreatedEvent` | vCenter | ⚠️ HIGH | Snapshot created | Data capture for extraction |
-| `VmSnapshotRemovedEvent` | vCenter | 🔵 MEDIUM | Snapshot removed | Cleanup activity |
-| `VmSnapshotRevertedEvent` | vCenter | 🔵 MEDIUM | VM reverted to snapshot | May indicate testing/evasion |
+| `VmSnapshotCreatedEvent` | vCenter | HIGH | Snapshot created | Data capture for extraction |
+| `VmSnapshotRemovedEvent` | vCenter | MEDIUM | Snapshot removed | Cleanup activity |
+| `VmSnapshotRevertedEvent` | vCenter | MEDIUM | VM reverted to snapshot | May indicate testing/evasion |
 
 ### VM Power Events (vCenter)
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `VmPoweredOnEvent` | vCenter | 🔵 MEDIUM | VM powered on | Staging VM activation |
-| `VmPoweredOffEvent` | vCenter | 🔵 MEDIUM | VM powered off | Pre-deletion activity |
-| `VmSuspendedEvent` | vCenter | ⬜ LOW | VM suspended | State preservation |
-| `VmResettingEvent` | vCenter | 🔵 MEDIUM | VM reset | Abnormal operation |
+| `VmPoweredOnEvent` | vCenter | MEDIUM | VM powered on | Staging VM activation |
+| `VmPoweredOffEvent` | vCenter | MEDIUM | VM powered off | Pre-deletion activity |
+| `VmSuspendedEvent` | vCenter | LOW | VM suspended | State preservation |
+| `VmResettingEvent` | vCenter | MEDIUM | VM reset | Abnormal operation |
 
 ### Guest Operations Events (vCenter)
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `com.vmware.vc.guestOperations.GuestOperation` | vCenter | ⚠️ HIGH | Guest operation performed | File/process operations inside VM |
-| `com.vmware.vc.guestOperations.GuestOperationAuthFailure` | vCenter | ⚠️ HIGH | Guest operation auth failed | Unauthorized guest access attempt |
+| `com.vmware.vc.guestOperations.GuestOperation` | vCenter | HIGH | Guest operation performed | File/process operations inside VM |
+| `com.vmware.vc.guestOperations.GuestOperationAuthFailure` | vCenter | HIGH | Guest operation auth failed | Unauthorized guest access attempt |
 
 **Critical Alert: Guest Operations on Domain Controllers**
 
@@ -429,50 +429,50 @@ eventTypeId:com.vmware.vc.guestOperations.GuestOperation AND vm.name:(*DC* OR *d
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `PermissionAddedEvent` | vCenter | ⚠️ HIGH | Permission added | Privilege escalation |
-| `PermissionRemovedEvent` | vCenter | 🔵 MEDIUM | Permission removed | Access revocation |
-| `PermissionUpdatedEvent` | vCenter | ⚠️ HIGH | Permission modified | Privilege change |
-| `RoleAddedEvent` | vCenter | ⚠️ HIGH | New role created | Custom privilege creation |
-| `RoleRemovedEvent` | vCenter | 🔵 MEDIUM | Role deleted | Role cleanup |
-| `RoleUpdatedEvent` | vCenter | ⚠️ HIGH | Role modified | Privilege modification |
+| `PermissionAddedEvent` | vCenter | HIGH | Permission added | Privilege escalation |
+| `PermissionRemovedEvent` | vCenter | MEDIUM | Permission removed | Access revocation |
+| `PermissionUpdatedEvent` | vCenter | HIGH | Permission modified | Privilege change |
+| `RoleAddedEvent` | vCenter | HIGH | New role created | Custom privilege creation |
+| `RoleRemovedEvent` | vCenter | MEDIUM | Role deleted | Role cleanup |
+| `RoleUpdatedEvent` | vCenter | HIGH | Role modified | Privilege modification |
 
 ### Session Events (vCenter)
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `UserLoginSessionEvent` | vCenter | 🔵 MEDIUM | User logged in | Session tracking |
-| `UserLogoutSessionEvent` | vCenter | ⬜ LOW | User logged out | Session tracking |
-| `SessionTerminatedEvent` | vCenter | 🔵 MEDIUM | Session terminated | Forced disconnection |
-| `BadUsernameSessionEvent` | vCenter | ⚠️ HIGH | Login with invalid username | Credential guessing |
-| `NoPermissionSessionEvent` | vCenter | ⚠️ HIGH | Access denied | Unauthorized access attempt |
-| `AlreadyAuthenticatedSessionEvent` | vCenter | ⬜ LOW | Already authenticated | Session reuse |
+| `UserLoginSessionEvent` | vCenter | MEDIUM | User logged in | Session tracking |
+| `UserLogoutSessionEvent` | vCenter | LOW | User logged out | Session tracking |
+| `SessionTerminatedEvent` | vCenter | MEDIUM | Session terminated | Forced disconnection |
+| `BadUsernameSessionEvent` | vCenter | HIGH | Login with invalid username | Credential guessing |
+| `NoPermissionSessionEvent` | vCenter | HIGH | Access denied | Unauthorized access attempt |
+| `AlreadyAuthenticatedSessionEvent` | vCenter | LOW | Already authenticated | Session reuse |
 
 ### Host Events (vCenter)
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `HostAddedEvent` | vCenter | 🔵 MEDIUM | Host added to vCenter | Infrastructure change |
-| `HostRemovedEvent` | vCenter | ⚠️ HIGH | Host removed from vCenter | Infrastructure manipulation |
-| `HostConnectionLostEvent` | vCenter | ⚠️ HIGH | Lost connection to host | Potential attack indicator |
-| `EnteredMaintenanceModeEvent` | vCenter | 🔵 MEDIUM | Host entered maintenance | Maintenance tracking |
-| `ExitMaintenanceModeEvent` | vCenter | ⬜ LOW | Host exited maintenance | Normal operation |
+| `HostAddedEvent` | vCenter | MEDIUM | Host added to vCenter | Infrastructure change |
+| `HostRemovedEvent` | vCenter | HIGH | Host removed from vCenter | Infrastructure manipulation |
+| `HostConnectionLostEvent` | vCenter | HIGH | Lost connection to host | Potential attack indicator |
+| `EnteredMaintenanceModeEvent` | vCenter | MEDIUM | Host entered maintenance | Maintenance tracking |
+| `ExitMaintenanceModeEvent` | vCenter | LOW | Host exited maintenance | Normal operation |
 
 ### Datastore Events (vCenter)
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `DatastoreFileMovedEvent` | vCenter | ⚠️ HIGH | File moved on datastore | VMDK movement |
-| `DatastoreFileCopiedEvent` | vCenter | ⚠️ HIGH | File copied on datastore | VMDK duplication |
-| `DatastoreFileDeletedEvent` | vCenter | ⚠️ HIGH | File deleted from datastore | Evidence destruction |
+| `DatastoreFileMovedEvent` | vCenter | HIGH | File moved on datastore | VMDK movement |
+| `DatastoreFileCopiedEvent` | vCenter | HIGH | File copied on datastore | VMDK duplication |
+| `DatastoreFileDeletedEvent` | vCenter | HIGH | File deleted from datastore | Evidence destruction |
 
 ### Alarm Events (vCenter)
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `AlarmCreatedEvent` | vCenter | 🔵 MEDIUM | Alarm created | Monitoring change |
-| `AlarmRemovedEvent` | vCenter | ⚠️ HIGH | Alarm removed | Detection evasion |
-| `AlarmReconfiguredEvent` | vCenter | ⚠️ HIGH | Alarm modified | Detection bypass |
-| `AlarmStatusChangedEvent` | vCenter | 🔵 MEDIUM | Alarm status changed | Alert tracking |
+| `AlarmCreatedEvent` | vCenter | MEDIUM | Alarm created | Monitoring change |
+| `AlarmRemovedEvent` | vCenter | HIGH | Alarm removed | Detection evasion |
+| `AlarmReconfiguredEvent` | vCenter | HIGH | Alarm modified | Detection bypass |
+| `AlarmStatusChangedEvent` | vCenter | MEDIUM | Alarm status changed | Alert tracking |
 
 ---
 
@@ -484,53 +484,53 @@ These ESX events are visible through vCenter and provide centralized monitoring 
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `esx.audit.uw.security.User.ExecInstalledOnly.disabled` | ESX | ⛔ CRITICAL | execInstalledOnly disabled | **Security bypass**: Allows unsigned binary execution |
-| `esx.audit.uw.security.User.ExecInstalledOnly.enabled` | ESX | ⬜ LOW | execInstalledOnly enabled | Security hardening |
-| `esx.audit.uw.security.execInstalledOnly.violation` | ESX | ⛔ CRITICAL | Non-installed binary execution blocked | **Active attack indicator** |
+| `esx.audit.uw.security.User.ExecInstalledOnly.disabled` | ESX | CRITICAL | execInstalledOnly disabled | **Security bypass**: Allows unsigned binary execution |
+| `esx.audit.uw.security.User.ExecInstalledOnly.enabled` | ESX | LOW | execInstalledOnly enabled | Security hardening |
+| `esx.audit.uw.security.execInstalledOnly.violation` | ESX | CRITICAL | Non-installed binary execution blocked | **Active attack indicator** |
 
 ### SSH and Shell Events (via vCenter)
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `esx.audit.ssh.enabled` | ESX | ⛔ CRITICAL | SSH access enabled | Remote access enabled |
-| `esx.audit.ssh.disabled` | ESX | ⬜ LOW | SSH access disabled | Security hardening |
-| `esx.audit.ssh.session.opened` | ESX | ⚠️ HIGH | SSH session opened | Remote access established |
-| `esx.audit.ssh.session.closed` | ESX | ⬜ LOW | SSH session closed | Session ended |
-| `esx.audit.ssh.session.failed` | ESX | ⚠️ HIGH | SSH login failed | Brute force attempt |
-| `esx.audit.shell.enabled` | ESX | ⛔ CRITICAL | ESX Shell enabled | Local shell access enabled |
-| `esx.audit.shell.disabled` | ESX | ⬜ LOW | ESX Shell disabled | Security hardening |
+| `esx.audit.ssh.enabled` | ESX | CRITICAL | SSH access enabled | Remote access enabled |
+| `esx.audit.ssh.disabled` | ESX | LOW | SSH access disabled | Security hardening |
+| `esx.audit.ssh.session.opened` | ESX | HIGH | SSH session opened | Remote access established |
+| `esx.audit.ssh.session.closed` | ESX | LOW | SSH session closed | Session ended |
+| `esx.audit.ssh.session.failed` | ESX | HIGH | SSH login failed | Brute force attempt |
+| `esx.audit.shell.enabled` | ESX | CRITICAL | ESX Shell enabled | Local shell access enabled |
+| `esx.audit.shell.disabled` | ESX | LOW | ESX Shell disabled | Security hardening |
 
 ### Lockdown Mode Events (via vCenter)
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `esx.audit.lockdownmode.enabled` | ESX | ⬜ LOW | Lockdown mode enabled | Security hardening |
-| `esx.audit.lockdownmode.disabled` | ESX | ⛔ CRITICAL | Lockdown mode disabled | **Security bypass** |
-| `esx.audit.lockdownmode.exceptions.changed` | ESX | ⚠️ HIGH | Lockdown exceptions changed | Access control modification |
+| `esx.audit.lockdownmode.enabled` | ESX | LOW | Lockdown mode enabled | Security hardening |
+| `esx.audit.lockdownmode.disabled` | ESX | CRITICAL | Lockdown mode disabled | **Security bypass** |
+| `esx.audit.lockdownmode.exceptions.changed` | ESX | HIGH | Lockdown exceptions changed | Access control modification |
 
 ### Firewall Events (via vCenter)
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `esx.audit.net.firewall.disabled` | ESX | ⛔ CRITICAL | Firewall disabled | Network security bypass |
-| `esx.audit.net.firewall.config.changed` | ESX | ⚠️ HIGH | Firewall configuration changed | Junction implant: attackers may open port 8090 externally if VSOCK tunneling unavailable |
+| `esx.audit.net.firewall.disabled` | ESX | CRITICAL | Firewall disabled | Network security bypass |
+| `esx.audit.net.firewall.config.changed` | ESX | HIGH | Firewall configuration changed | Junction implant: attackers may open port 8090 externally if VSOCK tunneling unavailable |
 
 ### Host Power Events (via vCenter)
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `esx.audit.host.boot` | ESX | 🔵 MEDIUM | Host booted | System restart |
-| `esx.audit.hostd.host.reboot.reason` | ESX | ⚠️ HIGH | Host reboot with reason | Forced reboot tracking |
-| `esx.audit.dcui.host.reboot` | ESX | ⚠️ HIGH | Host rebooted via DCUI | Console reboot |
+| `esx.audit.host.boot` | ESX | MEDIUM | Host booted | System restart |
+| `esx.audit.hostd.host.reboot.reason` | ESX | HIGH | Host reboot with reason | Forced reboot tracking |
+| `esx.audit.dcui.host.reboot` | ESX | HIGH | Host rebooted via DCUI | Console reboot |
 
 ### Software Installation Events (via vCenter)
 
 | Event | Source | Priority | Description | BRICKSTORM Relevance |
 |-------|--------|----------|-------------|---------------------|
-| `esx.audit.esximage.vib.install.successful` | ESX | ⛔ CRITICAL | VIB installation succeeded | **Backdoor installation** |
-| `esx.audit.esximage.vib.remove.successful` | ESX | ⚠️ HIGH | VIB removal succeeded | Software removal |
-| `esx.audit.esximage.install.securityalert` | ESX | ⛔ CRITICAL | Security alert during install | Unsigned software installation |
-| `esx.audit.esximage.install.nosigcheck` | ESX | ⛔ CRITICAL | Signature check bypassed | **Security bypass** |
+| `esx.audit.esximage.vib.install.successful` | ESX | CRITICAL | VIB installation succeeded | **Backdoor installation** |
+| `esx.audit.esximage.vib.remove.successful` | ESX | HIGH | VIB removal succeeded | Software removal |
+| `esx.audit.esximage.install.securityalert` | ESX | CRITICAL | Security alert during install | Unsigned software installation |
+| `esx.audit.esximage.install.nosigcheck` | ESX | CRITICAL | Signature check bypassed | **Security bypass** |
 
 ---
 
@@ -605,7 +605,7 @@ find /usr/lib/vmware-sso/ -name "*.class" -mtime -30
 3. Tomcat/STS service restart
 4. No corresponding patch or maintenance ticket
 
-**Priority**: ⛔ CRITICAL
+**Priority**: CRITICAL
 
 ---
 
@@ -732,7 +732,7 @@ eventTypeId:(AlarmRemovedEvent OR AlarmReconfiguredEvent)
 3. `vm.power.off`
 4. `vm.delete` or `vm.storage.remove`
 
-**Priority**: ⛔ CRITICAL
+**Priority**: CRITICAL
 
 ### Rule 2: SSH Enabled + Command Execution (T1021.004)
 
@@ -740,7 +740,7 @@ eventTypeId:(AlarmRemovedEvent OR AlarmReconfiguredEvent)
 1. `service.start` where object contains "SSH"
 2. Followed by `ssh.cmd` events
 
-**Priority**: ⛔ CRITICAL
+**Priority**: CRITICAL
 
 ### Rule 3: Security Bypass Attempt (T1562.001)
 
@@ -749,7 +749,7 @@ eventTypeId:(AlarmRemovedEvent OR AlarmReconfiguredEvent)
 - `configenc.reqsb.disable`
 - `network.fw.disable`
 
-**Priority**: ⛔ CRITICAL
+**Priority**: CRITICAL
 
 ### Rule 4: Time Manipulation (T1070.006)
 
@@ -757,13 +757,13 @@ eventTypeId:(AlarmRemovedEvent OR AlarmReconfiguredEvent)
 - `time.set.systemclock`
 - `time.ntp.disable` followed by `time.ntp.set.servers`
 
-**Priority**: ⚠️ HIGH
+**Priority**: HIGH
 
 ### Rule 5: Off-Hours Administrative Activity
 
 **Trigger**: Any CRITICAL or HIGH priority event occurring between 01:00-10:00 UTC
 
-**Why This Window Matters**: BRICKSTORM operators have been observed conducting interactive operations during 01:00-10:00 UTC, which corresponds to Beijing business hours (09:00-18:00 CST). While your organization may have legitimate after-hours maintenance, VM cloning, account creation, or privilege changes during this specific window warrant elevated scrutiny.
+**Basis for the 01:00-10:00 UTC Window**: BRICKSTORM operators have been observed conducting interactive operations during 01:00-10:00 UTC, which corresponds to Beijing business hours (09:00-18:00 CST). While your organization may have legitimate after-hours maintenance, VM cloning, account creation, or privilege changes during this specific window warrant elevated scrutiny.
 
 > **Caveat**: This time window is based on observed operational patterns and is not universal. Threat actors adapt their schedules and may operate outside these hours to evade detection or accommodate different operators. Use this as one signal among many, not as a definitive indicator.
 
@@ -774,15 +774,13 @@ eventTypeId:(AlarmRemovedEvent OR AlarmReconfiguredEvent)
 | 01:00 | 09:00 | 20:00 (prev day) | 17:00 (prev day) | 01:00 | 12:00 |
 | 10:00 | 18:00 | 05:00 | 02:00 | 10:00 | 21:00 |
 
-> **Note for Tier 1 Analysts**: This time window is based on observed threat actor operational patterns. Convert 01:00-10:00 UTC to your local timezone when configuring alerts. Events during this window are not automatically malicious, but warrant additional investigation, especially for VM cloning, account changes, or privilege escalation.
-
-**Priority**: ⚠️ HIGH (elevated from base priority)
+**Priority**: HIGH (elevated from base priority)
 
 ### Rule 6: Temporary Account Creation (T1136)
 
 **Trigger**: `account.create` followed by `account.delete` for same account within 7 days
 
-**Priority**: ⛔ CRITICAL
+**Priority**: CRITICAL
 
 ### Rule 7: VM Clone-Delete Pattern (vCenter, T1003.003)
 
@@ -801,9 +799,9 @@ Alert when ALL conditions are true:
   3. Clone followed by deletion within 24 hours
 ```
 
-**Tuning Note**: Backup solutions clone VMs for backup operations. Whitelist backup service accounts (e.g., `svc-backup@vsphere.local`) by username, not just by target VM. This prevents false positives while still detecting attackers who compromise vCenter but use their own accounts.
+**Tuning Note**: Backup solutions clone VMs for backup operations. Allowlist backup service accounts (e.g., `svc-backup@vsphere.local`) by username, not just by target VM. This prevents false positives while still detecting attackers who compromise vCenter but use their own accounts.
 
-**Priority**: ⛔ CRITICAL
+**Priority**: CRITICAL
 
 ### Rule 8: Disk Swap and Snapshot Attack (vCenter, T1003.003)
 
@@ -825,7 +823,7 @@ Alert when ALL conditions are true:
   3. Disk path (vmdk) belongs to a VM in your Critical VM list (see below)
   4. Target VM is NOT the same VM that owns the disk
   5. Target VM is NOT in your Critical VM list
-  6. Target VM is NOT in your Backup Proxy whitelist (see tuning note)
+  6. Target VM is NOT in your Backup Proxy allowlist (see tuning note)
   7. User is NOT in Backup Service Accounts list
 ```
 
@@ -842,9 +840,9 @@ Alert (CRITICAL) when ALL conditions are true:
 
 Hot-add to a running VM bypasses the normal workflow of powering off before reconfiguration, indicating either urgency or an attempt to avoid triggering power-state monitoring.
 
-**Tuning Note**: Backup solutions often attach disks to proxy VMs for backup operations. Without whitelisting, this rule generates false positives during backup windows.
+**Tuning Note**: Backup solutions often attach disks to proxy VMs for backup operations. Without allowlisting, this rule generates false positives during backup windows.
 
-- **Whitelist by MoRef ID, not VM name**: Use the VM's Managed Object Reference ID (e.g., `vm-1234`) rather than display name. Attackers can rename a staging VM to `Veeam-Proxy-99`, but the MoRef ID of a legitimate proxy is assigned by vCenter and not under attacker control.
+- **Allowlist by MoRef ID, not VM name**: Use the VM's Managed Object Reference ID (e.g., `vm-1234`) rather than display name. Attackers can rename a staging VM to `Veeam-Proxy-99`, but the MoRef ID of a legitimate proxy is assigned by vCenter and not under attacker control.
 - **Time-bound exceptions**: Alert on backup proxy activity outside scheduled backup windows
 - **Target validation**: Alert if backup proxies attach disks from VMs they don't normally back up
 
@@ -887,7 +885,7 @@ WHERE EventType = 'VmReconfiguredEvent'
   AND timestamp BETWEEN '01:00:00' AND '10:00:00' -- UTC; convert to your SIEM timezone
 ```
 
-**Priority**: ⛔ CRITICAL
+**Priority**: CRITICAL
 
 **Response**: Immediately investigate the target VM, the user who performed the operation, and capture memory/disk before any remediation.
 
@@ -898,7 +896,7 @@ WHERE EventType = 'VmReconfiguredEvent'
 - `RoleUpdatedEvent` adding sensitive privileges
 - Multiple `PermissionAddedEvent` in short timeframe
 
-**Priority**: ⚠️ HIGH
+**Priority**: HIGH
 
 ### Rule 10: Security Feature Disabled (vCenter-Relayed, T1562.001)
 
@@ -907,19 +905,19 @@ WHERE EventType = 'VmReconfiguredEvent'
 - `esx.audit.uw.security.User.ExecInstalledOnly.disabled`
 - `esx.audit.net.firewall.disabled`
 
-**Priority**: ⛔ CRITICAL
+**Priority**: CRITICAL
 
 ### Rule 11: execInstalledOnly Violation (T1036.005)
 
 **Trigger**: `esx.audit.uw.security.execInstalledOnly.violation`
 
-**Priority**: ⛔ CRITICAL (indicates active attack blocked by security control)
+**Priority**: CRITICAL (indicates active attack blocked by security control)
 
 ### Rule 12: Alarm Tampering (T1562)
 
 **Trigger**: `AlarmRemovedEvent` or `AlarmReconfiguredEvent` for security-related alarms
 
-**Priority**: ⚠️ HIGH (possible detection evasion)
+**Priority**: HIGH (possible detection evasion)
 
 ### Rule 13: vpxuser SSH Lateral Movement (T1021.004)
 
@@ -927,7 +925,7 @@ WHERE EventType = 'VmReconfiguredEvent'
 
 **Context**: The vpxuser account is used by vCenter for host management automation. Interactive SSH sessions by this account indicate an attacker has compromised vCenter and is moving laterally to VMware ESX hosts.
 
-**Priority**: ⛔ CRITICAL
+**Priority**: CRITICAL
 
 ### Rule 14: Junction/GuestConduit Activity (T1095, T1572)
 
@@ -936,7 +934,7 @@ WHERE EventType = 'VmReconfiguredEvent'
 - Process named `vvold` with unexpected binary hash
 - VSOCK listeners on port 5555 inside guest VMs
 
-**Priority**: ⛔ CRITICAL
+**Priority**: CRITICAL
 
 ### Rule 15: BRICKSTEAL Deployment Indicators (T1556.001)
 
@@ -946,11 +944,11 @@ WHERE EventType = 'VmReconfiguredEvent'
 3. Tomcat or vmware-stsd service restart
 4. web.xml file modification detected
 
-**Priority**: ⛔ CRITICAL
+**Priority**: CRITICAL
 
 ### Rule 16: Rogue VM Deployment (T1564.006)
 
-**Attack Description**: BRICKSTORM provides attackers with persistent vCenter access, enabling them to deploy hidden VMs for staging, data exfiltration, or backup persistence. These rogue VMs may survive BRICKSTORM removal if not detected, providing attackers a way back into the environment.
+**Attack Description**: Attackers with persistent vCenter access can deploy hidden VMs for staging, data exfiltration, or backup persistence. If a rogue VM survives BRICKSTORM removal, the attackers keep a way back into the environment.
 
 **Trigger**: Any of:
 - `VmCreatedEvent` where VM name does not match naming convention
@@ -977,11 +975,11 @@ eventTypeId:(VmCreatedEvent OR VmRegisteredEvent)
 
 Filter results against your approved VM naming patterns and folder structure.
 
-**Priority**: ⚠️ HIGH (CRITICAL if during operational hours 01:00-10:00 UTC)
+**Priority**: HIGH (CRITICAL if during operational hours 01:00-10:00 UTC)
 
 ### Rule 17: Ghost NIC Lateral Movement (T1021)
 
-**Attack Description**: UNC6201 has been observed creating temporary virtual network adapters ("Ghost NICs") on VMs running on VMware ESX hosts. These adapters are connected to target port groups for lateral movement, then deleted to minimize forensic artifacts. Because the adapters exist only briefly, they evade periodic inventory checks.
+**Attack Description**: UNC6201 has been observed creating temporary virtual network adapters ("Ghost NICs") on VMs running on VMware ESX hosts. UNC6201 connects the adapters to target port groups for lateral movement, then deletes them to minimize forensic artifacts. Because the adapters exist only briefly, they evade periodic inventory checks.
 
 **Trigger**: `VmReconfiguredEvent` where `configSpec.deviceChange` involves a `VirtualEthernetCard` with:
 - `operation = "add"` followed by `operation = "remove"` for the same VM within a short timeframe (hours)
@@ -1008,13 +1006,13 @@ eventTypeId:VmReconfiguredEvent AND configSpec.deviceChange.device.type:VirtualE
 
 **Tuning Note**: Legitimate NIC changes occur during VM provisioning, migration, and maintenance. Baseline the typical NIC change frequency for your environment. Ghost NIC activity is characterized by add-then-remove sequences that are unrelated to change management records.
 
-**Priority**: ⚠️ HIGH (CRITICAL if combined with other BRICKSTORM indicators)
+**Priority**: HIGH (CRITICAL if combined with other BRICKSTORM indicators)
 
 ---
 
 ## Log Retention Recommendations
 
-**Dwell time** is the period between initial compromise and detection. BRICKSTORM's average dwell time of **393 days** means attackers typically operate undetected for over a year. Standard 30-90 day log retention results in loss of evidence from the initial compromise by the time an intrusion is discovered.
+**Dwell time** is the period between initial compromise and detection. BRICKSTORM's average dwell time of **393 days** means attackers typically operate undetected for over a year. With 30-90 day retention, the logs from the initial compromise are gone before the intrusion is discovered.
 
 | Log Type | Minimum Retention | Recommended Retention | Rationale |
 |----------|-------------------|----------------------|-----------|

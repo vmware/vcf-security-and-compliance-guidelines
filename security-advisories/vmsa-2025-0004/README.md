@@ -10,7 +10,7 @@ On March 4, 2025 Broadcom released a critical VMware Security Advisory (VMSA), V
 
 The advisory references patches applicable to all supported versions of VMware ESX. All customers should apply these updates.
 
-The VMSA will always be the source of truth for what products & versions are affected and proper patches to keep your organization secure. This document is a corollary to the advisory and includes self-service information to help you and your organization decide how to respond.
+The VMSA will always be the source of truth for what products & versions are affected and the proper patches to help keep your organization secure. This document is a corollary to the advisory and includes self-service information to help you and your organization decide how to respond.
 
 You are affected if you are running any version of VMware ESX, VMware vSphere, VMware Cloud Foundation, or VMware Telco Cloud Platform prior to the versions listed as “fixed” in the VMSA. Please consult the VMSA itself for the definitive list of affected versions. If you have a question about whether you are affected it is probable that you are, and should take action immediately.
 
@@ -160,11 +160,11 @@ Products that are past their End of General Support dates are not evaluated as p
 
 ### Do I have to update to vSphere 8 Update 3 to receive this patch?
 
-Yes. vSphere 8 Update 3 was released in July 2024 and is considered the best version of vSphere 8, intended for long-term stability and support.
+Yes. vSphere 8 Update 3 was released in July 2024 and is the recommended version of vSphere 8, intended for long-term stability and support.
 
 ### Do I have to update to vSphere 7 Update 3 to receive this patch?
 
-Yes. vSphere 7 Update 3 was released in January 2022 and is considered the best version of vSphere 7, intended for long-term stability and support.
+Yes. vSphere 7 Update 3 was released in January 2022 and is the recommended version of vSphere 7, intended for long-term stability and support.
 
 ### I am using a third-party solution such as HPE SimpliVity, Dell EMC VxRail, and so on. Is it safe for me to apply the update?
 

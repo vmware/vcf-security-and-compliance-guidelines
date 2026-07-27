@@ -51,7 +51,7 @@ Connect-VIServer -Server vcenter.example.com
 | `Get-VMCloneEvents.ps1` | Detects VM cloning with risk scoring (suspicious hours, sensitive targets, clone-and-burn) |
 | `Get-SSHServiceStatus.ps1` | Audits SSH and ESX Shell service status across all hosts |
 | `Get-VSpherePermissions.ps1` | Audits permissions, flags Administrator/Cryptographer access |
-| `Get-StaleSnapshots.ps1` | Finds old/large snapshots that may pose security risks |
+| `Get-StaleSnapshots.ps1` | Finds old or large snapshots that may indicate attacker data staging or slow recovery |
 
 ## Requirements
 
@@ -119,6 +119,6 @@ The [Mandiant BRICKSTORM scanner](https://github.com/mandiant/brickstorm-scanner
 ## Limitations
 
 - Scans file hashes only; does not detect memory-resident malware
-- Attackers compile uniquely per victim; however, the first observed C2 infrastructure reuse was documented in February 2026
+- Attackers compile BRICKSTORM uniquely per victim, so hash matches are rare; treat filename and behavioral findings as the primary signal
 - The .NET AOT variant (Feb 2026) will not match Go or Rust hashes
 - Combine with behavioral detection (see [AUDIT-EVENTS.md](../AUDIT-EVENTS.md))

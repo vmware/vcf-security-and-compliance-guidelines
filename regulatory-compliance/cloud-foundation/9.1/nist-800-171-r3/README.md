@@ -8,7 +8,7 @@ The full set of VMware Cloud Foundation (VCF) compliance companion guides is acc
 
 ## Using These Materials
 
-XLSX, CSV, Markdown, and PDF formats are provided as a convenience for people working with this data on a daily basis. The XLSX contains an Introduction sheet and a Controls sheet; the CSV carries the Controls data alone; the Markdown file combines both in a readable single document with one heading per control; the PDF is a print-formatted rendering of the Markdown document. Each control row carries the following columns:
+The guide is published in XLSX, CSV, Markdown, and PDF formats for people who work with this data daily. The XLSX contains an Introduction sheet and a Controls sheet; the CSV carries the Controls data alone; the Markdown file combines both in a readable single document with one heading per control; the PDF is a print-formatted rendering of the Markdown document. Each control row carries the following columns:
 
 - **Control ID** -- the regulatory framework's control identifier.
 - **SCF ID** -- the mapping to the Secure Controls Framework (SCF) control or controls, where one exists.
@@ -35,13 +35,13 @@ This guide covers VMware Cloud Foundation 9.1 and the separately licensed advanc
 
 To download these files from the GitHub web interface, use the "Raw" or "Download raw file" button on the file's page. Right-clicking the links above and choosing "Save Link As" also works.
 
-The CSV version can be used to view changes over time via GitHub's built-in history and diff functions.
+Use the CSV version with GitHub's history and diff views to track changes over time.
 
 These materials, along with security hardening guides, additional security documentation, Q&A, and sample scripts, are published at [https://brcm.tech/vcf-security](https://brcm.tech/vcf-security), the definitive location for VMware Cloud Foundation security and compliance materials.
 
 ## Security Configuration Guide Crosswalk
 
-These files map the VMware Cloud Foundation Security Configuration Guide 9.1 hardening controls to this framework through their shared Secure Controls Framework (SCF) identifiers. They are provided in two orientations: one listing the SCG hardening controls relevant to the framework, and one listing each framework control alongside the SCG hardening controls relevant to it. The crosswalk is mechanical, derived from the SCF identifiers each SCG control carries; the SCG describes platform configuration, so a framework's coverage here reflects how much of it is addressed through hardening settings. The Security Configuration Guide itself is available at [https://brcm.tech/vcf-scg](https://brcm.tech/vcf-scg).
+These files map the VMware Cloud Foundation Security Configuration Guide 9.1 hardening controls to this framework through their shared Secure Controls Framework (SCF) identifiers. They are provided in two orientations: one listing the SCG hardening controls relevant to the framework, and one listing each framework control alongside the SCG hardening controls relevant to it. The crosswalk is mechanical, derived from the SCF identifiers each SCG control carries; the SCG describes platform configuration, so the coverage here shows how much of the framework the hardening settings address. The Security Configuration Guide itself is available at [https://brcm.tech/vcf-scg](https://brcm.tech/vcf-scg).
 
 - [SCG hardening controls relevant to this framework (CSV)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/9.1/nist-800-171-r3/vcf-91-companion-nist-800-171-r3-scg.csv) -- direct download
 - [SCG hardening controls relevant to this framework (Markdown)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/regulatory-compliance/cloud-foundation/9.1/nist-800-171-r3/vcf-91-companion-nist-800-171-r3-scg.md) -- direct download

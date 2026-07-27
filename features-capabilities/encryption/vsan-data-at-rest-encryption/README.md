@@ -1,8 +1,8 @@
 # vSAN Data-at-Rest Encryption
 
-vSAN Data-at-Rest Encryption encrypts data on the vSAN datastore itself, protecting against threats such as physical theft of storage devices and improper decommissioning of hardware. It is configured per cluster, encrypts all objects on the datastore, and operates below the virtual machine layer, so it is transparent to guest operating systems and applications and works alongside vSAN features like deduplication and compression.
+vSAN Data-at-Rest Encryption encrypts data on the vSAN datastore itself, protecting against threats such as physical theft of storage devices and improper decommissioning of hardware. It is configured per cluster, encrypts all objects on the datastore, and operates below the virtual machine layer. It is transparent to guest operating systems and applications and works alongside vSAN features like deduplication and compression.
 
-vSAN Data-at-Rest Encryption requires a key provider. It can use a Standard Key Provider (a connection to an external key management system) or the Native Key Provider built into vCenter. For more information about choosing and operating a key provider, see [Key Providers in VMware vSphere and VMware Cloud Foundation](../key-providers/README.md).
+vSAN Data-at-Rest Encryption requires a key provider. It can use a Standard Key Provider (a connection to an external key management system) or the Native Key Provider built into vSphere and Cloud Foundation. For more information about choosing and operating a key provider, see [Key Providers in VMware vSphere and VMware Cloud Foundation](../key-providers/README.md).
 
 vSAN Data-at-Rest Encryption and VM Encryption are separate features and can be used together. VM Encryption protects individual virtual machines wherever they are stored; vSAN encryption protects the whole datastore.
 

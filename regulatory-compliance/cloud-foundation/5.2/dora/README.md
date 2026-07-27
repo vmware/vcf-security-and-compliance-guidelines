@@ -1,8 +1,10 @@
 # EU Digital Operational Resilience Act (DORA)
 
-The European Union's Digital Operational Resilience Act (DORA) is a comprehensive regulatory framework designed to ensure the financial sector's resilience against Information and Communications Technology (ICT) related disruptions and threats. Implemented in 2023 with a compliance deadline of January 2025, DORA establishes uniform requirements for the security of network and information systems of financial entities and critical ICT third-party service providers operating in the EU. The regulation aims to consolidate and upgrade ICT risk requirements to address all facets of digital operational resilience in the financial sector, covering areas such as ICT risk management, incident reporting, digital operational resilience testing, and third-party risk monitoring. This harmonized approach seeks to establish a more consistent and robust digital operational resilience across the EU financial sector.
+The European Union's Digital Operational Resilience Act (DORA), formally Regulation (EU) 2022/2554, establishes requirements for the financial sector's resilience against Information and Communications Technology (ICT) disruptions and threats. DORA entered into force in January 2023 and applies from 17 January 2025.
 
-Documents here intend to help organizations who are implementing DORA compliance understand how their VMware Cloud Foundation (VCF) environment is well-suited to operational resilience, by listing features and capabilities present in VCF and how they apply to this regulation.
+The regulation consolidates ICT risk requirements across the financial sector and applies to financial entities and critical ICT third-party service providers operating in the EU. It sets requirements for ICT risk management, incident reporting, digital operational resilience testing, and third-party risk monitoring.
+
+The documents in this directory list VMware Cloud Foundation (VCF) features and capabilities and explain how they apply to DORA requirements.
 
 ## Permanent Link
 

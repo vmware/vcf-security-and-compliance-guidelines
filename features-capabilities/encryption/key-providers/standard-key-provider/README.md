@@ -14,8 +14,8 @@ The other key provider option is the Native Key Provider. Please visit [Key Prov
 
 ## Documentation
 
-- [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0.html) -- you will want the section on:
-- [Configuring and Managing a Standard Key Provider](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-a-standard-key-provider.html), 
+- [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security.html) -- you will want the section on:
+- [Configuring and Managing a Standard Key Provider](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security/configuring-and-managing-a-standard-key-provider.html), 
 
 ## Code Samples
 
@@ -71,7 +71,7 @@ There is a sample script available in the [code-samples](https://github.com/vmwa
 
 ### I need to reduce the number of keys in my KMS. How do I do that?
 
-In VCF 9.0 and newer you can use wrapping key feature to significantly reduce the number of keys stored in your KMS. However, you cannot turn that feature on for an existing key provider. You will need to create a new key provider and rekey into that. This process is also the same if you want to reduce your KMS usage to keys that are active in VCF.
+In VCF 9.0 and newer you can use the wrapping key feature to significantly reduce the number of keys stored in your KMS. However, you cannot turn that feature on for an existing key provider. You will need to create a new key provider and rekey into that. This process is also the same if you want to reduce your KMS usage to keys that are active in VCF.
 
 The process is to create a new KMS or KMS partition. Configure a new Standard Key Provider instance to use that KMS partition. Set this new key provider as the default key provider. Do a shallow rekey of all VMs and vSAN datastores, which will only migrate the active VMs to the new provider.
 
@@ -95,7 +95,7 @@ You do not have to add all KMS nodes to the key provider, so that might be a way
 
 The default key provider is usually what is used when initiating cryptographic operations from the vSphere Client. However, the default key provider can be set on a per-cluster basis.
 
-vSAN allows you to specify which provider to use, which can be different from the default one (which also allows flexibility in what key provider you use versus the risks you face, as you might choose to use the Native Key Provider for things like vTPM, but a KMS-backed provider for vSAN to guard against theft or improper decommissioning of systems).
+vSAN allows you to specify which provider to use, which can be different from the default one. For example, you might use the Native Key Provider for things like vTPM, but a KMS-backed provider for vSAN to guard against theft or improper decommissioning of systems.
 
 Additionally, operations using PowerCLI or via API can specify the key provider to use.
 
@@ -135,7 +135,7 @@ As noted in several other answers, the KMS is only communicated with when vSpher
 
 ### What is the maximum latency supported between a KMS and vSphere/VCF?
 
-There is no defined maximum latency between a KMS and vCenter/vSAN. A good starting point is the "Maximum latency supported between linked vCenter Servers" guidance found at [configmax.broadcom.com](https://configmax.broadcom.com/guest?vmwareproduct=vSphere&release=vSphere%208.0&categories=4-0). As of this update it is 150 ms.
+There is no defined maximum latency between a KMS and vCenter/vSAN. A good starting point is the "Maximum latency supported between linked vCenter Servers" guidance found at [configmax.broadcom.com](https://configmax.broadcom.com/) for your product version. As of this update it is 150 ms.
 
 ### Can I use a key provider across a satellite network connection?
 
@@ -143,7 +143,7 @@ Perhaps. As there is no defined latency limit for key providers it is subject to
 
 ### What happens if the latency to my KMS is greater than that?
 
-Support guidance is a combination of what Broadcom has tested and reasonable guidance on what will work. It does not mean it won't work, but there are limits to how well we can support you if you encounter problems. We encourage organizations to step methodically into enabling encryption, testing along the way to build confidence in the solution:
+Support guidance is a combination of what Broadcom has tested and reasonable guidance on what will work. Exceeding the tested guidance does not mean the configuration will fail, but support options narrow if you encounter problems. We encourage organizations to step methodically into enabling encryption, testing along the way to build confidence in the solution:
 
 - Are there persistent, or intermittent, KMS health check alarms?
 - Can you successfully encrypt a VM by adding a vTPM?
@@ -289,7 +289,7 @@ foreach ($vm in Get-VM) {
 
 ```
 
-You can use the vSphere API directly from a variety of languages. For more information visit [https://developer.vmware.com](https://developer.vmware.com/).
+You can use the vSphere API directly from a variety of languages. For more information visit [https://developer.broadcom.com](https://developer.broadcom.com/).
 
 Shallow rekeys can be done while the VM is powered on. The guest OS will never know!
 
@@ -306,7 +306,7 @@ Set-VM -VM $vm -KeyProvider $keyprovider -SkipHardDisks
 ```
 
 
-You can use the vSphere API directly from a variety of languages. For more information visit [https://developer.vmware.com](https://developer.vmware.com/).
+You can use the vSphere API directly from a variety of languages. For more information visit [https://developer.broadcom.com](https://developer.broadcom.com/).
 
 Deep rekeys must be done with the VM powered off.
 
@@ -360,9 +360,9 @@ If the same Key Provider instance is configured in both locations everything wil
 
 If encrypted virtual machines are not running, they will become locked, and alarms will be displayed. Once the correct key provider is imported a vSphere administrator can re-enable encryption mode on the host. This will unlock all encrypted virtual machines and allow them to be powered on.
 
-After this move, we suggest re-encrypting/re-keying virtual machines to your preferred key provider to ensure consistency.
+After this move, we suggest re-encrypting/re-keying virtual machines so they all use your preferred key provider.
 
-### I use VCF Protection and Recovery. What considerations are there to ensure encrypted virtual machines can run on the DR site?
+### I use VCF Protection and Recovery. What do I need so encrypted virtual machines can run on the DR site?
 
 When using VCF Protection and Recovery (formerly VMware Live Site Recovery and Site Recovery Manager), you must configure both vCenter instances with the same Key Provider. For more information see [VMware Live Site Recovery and Virtual Machine Encryption](https://techdocs.broadcom.com/us/en/vmware-cis/live-recovery/live-site-recovery/9-0/how-do-i-protect-my-environment/interoperability-of-srm-with-other-software/site-recovery-manager-and-virtual-machine-encryption.html).
 
@@ -374,7 +374,7 @@ Yes.
 
 Yes. This is helpful in several common scenarios:
 
-1. Allowing cross-vCenter vMotion up between sites if there isn’t a common key provider between them. Create a “migration” Native Key Provider instance on the source, import it on the destination, rekey the virtual machine to the “migration” Native Key Provider instance, and vMotion it. At the destination you can rekey the virtual machine using the desired key provider.
+1. Setting up cross-vCenter vMotion between sites that lack a common key provider. Create a “migration” Native Key Provider instance on the source, import it on the destination, rekey the virtual machine to the “migration” Native Key Provider instance, and vMotion it. At the destination you can rekey the virtual machine using the desired key provider.
 
 2. Managing KMS management and costs. In some environments it can be beneficial to configure vSAN to use a KMS, gaining protections if hosts are improperly sanitized during decommissioning, but using a Native Key Provider to enable vTPM at scale for virtual machines. Note that vSAN requires a specific key provider to be specified, and does not follow the "default" key provider, so this setup is easy to accomplish.
 
@@ -414,9 +414,7 @@ Configure the Standard Key Provider identically on the target site. Make sure th
 
 Do not do this.
 
-Can you place a KMS inside an environment that will use it? It is possible. Should you? No.
-
-You run the risk of a dependency loops that will lock you out of your environment permanently. Even if you negotiate these perils well, it still makes it easy for an uninformed but well-intentioned human to re-introduce the dependency loop later, such as with a storage vMotion of a virtual KMS back to the datastore that is attached to it, or enabling vSAN data-at-rest encryption. There is no way for VCF to automatically detect these situations; we strongly recommend clear boundaries around services which are dependencies.
+A KMS inside the environment it protects creates a dependency loop that can lock you out of your environment permanently. Even if you avoid the loop initially, a well-intentioned administrator can reintroduce it later, such as with a storage vMotion of a virtual KMS back to the datastore that is attached to it, or by enabling vSAN data-at-rest encryption. There is no way for VCF to automatically detect these situations; we strongly recommend clear boundaries around services which are dependencies.
 
 ### Do I need to set the Standard Key Provider to be the default before I remove the old provider?
 
@@ -446,7 +444,7 @@ In theory, yes, but keep in mind that if an attacker has this level of access th
 
 ### I am upgrading to the latest version of VMware Cloud Foundation. Will this impact my encrypted vSAN or VMs?
 
-Upgrading environments when data-at-rest encryption is in use is fully supported, and should go smoothly. In the event it does not, we suggest having the connection information for your KMS available so that troubleshooting can occur. If you do rebuilt/recreate your key provider, give the new one the exact same name.
+Upgrading environments when data-at-rest encryption is in use is fully supported, and should go smoothly. In the event it does not, we suggest having the connection information for your KMS available so that troubleshooting can occur. If you do rebuild/recreate your key provider, give the new one the exact same name.
 
 Keep in mind that encryption keys are held in ESX memory so that a temporary loss of connectivity to vCenter or to the KMS is tolerated. During the time when you are upgrading vCenter any operation that requires a new encryption key (new VM, encrypting a VM, re-keying a VM) will fail, but running workloads will operate normally (including HA restarts). In most environments this is not a big issue as management activities are typically driven through vCenter, which will be offline.
 
@@ -464,4 +462,4 @@ Testing is a specialized task that you need to consider for yourself, but we'd s
 
 ## Disclaimer
 
-This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This  repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.

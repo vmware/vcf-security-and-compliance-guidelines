@@ -1,5 +1,5 @@
 # VM Encryption
-VM Encryption protects data at rest and in transit on storage fabrics by encrypting virtual machines, including VM files, virtual disks, and snapshots. VM Encryption uses AES-256 encryption and leverages Standard or Native Key Providers. VM Encryption operates transparently to guest operating systems and applications, requiring no modifications to VMs while protecting sensitive data from unauthorized access at the storage level. The encryption is policy-driven, allowing administrators to apply encryption requirements through storage policies, and includes support for encrypted vMotion to help protect data during live migrations between hosts.
+VM Encryption encrypts virtual machine files at rest, including VM configuration files (VMX), virtual disks (VMDKs), snapshots, and swap files, with AES-256. It uses a Standard or Native Key Provider, is applied through storage policies, and requires no changes to guest operating systems or applications. Because ESX encrypts the data before writing it, the data is also protected in transit across the storage fabric, and encrypted VMs always require encrypted vMotion during live migrations between hosts.
 
 ## How to Get Started
 
@@ -11,10 +11,10 @@ VM Encryption protects data at rest and in transit on storage fabrics by encrypt
 
 ## Documentation
 
-- [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0.html) -- you will want the sections on:
-- [Virtual Machine Encryption](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/virtual-machine-encryption/virtual-machine-encryption.html)
-- [Configuring and Managing vSphere Native Key Provider](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-vsphere-native-key-provider.html), or the section on [Standard Key Providers](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/configuring-and-managing-a-standard-key-provider.html) if that's how you would like to proceed (a Standard Key Provider is a connection to an external key management system, such as a Hardware Security Module (HSM) or a cloud-based key management service).
-- [Virtual Machine Encryption Best Practices](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/8-0/vsphere-security-8-0/virtual-machine-encryption/virtual-machine-encryption-best-practices.html)
+- [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security.html) -- you will want the sections on:
+- [Virtual Machine Encryption](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security/virtual-machine-encryption.html)
+- [Configuring and Managing vSphere Native Key Provider](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security/configuring-and-managing-vsphere-native-key-provider.html), or the section on [Standard Key Providers](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security/configuring-and-managing-a-standard-key-provider.html) if that's how you would like to proceed (a Standard Key Provider is a connection to an external key management system, such as a Hardware Security Module (HSM) or a cloud-based key management service).
+- [Virtual Machine Encryption Best Practices](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security/virtual-machine-encryption/virtual-machine-encryption-best-practices.html)
 
 ## Code Samples
 
@@ -23,10 +23,10 @@ You can find sample scripts pertaining to VM Encryption in the [code-samples](ht
 ## Questions & Answers
 
 ### What is VM Encryption in VMware vSphere?
-VM Encryption is a feature that encrypts virtual machine files at rest, including VM configuration files (VMX), virtual disks (VMDKs), snapshots, and swap files. It uses industry-standard AES-256 encryption and integrates with key management systems to protect sensitive data from unauthorized access at the storage level. The encryption operates transparently to guest operating systems and applications, requiring no modifications to VMs while protecting data at the storage level.
+VM Encryption is a feature that encrypts virtual machine files at rest, including VM configuration files (VMX), virtual disks (VMDKs), snapshots, and swap files. It uses AES-256 encryption with keys supplied by a key provider, and restricts access to VM data at the storage level. The encryption is transparent to guest operating systems and applications and requires no modifications to VMs.
 
 ### What do I need before I can start using VM Encryption?
-All supported versions of vSphere and Cloud Foundation support VM Encryption. You must have a configured key provider, which can be either the Native Key Provider built into vSphere or a Standard Key Provider that connects to an external KMS. You'll also need to create an encryption storage policy in vCenter and have appropriate vSphere licensing. While vTPM is available in all editions, full VM Encryption requires Enterprise Plus licensing or VMware Cloud Foundation.
+All supported versions of vSphere and Cloud Foundation support VM Encryption. You must have a configured key provider, which can be either the Native Key Provider built into vSphere or a Standard Key Provider that connects to an external KMS. You'll also need to create an encryption storage policy in vCenter and have appropriate vSphere licensing. Both vTPM and full VM Encryption are available in all editions of VMware Cloud Foundation and VMware vSphere Foundation.
 
 ### Does VM Encryption protect data in transit on a storage fabric?
 Yes, once the data is encrypted by ESX it will be transmitted in that encrypted form across the storage fabric.
@@ -53,7 +53,7 @@ Native Key Provider (NKP) is built directly into vSphere and doesn't require any
 No, you don't need to encrypt everything. VM Encryption is granular. When you add a vTPM to a virtual machine, it only encrypts the VM configuration files and swap files, not the virtual disks (VMDKs). This gives you the flexibility to choose whether you want just the minimum encryption needed for vTPM functionality or full VM encryption including all disks. Many organizations start with vTPM-only encryption and expand later based on their security requirements.
 
 ### Will VM Encryption affect my VM's performance?
-Yes. The performance impact is minimal for most workloads. You might notice an increase in CPU usage during encryption and decryption operations, and boot times may increase slightly due to the additional security measures. If your VMs are swapping to disk, there will be additional CPU overhead because the swap files are encrypted. However, during normal operations, the performance difference is typically negligible because the encryption and decryption happen at the hypervisor level very efficiently.
+Yes. The performance impact is minimal for most workloads. You might notice an increase in CPU usage during encryption and decryption operations, and boot times may increase slightly due to the additional security measures. If your VMs are swapping to disk, there will be additional CPU overhead because the swap files are encrypted. However, during normal operations, the performance difference is typically negligible because the encryption and decryption happen at the hypervisor level using the CPU's AES-NI instructions.
 
 ### How much does VM Encryption affect my VM's performance?
 Broadcom cannot provide specific performance numbers for VM Encryption, because it depends heavily on the workload, your storage devices, your hardware, and your storage fabric.
@@ -62,7 +62,7 @@ Broadcom cannot provide specific performance numbers for VM Encryption, because 
 Yes, all standard vSphere features continue to work normally with encrypted VMs. Encrypted VMs automatically require encrypted vMotion for security, which happens transparently. For Cross-vCenter vMotion, you'll need to ensure the same key provider is configured at both the source and destination sites, with exactly the same name. DRS and HA function exactly as they do with non-encrypted VMs, so your availability and load balancing capabilities remain intact.
 
 ### How do I actually encrypt a VM?
-For new VMs, start by ensuring you have a key provider configured and set as default, and that you have an encryption storage policy created. During the VM creation wizard, you can select the encryption storage policy to encrypt the entire VM, or simply add a vTPM device which automatically encrypts the VM home files. For existing VMs, you can power off the VM and edit its settings to change the storage policy to an encryption policy, or add a vTPM device if you only need partial encryption. Some encryption operations can be done online while the VM is running.
+For new VMs, start by making sure you have a key provider configured and set as default, and that you have an encryption storage policy created. During the VM creation wizard, you can select the encryption storage policy to encrypt the entire VM, or simply add a vTPM device which automatically encrypts the VM home files. For existing VMs, you can power off the VM and edit its settings to change the storage policy to an encryption policy, or add a vTPM device if you only need partial encryption. Some encryption operations can be done online while the VM is running.
 
 ### Can I encrypt VMs that are already running in production?
 The virtual machine needs to be powered off before encryption can be enabled the first time.
@@ -71,9 +71,9 @@ The virtual machine needs to be powered off before encryption can be enabled the
 The VM must be powered off before encryption can be enabled, and there needs to be enough free space on the datastore to accommodate a second copy of the VMDK files.
 
 ### What encryption keys are used by VM Encryption?
-Each encrypted object (VM, vSAN disk group, ESX host) used a Data Encryption Key (DEK) to encrypt the object configuration files. The DEK is a 256-bit key that is unique to the VM or object and generated by ESX. The DEK is stored in the VM configuration file for portability (replication, backups, etc.).
+Each encrypted object (VM, vSAN disk group, ESX host) uses a Data Encryption Key (DEK) to encrypt the object configuration files. The DEK is a 256-bit key that is unique to the VM or object and generated by ESX. The DEK is stored in the VM configuration file for portability (replication, backups, etc.).
 
-The DEK is then encrypted with a Key Encryption Key (KEK) using the key provider. If the key provider is a Standard Key Provider, the KEK is stored in the KMS. If the key provider is the Native Key Provider, the KEK is computed locally on the ESX host and stored in memory.
+The DEK is then encrypted with a Key Encryption Key (KEK) using the key provider. If the key provider is a Standard Key Provider, the KEK is stored in the KMS. If the key provider is the Native Key Provider, the KEK is derived on the ESX host from a Key Derivation Key (KDK) that is stored in the host's encrypted configuration (protected by the TPM when one is present).
 
 ### What happens to my encrypted VMs if my KMS, attached to my Standard Key Provider, goes down?
 Your encrypted VMs will continue running normally because ESX hosts cache the necessary encryption keys in memory. You can still power VMs on and off as needed, and all running workloads continue without interruption. You will not be able to create new encrypted VMs or perform rekey operations until your KMS is available again.
@@ -89,7 +89,7 @@ Note: vSAN data-at-rest encryption, when configured with a Standard Key Provider
 In host memory. If you have the Key Persistence feature enabled, the keys will be stored on the host using the encrypted host configuration. We do not recommend using Key Persistence without careful analysis of the risks to your environment, as the network controls on a KMS are often critical to the security of your environment, especially in environments where physical access controls are not strong.
 
 ### What keys are cached by the host?
-The host will cache encryption keys for all encrypted virtual machines in the cluster. This includes VMs that are powered off, and VMs that are not running on that particular host. This is done to ensure that DRS and HA operations can be performed without requiring vCenter to be available (since vCenter might be inside the cluster).
+The host will cache encryption keys for all encrypted virtual machines in the cluster. This includes VMs that are powered off, and VMs that are not running on that particular host. This caching lets DRS and HA operations proceed without requiring vCenter to be available (since vCenter might be inside the cluster).
 
 ### What happens if the host reboots?
 When using Native Key Provider: the host will be able to operate independently of vCenter for encryption operations.
@@ -103,7 +103,7 @@ Yes, migrating between key providers is fully supported and can be done while VM
 A shallow rekey changes only the Key Encryption Key (KEK), which is the key that protects the actual data encryption keys. This operation can be performed while VMs are powered on and running, making it ideal for key rotation or provider changes. A deep rekey changes the Data Encryption Key (DEK) itself, which means all the encrypted data gets re-encrypted with a new key. Deep rekeys require the VM to be powered off and take longer to complete since all data must be rewritten.
 
 ### Do I need TPM hardware on my ESX hosts?
-TPM hardware is not required for VM Encryption or vTPM functionality, though it's strongly recommended for enhanced security. When present, TPMs protect the host's encrypted configuration where Native Key Provider stores its keys. 
+TPM hardware is not required for VM Encryption or vTPM functionality, though it's strongly recommended. When present, TPMs protect the host's encrypted configuration where Native Key Provider stores its keys. 
 
 Note: if you are configuring a Native Key Provider on hosts that do not have hardware TPM 2.0, do not enable the "Use key provider only with TPM protected ESX hosts." A host will always use a TPM if it is present, even if the option is not enabled.
 
@@ -134,22 +134,20 @@ Yes! A design pattern you might consider is using a Standard Key Provider for vS
 ### How do I know if a VM is encrypted?
 You can check encryption status in several ways. The VM summary page in the vSphere Client shows encryption status clearly. VMs with vTPM devices will show as "Encrypted" even if their disks aren't encrypted. You can also look for encryption icons in the VM list view, or use PowerCLI to check for the presence of encryption keys in the VM configuration. The storage policy assigned to the VM also indicates whether encryption is applied.
 
-There are also mechanisms in PowerCLI to check for encryption keys in the VM configuration.
-
 ### What happens if I lose my encryption keys?
-If you lose your Native Key Provider backup (.p12 file) and don't have a vCenter backup, your encrypted VMs become permanently inaccessible. There is no backdoor or recovery method. For Standard Key Provider setups, losing access to your KMS has the same result. This is why proper backup procedures and testing recovery scenarios are absolutely critical before encrypting production workloads.
+If you lose your Native Key Provider backup (.p12 file) and don't have a vCenter backup, your encrypted VMs become permanently inaccessible. There is no backdoor or recovery method. For Standard Key Provider setups, losing access to your KMS has the same result. Back up the key provider and test recovery before encrypting production workloads.
 
 ### Is there a key escrow service feature for VM Encryption?
 Not as part of vSphere or Cloud Foundation.
 
 ### How do I handle encrypted VMs in my disaster recovery site?
-Your DR site needs the same key provider configured as your primary site. For Native Key Provider, export the backup and import it at the DR site with the same name. For Standard Key Provider, ensure your KMS is accessible from the DR site or has a replica there. Test failover scenarios regularly to ensure encrypted VMs can be powered on at the DR site when needed.
+Your DR site needs the same key provider configured as your primary site. For Native Key Provider, export the backup and import it at the DR site with the same name. For Standard Key Provider, make sure your KMS is accessible from the DR site or has a replica there. Test failover scenarios regularly to verify encrypted VMs can be powered on at the DR site when needed.
 
 ### Can I clone an encrypted VM?
 Yes, you can clone encrypted VMs. In vSphere 6.7 and 7, cloning creates an exact copy including the vTPM contents. vSphere 8 gives you the choice to either copy or replace the TPM during cloning. Be aware that cloning a VM with vTPM creates an identical TPM, which may not be desirable for some use cases like BitLocker or unique identity requirements.
 
 ### How do encryption operations affect my backup software?
-Most modern backup solutions support encrypted VMs, but you should verify with your vendor. The backup software needs appropriate permissions to access encrypted VMs. Some backup solutions may have limitations with certain encryption features or require specific configurations. Always test backup and restore operations with encrypted VMs before relying on them in production.
+Most modern backup solutions support encrypted VMs, but you should verify with your vendor. The backup software needs appropriate permissions to access encrypted VMs. Some backup solutions may have limitations with certain encryption features or require specific configurations.
 
 If your backup software uses a proxy VM to directly mount the VMDKs, you will need to configure the proxy VM with VM Encryption. An easy way to accomplish this is by adding a vTPM device to the proxy VM.
 
@@ -171,7 +169,7 @@ Yes, you can decrypt VMs by changing their storage policy to a non-encrypted pol
 VM Encryption protects data at rest on storage, while Encrypted vMotion protects data in transit during migration between hosts. They're independent features - you can use either or both. Encrypted vMotion is automatically required for encrypted VMs, but you can also enable it for non-encrypted VMs to protect data during migrations.
 
 ### How do I monitor encryption operations and key provider health?
-vSphere provides alarms for key provider health and encryption operations. You can monitor these through vCenter alarms and events. Failed encryption operations, key provider connectivity issues, and certificate problems all generate specific alarms. Regular monitoring helps catch issues before they impact operations.
+vSphere provides alarms for key provider health and encryption operations. You can monitor these through vCenter alarms and events. Failed encryption operations, key provider connectivity issues, and certificate problems all generate specific alarms.
 
 ### Can I use different key providers for different VMs in the same cluster?
 Yes, you can have multiple key providers configured and use different ones for different VMs. Different key providers can be configured as the default for different clusters.
@@ -191,7 +189,7 @@ This scenario would result in the VM being encrypted with both key providers, wh
 To fix this, set the default key provider to what you prefer, and then re-encrypt/shallow rekey the VM. You will not need to power the VM off to do this.
 
 ### How does VM Encryption work with snapshots?
-Snapshots of encrypted VMs are also encrypted using the same keys as the parent VM. This ensures data protection is maintained throughout the snapshot chain..
+Snapshots of encrypted VMs are encrypted with the same keys as the parent VM, so the entire snapshot chain stays encrypted.
 
 ### What are the storage requirements for encrypted VMs?
 When running, encrypted VMs require the same amount of storage as non-encrypted VMs. Encryption does not increase storage consumption. However, the initial encryption process will require a full copy of the VMDK files while the data is being encrypted.
@@ -202,9 +200,9 @@ Note that deduplication effectiveness will be reduced since encrypted data appea
 VMs with vTPM devices must be stored as VM Templates (VMTX format) in Content Libraries. You cannot export encrypted VMs directly to OVF/OVA format through the vSphere Client - the vTPM must be removed first. The OVF Tool can help automate this process with placeholder attributes.
 
 ### What should I know about encryption and deduplication?
-Encryption renders data deduplication ineffective because encrypted data appears random. If your storage array relies on deduplication for space savings, expect higher storage consumption after enabling encryption. Consider this impact when planning storage capacity for encrypted workloads.
+Encryption renders data deduplication ineffective because encrypted data appears random. If your storage array relies on deduplication for space savings, expect higher storage consumption after enabling encryption.
 
-This is also true for vSAN if an encrypted VM is stored on the vSAN datastore. You might consider using vSAN data-at-rest encryption instead of VM Encryption instead, which does preserve deduplication.
+This is also true for vSAN if an encrypted VM is stored on the vSAN datastore. You might consider using vSAN data-at-rest encryption instead of VM Encryption, which does preserve deduplication.
 
 ### Can encrypted VMs use GPU or PCI passthrough?
 Yes, encrypted VMs can use vGPUs and DirectPath I/O.
@@ -218,9 +216,9 @@ Each encrypted object (VM, vSAN disk group, ESX host) requires one key in the KM
 As noted above, you can mix & match key providers and encryption policies in the same cluster. A design pattern some organizations use is a Standard Key Provider for vSAN, where you get protections against physical theft and/or loss of control of storage volumes, and a Native Key Provider for VM Encryption and/or vTPM.
 
 ### What's the recovery process if vCenter is completely lost?
-With Native Key Provider, you can rebuild vCenter and import the saved .p12 backup file to regain access to encrypted VMs. With Standard Key Provider, you need to reconfigure the KMS connection. This is why documenting your encryption configuration and testing recovery procedures is critical.
+With Native Key Provider, you can rebuild vCenter and import the saved .p12 backup file to regain access to encrypted VMs. With Standard Key Provider, you need to reconfigure the KMS connection. Document your encryption configuration and test recovery procedures.
 
-Always ensure that the key provider name remains exactly the same as the one you used when you configured the key provider, as that is how the VMs will be able to find it.
+Make sure that the key provider name remains exactly the same as the one you used when you configured the key provider, as that is how the VMs will be able to find it.
 
 ### Can I use VM Encryption with Fault Tolerance (FT)?
 Encrypted VMs require encrypted Fault Tolerance logging traffic. This works automatically but requires sufficient network bandwidth for the encrypted FT logging. The performance impact is generally minimal for most workloads but should be tested for latency-sensitive applications.
@@ -236,11 +234,11 @@ Immediately recreate the key provider with the same name. For Native Key Provide
 ### What is a safe way to delete a key provider?
 All environments are different, but here are some general thoughts:
 
-Audit the environment to ensure that no VMs are using the key provider before deleting it. You can do this with PowerCLI, see the Code Samples section above. You could also do a shallow rekey of all VMs, ESX keys, and vSAN datastores to ensure they are on the key provider you expect (this also causes a key rotation, which is often a good thing).
+Audit the environment to verify that no VMs are using the key provider before deleting it. You can do this with PowerCLI, see the Code Samples section above. You could also do a shallow rekey of all VMs, ESX keys, and vSAN datastores so they are on the key provider you expect (this also causes a key rotation, which is often a good thing).
 
-Audit the environment to ensure that no storage-level or array snapshots may require the key provider if the snapshot is restored.
+Audit the environment to verify that no storage-level or array snapshots may require the key provider if the snapshot is restored.
 
-If you are using Native Key Provider, ensure you have a backup of the Native Key Provider instance before deleting it, so that you can restore it if needed.
+If you are using Native Key Provider, make sure you have a backup of the Native Key Provider instance before deleting it, so that you can restore it if needed.
 
 If you are using a Standard Key Provider, remove the key provider but do not delete the data on the KMS.
 
@@ -260,31 +258,31 @@ If the KMS is unreachable no encryption operations will succeed. Plan accordingl
 No. You must rotate keys either through the re-encrypt/shallow rekey process or with a PowerCLI script (see the Code Samples section above).
 
 ### What should I test before going to production?
-Test the complete lifecycle: encryption, vMotion, backup/restore, key provider changes, disaster recovery failover, and host reboots. Verify your monitoring catches key provider failures. Practice recovery scenarios including vCenter rebuild and key provider restoration. Document all procedures and ensure your team is trained.
+Test the complete lifecycle: encryption, vMotion, backup/restore, key provider changes, disaster recovery failover, and host reboots. Verify your monitoring catches key provider failures. Practice recovery scenarios including vCenter rebuild and key provider restoration.
 
 ### What's the impact on Storage vMotion with encrypted VMs?
 Storage vMotion of encrypted VMs works normally.
 
 ### How do I handle encryption in a stretched cluster?
-For stretched clusters, ensure both sites have access to the same key provider, and that the key provider is highly available.
+For stretched clusters, make sure both sites have access to the same key provider, and that the key provider is highly available.
 
 ### What are the implications for array-based replication?
-Since VM Encryption happens at the hypervisor level, array-based replication will replicate the encrypted data. Test your array-based recovery procedures to ensure encrypted VMs can be registered and powered on at the replica site.
+Since VM Encryption happens at the hypervisor level, array-based replication will replicate the encrypted data. Test your array-based recovery procedures to verify encrypted VMs can be registered and powered on at the replica site.
 
 ### Can I use VM Encryption with NSX?
-Yes, VM Encryption is fully compatible with NSX. The two technologies operate at different layers - VM Encryption protects data at rest while NSX can provide network encryption for data in transit. Using both provides defense in depth for sensitive workloads.
+Yes, VM Encryption is fully compatible with NSX. The two technologies operate at different layers - VM Encryption protects data at rest while NSX can provide network encryption for data in transit.
 
 ### What should I know about encryption and memory dumps?
 By default, ESX never writes encryption keys to memory dumps. This means support teams can safely analyze memory dumps without risk of key exposure. However, this also means encrypted VM memory contents won't be readable in dumps, which may affect troubleshooting capabilities.
 
 ### How do I estimate the CPU overhead of encryption?
-Modern CPUs with AES-NI instructions handle encryption very efficiently. Typical overhead is 2-5% for most workloads, but all workloads vary. CPU impact is higher during initial encryption, rekey operations, or if VMs are actively swapping. Monitor CPU ready time and usage during pilot deployments to understand impact in your environment.
+Modern CPUs with AES-NI instructions handle encryption very efficiently. Typical overhead is 2-5% for most workloads, but all workloads vary. CPU impact is higher during initial encryption, rekey operations, or if VMs are actively swapping. Monitor CPU ready time and usage during pilot deployments.
 
 ### Can I use encryption with third-party multipathing software?
 VM Encryption operates above the storage layer, so it's compatible with any multipathing solution supported by vSphere. The encryption is transparent to storage connectivity, whether using native vSphere multipathing or third-party solutions.
 
 ### What's the difference between host encryption mode and VM encryption?
-Host encryption mode is an ESX state that allows the host to run encrypted VMs. It's automatically enabled when needed and doesn't encrypt the host itself. VM encryption specifically protects individual VM files. The two work together but serve different purposes in the encryption framework.
+Host encryption mode is an ESX state that allows the host to run encrypted VMs. It's automatically enabled when needed and doesn't encrypt the host itself. VM encryption specifically protects individual VM files.
 
 ### How do I migrate from legacy encryption solutions?
 If you're currently using in-guest encryption or third-party encryption tools, plan a phased migration. You can run both solutions temporarily, decrypt at the guest level, then enable VM Encryption. Test thoroughly as some legacy solutions may conflict with vSphere encryption features.
@@ -310,7 +308,7 @@ This depends on your security policies and what data these VMs might access. Con
 Instant clones of encrypted parent VMs are also encrypted. The encryption adds minimal overhead to the instant clone creation process. However, consider the cumulative CPU impact when creating many instant clones simultaneously, such as in VDI desktop pools.
 
 ### How do I track encryption compliance across my environment?
-Use VCF Operations (formerly vRealize Operations) or PowerCLI scripts to report on encryption status across your VMs. Create custom alarms for non-encrypted VMs that should be encrypted according to policy. Regular compliance reporting helps ensure encryption policies are consistently applied.
+Use VCF Operations (formerly vRealize Operations) or PowerCLI scripts to report on encryption status across your VMs. Create custom alarms for non-encrypted VMs that should be encrypted according to policy.
 
 ### Can VMs using VM Encryption be backed up?
 Yes. VM Encryption is supported for backup and restore operations, however, if your backup software uses the VDDK (standard APIs for backups and restores) the data will be decrypted before being sent to the backup system. This lets your backup software do its own deduplication and compression, and operate independently of VM Encryption and vSphere key providers.
@@ -323,4 +321,4 @@ It depends on your backup software. Many backup solutions offer the option to re
 
 ## Disclaimer
 
-This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This  repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.
+This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository and the documents contained in it are not intended to provide advice and are provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.

@@ -1,13 +1,8 @@
 # Security Design Resources
 
-This directory contains design guidance and whitepapers for building secure, resilient VMware Cloud Foundation (VCF) infrastructure, covering topics such as ransomware defense, zero trust architecture, secure management of workload domains, and non-disruptive patching.
+This directory contains design guidance and whitepapers for building secure, resilient VMware Cloud Foundation (VCF) infrastructure. Topics include ransomware defense, zero trust architecture, secure management of workload domains, and non-disruptive patching.
 
-## Reading
-
-- [Best Practices for Patching vSphere](Best-Practices-for-Patching-vSphere.MD)
-- [Glossary](Glossary.MD)
-
-## Broadcom Resources
+## Design Whitepapers
 
 - [VMware Cloud Foundation 9.1 Identity Design Best Practices (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/security-design/vcf-91-identity-design-best-practices.pdf) -- direct download
 - [VMware Cloud Foundation 9.1 Non-Disruptive Patching (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/security-design/vcf-91-non-disruptive-patching.pdf) -- direct download
@@ -17,6 +12,11 @@ This directory contains design guidance and whitepapers for building secure, res
 - [Secure VCF Management and Workload Domains with vDefend (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/security-design/secure-vcf-management-workload-domain-with-vdefend.pdf) -- direct download
 
 To download these files from the GitHub web interface, use the "Download raw file" button on the file's page. Right-clicking the links above and choosing "Save Link As" also works.
+
+## Reading
+
+- [Best Practices for Patching vSphere](Best-Practices-for-Patching-vSphere.MD)
+- [Glossary](Glossary.MD)
 
 ## Related Resources
 

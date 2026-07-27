@@ -1,6 +1,6 @@
 # vSAN Data-in-Transit Encryption
 
-vSAN Data-in-Transit Encryption encrypts vSAN storage traffic as it moves between hosts in a cluster, protecting data on the vSAN network against interception. It is configured per cluster and uses ephemeral keys, so no key provider is required. It can be enabled independently of vSAN Data-at-Rest Encryption, and the two are often used together for protection of both stored data and storage traffic.
+vSAN Data-in-Transit Encryption encrypts vSAN storage traffic as it moves between hosts in a cluster, helping protect data on the vSAN network against interception. It is configured per cluster and uses ephemeral keys, so no key provider is required. It can be enabled independently of vSAN Data-at-Rest Encryption, and the two are often used together to protect both stored data and storage traffic.
 
 The Security Configuration Guide includes audit guidance for vSAN encryption in the vsan-9 control family, including the data-in-transit controls for both vSAN Express Storage Architecture (ESA) and Original Storage Architecture (OSA) clusters. See the [Security Configuration & Hardening Guide](../../../security-configuration-hardening-guide/) for details.
 

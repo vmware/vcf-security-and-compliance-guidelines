@@ -6,11 +6,11 @@
 
 ## Background
 
-BRICKSTORM is a modular malware family attributed by CISA and Mandiant to PRC state-sponsored actors, tracked as UNC5221 and UNC6201 by Mandiant and WARP PANDA by CrowdStrike. The family includes multiple components: the BRICKSTORM backdoor itself, the Junction hypervisor implant, the GuestConduit VM tunneling tool, and the BRICKSTEAL credential harvester. Related malware families GRIMBOLT (a C# successor backdoor) and SLAYSTYLE (a JSP web shell) share C2 infrastructure with BRICKSTORM but have not been observed on VMware platforms. These components work together to provide persistent access across the virtualization stack. Unlike traditional malware that typically targets user endpoints, BRICKSTORM is specifically engineered to compromise critical network infrastructure, including edge devices and the virtualization management plane. This strategic focus allows the threat actors to "live off the infrastructure," maintaining persistent, stealthy access for an average of over a year (393 days).
+BRICKSTORM is a modular malware family attributed by CISA and Mandiant to PRC state-sponsored actors, tracked as UNC5221 and UNC6201 by Mandiant and WARP PANDA by CrowdStrike. The family includes multiple components: the BRICKSTORM backdoor itself, the Junction hypervisor implant, the GuestConduit VM tunneling tool, and the BRICKSTEAL credential harvester. Related malware families GRIMBOLT (a C# successor backdoor) and SLAYSTYLE (a JSP web shell) share C2 infrastructure with BRICKSTORM but have not been observed on VMware platforms. These components work together to provide persistent access across the virtualization stack. Unlike traditional malware that typically targets user endpoints, BRICKSTORM is specifically engineered to compromise critical network infrastructure, including edge devices and the virtualization management plane. This focus lets the actors "live off the infrastructure": they kept access for an average of 393 days before discovery.
 
-Technically, the malware is highly adaptable, with variants observed in Go, Rust, and .NET Native AOT, and is capable of running on Linux, Windows, and BSD-based systems. CISA has analyzed 12 samples across these variants as of February 2026. It employs advanced tradecraft to ensure resilience and conceal its communications; Go and Rust variants include a "self-watching" process architecture that automatically respawns the malware if it is terminated (the .NET AOT variant lacks this self-monitoring capability). For command and control (C2), BRICKSTORM blends into legitimate network traffic by using DNS-over-HTTPS (DoH) with public resolvers, and by encapsulating communication within encrypted WebSockets and nested TLS tunnels. Newer samples also include hardcoded C2 IP addresses as a fallback when DoH resolution is blocked.
+Technically, the malware is highly adaptable, with variants observed in Go, Rust, and .NET Native AOT, and is capable of running on Linux, Windows, and BSD-based systems. CISA has analyzed 12 samples across these variants as of February 2026. Go and Rust variants include a "self-watching" process architecture that automatically respawns the malware if it is terminated (the .NET AOT variant lacks this self-monitoring capability). For command and control (C2), BRICKSTORM blends into legitimate network traffic by using DNS-over-HTTPS (DoH) with public resolvers, and by encapsulating communication within encrypted WebSockets and nested TLS tunnels. Newer samples also include hardcoded C2 IP addresses as a fallback when DoH resolution is blocked.
 
-The primary objective of the BRICKSTORM campaign is long-term cyber espionage, heavily targeting sectors such as government, defense, technology, legal services, manufacturing, SaaS providers, and business process outsourcers. Once inside, actors leverage the malware to move laterally and harvest credentials, often using specialized tools like BRICKSTEAL to intercept vCenter logins or by cloning virtual machines to extract Active Directory databases offline without triggering alerts. BRICKSTORM is notable because the attackers target the management layer directly, treating VMware vCenter and VMware ESX as primary objectives rather than as stepping stones to workloads.
+The BRICKSTORM campaign's objective is long-term cyber espionage. It targets government, defense, technology, legal services, manufacturing, SaaS providers, and business process outsourcers. Once inside, actors use the malware to move laterally and harvest credentials, often using specialized tools like BRICKSTEAL to intercept vCenter logins or by cloning virtual machines to extract Active Directory databases offline without triggering alerts. BRICKSTORM is notable because the attackers target the management layer directly, treating VMware vCenter and VMware ESX as primary objectives rather than as stepping stones to workloads.
 
 [KB427833](https://knowledge.broadcom.com/external/article/427833/brickstorm-backdoor-to-vsphere.html) states that BRICKSTORM is not caused by a vulnerability in VMware vCenter or ESX. The attackers use credential compromise or exploit previously patched VMware CVEs (CVE-2021-22005, CVE-2023-34048, CVE-2024-37079, CVE-2024-38812, CVE-2024-38813), all of which have had patches available. Broadcom recommends the VMware Cloud Foundation Security Configuration Guide for hardening.
 
@@ -31,7 +31,7 @@ Most VMware security guides focus on ransomware. BRICKSTORM is a different kind 
 
 ### How Attackers Reach vCenter
 
-Attackers don't break directly into VMware infrastructure. They first compromise other systems (websites, VPNs, or steal passwords), then work their way toward vCenter.
+Attackers don't break directly into VMware infrastructure. They first compromise other systems (websites, VPN appliances) or steal passwords, then work their way toward vCenter.
 
 ```
 Step 1: Break In                     Step 2: Move Inward           Step 3: Target
@@ -43,7 +43,7 @@ Step 1: Break In                     Step 2: Move Inward           Step 3: Targe
 └─────────────────────────┘         └──────────────┘         └─────────────────┘
 ```
 
-### How to Defend Against This
+### How to Defend Against BRICKSTORM
 
 - **Protect the path to vSphere.** Attackers usually get in through VPNs, websites, or stolen passwords before reaching VMware systems.
 - **Harden systems AND watch them.** Good security needs both: lock things down and monitor for suspicious activity.

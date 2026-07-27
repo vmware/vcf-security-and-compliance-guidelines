@@ -1,7 +1,7 @@
 # VMware Cloud Foundation 5.2 Compliance Kit
 
 ## Introduction
-The VMware Cloud Foundation (VCF) 5.2 Compliance Kit helps organizations meet regulatory requirements by bridging the gap between compliance frameworks and implementation guides. The Kit provides attested guidance to administrators for configuring the platform to be secure in the manner that those regulations require. It also provides explanations and information to auditors to help them understand how the product security controls work to address the regulations.
+The VMware Cloud Foundation (VCF) 5.2 Compliance Kit helps organizations meet regulatory requirements by connecting compliance framework requirements to specific configuration guidance. The Kit provides attested guidance to administrators for configuring the platform to meet those regulations. It also explains to auditors how the product security controls address the regulations.
 
 Guidance is provided for:
 
@@ -11,7 +11,7 @@ Guidance is provided for:
 ## Intended Audience
 The audience for the VCF 5.2 Compliance Kit is VMware Cloud Foundation customers running version 5.2 of VCF. It is not intended for use on other platforms or versions.
 
-There are many engineered data center & hybrid cloud infrastructure products that also work with and host VCF deployments, like Dell EMC VxRail. If this is how you consume VCF you should check with those products’ support for guidance on security first, before implementing these ideas. Some of the Compliance Kit’s recommendations are likely to be safe to implement, but others may interfere with operations of those solutions. The vendors of those solutions will be able to provide guidance.
+Engineered infrastructure products such as Dell EMC VxRail also host VCF deployments. If you run VCF on one of these products, check with that vendor's support before you implement the Kit's recommendations. Some are likely to be safe to implement, but others may interfere with those products' operations; the vendor can advise.
 
 ## Download
 The [VMware Cloud Foundation documentation](https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-5-2-and-earlier/5-2/introducing-security-and-compliance-for-vmware-cloud-foundation-5-2.html) hosts the primary copy of the compliance guidance. The audit guides and workbook artifacts are available as a download from this repository.
@@ -28,4 +28,4 @@ If you want to link to this content we maintain a permanent redirect:
 
 https://brcm.tech/vcf-security
 
-The current target of this redirected link, as well as many other resources, can be found in [LINKS.md](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/LINKS.md)
+[LINKS.md](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/LINKS.md) lists the current target of this redirect and other resources.

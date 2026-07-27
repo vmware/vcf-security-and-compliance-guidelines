@@ -2,13 +2,13 @@
 
 Starting with vSphere 8.0.2, the SCG introduced sample scripts to automate auditing. The scripts serve three main purposes:
 
-- **Ease of Use for Beginners**: These scripts act as a stepping stone for those new to scripting, while also having an important purpose. Using the readily available VMware PowerCLI cmdlets with PowerShell makes vSphere automation straightforward. The scripts prioritize readability over programmatic elegance to ensure they align closely with SCG examples and can be easily modified by administrators as needed.
+- **Ease of Use for Beginners**: These scripts are a starting point for administrators who are new to scripting. Using the readily available VMware PowerCLI cmdlets with PowerShell makes vSphere automation straightforward. The scripts prioritize readability over programmatic elegance to help ensure they align closely with SCG examples and can be easily modified by administrators as needed.
 
 - **Simplicity & Integration**: Adhering to the UNIX philosophy of doing one thing and doing it well, these scripts each have a single purpose, and can be used in conjunction with inherent features of PowerShell. For instance, use of the `Select-String` command for pattern matching, such as for finding audit lines containing the labels [PASS] and [FAIL]. Extensive examples are provided below.
 
-- **Generating Audit Records**: The output is structured to provide audit details like dates, times, hostnames, and current configurations. This allows the scripts to capture a snapshot of an environment, aiding regulatory compliance, and also allowing administrators to demonstrate progress.
+- **Generating Audit Records**: The output is structured to provide audit details like dates, times, hostnames, and current configurations. The scripts capture a point-in-time record of an environment. Administrators can use that record as compliance evidence and to demonstrate progress.
 
-While these tools offer significant advantages, they aren't a one-size-fits-all solution. They can't assess design nuances, firewall configurations, patch levels, and more. There are also a number of controls that do not have programmatic methods of assessment, either. Nevertheless, these samples might decrease the manual effort tied to the SCG's controls.
+These tools reduce manual effort, but they do not cover everything. They can't assess design nuances, firewall configurations, patch levels, and more. Some controls cannot be assessed programmatically.
 
 ## License and Disclaimer
 
@@ -34,7 +34,7 @@ The sample remediation scripts **will change environments in ways that cause ope
 
 ## Nested Test Environments
 
-A great way to build familiarity with security and compliance controls in the SCG is with a nested test environment. You can run ESXi as a virtual machine on ESXi itself, and paired with a separate copy of vCenter Server you have a great (and snapshot-able) test environment. You can even configure vSAN. There are many community resources available for nested environments, use your favorite search engine to find them.
+A nested environment builds familiarity with SCG controls: run ESXi as a virtual machine with a separate vCenter Server, snapshot it, and even configure vSAN. Community guides for nested environments are widely available.
 
 ## Audit & Remediation Coverage
 
@@ -44,9 +44,9 @@ Additionally, these tools cannot audit and remediate design decisions, such as e
 
 ## Interaction with DISA STIG and Regulatory Compliance Guidance
 
-These sample tools are built around the hardening guidance for VMware ESXi and VMware vCenter found in the Security Configuration & Hardening Guide in this kit. The US Department of Defense, and various regulatory compliance frameworks, may have other requirements that are out of scope for these samples. The beauty of these samples, though, is that you can feel free to adjust the parameters in the scripts as you see fit.
+These sample tools are built around the hardening guidance for VMware ESXi and VMware vCenter found in the Security Configuration & Hardening Guide in this kit. The US Department of Defense, and various regulatory compliance frameworks, may have other requirements that are out of scope for these samples. You can adjust the parameters in the scripts to match those requirements.
 
-The Security Configuration & Hardening Guide has started to indicate differences between DISA STIG and PCI DSS 4.0 compliance requirements in the rightmost columns. Check it out.
+The rightmost columns of the guide indicate differences between DISA STIG and PCI DSS 4.0 compliance requirements.
 
 ## Files Included
 
@@ -78,7 +78,7 @@ These tools assume VMware vCenter 8.0.3 and VMware ESXi 8.0.3. Using these tools
 
 Earlier versions of these scripts checked versions of VCF components, and versions of PowerCLI. These checks were unreliable and presented problems for a number of users, especially where PowerCLI modules were installed manually, or where environments had mixed versions. As such, the checks have been removed, and now rely on your judgment.
 
-Many organizations treat PowerShell and PowerCLI as a threat and block it on desktops. While it is true that attackers could use PowerShell, it is also a tremendous way for legitimate administrators to do work quickly, and that work helps secure environments from the threats that the organizations are concerned with. We encourage the information security staff inside organizations to work with VCF and vSphere administrators to find a way to allow this behavior on the select desktops or systems VCF administrators use to manage their environments.
+Many organizations block PowerShell and PowerCLI on desktops. Attackers can use PowerShell, but administrators use it to secure environments quickly. We encourage information security staff to allow it on the specific systems administrators use to manage vSphere.
 
 ### Step 1: Connection Requirements
 
@@ -98,7 +98,7 @@ Second, you can use the included [`connect.ps1`](connect.ps1) script:
 
 This script will prompt for a password, collected from the console and masked with asterisks (*).
 
-While it may be tempting to automate these connection strings, **under no circumstances do we recommend storing account logon information in a script**. Doing so is a leading cause of unauthorized access, breaches, and eventual situations like ransomware. Properly storing account information for automated tools depends heavily on your own environment and is out of scope for this document.
+While it may be tempting to automate these connection strings, **under no circumstances do we recommend storing account logon information in a script**. Stored credentials are a common path to unauthorized access and can lead to ransomware. Properly storing account information for automated tools depends heavily on your own environment and is out of scope for this document.
 
 ### Step 2: Run The Tools
 
@@ -108,7 +108,7 @@ Change into the directory with the scripts and issue a command like:
 .\audit-esxi-8.ps1 -Name esx-01a.vcf.lab
 ```
 
-Replacing the value after "-Name" with a valid hostname in your environment. Similarly:
+Replace the value after `-Name` with a valid hostname in your environment. Similarly:
 
 ```powershell
 .\audit-vm-8.ps1 -Name TESTVM
@@ -158,7 +158,7 @@ No audit is perfect. Failures may simply indicate that something needs to be che
 
 ### Step 5: Use PowerShell to Search the Results
 
-The previous version of these sample scripts allowed for direct filtering of output, but due to changes how they print text we need to use two steps: run the audit and write to a file, then use `Select-String` on the file:
+The previous version of these sample scripts allowed for direct filtering of output, but due to changes in how they print text, we need two steps: run the audit and write to a file, then use `Select-String` on the file:
 
 ```powershell
 .\audit-esxi-8.ps1 -Name esx-01a.vcf.lab -OutputFileName esx-01a.txt -AcceptEULA
@@ -167,7 +167,7 @@ Get-Content "esx-01a.txt" | Select-String -Pattern "\[FAIL\]|\[INFO\]"
 
 This will return the lines that require further checking, labeled with `[FAIL]`.
 
-Characters like brackets ([ or ]) are special characters to PowerShell and require "escaping" or making the shell understand not to interpret them. The backslash (\) is what does that. The vertical pipe (|) symbol in the pattern means "or." A tremendous use of modern Large Language Model (LLM) AIs is to ask them for help constructing patterns such as these. For instance, a statement like "Please give me the correct pattern for use with Select-String in PowerShell to find lines that contain [INFO], [PASS], and [FAIL]" will return a useful example.
+Characters like brackets ([ or ]) are special characters to PowerShell and require "escaping" or making the shell understand not to interpret them. The backslash (\) is what does that. The vertical pipe (|) symbol in the pattern means "or." Large language models can help construct patterns such as these. For instance, a statement like "Please give me the correct pattern for use with Select-String in PowerShell to find lines that contain [INFO], [PASS], and [FAIL]" will return a useful example.
 
 ### Step 6: Remediate
 
@@ -181,7 +181,7 @@ See the "Reference" section for parameters and syntax.
 
 ### Step 7: Customize
 
-Every environment has audit findings that are not actionable but continue to appear in reports. A good example here might be "unnecessary hardware" where a particular device, such as an XHCI controller, might be flagged but it is required for proper operation of the guest OS on your virtual machines. These scripts are set up in a way where you should be able to easily find and edit those out if they are truly false positives.
+Every environment has audit findings that are not actionable but continue to appear in reports. A good example here might be "unnecessary hardware" where a particular device, such as an XHCI controller, might be flagged but it is required for proper operation of the guest OS on your virtual machines. The checks are easy to locate in the scripts; remove any that are true false positives in your environment.
 
 Similarly, you could filter them after the fact with `Select-String` commands.
 

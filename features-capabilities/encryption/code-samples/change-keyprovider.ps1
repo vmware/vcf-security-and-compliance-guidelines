@@ -2,7 +2,7 @@
     VMware vSphere Key Provider Change Utility
 
     This script is provided as an example of how to programmatically change key providers in VMware vSphere and VMware Cloud Foundation.
-    It will reset the key provider for all clusters, virtual machines, vSAN datastores, and ESXi hosts to the specified key provider.
+    It will reset the key provider for all clusters, virtual machines, vSAN datastores, and ESX hosts to the specified key provider.
 
     SOFTWARE LICENSE AGREEMENT
     ==========================
@@ -93,10 +93,10 @@ Function Do-Pause() {
 }
 
 #####################
-# Make sure we are attached to a single vCenter Server, so we rekey the environment we intend to
+# Make sure we are attached to a single vCenter, so we rekey the environment we intend to
 Function Check-vCenter() {
     if ($global:DefaultVIServers.Count -ne 1) {
-        Write-Output "[ERROR] Connect to a single vCenter Server (use Connect-VIServer) prior to running this script."
+        Write-Output "[ERROR] Connect to a single vCenter (use Connect-VIServer) prior to running this script."
         Exit
     }
 }
@@ -276,7 +276,7 @@ foreach ($cluster in Get-Cluster) {
 Do-Pause
 
 # All hosts to the new key provider
-Write-Output "`n[INFO]  Rekeying ESXi hosts."
+Write-Output "`n[INFO]  Rekeying ESX hosts."
 foreach ($vmhost in Get-VMHost) {
     if ($vmhost.ConnectionState -ne 'Connected') {
         Write-Output "[WARN]  $vmhost is not connected or in maintenance mode"

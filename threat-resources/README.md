@@ -1,6 +1,6 @@
 # Threat Resource Center
 
-This directory has resources that help organizations remain resilient to ransomware, malware, and other attacks through practical approaches, system hardening, and process improvements.
+This directory has resources that help organizations resist ransomware, malware, and other attacks through system hardening and process improvements.
 
 *This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository is not intended to provide advice and is provided "AS IS." Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.*
 
@@ -16,7 +16,7 @@ This directory has resources that help organizations remain resilient to ransomw
 * [Practical Ideas for Ransomware Resilience](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/threat-resources/Ransomware/Practical-Ideas-for-Ransomware-Resilience.md)
 * [Defeating Ransomware with HPE ProLiant Compute and VMware](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/threat-resources/Ransomware/defeating-ransomware-with-hpe-proliant-compute-and-vmware.pdf)
 * [Ransomware Defense in Depth with VMware](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/threat-resources/Ransomware/ransomware-defense-in-depth-with-vmware.pdf)
-* [Ransomware Protection with VMware vDefend Firewall](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/threat-resources/Ransomware/ransomware-protection-with-nsx-distributed-firewall.pdf)
+* [Ransomware Protection with VMware vDefend Firewall (formerly NSX Distributed Firewall)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/threat-resources/Ransomware/ransomware-protection-with-nsx-distributed-firewall.pdf)
 
 ## AI-Fueled Threats
 
@@ -24,7 +24,7 @@ This directory has resources that help organizations remain resilient to ransomw
 
 ## Related Design Resources
 
-Resources on designing infrastructure to withstand these threats can be found in [security-design](../security-design/), including:
+The [security-design](../security-design/) directory has resources on designing infrastructure to withstand these threats, including:
 
 * [Designing Infrastructure to Defeat Ransomware](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/security-design/designing-infrastructure-to-defeat-ransomware.pdf)
 * [Ransomware Defense and Recovery Strategies](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/security-design/ransomware-defense-and-recovery-strategies.pdf)

@@ -1,6 +1,6 @@
 # VMware Cloud Foundation Security Configuration & Hardening Guide
 
-The VMware Cloud Foundation (VCF) Security Configuration & Hardening Guide (SCG) is the baseline for hardening and auditing guidance for VCF and the components within. It has long served as guidance for virtualization administrators looking to protect their infrastructure.
+The VMware Cloud Foundation (VCF) Security Configuration & Hardening Guide (SCG) is the baseline for hardening and auditing guidance for VCF and the components within.
 
 Security is always a tradeoff, and turning on all security features, to their highest levels of security, often impedes day-to-day administration efforts. The goal of this guide is to be a core set of security best practices that inform administrators. It is not a catalogue of all available security controls, but instead a reasonable baseline on which to build. It is also not a design guide.
 
@@ -43,7 +43,7 @@ Spaces have been removed from filenames to ease downloading from GitHub. File na
 
 The audience for the VCF Security Configuration Guide is VMware Cloud Foundation and VMware vSphere Foundation customers who have implemented this software directly. There are many engineered data center & hybrid cloud infrastructure products that implement VMware infrastructure products as part of their solutions. If this describes you, please check with those products' support before implementing these ideas.
 
-This guidance evolves and will continue to expand to cover all VMware Cloud Foundation components, as well as to include compliance-oriented guidance aimed at assisting auditors. Additional guidance for US Department of Defense and related users can be found in our DISA STIG and DISA STIG Readiness Guides.
+This guidance covers additional VMware Cloud Foundation components over time. Additional guidance for US Department of Defense and related users can be found in our DISA STIG and DISA STIG Readiness Guides.
 
 ## Downloading the Latest Version
 
@@ -61,7 +61,7 @@ This guidance evolves; please check for the latest version before commencing sec
 
 ### Using Git to Download the Guide
 
-The VCF Security and Compliance Guidelines GitHub repository is a monolithic repository that contains multiple distinct projects and components related to infrastructure security and regulatory compliance. While that's helpful as a single place to visit to find materials, it can be overwhelming if you just need one particular thing, or even a group of files like what comprise the SCG. Complicating things further, with our use of GitHub we have stopped producing single Zip files to download, as binary files such as those are not compatible with how Git is meant to be used.
+The VCF Security and Compliance Guidelines GitHub repository is a monolithic repository that contains multiple distinct projects and components related to infrastructure security and regulatory compliance. While that's helpful as a single place to visit to find materials, it can be overwhelming if you just need one particular thing, or a group of files such as those that make up the SCG. We no longer publish single Zip files for download. Large binary files do not work well with Git.
 
 However, you can use the "sparse-checkout" function of Git to download just the directories you would like. For example, to check out only the VMware Cloud Foundation 9.1 hardening guidance you might use:
 
@@ -93,13 +93,13 @@ git sparse-checkout list
 
 With the release of VMware Cloud Foundation 9 the name of the VMware Hypervisor was changed from ESXi back to ESX. Documents such as this, which use information that span a range of release versions, may use the names ESXi and ESX interchangeably, or refer to the hypervisor solely as ESX for simplicity. Unless you are running VMware vSphere 4.1, please consider both ESXi and ESX to be the same, and use the product version to determine applicability to your environment.
 
-If you are running VMware ESX 4.1, or any version which has passed the End of General Support deadline, please know that Broadcom has resources available to assist you in migrating smoothly to the latest version. The upgrade process has become quite smooth in recent years, and where there is not a direct path from one version to another, Cross-vCenter vMotion may be able to help.
+If you are running VMware ESX 4.1, or any version which has passed the End of General Support deadline, please know that Broadcom has resources available to assist you in migrating to the latest version. Where there is no direct upgrade path between versions, Cross-vCenter vMotion can move workloads to a new environment.
 
 Beyond ESX there are additional naming changes you will likely note, such as all names prefaced with VMware Aria changing to VCF Operations. VCF Operations for Logs has also become simply "VCF Log Management."
 
 ## VMware Appliances and Management Services
 
-VMware appliances, such as the vCenter Appliance (VCSA), are tested and qualified in known configurations. Altering the configuration of appliances may affect support. Avoid upgrading the appliance virtual hardware versions except under the guidance of VMware Global Support Services. That said, the upgrade process to VMware Cloud Foundation 9.1 will update the VCSA to VM hardware version 17 (and if not, you can do it, too).
+VMware appliances, such as the vCenter Appliance (VCSA), are tested and qualified in known configurations. Altering the configuration of appliances may affect support. Avoid upgrading the appliance virtual hardware versions except under the guidance of VMware Global Support Services. The upgrade to VMware Cloud Foundation 9.1 updates the VCSA to VM hardware version 17; if the upgrade does not, you can update the hardware version manually.
 
 The VMware Cloud Foundation Management Services (VCFMS) virtual machines and containers are a new structure in VCF 9.1, and pre-hardened. They are not meant to be altered, as they are deployed and managed automatically by VCF itself. Components deployed into the VCFMS do not have traditional configurable management surfaces (VAMI) and are largely meant to be invisible, configured through the VCF Operations Global Settings.
 
@@ -109,11 +109,11 @@ This guide will be updated as necessary to improve clarity, correct problems, an
 
 ## Power Off
 
-All guidance in the Security Configuration Guide is meant to be applied to virtual machines in a powered off state, or hosts which have been placed in maintenance mode and are able to restart. Changes to ESX have made it so that most advanced parameters cannot be set with virtual machines powered on. This helps ensure that the running configuration of a virtual machine matches the reported configuration, but in practice may require organizational process changes. We encourage organizations to take advantage of product defaults to reduce the scope of work.
+All guidance in the Security Configuration Guide is meant to be applied to virtual machines in a powered off state, or hosts which have been placed in maintenance mode and are able to restart. In current ESX versions, most advanced parameters cannot be set while a virtual machine is powered on. This helps ensure that the running configuration of a virtual machine matches the reported configuration, but in practice may require organizational process changes. We encourage organizations to take advantage of product defaults to reduce the scope of work.
 
 ## VM Hardware Versions
 
-There are varying opinions within the greater VMware community about upgrading virtual machine hardware versions. Newer virtual machine hardware versions introduce new feature and guest OS support, better compatibility and performance with CPU vulnerability mitigations, better support for modern CPU security features, better security defaults, and so on.
+There are varying opinions within the greater VMware community about upgrading virtual machine hardware versions. Newer virtual machine hardware versions add support for new features and guest operating systems, improve compatibility and performance with CPU vulnerability mitigations, add support for modern CPU security features, and improve security defaults.
 
 Upgrading virtual machine hardware changes the virtual hardware presented to the guest operating system, just as if a boot device in a physical server was placed in a newer physical server. Changes like this can vary in risk, may require more than one reboot, and may require human interaction to complete.
 
@@ -124,7 +124,7 @@ In general, Broadcom guidance is to:
 - Run the latest version you are able, ideally the latest version available in the version of VCF you run.
 - Use VM Hardware 17 (vmx-17) or newer. Version 13 introduced important performance and security improvements for CPU vulnerability mitigations, and version 14 introduced support for vTPM.
 - Take snapshots of virtual machines prior to upgrading, but do not forget to remove the snapshot later. Note that VMware Cloud Foundation allows you to schedule automatic snapshot deletions.
-- When scheduling virtual hardware compatibility upgrades use the "Only upgrade after normal guest OS shutdown" to help ensure that a compatibility update does not complicate an unplanned incident or HA event.
+- When scheduling virtual hardware compatibility upgrades use the "Only upgrade after normal guest OS shutdown" option to help ensure that a compatibility update does not complicate an unplanned incident or HA event.
 
 ## Code Examples & Tools
 
@@ -139,13 +139,13 @@ This Guide contains PowerCLI examples that standardize on formatting, such as:
 - `$PG` is a string containing the standard switch port group name
 - `$VMK` is a string containing the VMkernel adapter name (for example, `vmk0`)
 
-These code snippets can make changes that deeply affect operations and the responsibility for the impact of these changes is yours. Test these changes in a controlled, non-production environment first, and apply them to production environments using staged rollout techniques. One easy way to build a test environment is to run ESX inside a VM for non-production testing purposes, just as the [VMware Hands-on Labs](https://labs.hol.vmware.com/) do.
+These code snippets can make changes that deeply affect operations. You are responsible for the impact of these changes. Test these changes in a controlled, non-production environment first, and apply them to production environments using staged rollout techniques. One easy way to build a test environment is to run ESX inside a VM for non-production testing purposes, just as the [VMware Hands-on Labs](https://labs.hol.vmware.com/) do.
 
 This guide includes sample automation scripts for auditing & remediating certain components. Please see Appendix A in the [guidance document](vcf-security-configuration-guide-91-guidance.pdf?raw=true), or the [`tools/`](tools/) directory.
 
-We regret that while we are happy to accept constructive feedback about the code examples, we cannot supply scripting support. There are options for scripting and automation support through VMware Professional Services. Please contact your Account Executive for more information. You might also check out the thriving community at [developer.broadcom.com](https://developer.broadcom.com/).
+We regret that while we are happy to accept constructive feedback about the code examples, we cannot supply scripting support. There are options for scripting and automation support through VMware Professional Services. Please contact your Account Executive for more information. You might also check out the community at [developer.broadcom.com](https://developer.broadcom.com/).
 
-Alternatively, the "Code Capture" and "API Explorer" features inside the vSphere Client's Developer Center can be used to discover APIs, help script, and automate tasks. It isn't perfect, but, in general, if you can do it inside the client, it will give you an example script to automate.
+Alternatively, the "Code Capture" and "API Explorer" features inside the vSphere Client's Developer Center can be used to discover APIs, help script, and automate tasks. Code Capture is not perfect, but for most actions you perform in the client, it generates an example script.
 
 ## Feedback & Support
 

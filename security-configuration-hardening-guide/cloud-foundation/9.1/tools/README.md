@@ -2,13 +2,13 @@
 
 Starting with vSphere 8.0.2, the SCG introduced sample scripts to automate auditing. These scripts have been updated for VMware Cloud Foundation 9.1.0 and serve three main purposes:
 
-- **Ease of Use for Beginners**: These scripts act as a stepping stone for those new to scripting, while also having an important purpose. Using the readily available VMware PowerCLI cmdlets with PowerShell makes vSphere automation straightforward. The scripts prioritize readability over programmatic elegance to help ensure they align closely with SCG examples and can be easily modified by administrators as needed.
+- **Ease of Use for Beginners**: These scripts are a starting point for administrators who are new to scripting. Using the readily available VMware PowerCLI cmdlets with PowerShell makes vSphere automation straightforward. The scripts prioritize readability over programmatic elegance to help ensure they align closely with SCG examples and can be easily modified by administrators as needed.
 
 - **Simplicity & Integration**: Adhering to the UNIX philosophy of doing one thing and doing it well, these scripts each have a single purpose, and can be used in conjunction with inherent features of PowerShell. For instance, use of the `Select-String` command for pattern matching, such as for finding audit lines containing the labels [PASS] and [FAIL].
 
-- **Generating Audit Records**: The output is structured to provide audit details like dates, times, hostnames, and current configurations. This allows the scripts to capture a snapshot of an environment, aiding regulatory compliance, and also allowing administrators to demonstrate progress.
+- **Generating Audit Records**: The output is structured to provide audit details like dates, times, hostnames, and current configurations. The scripts capture a point-in-time record of an environment. Administrators can use that record as compliance evidence and to demonstrate progress.
 
-While these tools offer significant advantages, they aren't a one-size-fits-all solution. They can't assess design nuances, firewall configurations, patch levels, and more. There are also a number of controls that do not have programmatic methods of assessment, either. Nevertheless, these samples might decrease the manual effort tied to the SCG's controls.
+These tools reduce manual effort, but they do not cover everything. They can't assess design nuances, firewall configurations, patch levels, and more. Some controls cannot be assessed programmatically.
 
 ## Nested Test Environments
 
@@ -109,7 +109,7 @@ Second, you can use the included [`connect.ps1`](connect.ps1) script:
 
 This script will prompt for a password, collected from the console and masked with asterisks (*).
 
-**Important**: Under no circumstances do we recommend storing account logon information in a script. Doing so is a leading cause of unauthorized access, breaches, and eventual situations like ransomware.
+**Important**: Under no circumstances do we recommend storing account logon information in a script. Doing so is a common cause of unauthorized access and breaches, and can lead to ransomware.
 
 ### Step 2: Run The Tools
 
@@ -119,7 +119,7 @@ Change into the directory with the scripts and issue a command like:
 .\audit-esx-9.ps1 -Name esx-01a.vcf.lab
 ```
 
-Replacing the value after "-Name" with a valid hostname in your environment. Similarly:
+Replace the value after `-Name` with a valid hostname in your environment. Similarly:
 
 ```powershell
 .\audit-vm-9.ps1 -Name TESTVM
@@ -183,7 +183,7 @@ To reiterate, these sample remediation scripts will change environments in ways 
 
 ### Step 7: Customize
 
-Every environment has audit findings that are not actionable but continue to appear in reports. These scripts are set up in a way where you should be able to easily find and edit those out if they are truly false positives. Similarly, you could filter them after the fact with `Select-String` commands.
+Every environment has audit findings that are not actionable but continue to appear in reports. The checks are easy to locate in the scripts; remove any that are true false positives in your environment. Similarly, you could filter them after the fact with `Select-String` commands.
 
 ## Sample Script Command Reference
 

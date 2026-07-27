@@ -8,7 +8,7 @@ A step-by-step checklist for protecting VMware systems from BRICKSTORM. For deta
 
 ---
 
-## Top 10 Quick Wins
+## Do These 10 Things First
 
 | # | Action | Details |
 |---|--------|---------|
@@ -39,7 +39,7 @@ See [DEFENSE-GUIDE.md: IOC-Based Detection](DEFENSE-GUIDE.md#1-ioc-based-detecti
 
 **Hash and YARA Scanning:**
 - [ ] Run [CISA YARA rules](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) (7 rules covering Go, Rust, and .NET AOT variants) against VMware ESX, vCenter, and VCF Automation Orchestrator. The [Mandiant BRICKSTORM scanner](https://github.com/mandiant/brickstorm-scanner) can run on appliances without YARA installed but detects Go variants only; supplement with CISA and GTIG YARA rules for broader coverage.
-- [ ] Investigate any matches (note: BRICKSTORM is compiled uniquely per victim and file hash matching has limited effectiveness; however, the first observed C2 infrastructure reuse was documented in February 2026, so network IOCs may have broader applicability than previously assessed)
+- [ ] Investigate any matches. Note: hashes rarely match because samples are compiled per victim. Network IOCs may match more often; Mandiant documented the first C2 infrastructure reuse in February 2026.
 
 ### 1.2 Review Boot/Init Scripts
 
@@ -140,7 +140,7 @@ See [DEFENSE-GUIDE.md: Access Control Implementation](DEFENSE-GUIDE.md#1-access-
 - [ ] Perform authorization inside VMware Cloud Foundation rather than in the IdP
 - [ ] Retain IdP access logs for extended period
 - [ ] If using Microsoft Entra ID: disable Seamless SSO and SSPR for administrators
-- [ ] Proactively rotate [ADFS token-signing certificates](DEFENSE-GUIDE.md#golden-saml-attack) (if ADFS is used)
+- [ ] Rotate [ADFS token-signing certificates](DEFENSE-GUIDE.md#golden-saml-attack) on a schedule (if ADFS is used)
 - [ ] Audit infrastructure IdPs against published best practices
 
 **[Access Restrictions](DEFENSE-GUIDE.md#access-restrictions):**
