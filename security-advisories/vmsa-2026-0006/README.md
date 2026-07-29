@@ -96,7 +96,7 @@ Yes. VMware Workstation 25H2 and VMware Fusion 25H2 are affected by CVE-2026-417
 
 No. VMXNET3 has an in-guest driver, but CVE-2026-47876 is on the ESX side of the communication and is resolved by updating ESX.
 
-Broadcom always recommends applying in-guest VMware Tools updates as part of routine maintenance. The VMXNET3 and VMware Paravirtual SCSI (PVSCSI) drivers are also available natively as part of guest operating system installations and driver updates directly from the guest OS vendors. Ensure that patching tools and methods, such as WSUS, include them.
+Broadcom always recommends applying in-guest VMware Tools updates as part of routine maintenance. The VMXNET3 and VMware Paravirtual SCSI (PVSCSI) drivers are also available natively as part of guest operating system installations and driver updates directly from the guest OS vendors. Ensure that patching tools and methods, such as WSUS, include them. To be clear, though, patching ESX will resolve the issues in this VMSA.
 
 ### 15. Do I have to update SDDC Manager?
 
@@ -178,7 +178,7 @@ Yes. The patch is available through the standard update mechanisms for VMware vS
 
 ### 31. Are there any known issues with this patch?
 
-Yes. The vSphere 8.0 updates cause a “back in time” upgrade restriction. See question 38.
+Yes. Some updates cause a “back in time” upgrade restriction. See question 38.
 
 ### 32. Does this impact VMware vSphere 6.5 or 6.7?
 
@@ -190,7 +190,9 @@ Yes. VMware vSphere 7 reached End of General Support on October 2, 2025. If your
 
 ### 34. Do I have to update to vSphere 8 Update 3 to receive this patch on vSphere 8?
 
-Yes. VMware vSphere 8 Update 3 is the best version of vSphere 8 and new security updates are built atop it.
+Not necessarily. VMware vSphere 8 Update 3 is the best version of vSphere 8 and new security updates are built atop it. We strongly urge customers to apply that version, or upgrade to VVF/VCF 9.1.
+
+Updates for vSphere 8 Update 2 will be available in the future for customers who require them.
 
 ### 35. There was a commitment made to provide critical patches for perpetual-license vSphere customers. How do I download those patches?
 
@@ -214,9 +216,9 @@ Third-party engineered systems control their patch levels and configurations as 
 
 VMSA information is delivered as a message inside hosted, cloud, and software-as-a-service products where applicable. Please check the administrative consoles of those services for further relevant messages and details about this VMSA. Additional questions about the service should be answered through the support processes for that service.
 
-### 38. Do these patches cause “back in time” upgrade issues?
+### 38. Do these patches cause "back in time" upgrade issues?
 
-Yes. A “back in time” restriction occurs when a patch updates a product branch that carries a newer build number than the target of a planned upgrade. The vSphere 8.0 updates in this advisory block upgrades to VMware Cloud Foundation 9.x, which report a “back in time” error. As has been the case with previous restrictions of this type, upgrade compatibility is reestablished in subsequent releases, though Broadcom cannot speak publicly about release timelines.
+Yes. A “back in time” restriction occurs when a patch updates a product branch that carries a newer build number than the target of a planned upgrade. The vSphere 8.0 and 9.0 updates in this advisory block upgrades to VMware Cloud Foundation 9.x, which report a “back in time” error. As has been the case with previous restrictions of this type, upgrade compatibility is reestablished in subsequent releases.
 
 Organizations that are amidst an upgrade should weigh their options and timelines before applying these updates. More information about “back in time” restrictions and the compatibility matrix is available in [KB 67077](https://knowledge.broadcom.com/external/article?legacyId=67077).
 
