@@ -178,7 +178,7 @@ Yes. The patch is available through the standard update mechanisms for VMware vS
 
 ### 31. Are there any known issues with this patch?
 
-There are no known issues with the updates listed in VMSA-2026-0006.
+Yes. The vSphere 8.0 updates cause a “back in time” upgrade restriction. See question 38.
 
 ### 32. Does this impact VMware vSphere 6.5 or 6.7?
 
@@ -186,7 +186,7 @@ Presume that it does. Broadcom does not evaluate products past their End of Gene
 
 ### 33. Does this impact VMware vSphere 7.0?
 
-Yes. VMware vSphere 7 reached End of General Support status on October 2, 2025. Patches for this version may be available at a future date via the Support portal, for use in an offline update manner (import into Lifecycle Manager).
+Yes. VMware vSphere 7 reached End of General Support on October 2, 2025. If your organization has an extended support contract, please use those processes to request patches for these issues on vSphere 7.
 
 ### 34. Do I have to update to vSphere 8 Update 3 to receive this patch on vSphere 8?
 
@@ -213,6 +213,12 @@ Third-party engineered systems control their patch levels and configurations as 
 ### 37. Are VMware Cloud and hosted products updated?
 
 VMSA information is delivered as a message inside hosted, cloud, and software-as-a-service products where applicable. Please check the administrative consoles of those services for further relevant messages and details about this VMSA. Additional questions about the service should be answered through the support processes for that service.
+
+### 38. Do these patches cause “back in time” upgrade issues?
+
+Yes. A “back in time” restriction occurs when a patch updates a product branch that carries a newer build number than the target of a planned upgrade. The vSphere 8.0 updates in this advisory block upgrades to VMware Cloud Foundation 9.x, which report a “back in time” error. As has been the case with previous restrictions of this type, upgrade compatibility is reestablished in subsequent releases, though Broadcom cannot speak publicly about release timelines.
+
+Organizations that are amidst an upgrade should weigh their options and timelines before applying these updates. More information about “back in time” restrictions and the compatibility matrix is available in [KB 67077](https://knowledge.broadcom.com/external/article?legacyId=67077).
 
 ## Change Log
 
