@@ -60,7 +60,7 @@ CVE-2025-22224, CVE-2025-22225, and CVE-2025-22226
 
 ### What is the severity of the vulnerabilities?
 
-9.3, 8.2, and 7.1, scored using version 3.1 of the Common Vulnerability Scoring Standard (CVSS).
+9.3, 8.2, and 7.1, scored using version 3.1 of the Common Vulnerability Scoring System (CVSS).
 
 ### Are there additional details about the vectors of the vulnerabilities?
 

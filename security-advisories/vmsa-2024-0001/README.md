@@ -47,7 +47,7 @@ The disclosure involves CVE-2023-34063.
 
 ### What is the severity of the vulnerabilities disclosed in VMSA-2024-0001?
 
-VMware Security Advisories determine severities using version 3.1 of the Common Vulnerability Scoring Standard (CVSS). For specific scores, please refer to the VMSA itself.
+VMware Security Advisories determine severities using version 3.1 of the Common Vulnerability Scoring System (CVSS). For specific scores, please refer to the VMSA itself.
 
 ### Are there more details on the vectors of the individual vulnerabilities?
 

@@ -49,7 +49,7 @@ CVE-2024-37079, CVE-2024-37080, CVE-2024-37081
 
 ### What is the severity of the vulnerabilities disclosed in VMSA-2024-0012?
 
-VMware Security Advisories list the severities using version 3.1 of the Common Vulnerability Scoring Standard (CVSS). Please refer to the VMSA itself for the specific scores.
+VMware Security Advisories list the severities using version 3.1 of the Common Vulnerability Scoring System (CVSS). Please refer to the VMSA itself for the specific scores.
 
 ### Are there additional details on the vectors of the individual vulnerabilities?
 

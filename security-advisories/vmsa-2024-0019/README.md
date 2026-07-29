@@ -75,7 +75,7 @@ CVE-2024-38812 and CVE-2024-38813.
 
 ### What is the severity of the vulnerabilities?
 
-9.8 and 7.5, scored using version 3.1 of the Common Vulnerability Scoring Standard (CVSS).
+9.8 and 7.5, scored using version 3.1 of the Common Vulnerability Scoring System (CVSS).
 
 ### Are there additional details about the vectors of the vulnerabilities?
 

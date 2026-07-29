@@ -49,7 +49,7 @@ The disclosure involves CVE-2024-22245 and CVE-2024-22250.
 
 ### What is the severity of the vulnerabilities disclosed in this VMSA?
 
-VMware Security Advisories determine severities using version 3.1 of the Common Vulnerability Scoring Standard (CVSS). For specific scores, please refer to the VMSA itself.
+VMware Security Advisories determine severities using version 3.1 of the Common Vulnerability Scoring System (CVSS). For specific scores, please refer to the VMSA itself.
 
 ### Are there more details on the vectors of the individual vulnerabilities?
 

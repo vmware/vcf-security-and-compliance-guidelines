@@ -55,7 +55,7 @@ CVE-2023-34048 and CVE-2023-34056 for all versions except 8.0 U1d, which only re
 
 ### What is the severity of the vulnerabilities disclosed in VMSA-2023-0023?
 
-9.8 and 4.3. VMware Security Advisories list the severities using version 3.1 of the Common Vulnerability Scoring Standard (CVSS).
+9.8 and 4.3. VMware Security Advisories list the severities using version 3.1 of the Common Vulnerability Scoring System (CVSS).
 
 ### Are there additional details on the vectors of the individual vulnerabilities?
 
