@@ -28,7 +28,8 @@ There is not a regular update schedule for this document; it will be updated as 
 - [VMware Product Interoperability Matrix](https://interopmatrix.broadcom.com/Interoperability) (use to determine whether vCenter versions are compatible with ESX versions)  
 - [VMware Ports & Protocols](https://ports.broadcom.com/) (assistance in determining ingress and egress firewall rule sets)  
 - [VMware vSphere Critical Patch Downloads](https://support.broadcom.com/group/ecx/productdownloads?subfamily=VMware+vSphere&tab=Solutions) (support.broadcom.com)  
-- [Asynchronous Patching Guide, KB 88287](https://knowledge.broadcom.com/external/article?legacyId=88287) (the patching path for VMware Cloud Foundation 5.x)
+- [Asynchronous Patching Guide, KB 88287](https://knowledge.broadcom.com/external/article?legacyId=88287) (the patching path for VMware Cloud Foundation 5.x)  
+- [Live Patching vSAN Stretched Clusters & Witnesses](https://knowledge.broadcom.com/external/article/404714/vsan-stretched-cluster-upgrades-fail-on.html) (summary: disable Live Patch, update the witness, re-enable Live Patch)
 
 ## Note on Product Naming
 
@@ -162,15 +163,17 @@ No. vCenter is the management interface to a vSphere environment. You will lose 
 
 Updating ESX requires a host restart. Broadcom recommends the use of vMotion to relocate virtual machines to alternate hosts while you update in a "rolling reboot" fashion. Virtual machines that cannot use vMotion will need to be powered down during the host restart.
 
-Lower-disruption mechanisms may reduce that effect, including ESX Live Patch and vCenter Quick Patch.
+ESX Live Patch is a lower-disruption mechanism that may reduce that effect.
 
 ### 29. Are these updates compatible with Live Patch and Quick Patch?
 
-Some are, yes, if your environment supports Live Patch on ESX, or Quick Patch on vCenter. Check the release notes for the versions listed in the VMSA to see which mechanisms apply to these patches.
+Some ESX updates are, yes, if your environment supports Live Patch on ESX. These updates are not eligible for vCenter Quick Patch.
 
-Live Patch was introduced in VMware ESX 8.0.3, and the scope of issues that can be live-patched has improved with every successive release. Beginning in VCF 9.1, hosts that use a TPM are also eligible for Live Patch. vCenter has an equivalent mechanism, Quick Patch.
+Check the release notes for the versions listed in the VMSA to see which mechanisms apply to these patches.
 
-The Cloud Foundation blog also has more information about [VMware vCenter Quick Patch](https://blogs.vmware.com/cloud-foundation/2026/05/12/vcenter-quick-patch/) and [VMware ESX Live Patch](https://blogs.vmware.com/cloud-foundation/2025/07/15/live-patch-gets-even-better-in-vsphere-with-vmware-cloud-foundation-9-0/). Whether an update supports Live Patch depends on the type of issue, its complexity, the effect on system stability, and the source and target versions, among other criteria.
+Live Patch was introduced in VMware ESX 8.0.3, and the scope of issues that can be live-patched has improved with every successive release. Beginning in VCF 9.1, hosts that use a TPM are also eligible for Live Patch. vCenter has an equivalent mechanism, Quick Patch, which was introduced in VCF 9.1 and is not present in earlier versions.
+
+The Cloud Foundation blog has more information about [VMware vCenter Quick Patch](https://blogs.vmware.com/cloud-foundation/2026/05/12/vcenter-quick-patch/) and [VMware ESX Live Patch](https://blogs.vmware.com/cloud-foundation/2025/07/15/live-patch-gets-even-better-in-vsphere-with-vmware-cloud-foundation-9-0/). Whether an update supports Live Patch and Quick Patch depends on the type of issue, its complexity, the effect on system stability and interaction with other system components, and the source and target versions, among other criteria. Eligibility also varies between major release versions of VCF, because the products evolve in different ways.
 
 ### 30. Can I use the vCenter VAMI to apply these updates?
 
@@ -221,6 +224,16 @@ VMSA information is delivered as a message inside hosted, cloud, and software-as
 Yes. A “back in time” restriction occurs when a patch updates a product branch that carries a newer build number than the target of a planned upgrade. The vSphere 8.0 and 9.0 updates in this advisory block upgrades to VMware Cloud Foundation 9.x, which report a “back in time” error. As has been the case with previous restrictions of this type, upgrade compatibility is reestablished in subsequent releases.
 
 Organizations that are amidst an upgrade should weigh their options and timelines before applying these updates. More information about “back in time” restrictions and the compatibility matrix is available in [KB 67077](https://knowledge.broadcom.com/external/article?legacyId=67077).
+
+### 39. Do I need to patch vCenter before patching ESX?
+
+The traditional guidance has been to patch vCenter before updating ESX, but those requirements have evolved over the last few major releases. It is now often possible to update ESX without trouble before you update vCenter. The key is the [VMware Product Interoperability Matrix](https://interopmatrix.broadcom.com/Interoperability) where you can specify "VMware vCenter" at a particular version against "VMware ESX" at another. For example, [this chart](https://interopmatrix.broadcom.com/Interoperability?isHidePatch=false&isHideLegacyReleases=true&col=2,20811&row=1,21324) compares vCenter 9.1.0.0100 (a downlevel version) with ESX 9.1.0.0200 (this VMSA's version). You see that they are compatible.
+
+If you use VMware vSAN, that should be part of the interoperability check as well. For example, [I modified my example](https://interopmatrix.broadcom.com/Interoperability?isHidePatch=false&isHideLegacyReleases=true&col=2,20811%261746,21320&row=1,21324) to include vSAN as well. In this example it shows as compatible.
+
+While patching strategies are something that organizations must develop for themselves, you might consider the severity of the vulnerabilities, along with the time it takes to apply the updates, when deciding what to do first. For example, if you have a substantial fleet of ESX hosts it may be more beneficial to declare an emergency change and update vCenter first, so that you can then patch clusters of hosts in parallel without interruption. Conversely, if you won't be able to restart vCenter to update until the weekend, make progress now by beginning the ESX host updates, since they are compatible with the downlevel vCenter. Just confirm that the host patching processes are completed or stopped before you patch and restart vCenter.
+
+ESX Live Patch and vCenter Quick Patch also affect the decisionmaking process. In this case, Quick Patch is not available for these vCenter updates, meaning that you will have to use either the traditional vCenter patching method, or the Reduced Downtime Upgrade (RDU) method if you have that configured. However, these updates are compatible with ESX Live Patch, which may make updating ESX several orders of magnitude faster, and might be something you can do first or in parallel while you secure a maintenance window.
 
 ## Change Log
 
