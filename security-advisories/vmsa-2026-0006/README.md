@@ -95,7 +95,7 @@ Yes. VMware Workstation 25H2 and VMware Fusion 25H2 are affected by CVE-2026-417
 
 ### 14. Do I have to update VMware Tools?
 
-No. VMXNET3 has an in-guest driver, but CVE-2026-47876 is on the ESX side of the communication and is resolved by updating ESX.
+No. VMXNET3 has an in-guest driver, but CVE-2026-47876 is on the ESX side of the communication and is resolved by updating ESX. Upgrading virtual machine hardware versions is not required either.
 
 Broadcom always recommends applying in-guest VMware Tools updates as part of routine maintenance. The VMXNET3 and VMware Paravirtual SCSI (PVSCSI) drivers are also available natively as part of guest operating system installations and driver updates directly from the guest OS vendors. Ensure that patching tools and methods, such as WSUS, include them. To be clear, though, patching ESX will resolve the issues in this VMSA.
 
@@ -127,7 +127,7 @@ For assistance that is tailored to your environment and organization please cont
 
 ### 21. Do I have to apply other patches first before applying this patch?
 
-No. All patches released publicly in this manner are cumulative and do not require prior patches to be applied first.
+No. All patches released publicly in this manner are cumulative and do not require prior patches to be applied first. A single update therefore resolves every issue in this advisory that applies to that product, and there is no need to apply separate patches for individual CVEs.
 
 ### 22. If I am not using Enhanced Linked Mode am I safe?
 
@@ -171,6 +171,8 @@ Some ESX updates are, yes, if your environment supports Live Patch on ESX. These
 
 Check the release notes for the versions listed in the VMSA to see which mechanisms apply to these patches.
 
+Both mechanisms also require the system to be running the immediately preceding update (N-1) of that major version. Systems that are further behind use the conventional update methods to catch up.
+
 Live Patch was introduced in VMware ESX 8.0.3, and the scope of issues that can be live-patched has improved with every successive release. Beginning in VCF 9.1, hosts that use a TPM are also eligible for Live Patch. vCenter has an equivalent mechanism, Quick Patch, which was introduced in VCF 9.1 and is not present in earlier versions.
 
 The Cloud Foundation blog has more information about [VMware vCenter Quick Patch](https://blogs.vmware.com/cloud-foundation/2026/05/12/vcenter-quick-patch/) and [VMware ESX Live Patch](https://blogs.vmware.com/cloud-foundation/2025/07/15/live-patch-gets-even-better-in-vsphere-with-vmware-cloud-foundation-9-0/). Whether an update supports Live Patch and Quick Patch depends on the type of issue, its complexity, the effect on system stability and interaction with other system components, and the source and target versions, among other criteria. Eligibility also varies between major release versions of VCF, because the products evolve in different ways.
@@ -179,29 +181,33 @@ The Cloud Foundation blog has more information about [VMware vCenter Quick Patch
 
 Yes. The patch is available through the standard update mechanisms for VMware vSphere and VMware Cloud Foundation. Consult the product documentation for the version of the product you use.
 
+For ESX, the updates are published to the online depot and are available through vSphere Lifecycle Manager. If the new versions do not appear, run a depot sync in vCenter rather than waiting for the scheduled one.
+
 ### 31. Are there any known issues with this patch?
 
-Yes. Some updates cause a “back in time” upgrade restriction. See question 38.
+Yes. Some updates cause a “back-in-time” upgrade restriction. See question 38.
 
 ### 32. Does this impact VMware vSphere 6.5 or 6.7?
 
-Presume that it does. Broadcom does not evaluate products past their End of General Support dates as part of security advisories, and downlevel versions that the VMSA does not list should be assumed to be affected.
+Presume that it does. Broadcom does not evaluate products past their End of General Support dates as part of security advisories, and downlevel versions that the VMSA does not list should be assumed to be affected. Broadcom strongly encourages customers running downlevel versions to upgrade to VCF 9.1.
 
 ### 33. Does this impact VMware vSphere 7.0?
 
 Yes. VMware vSphere 7 reached End of General Support on October 2, 2025. If your organization has an extended support contract, please use those processes to request patches for these issues on vSphere 7.
 
-### 34. Do I have to update to vSphere 8 Update 3 to receive this patch on vSphere 8?
+### 34. Do I have to update to vSphere 8 Update 3 to receive this patch on vSphere 8 or VCF 5.x?
 
 Not necessarily. VMware vSphere 8 Update 3 is the best version of vSphere 8 and new security updates are built atop it. We strongly urge customers to apply that version, or upgrade to VVF/VCF 9.1.
+
+VMware Cloud Foundation 5.x customers apply these updates using the asynchronous patching process described in [KB 88287](https://knowledge.broadcom.com/external/article?legacyId=88287).
 
 Updates for vSphere 8 Update 2 will be available in the future for customers who require them.
 
 ### 35. There was a commitment made to provide critical patches for perpetual-license vSphere customers. How do I download those patches?
 
-On April 15, 2024, Broadcom announced via blog post that all customers, including those with expired support contracts, will have access to all patches for Critical Severity Security Alerts for supported versions of VMware vSphere. This policy can be found in [KB 314603](https://knowledge.broadcom.com/external/article?articleNumber=314603).
+On April 15, 2024, Broadcom announced via blog post that all customers, including those with expired support contracts, will have access to all patches for Critical Severity Security Alerts for supported versions of VMware vSphere. This policy can be found in [KB 314603](https://knowledge.broadcom.com/external/article?articleNumber=314603). Patches that qualify are released at a later date.
 
-These patches are located on support.broadcom.com. You will need to create an account, which can be done in a few minutes and at no cost.
+When available, these patches are located on support.broadcom.com. You will need to create an account, which can be done in a few minutes and at no cost.
 
 1. Log in and choose "VMware Cloud Foundation" from the drop-down menu near the top right.  
 2. Choose "My Downloads" from the menu on the left.  
@@ -219,21 +225,45 @@ Third-party engineered systems control their patch levels and configurations as 
 
 VMSA information is delivered as a message inside hosted, cloud, and software-as-a-service products where applicable. Please check the administrative consoles of those services for further relevant messages and details about this VMSA. Additional questions about the service should be answered through the support processes for that service.
 
-### 38. Do these patches cause "back in time" upgrade issues?
+### 38. Do these patches cause "back-in-time" upgrade issues?
 
-Yes. A “back in time” restriction occurs when a patch updates a product branch that carries a newer build number than the target of a planned upgrade. The vSphere 8.0 and 9.0 updates in this advisory block upgrades to VMware Cloud Foundation 9.x, which report a “back in time” error. As has been the case with previous restrictions of this type, upgrade compatibility is reestablished in subsequent releases.
+Yes. A “back-in-time” restriction occurs when a patch updates a product branch that carries a newer build number than the target of a planned upgrade. The vSphere 8.0 and 9.0 updates in this advisory, including those applied to VCF 5.x through asynchronous patching, block upgrades to VMware Cloud Foundation 9.x, which report a “back-in-time” error. As has been the case with previous restrictions of this type, upgrade compatibility is reestablished in subsequent releases.
 
-Organizations that are amidst an upgrade should weigh their options and timelines before applying these updates. More information about “back in time” restrictions and the compatibility matrix is available in [KB 67077](https://knowledge.broadcom.com/external/article?legacyId=67077).
+Organizations that are amidst an upgrade should weigh their options and timelines before applying these updates. More information about “back-in-time” restrictions and the compatibility matrix is available in [KB 67077](https://knowledge.broadcom.com/external/article?legacyId=67077).
 
 ### 39. Do I need to patch vCenter before patching ESX?
 
 The traditional guidance has been to patch vCenter before updating ESX, but those requirements have evolved over the last few major releases. It is now often possible to update ESX before you update vCenter, without experiencing problems. The key is the [VMware Product Interoperability Matrix](https://interopmatrix.broadcom.com/Interoperability) where you can specify "VMware vCenter" at a particular version against "VMware ESX" at another. For example, [this chart](https://interopmatrix.broadcom.com/Interoperability?isHidePatch=false&isHideLegacyReleases=true&col=2,20811&row=1,21324) compares vCenter 9.1.0.0100 (a downlevel version) with ESX 9.1.0.0200 (this VMSA's version). In this example you can see that they are compatible.
 
-If you use VMware vSAN, that should be part of the interoperability check as well. For example, [I modified my example](https://interopmatrix.broadcom.com/Interoperability?isHidePatch=false&isHideLegacyReleases=true&col=2,20811%261746,21320&row=1,21324) to include vSAN as well. In this example it shows as compatible.
+If you use VMware vSAN, that should be part of the interoperability check as well. In this case [I modified my query](https://interopmatrix.broadcom.com/Interoperability?isHidePatch=false&isHideLegacyReleases=true&col=2,20811%261746,21320&row=1,21324) to include vSAN as well. It shows as compatible.
 
 While patching strategies are something that organizations must develop for themselves, you might consider the severity of the vulnerabilities, along with the time it takes to apply the updates, when deciding what to do first. For example, if you have a substantial fleet of ESX hosts it may be more beneficial to declare an emergency change and update vCenter first, so that you can then patch clusters of hosts in parallel without interruption. Conversely, if you won't be able to restart vCenter to update until the weekend, make progress now by beginning the ESX host updates, since they are compatible with the downlevel vCenter. Just confirm that the host patching processes are completed or stopped before you patch and restart vCenter.
 
 ESX Live Patch and vCenter Quick Patch also affect the decisionmaking process. In this case, Quick Patch is not available for these vCenter updates, meaning that you will have to use either the traditional vCenter patching method, or the Reduced Downtime Upgrade (RDU) method if you have that configured. However, these updates are compatible with ESX Live Patch, which may make updating ESX several orders of magnitude faster, and might be something you can do first or in parallel while you secure a maintenance window.
+
+### 40. Are these issues ones that were found by AI?
+
+All of the CVEs disclosed in this advisory are attributable to specific security researchers (you can see the thanks in each of the CVE sections). We cannot speak to whether they used AI.
+
+### 41. Do these patches contain other improvements or fixes?
+
+Possibly, check the release notes. These patches represent the most current versions of the products at the time of the VMSA. As noted above, the patches are cumulative and contain all previous updates. If you read the release notes you may also see other issues which were resolved, too, where the fix was ready to be made public and could be included in the update. When in doubt use the version numbers to guide your decisions.
+
+### 42. Why is the date of the VMSA different than the date that appears for the update in the VAMI?
+
+The date in the VAMI is the date the update was compiled and packaged internally, not the date of the advisory. Nothing can or should be inferred from the length of time between the two dates.
+
+### 43. Can I patch to vSphere 8.0U3k and then import the environment as a workload domain into VCF 9.1?
+
+Yes. You will not be able to update the workload domain to 9.1 until the back-in-time restriction is lifted, but it can be imported into VCF to be managed as 8.0U3k.
+
+### 44. I am waiting on a fix for the Secure Boot certificate expirations. Is it safe to apply these updates?
+
+Yes. The Secure Boot and certificate authority expirations described in [KB 423893](https://knowledge.broadcom.com/external/article/423893/secure-boot-certificate-expirations-and.html) are a separate issue from this advisory. These updates neither resolve nor affect it, and organizations that are awaiting remediation for it can apply these patches.
+
+### 45. Why is the vSphere 8.0U3k patch smaller than 8.0U3j if it contains everything in 8.0U3j?
+
+The difference in size comes from the profiles in each depot, not from the number of fixes each release carries. The 8.0U3j depot contains both a "bugfix" profile and a "security-only" profile, so it ships more vSphere Installation Bundles (VIBs) than 8.0U3k, which does not contain multiple profiles. 8.0U3k contains the full bugfix content of 8.0U3j along with the new security fixes, and it is smaller because it does not carry the redundant security-only profile components.
 
 ## Change Log
 
