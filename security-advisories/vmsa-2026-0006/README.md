@@ -2,7 +2,7 @@
 
 ## Introduction
 
-On July 29, 2026, Broadcom released a critical VMware Security Advisory (VMSA), VMSA-2026-0006, addressing security vulnerabilities found and resolved in VMware ESX, VMware vCenter, VMware Workstation, and VMware Fusion. These components are part of the larger VMware Cloud Foundation, VMware vSphere Foundation, VMware Telco Cloud Platform, and VMware Telco Cloud Infrastructure software stacks.
+On July 29, 2026, Broadcom released a critical VMware Security Advisory (VMSA), VMSA-2026-0006, addressing security vulnerabilities found and resolved in VMware ESX, VMware vCenter, VMware Workstation, and VMware Fusion. These components are part of the larger VMware Cloud Foundation, VMware vSphere Foundation, VMware Telco Cloud Platform, and VMware Telco Cloud Infrastructure software stacks. The advisory has since been updated to VMSA-2026-0006.1 with the addition of VMware vSphere 8.0 Update 2 patches.
 
 The VMSA will always be the source of truth for which products and versions are affected and the proper patches to keep your organization secure. This document is a supplement to the advisory and includes self-service information to help you and your organization decide how to respond.
 
@@ -33,7 +33,7 @@ There is not a regular update schedule for this document; it will be updated as 
 
 ## Note on Product Naming
 
-VMware Cloud Foundation 9.0 and VMware vSphere Foundation 9.0 change the name of the hypervisor from VMware ESXi to VMware ESX. Moving forward, the terms "ESX" and "ESXi" may be used interchangeably to refer to current, supported hypervisor versions. Patch and build identifiers still carry the ESXi prefix.
+VMware Cloud Foundation 9.0 and VMware vSphere Foundation 9.0 and later change the name of the hypervisor from VMware ESXi to VMware ESX. Moving forward, the terms "ESX" and "ESXi" may be used interchangeably to refer to current, supported hypervisor versions. Patch and build identifiers still carry the ESXi prefix.
 
 ## Questions & Answers
 
@@ -127,7 +127,7 @@ For assistance that is tailored to your environment and organization please cont
 
 ### 21. Do I have to apply other patches first before applying this patch?
 
-No. All patches released publicly in this manner are cumulative and do not require prior patches to be applied first. A single update therefore resolves every issue in this advisory that applies to that product, and there is no need to apply separate patches for individual CVEs.
+No. All patches released publicly in this manner are cumulative and do not require prior patches to be applied first. A single update therefore applies all updates available to that product and/or version branch, and there is no need to apply separate patches for individual CVEs.
 
 ### 22. If I am not using Enhanced Linked Mode am I safe?
 
@@ -193,15 +193,15 @@ Presume that it does. Broadcom does not evaluate products past their End of Gene
 
 ### 33. Does this impact VMware vSphere 7.0?
 
-Yes. VMware vSphere 7 reached End of General Support on October 2, 2025. If your organization has an extended support contract, please use those processes to request patches for these issues on vSphere 7.
+Yes. VMware vSphere 7 reached End of General Support on October 2, 2025. If your organization has an extended support contract, please use those processes to request patches for these issues on vSphere 7. Broadcom strongly encourages customers running downlevel versions to upgrade to VCF 9.1.
 
 ### 34. Do I have to update to vSphere 8 Update 3 to receive this patch on vSphere 8 or VCF 5.x?
 
-Not necessarily. VMware vSphere 8 Update 3 is the best version of vSphere 8 and new security updates are built atop it. We strongly urge customers to apply that version, or upgrade to VVF/VCF 9.1.
+Not necessarily. VMware vSphere 8 Update 3 is the best version of vSphere 8 and new security updates are built atop it. We strongly urge customers to apply that version, or upgrade to VVF/VCF 9.1. The latest patch for VMware vSphere 8.0 Update 3 contains all released security AND bug fixes, improving system confidentiality, integrity, and availability.
+
+However, security updates for VMware vSphere 8.0 Update 2 components are available as well. Check the VMSA itself for the download links in the Support portal. The VMware vSphere 8.0 Update 2 updates only resolve the critical CVEs in this advisory. For all other updates and bug fixes, please update to 8.0 Update 3k or newer.
 
 VMware Cloud Foundation 5.x customers apply these updates using the asynchronous patching process described in [KB 88287](https://knowledge.broadcom.com/external/article?legacyId=88287).
-
-Updates for vSphere 8 Update 2 will be available in the future for customers who require them.
 
 ### 35. There was a commitment made to provide critical patches for perpetual-license vSphere customers. How do I download those patches?
 
@@ -239,7 +239,7 @@ If you use VMware vSAN, that should be part of the interoperability check as wel
 
 While patching strategies are something that organizations must develop for themselves, you might consider the severity of the vulnerabilities, along with the time it takes to apply the updates, when deciding what to do first. For example, if you have a substantial fleet of ESX hosts it may be more beneficial to declare an emergency change and update vCenter first, so that you can then patch clusters of hosts in parallel without interruption. Conversely, if you won't be able to restart vCenter to update until the weekend, make progress now by beginning the ESX host updates, since they are compatible with the downlevel vCenter. Just confirm that the host patching processes are completed or stopped before you patch and restart vCenter.
 
-ESX Live Patch and vCenter Quick Patch also affect the decisionmaking process. In this case, Quick Patch is not available for these vCenter updates, meaning that you will have to use either the traditional vCenter patching method, or the Reduced Downtime Upgrade (RDU) method if you have that configured. However, these updates are compatible with ESX Live Patch, which may make updating ESX several orders of magnitude faster, and might be something you can do first or in parallel while you secure a maintenance window.
+ESX Live Patch and vCenter Quick Patch also affect the decision-making process. In this case, Quick Patch is not available for these vCenter updates, meaning that you will have to use either the traditional vCenter patching method, or the Reduced Downtime Upgrade (RDU) method if you have that configured. However, these updates are compatible with ESX Live Patch, which may make updating ESX several orders of magnitude faster, and might be something you can do first or in parallel while you secure a maintenance window.
 
 ### 40. Are these issues ones that were found by AI?
 
