@@ -1,8 +1,12 @@
-# Identity and Access Control in VMware Cloud Foundation
+# VCF 9.1 Platform Account & Secrets Management
 
 VMware Cloud Foundation (VCF) supports federated identity through external identity providers, multifactor authentication, and granular role-based access control, which help organizations limit administrative access to the people who need it.
 
-- [**20251031-VCF9-Authentication-and-Authorization-Best-Practices.pdf**](20251031-VCF9-Authentication-and-Authorization-Best-Practices.pdf?raw=true) - best practices for configuring authentication and authorization in VCF 9
+Complete architecture guide and companion reference inventories covering all 122 platform accounts (OS/app administrative accounts, inter-component service accounts, and Kubernetes ServiceAccounts) and security objects in VMware Cloud Foundation 9.1:
+
+- [**VCF 9.1 Platform Account and Secrets Management Guide (PDF)**](vcf91-platform-account-and-secrets-management-guide.pdf?raw=true)
+- [**VCF 9.1 Platform Account Reference (CSV)**](vcf91-platform-account-reference.csv)
+- [**Release Version Stamp**](VERSION)
 
 ## Disclaimer
 
