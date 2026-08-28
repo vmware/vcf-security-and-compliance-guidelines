@@ -18,7 +18,7 @@ VMware ESX hosts, VMware vCenter, NSX, vSAN, and VCF Operations (SDDC Manager in
 ## Documentation
 
 - [vSphere Security](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-security.html)
-- [ESX Log Files, Syslog Options, and Log File Locations](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/esx-installation-and-setup/setting-up-esxi/configuring-system-logging/Chunk1261896571.html#GUID-F35D7005-58EB-48AC-99D5-B9942EB2A8EF-en)
+- [Configuring System Logging](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/esx-installation-and-setup/setting-up-esxi/configuring-system-logging.html)
 
 ## Disclaimer
 

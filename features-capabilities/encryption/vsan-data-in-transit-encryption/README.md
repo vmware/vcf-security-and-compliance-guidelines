@@ -6,7 +6,7 @@ The Security Configuration Guide includes audit guidance for vSAN encryption in 
 
 ## Documentation
 
-- [vSAN Documentation](https://techdocs.broadcom.com/us/en/vmware-cis/vsan.html)
+- [vSAN Documentation](https://techdocs.broadcom.com/us/en/vmware-cis/vsan/vsan/9-0.html)
 
 ## Disclaimer
 

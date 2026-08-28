@@ -50,7 +50,7 @@ These files map the VMware Cloud Foundation Security Configuration Guide 9.1 har
 
 ## External Resources
 
-- [PCI DSS 4.0.1 (PCI SSC Document Library)](https://docs.pcisecuritystandards.org/PCI%20DSS/Standard/PCI-DSS-v4_0_1.pdf)
+- [PCI DSS 4.0.1 (PCI SSC Document Library)](https://www.pcisecuritystandards.org/document_library/?class=pcidss&doc=pci_dss)
 - [PCI Security Standards Council](https://www.pcisecuritystandards.org/)
 
 ## Disclaimer

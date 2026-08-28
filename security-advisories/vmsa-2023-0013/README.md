@@ -62,7 +62,7 @@ When patches are released for ESXi, the current version of VMware Tools is inclu
 1.  VMware vSphere Lifecycle Manager allows customers to import the “VMware Tools Async Release” into their cluster images, permitting customers to control the Tools versions stored on, and offered to guests by, ESXi.
 2.  VMware Tools can be downloaded in VIB format, to be imported into legacy Baselines.
 
-You can find VMware Tools installers and VIBs as [downloads in Customer Connect](https://customerconnect.vmware.com/downloads/info/slug/datacenter_cloud_infrastructure/vmware_tools/12_x).
+See [VMware Tools download information](https://knowledge.broadcom.com/external/article/368758/download-vmware-tools-information.html) for current installer and VIB download instructions.
 
 ### How do I update my Linux virtual machines?
 

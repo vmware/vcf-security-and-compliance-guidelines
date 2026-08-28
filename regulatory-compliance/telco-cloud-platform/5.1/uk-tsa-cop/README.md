@@ -15,7 +15,8 @@ This page is accessible directly using the [https://brcm.tech/tcp-compliance](ht
 
 * [Telecommunications (Security) Act 2021](https://www.legislation.gov.uk/ukpga/2021/31/contents)
 * [The Electronic Communications (Security Measures) Regulations 2022](https://www.legislation.gov.uk/uksi/2022/933/contents/made)
-* [Telecommunications Security Code of Practice (Gov.uk)](https://www.gov.uk/government/publications/telecommunications-security-code-of-practice)
+* [Revised Telecommunications Security Code of Practice 2026, version 1.1 (Gov.uk)](https://www.gov.uk/government/publications/revised-telecommunications-security-code-of-practice-2026-version-11)
+* [Telecommunications Security Code of Practice, December 2022 (archived PDF)](https://assets.publishing.service.gov.uk/media/6384d09ed3bf7f7eba1f286c/E02781980_Telecommunications_Security_CoP_Accessible.pdf)
 
 ## Disclaimer
 This repository and information contained within is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This document is not intended to provide advice and is provided “AS IS.” Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.

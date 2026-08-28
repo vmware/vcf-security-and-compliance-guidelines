@@ -50,7 +50,7 @@ These files map the VMware Cloud Foundation Security Configuration Guide 9.1 har
 
 ## External Resources
 
-- [Australian Signals Directorate Information Security Manual (cyber.gov.au)](https://www.cyber.gov.au/resources-business-and-government/essential-cybersecurity/ism)
+- [Australian Signals Directorate Information Security Manual (cyber.gov.au)](https://www.cyber.gov.au/business-government/asds-cyber-security-frameworks/ism)
 
 ## Disclaimer
 

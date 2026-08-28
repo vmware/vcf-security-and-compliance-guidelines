@@ -1,11 +1,12 @@
 # Security Design Resources
 
-This directory contains design guidance and whitepapers for building secure, resilient VMware Cloud Foundation (VCF) infrastructure. Topics include ransomware defense, zero trust architecture, secure management of workload domains, and non-disruptive patching.
+This directory contains design guidance and whitepapers for building secure, resilient VMware Cloud Foundation (VCF) infrastructure. Topics include ransomware defense, zero trust architecture, secure management of workload domains, non-disruptive patching, and securing AI workloads.
 
 ## Design Whitepapers
 
 - [VMware Cloud Foundation 9.1 Identity Design Best Practices (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/security-design/vcf-91-identity-design-best-practices.pdf) -- direct download
 - [VMware Cloud Foundation 9.1 Non-Disruptive Patching (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/security-design/vcf-91-non-disruptive-patching.pdf) -- direct download
+- [VMware Cloud Foundation 9.1 Securing AI Workloads (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/security-design/vcf-91-securing-ai-workloads.pdf) -- direct download
 - [VMware Cloud Foundation 9.1 Zero Trust Architecture (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/security-design/vcf-91-zero-trust-architecture.pdf) -- direct download
 - [Designing Infrastructure to Defeat Ransomware (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/security-design/designing-infrastructure-to-defeat-ransomware.pdf) -- direct download
 - [Ransomware Defense and Recovery Strategies (PDF)](https://raw.githubusercontent.com/vmware/vcf-security-and-compliance-guidelines/main/security-design/ransomware-defense-and-recovery-strategies.pdf) -- direct download
@@ -15,6 +16,9 @@ To download these files from the GitHub web interface, use the "Download raw fil
 
 ## Reading
 
+- [VMware Cloud Foundation 9.1 Identity Design Best Practices](vcf-91-identity-design-best-practices.md)
+- [VMware Cloud Foundation 9.1 Non-Disruptive Patching](vcf-91-non-disruptive-patching.md)
+- [VMware Cloud Foundation 9.1 Securing AI Workloads](vcf-91-securing-ai-workloads.md)
 - [Best Practices for Patching vSphere](Best-Practices-for-Patching-vSphere.MD)
 - [Glossary](Glossary.MD)
 

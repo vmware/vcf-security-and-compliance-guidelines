@@ -52,7 +52,8 @@ These files map the VMware Cloud Foundation Security Configuration Guide 9.1 har
 
 - [Telecommunications (Security) Act 2021 (legislation.gov.uk)](https://www.legislation.gov.uk/ukpga/2021/31/contents)
 - [The Electronic Communications (Security Measures) Regulations 2022 (legislation.gov.uk)](https://www.legislation.gov.uk/uksi/2022/933/contents/made)
-- [Telecommunications Security Code of Practice (gov.uk)](https://www.gov.uk/government/publications/telecommunications-security-code-of-practice)
+- [Revised Telecommunications Security Code of Practice 2026, version 1.1 (gov.uk)](https://www.gov.uk/government/publications/revised-telecommunications-security-code-of-practice-2026-version-11)
+- [Telecommunications Security Code of Practice, December 2022 (archived PDF)](https://assets.publishing.service.gov.uk/media/6384d09ed3bf7f7eba1f286c/E02781980_Telecommunications_Security_CoP_Accessible.pdf)
 
 ## Disclaimer
 

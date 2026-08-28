@@ -9,9 +9,7 @@ The authoritative source for security advisories is at:
 
 [https://www.broadcom.com/support/vmware-security-advisories](https://www.broadcom.com/support/vmware-security-advisories)
 
-Sign up for email notifications with the link on that page.
-
-There are not currently any automated feeds for security vulnerability information.
+Sign up for email notifications from that page, or use the [JSON API for Product Security Advisories](https://knowledge.broadcom.com/external/article/408302/json-api-for-product-security-advisories.html) to automate advisory retrieval.
 
 ## VMware Product Security
 VMware has a defined Secure Software Development Lifecycle and policies for how issues are assessed and managed.

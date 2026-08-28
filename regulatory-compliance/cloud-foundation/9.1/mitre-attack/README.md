@@ -51,6 +51,7 @@ These files map the VMware Cloud Foundation Security Configuration Guide 9.1 har
 ## External Resources
 
 - [MITRE ATT&CK (attack.mitre.org)](https://attack.mitre.org/)
+- [ATT&CK Version History (attack.mitre.org)](https://attack.mitre.org/resources/versions/)
 - [ATT&CK Terms of Use (attack.mitre.org)](https://attack.mitre.org/resources/legal-and-branding/terms-of-use/)
 
 ## Disclaimer

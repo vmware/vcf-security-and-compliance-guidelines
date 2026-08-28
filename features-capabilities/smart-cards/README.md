@@ -17,4 +17,4 @@ To download these files from the GitHub web interface, use the "Download raw fil
 
 ## Current Guidance
 
-For supported versions, smart card authentication is documented in the [vSphere Security documentation](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere.html), and federated identity through an external identity provider is the recommended path for multifactor authentication in current releases. See also [Identity and Access Control in VMware Cloud Foundation](../identity-access-control/README.md).
+For supported versions, smart card authentication is documented in the [vSphere Security documentation](https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-1/vsphere-security.html), and federated identity through an external identity provider is the recommended path for multifactor authentication in current releases. See also [Identity and Access Control in VMware Cloud Foundation](../identity-access-control/README.md).

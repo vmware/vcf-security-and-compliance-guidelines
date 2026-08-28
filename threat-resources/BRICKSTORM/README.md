@@ -1,6 +1,6 @@
 # BRICKSTORM Resources and Defense
 
-*Last updated: March 5, 2026*
+*Last updated: August 28, 2026*
 
 *This document is intended to provide general guidance for organizations that are considering Broadcom solutions. The information contained in this document is for educational and informational purposes only. This repository is not intended to provide advice and is provided "AS IS." Broadcom makes no claims, promises, or guarantees about the accuracy, completeness, or adequacy of the information contained herein. Organizations should engage appropriate legal, business, technical, and audit expertise within their specific organization for review of requirements and effectiveness of implementations.*
 

@@ -50,7 +50,8 @@ These files map the VMware Cloud Foundation Security Configuration Guide 9.1 har
 
 ## External Resources
 
-- [FedRAMP Rev 5 Baselines (fedramp.gov)](https://www.fedramp.gov/rev5/baselines/)
+- [FedRAMP Rev 5 Agency Authorization Resources (fedramp.gov)](https://www.fedramp.gov/rev5/agency-authorization/)
+- [FedRAMP Consolidated Rules for 2026 (fedramp.gov)](https://www.fedramp.gov/2026/)
 - [NIST SP 800-53 Revision 5 (nvlpubs.nist.gov)](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-53r5.pdf)
 
 ## Disclaimer

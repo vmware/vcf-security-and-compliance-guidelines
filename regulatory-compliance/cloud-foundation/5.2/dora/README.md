@@ -18,7 +18,7 @@ This page is accessible directly using the [https://brcm.tech/vcf-dora](https://
 
 ## External Resources
 
-- [European Insurance and Occupational Pensions Authority DORA Site](https://www.eiopa.europa.eu/digital-operational-resilience-act-dora)
+- [European Insurance and Occupational Pensions Authority DORA Site](https://www.eiopa.europa.eu/digital-operational-resilience-act-dora_en)
 - [Regulation (EU) 2022/2554 of the EU Parliament](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022R2554)
 
 ## Disclaimer

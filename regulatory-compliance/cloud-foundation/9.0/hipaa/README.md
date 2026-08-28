@@ -37,7 +37,7 @@ Security hardening guides, additional security documentation, Q&A, and sample sc
 
 ## External Resources
 
-- [NIST SP 800-66 Rev. 2](https://csrc.nist.gov/publications/detail/sp/800-66/rev-2/final)
+- [NIST SP 800-66 Rev. 2](https://csrc.nist.gov/pubs/sp/800/66/r2/final)
 - [HIPAA Security Rule (HHS.gov)](https://www.hhs.gov/hipaa/for-professionals/security/index.html)
 
 ## Disclaimer

@@ -14,7 +14,7 @@ This page is accessible directly using the [https://brcm.tech/tcp-compliance](ht
 
 * [Directive (EU) 2022/2555 (NIS2 Directive) - Full Text](https://eur-lex.europa.eu/eli/dir/2022/2555/oj)
 * [NIS2 Directive Overview (European Commission)](https://digital-strategy.ec.europa.eu/en/policies/nis2-directive)
-* [ENISA - NIS Directive Resources](https://www.enisa.europa.eu/topics/nis-directive)
+* [ENISA - NIS2 Directive Resources](https://www.enisa.europa.eu/topics/state-of-cybersecurity-in-the-eu/cybersecurity-policies/nis-directive-2)
 * [NIS Cooperation Group Publications](https://digital-strategy.ec.europa.eu/en/policies/nis-cooperation-group)
 * [National Transposition Measures (EUR-Lex)](https://eur-lex.europa.eu/legal-content/EN/NIM/?uri=CELEX:32022L2555)
 

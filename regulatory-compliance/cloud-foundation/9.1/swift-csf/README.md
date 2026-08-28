@@ -50,7 +50,8 @@ These files map the VMware Cloud Foundation Security Configuration Guide 9.1 har
 
 ## External Resources
 
-- [SWIFT Customer Security Programme (swift.com)](https://www.swift.com/myswift/customer-security-programme-csp)
+- [SWIFT Customer Security Programme (swift.com)](https://www.swift.com/myswift/customer-security-programme)
+- [SWIFT Customer Security Controls Framework v2026 (swift.com)](https://www.swift.com/swift_resource/252448)
 
 ## Disclaimer
 

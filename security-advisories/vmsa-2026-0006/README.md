@@ -2,7 +2,7 @@
 
 ## Introduction
 
-On July 29, 2026, Broadcom released a critical VMware Security Advisory (VMSA), VMSA-2026-0006, addressing security vulnerabilities found and resolved in VMware ESX, VMware vCenter, VMware Workstation, and VMware Fusion. These components are part of the larger VMware Cloud Foundation, VMware vSphere Foundation, VMware Telco Cloud Platform, and VMware Telco Cloud Infrastructure software stacks. The advisory has since been updated to VMSA-2026-0006.1 with the addition of VMware vSphere 8.0 Update 2 patches.
+On July 29, 2026, Broadcom released a critical VMware Security Advisory (VMSA), VMSA-2026-0006, addressing security vulnerabilities found and resolved in VMware ESX, VMware vCenter, VMware Workstation, and VMware Fusion. These components are part of the larger VMware Cloud Foundation, VMware vSphere Foundation, VMware Telco Cloud Platform, and VMware Telco Cloud Infrastructure software stacks. The advisory has since been updated to VMSA-2026-0006.2: version .1 added VMware vSphere 8.0 Update 2 patches, and version .2 added ESX and vCenter 7.0 patch guidance for customers with extended support.
 
 The VMSA will always be the source of truth for which products and versions are affected and the proper patches to keep your organization secure. This document is a supplement to the advisory and includes self-service information to help you and your organization decide how to respond.
 
@@ -12,7 +12,7 @@ You are affected if you are running any version of VMware ESX, VMware vCenter, V
 
 ## Current Update
 
-The last update timestamp can be seen as part of the GitHub file history above.
+This document reflects VMSA-2026-0006.2, published August 19, 2026.
 
 ## Next Expected Update
 

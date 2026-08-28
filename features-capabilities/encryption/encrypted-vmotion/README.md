@@ -29,7 +29,7 @@ No. Encrypted vMotion does not use a KMS, as the encryption keys used are epheme
 
 ### How does this impact VM performance?
 
-There is [a paper from the VMware Performance team](https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/techpaper/performance/encrypted-vmotion-vsphere65-perf.pdf) on the effects of Encrypted vMotion on system performance. It was written for vSphere 6.5 but the findings still hold today, and newer CPUs help mitigate the effect even more. In short, there is CPU overhead, but it’s only while the vMotion is occurring, and it is minimal.
+There is [a paper from the VMware Performance team](encrypted-vmotion-vsphere65-perf.pdf?raw=true) on the effects of Encrypted vMotion on system performance. It was written for vSphere 6.5 but the findings still hold today, and newer CPUs help mitigate the effect even more. In short, there is CPU overhead, but it’s only while the vMotion is occurring, and it is minimal.
 
 ### What additional components do I need to enable Encrypted vMotion?
 

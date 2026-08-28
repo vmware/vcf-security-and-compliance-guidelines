@@ -7,7 +7,10 @@ Complete architecture guide and companion reference inventories covering all 122
 - [**VCF 9.1 Platform Account and Secrets Management Guide (PDF)**](vcf91-platform-account-and-secrets-management-guide.pdf?raw=true)
 - [**VCF 9.1 Platform Account and Secrets Management Guide (Markdown)**](vcf91-platform-account-and-secrets-management-guide.md)
 - [**VCF 9.1 Platform Account Reference (CSV)**](vcf91-platform-account-reference.csv)
-- [**Release Version Stamp**](VERSION)
+
+## Related Resources
+
+- [VCF 9.0 Authentication and Authorization Best Practices Slides (PDF)](vcf-90-authentication-and-authorization-best-practices-slides.pdf?raw=true)
 
 ## Disclaimer
 

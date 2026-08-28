@@ -37,7 +37,7 @@ Security hardening guides, additional security documentation, Q&A, and sample sc
 
 ## External Resources
 
-- [PCI DSS v4.0.1 (PCI SSC Document Library)](https://docs.pcisecuritystandards.org/PCI%20DSS/Standard/PCI-DSS-v4_0_1.pdf)
+- [PCI DSS v4.0.1 (PCI SSC Document Library)](https://www.pcisecuritystandards.org/document_library/?class=pcidss&doc=pci_dss)
 - [PCI Security Standards Council](https://www.pcisecuritystandards.org/)
 
 ## Disclaimer

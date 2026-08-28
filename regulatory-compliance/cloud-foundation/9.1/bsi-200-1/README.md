@@ -50,7 +50,7 @@ These files map the VMware Cloud Foundation Security Configuration Guide 9.1 har
 
 ## External Resources
 
-- [BSI Standards (bsi.bund.de)](https://www.bsi.bund.de/EN/Themen/Unternehmen-und-Organisationen/Standards-und-Zertifizierung/IT-Grundschutz/BSI-Standards/bsi-standards_node.html)
+- [BSI Standard 200-1 (English PDF)](https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Grundschutz/International/bsi-standard-2001_en_pdf.pdf?__blob=publicationFile&v=2)
 
 ## Disclaimer
 

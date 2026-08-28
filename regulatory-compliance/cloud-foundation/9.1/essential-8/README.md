@@ -50,7 +50,7 @@ These files map the VMware Cloud Foundation Security Configuration Guide 9.1 har
 
 ## External Resources
 
-- [Essential Eight (cyber.gov.au)](https://www.cyber.gov.au/resources-business-and-government/essential-cybersecurity/essential-eight)
+- [Essential Eight (cyber.gov.au)](https://www.cyber.gov.au/business-government/asds-cyber-security-frameworks/essential-eight)
 
 ## Disclaimer
 

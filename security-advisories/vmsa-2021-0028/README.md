@@ -67,7 +67,7 @@ You may have other security controls in your environment that can help protect y
 
 Please ensure that network perimeter access controls are as restrictive as they can be. “Any/any” rules that make system access easy for you also make access easy for attackers and should be avoided.
 
-If you are a VMware Carbon Black customer there is [new intelligence posted to the Community](https://community.carbonblack.com/t5/Threat-Research-Docs/Log4Shell-Log4j-Remote-Code-Execution-CVE-2021-44228/ta-p/109134) with analytics to detect vulnerable libraries on systems.
+At the time of publication, VMware Carbon Black posted community intelligence with analytics to detect vulnerable libraries on systems. That original community resource is no longer available at its former URL.
 
 ### Is this being exploited "in the wild?"
 
@@ -297,7 +297,7 @@ Overnight the Apache Software Foundation [released a third update to their secur
 
 We have had questions along the lines of "Will VMware update to Log4j 2.17?" VMware regularly updates open-source components inside our products as new versions ship. As we've noted in previous updates here (which are starting to be archived below), this is a complicated situation. Unlike CVE-2021-44228 and CVE-2021-45046, there are specific configuration conditions to this new vulnerability that keep it from being applicable to all implementations. It is also a denial-of-service, which is serious, but not a critical remote code execution like the first two CVEs. As in all things, context matters, and VMware security engineers are working with our product teams right now to examine each implementation's configuration, examine where each team is in their release cycle, and then determine the best way forward that protects customers fastest and most comprehensively. More to come.
 
-Security processes didn't stop because of VMSA-2021-0028, and there have been two VMSAs released now that address other issues. [VMSA-2021-0029](https://www.vmware.com/security/advisories/VMSA-2021-0029.html) is for the Workspace ONE UEM, and [VMSA-2021-0030](https://www.vmware.com/security/advisories/VMSA-2021-0030.html) is for several products that are or ship the Workspace ONE Access or Identity Manager components. Workspace ONE UEM was not affected by Log4j, but some of the products listed in VMSA-2021-0030 were affected, and the updates contain Log4j 2.16 as noted in the VMSA.
+Security processes didn't stop because of VMSA-2021-0028, and there have been two VMSAs released now that address other issues. VMSA-2021-0029 is for Workspace ONE UEM (see VMware's [CVE-2021-22054 patch alert](https://blogs.vmware.com/security/2022/04/workspace-one-uem-ssrf-cve-2021-22054-patch-alert.html)), and [VMSA-2021-0030](https://www.vmware.com/security/advisories/VMSA-2021-0030.html) is for several products that are or ship the Workspace ONE Access or Identity Manager components. Workspace ONE UEM was not affected by Log4j, but some of the products listed in VMSA-2021-0030 were affected, and the updates contain Log4j 2.16 as noted in the VMSA.
 
 Will those products be re-released with 2.17? As discussed above, the answer to that will depend on if & how they're affected by CVE-2021-45105. Stay tuned.
 
@@ -337,7 +337,7 @@ As answered below in the Q&A, VMware does not publish ETAs for future product re
 
 Apache's statement that this vulnerability only applies to a "non-default Pattern Layout with a Context Lookup" limits its applicability in most situations. Focus should remain on mitigating & remediating CVE-2021-44228 across all systems and devices, as it is being actively exploited by cybercriminals to further their attacks on organizations. Please implement workarounds for CVE-2021-44228 and CVE-2021-45046, as listed in the VMSA, on all affected systems.
 
-The US Cybersecurity & Infrastructure Security Agency, CISA, [has released a new public service announcement](https://www.cisa.gov/news/2021/12/20/cisa-and-fbi-launch-holiday-cyber-safety-psa) that aligns well with [guidance of ours from last week](https://core.vmware.com/vmsa-2021-0028-questions-answers-faq#sec19214-sub2). Thinking about the upcoming holiday season is important, as attackers will take advantage of opportunities like holidays to work without being discovered. Remember that breaches involving compromised credentials (the most common type of attack against infrastructure) will often not trigger "failed login" alarms, so during the holiday season it will be important to monitor for unusual activity.
+The US Cybersecurity & Infrastructure Security Agency, CISA, [has released a new public service announcement](https://www.cisa.gov/news/2021/12/20/cisa-and-fbi-launch-holiday-cyber-safety-psa) that aligns well with [guidance of ours from last week](#december-17-2021---0900-pst). Thinking about the upcoming holiday season is important, as attackers will take advantage of opportunities like holidays to work without being discovered. Remember that breaches involving compromised credentials (the most common type of attack against infrastructure) will often not trigger "failed login" alarms, so during the holiday season it will be important to monitor for unusual activity.
 
 No Q&A or blog updates this cycle. As always, please subscribe to the VMSA mailing list and to the relevant KB articles to be notified of updates. Thank you!
 

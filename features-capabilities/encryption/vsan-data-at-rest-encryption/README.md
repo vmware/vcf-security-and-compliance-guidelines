@@ -8,7 +8,7 @@ vSAN Data-at-Rest Encryption and VM Encryption are separate features and can be 
 
 ## Documentation
 
-- [vSAN Documentation](https://techdocs.broadcom.com/us/en/vmware-cis/vsan.html)
+- [vSAN Documentation](https://techdocs.broadcom.com/us/en/vmware-cis/vsan/vsan/9-0.html)
 
 ## Disclaimer
 
