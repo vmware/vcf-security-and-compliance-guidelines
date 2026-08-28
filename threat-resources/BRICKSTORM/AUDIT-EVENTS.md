@@ -1036,5 +1036,5 @@ eventTypeId:VmReconfiguredEvent AND configSpec.deviceChange.device.type:VirtualE
 See [README.md: Resources](README.md#resources) for consolidated links to government advisories, VMware documentation, threat intelligence reports, and MITRE ATT&CK references. Key references for this document:
 
 - [CISA AR25-338A](https://www.cisa.gov/news-events/analysis-reports/ar25-338a) - 12 samples, 7 YARA rules (last updated Feb 11, 2026)
-- [VMware ESX 9.0 Audit Events Reference](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/logging/vmware-esx-90-audit-log-event-reference.md)
-- [VMware vCenter 9.0 Event Reference](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/logging/vmware-vcenter-90-audit-events.md)
+- [VMware ESX 9.0 Audit Events Reference](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/logging/9.0/vmware-esx-90-audit-log-event-reference.md)
+- [VMware vCenter 9.0 Event Reference](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/logging/9.0/vmware-vcenter-90-audit-events.md)

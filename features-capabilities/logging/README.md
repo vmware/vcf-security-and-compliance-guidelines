@@ -6,17 +6,14 @@ VMware ESX hosts, VMware vCenter, NSX, vSAN, and VCF Operations (SDDC Manager in
 
 ### VMware vSphere 8.0
 
-- [VMware ESX 8.0.3 Audit Log Event Reference](vmware-esx-803-audit-log-event-reference.md)
-- [VMware vCenter 8.0.3 Event Reference](vmware-vcenter-803-audit-events.md)
+- [VMware ESX 8.0.3 Audit Log Event Reference](8.0/vmware-esx-80-audit-log-event-reference.md)
+- [VMware vCenter 8.0.3 Event Reference](8.0/vmware-vcenter-80-audit-events.md)
+- [VMware ESX 8 Log Message Formats](8.0/ESXi-8-Log-Message-Formats.md)
 
 ### VMware Cloud Foundation 9.0
 
-- [VMware ESX 9.0 Audit Log Event Reference](vmware-esx-90-audit-log-event-reference.md)
-- [VMware vCenter 9.0 Event Reference](vmware-vcenter-90-audit-events.md)
-
-### Log Message Formats
-
-- [VMware ESX 8 Log Message Formats](ESXi-8-Log-Message-Formats.md)
+- [VMware ESX 9.0 Audit Log Event Reference](9.0/vmware-esx-90-audit-log-event-reference.md)
+- [VMware vCenter 9.0 Event Reference](9.0/vmware-vcenter-90-audit-events.md)
 
 ## Documentation
 

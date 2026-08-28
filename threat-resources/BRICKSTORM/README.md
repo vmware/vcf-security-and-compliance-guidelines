@@ -94,10 +94,10 @@ Step 1: Break In                     Step 2: Move Inward           Step 3: Targe
 
 - [Broadcom KB427833 - BRICKSTORM Backdoor to vSphere](https://knowledge.broadcom.com/external/article/427833/brickstorm-backdoor-to-vsphere.html)
 - [VMware Cloud Foundation Security Configuration Guide](https://brcm.tech/vcf-scg)
-- [VMware ESX 9.0 Audit Events Reference](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/logging/vmware-esx-90-audit-log-event-reference.md)
-- [VMware ESX 8.0.3 Audit Events Reference](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/logging/vmware-esx-803-audit-log-event-reference.md)
-- [VMware vCenter 9.0 Event Reference](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/logging/vmware-vcenter-90-audit-events.md)
-- [VMware vCenter 8.0.3 Event Reference](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/logging/vmware-vcenter-803-audit-events.md)
+- [VMware ESX 9.0 Audit Events Reference](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/logging/9.0/vmware-esx-90-audit-log-event-reference.md)
+- [VMware ESX 8.0.3 Audit Events Reference](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/logging/8.0/vmware-esx-80-audit-log-event-reference.md)
+- [VMware vCenter 9.0 Event Reference](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/logging/9.0/vmware-vcenter-90-audit-events.md)
+- [VMware vCenter 8.0.3 Event Reference](https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/logging/8.0/vmware-vcenter-80-audit-events.md)
 
 ### Threat Intelligence
 
