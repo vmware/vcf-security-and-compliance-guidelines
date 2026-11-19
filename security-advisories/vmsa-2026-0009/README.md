@@ -184,7 +184,7 @@ Presume that it does. Broadcom does not evaluate products past their End of Gene
 
 ### 31. Does this impact VMware vSphere 7.0?
 
-Presume that it does. VMware vSphere 7 reached End of General Support on October 2, 2025, and the advisory does not list vCenter 7.0. If your organization has an active extended support contract, please use those processes to request patches for these issues. Broadcom strongly encourages customers running downlevel versions to upgrade to VCF 9.1.
+Yes, and the advisory has been updated. VMware vSphere 7 reached End of General Support on October 2, 2025. If your organization has an active extended support contract, please use those support processes to request patches for these issues. Broadcom strongly encourages customers running downlevel versions to upgrade to VCF 9.1.
 
 ### 32. Do I have to update to vSphere 8 Update 3 to receive this patch on vSphere 8 or VCF 5.x?
 
