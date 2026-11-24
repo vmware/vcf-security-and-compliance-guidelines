@@ -2,6 +2,8 @@
 
 ## Introduction
 
+VMSA-2026-0011 was released on November 24, 2026, with updates for vCenter, ESX, VMware Tools, and other products. Its fixed vCenter and VMware Tools versions also contain the fixes from this advisory. Please see the [VMSA-2026-0011 Questions & Answers](https://brcm.tech/vmsa-2026-0011-qna) for current guidance. The SDDC Manager updates in this advisory still apply.
+
 On November 19, 2026, Broadcom released a critical VMware Security Advisory (VMSA), VMSA-2026-0009, addressing security vulnerabilities found and resolved in VMware vCenter, VMware SDDC Manager, and VMware Tools for Windows. These components are part of the larger VMware Cloud Foundation, VMware vSphere Foundation, VMware Telco Cloud Platform, and VMware Telco Cloud Infrastructure software stacks.
 
 The VMSA will always be the source of truth for which products and versions are affected and the proper patches to keep your organization secure. This document is a supplement to the advisory and includes self-service information to help you and your organization decide how to respond.
@@ -12,7 +14,7 @@ You are affected if you are running any version of VMware vCenter, SDDC Manager,
 
 ## Current Update
 
-This document reflects VMSA-2026-0009, the initial advisory, published November 19, 2026.
+This document reflects VMSA-2026-0009.1, updated November 20, 2026. On November 24, 2026, we updated this document to point readers to VMSA-2026-0011.
 
 ## Next Expected Update
 
@@ -20,7 +22,7 @@ There is not a regular update schedule for this document; it will be updated as 
 
 ## Relevant Links
 
-- [VMware Security Advisory VMSA-2026-0009](https://support.broadcom.com/web/ecx/security-advisory?) (the security advisory itself)
+- [VMware Security Advisory VMSA-2026-0009](https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/39495) (the security advisory itself)
 - [VMSA-2026-0009 Questions & Answers](https://brcm.tech/vmsa-2026-0009-qna) (this document's link)
 - [vSphere Security Configuration & Hardening Guides](https://brcm.tech/vcf-scg) (the reference for hardening VMware vSphere and Cloud Foundation, virtual machines, and in-guest settings like VMware Tools)
 - [VMware Cloud Foundation Security Advisories](https://support.broadcom.com/web/ecx/security-advisory?segment=VC) (list of all disclosed security vulnerabilities)
@@ -78,9 +80,13 @@ No. None of the issues in this advisory permit code execution on an ESX host fro
 
 Yes. vCenter is affected by CVE-2026-123890.
 
+VMSA-2026-0011 resolves additional vCenter issues, and its fixed vCenter versions also contain this fix. See the [VMSA-2026-0011 Questions & Answers](https://brcm.tech/vmsa-2026-0011-qna).
+
 ### 10. Do I have to update VMware ESX?
 
 No. ESX is not affected by this VMSA.
+
+VMSA-2026-0011 resolves issues in ESX, so ESX needs the update in that advisory. See the [VMSA-2026-0011 Questions & Answers](https://brcm.tech/vmsa-2026-0011-qna).
 
 ### 11. Do I have to update SDDC Manager?
 
@@ -92,13 +98,15 @@ Yes, for the SDDC Manager issues. The advisory notes that CVE-2026-123891 and CV
 
 ### 13. Do I have to update VMware Tools?
 
-Yes, in Windows virtual machines. CVE-2026-123894 affects VMware Tools for Windows 13.x, 12.x, and 11.x. It is fixed in VMware Tools 13.1.5.0 for 13.x, and in 12.5.5 for 12.x and 11.x. For 32-bit Windows, VMware Tools 12.4.10, which is part of the VMware Tools 12.5.5 release, also resolves the issue.
+Yes, in Windows virtual machines. CVE-2026-123894 affects VMware Tools for Windows 13.x and 12.3.x through 12.5.x. It is fixed in VMware Tools 13.1.5.0 for 13.x, and in 12.5.5 for 12.3.x, 12.4.x, and 12.5.x. For 32-bit Windows, VMware Tools 12.4.10, which is part of the VMware Tools 12.5.5 release, also resolves the issue. Earlier versions are not listed in the advisory; update them to a fixed version.
 
 The advisory lists only VMware Tools for Windows. VMware Tools for other guest operating systems is not listed as affected.
 
+VMSA-2026-0011 resolves an additional VMware Tools issue that affects both Windows and Linux. Its fixed versions, VMware Tools 13.1.10 and 12.5.6, also contain this fix. See the [VMSA-2026-0011 Questions & Answers](https://brcm.tech/vmsa-2026-0011-qna).
+
 Upgrading virtual machine hardware versions is not required.
 
-When updating VMware Tools, consider using this opportunity to install the "Capsule PK" driver present in VMware Tools 13.1.5 and newer, which allows recent vCenter and ESX 8.0 and 9.1.1 versions to automatically repair deprecated Windows Secure Boot UEFI platform keys on virtual machines with a virtual Trusted Platform Module (vTPM) installed.
+When updating VMware Tools, consider using this opportunity to install the "Capsule PK" driver present in VMware Tools 13.1.5 and newer, which allows vCenter and ESX 8.0 U3m and newer, and 9.1.1 and newer, to automatically repair deprecated Windows Secure Boot UEFI platform keys on virtual machines with a virtual Trusted Platform Module (vTPM) installed.
 
 ### 14. Do I have to update VCF Operations or VCF Automation?
 
@@ -111,6 +119,8 @@ No. NSX is not affected by this VMSA.
 ### 16. Do I have to update VMware Workstation or VMware Fusion?
 
 No. Workstation and Fusion are not affected by this VMSA. However, Windows virtual machines running on Workstation and Fusion typically have VMware Tools installed. If those virtual machines might be moved or imported into a VMware Cloud Foundation or VMware vSphere Foundation environment, check that they run a fixed version of VMware Tools.
+
+VMSA-2026-0011 resolves issues in Workstation and Fusion, so they need the update in that advisory. See the [VMSA-2026-0011 Questions & Answers](https://brcm.tech/vmsa-2026-0011-qna).
 
 ### 17. Will there be a patch for VMware Cloud Foundation?
 
@@ -176,7 +186,7 @@ Yes. The patch is available through the standard update mechanisms for VMware vS
 
 ### 29. Are there any known issues with this patch?
 
-This update will cause a "Back-in-Time" issue with upgrades in progress. See question 39.
+This update caused a "Back-in-Time" issue with upgrades in progress, which VCF 9.1.2 resolves. See question 39.
 
 ### 30. Does this impact VMware vSphere 6.5 or 6.7?
 
@@ -184,7 +194,7 @@ Presume that it does. Broadcom does not evaluate products past their End of Gene
 
 ### 31. Does this impact VMware vSphere 7.0?
 
-Yes, and the advisory has been updated. VMware vSphere 7 reached End of General Support on October 2, 2025. If your organization has an active extended support contract, please use those support processes to request patches for these issues. Broadcom strongly encourages customers running downlevel versions to upgrade to VCF 9.1.
+Presume that it does. VMware vSphere 7 reached End of General Support on October 2, 2025, and the advisory does not list vCenter 7.0. If your organization has an active extended support contract, please use those processes to request patches for these issues. Broadcom strongly encourages customers running downlevel versions to upgrade to VCF 9.1.
 
 ### 32. Do I have to update to vSphere 8 Update 3 to receive this patch on vSphere 8 or VCF 5.x?
 
@@ -261,11 +271,11 @@ VMSA information is delivered as a message inside hosted, cloud, and software-as
 
 ### 39. Do these patches cause "Back-in-Time" upgrade issues?
 
-A "Back-in-Time" restriction occurs when a patch updates a product branch that carries a newer build number than the target of a planned upgrade. As has been the case with previous restrictions of this type, upgrade compatibility is reestablished in subsequent releases. In this case vCenter 8.0 U3m and 9.0.2.0200 block upgrades to VCF 9.1.1, and customers should wait, briefly, for VCF 9.1.2.
+A "Back-in-Time" restriction occurs when a patch updates a product branch that carries a newer build number than the target of a planned upgrade. As has been the case with previous restrictions of this type, upgrade compatibility is reestablished in subsequent releases. In this case vCenter 8.0 U3m and 9.0.2.0200 block upgrades to VCF 9.1.1.
 
-Organizations that are amidst an upgrade should weigh their options and timelines before applying these updates. More information about "Back-in-Time" restrictions and the compatibility matrix is available in [KB 67077](https://knowledge.broadcom.com/external/article?legacyId=67077).
+VCF 9.1.2 is now released with VMSA-2026-0011, and systems running vCenter 8.0 U3m or 9.0.2.0200 can upgrade to it. If you were waiting for VCF 9.1.2 to continue an upgrade, you can proceed.
 
-If you are amidst an upgrade and impacted by this, the two obvious options are to wait or to speed up. If you upgrade vCenter to 9.1.1 first, you can apply the security update there and still manage downlevel ESX hosts. If you opt to wait, you can work on prerequisites in the meantime, since components such as VCF Operations and the NSX Managers usually have to be upgraded ahead of vCenter.
+More information about "Back-in-Time" restrictions and the compatibility matrix is available in [KB 67077](https://knowledge.broadcom.com/external/article?legacyId=67077).
 
 ### 40. Is the updated vCenter compatible with my ESX hosts?
 
